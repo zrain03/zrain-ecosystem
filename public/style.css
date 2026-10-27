@@ -1,0 +1,421 @@
+/* Zrain Ecosystem v4.1.0. Product-specific design, official shared UI stays unchanged. */
+:root {
+  color-scheme: light;
+  --zr-bg: #fffaf6;
+  --zr-panel: #fff;
+  --zr-cream: #fff3eb;
+  --zr-navy: #172433;
+  --zr-muted: #667180;
+  --zr-terra: #b95136;
+  --zr-terra-deep: #963d28;
+  --zr-line: #e9ddd5;
+  --zr-shadow: 0 24px 60px rgba(73, 49, 38, .055);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 95px; }
+body { margin: 0; min-width: 320px; background: var(--zr-bg); color: var(--zr-navy); font-family: "Inter", "Segoe UI", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid #db9f84; outline-offset: 3px; }
+.skip-link { position: fixed; z-index: 100; top: -65px; left: 15px; background: var(--zr-terra); color: #fff; padding: 11px 16px; text-decoration: none; border-radius: 10px; }
+.skip-link:focus { top: 14px; }
+.site-container { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+/* Zrain UI official brand/header/footer CSS is preserved and locally refined. */
+.zrain-header { background: rgba(255, 250, 246, .95); }
+.zrain-header .zrain-header__inner { gap: 28px; }
+.zrain-header .zrain-brand { gap: 9px; }
+.zrain-header .main-nav a { font-size: 13px; font-weight: 650; text-decoration: none; }
+.zrain-header .main-nav a:hover { color: var(--zr-terra); }
+.zrain-header .main-nav a.current { color: var(--zr-terra); }
+.header-github { flex: 0 0 auto; margin-left: 4px; padding: 12px 18px; display: inline-flex; align-items: center; gap: 10px; color: var(--zr-terra); border: 1px solid #dfbaac; border-radius: 11px; font-size: 12px; font-weight: 750; text-decoration: none; background: #fff8f3; transition: .2s ease; }
+.header-github:hover { background: #fce7dc; border-color: #cf947e; }
+.zrain-footer { background: #fff2e9; border-color: #ead9ce; margin-top: 0; }
+.zrain-footer .zrain-footer__inner { min-height: 110px; }
+.zrain-footer .zrain-footer__links a { font-size: 12px; }
+
+/* Hero */
+.hero { position: relative; min-height: 415px; padding: 72px 74px; margin-top: 34px; border: 1px solid #eadbcf; background: linear-gradient(114deg,#fff4ec 0%,#fff8f2 54%,#fff0e6 100%); border-radius: 25px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .8fr); align-items: center; gap: 22px; box-shadow: 0 16px 50px rgba(162, 103, 69,.04); }
+.hero::after { position: absolute; content: ""; width: 380px; height: 380px; border-radius: 50%; right: -160px; top: -180px; background: rgba(202,105,75,.065); pointer-events: none; }
+.hero-copy { position: relative; z-index: 1; }
+.eyebrow { margin: 0 0 20px; display: flex; align-items: center; gap: 9px; font-size: 11px; line-height: 1.5; font-weight: 800; letter-spacing: .13em; color: #a84a2f; }
+.eyebrow-dot { width: 8px; height: 8px; background: #c96343; border-radius: 100%; box-shadow: 0 0 0 5px #f9dfd2; }
+.eyebrow-small { font-size: 10px; margin-bottom: 13px; }
+.hero h1 { max-width: 680px; margin: 0; font-size: clamp(37px,4.35vw,63px); line-height: 1.08; font-weight: 850; letter-spacing: -.065em; }
+.hero h1 span { color: var(--zr-terra); }
+.hero-lead { margin: 22px 0 0; max-width: 550px; color: #5b6674; font-size: 15px; line-height: 1.85; }
+.hero-actions { margin-top: 29px; display: flex; flex-wrap: wrap; gap: 11px; }
+.button { padding: 14px 19px; min-height: 48px; border-radius: 12px; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 15px; font-size: 12px; font-weight: 750; text-decoration: none; transition: background .2s, transform .2s, border-color .2s; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { background: var(--zr-terra); color: #fff; }
+.button-primary:hover { background: var(--zr-terra-deep); }
+.button-outline { border-color: #dfc6b9; background: #fffaf7; color: #9e472f; }
+.button-outline:hover { background: #fae7df; }
+.hero-art { width: 100%; max-width: 370px; height: 290px; justify-self: center; position: relative; isolation: isolate; }
+.hero-art-orbit { position: absolute; border: 1px dashed #e3bdae; width: 270px; height: 270px; top: 11px; left: 50%; border-radius: 50%; transform: translateX(-50%); }
+.orbit-two { width: 214px; height: 214px; top: 39px; border-style: solid; border-color: rgba(195,109,78,.18); }
+.hero-stamp { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; position: absolute; top: 58px; left: 50%; transform: translateX(-50%) rotate(-5deg); width: 178px; height: 178px; border-radius: 35px; border: 1px solid #efcdbd; background: #fffaf5; box-shadow: 0 18px 36px rgba(128,77,49,.12); }
+.hero-stamp img { display: block; object-fit: contain; }
+.hero-stamp span { color: #ad654d; font-weight: 850; font-size: 9px; letter-spacing: .2em; }
+.float-pill { position: absolute; z-index: 2; padding: 9px 13px; border-radius: 999px; background: #fff; border: 1px solid #ecded4; box-shadow: 0 8px 18px rgba(66,36,24,.055); font-size: 11px; font-weight: 750; color: #665b55; }
+.float-pill span { color: var(--zr-terra); margin-right: 6px; }
+.pill-one { top: 29px; right: 2px; transform: rotate(7deg); }
+.pill-two { bottom: 38px; left: 0; transform: rotate(-6deg); }
+.pill-three { bottom: 29px; right: 0; transform: rotate(5deg); }
+
+/* Bento directory */
+.directory { padding-top: 80px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
+.section-heading h2 { margin: 0; font-weight: 850; font-size: clamp(29px, 3.2vw, 43px); line-height: 1.17; letter-spacing: -.05em; }
+.section-heading > p { max-width: 285px; margin: 0 0 4px; font-size: 13px; line-height: 1.75; color: var(--zr-muted); }
+.period { color: var(--zr-terra); }
+.bento-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(0, auto); gap: 18px; }
+.bento-card { min-width: 0; padding: 28px; border: 1px solid var(--zr-line); border-radius: 21px; background: var(--zr-panel); box-shadow: var(--zr-shadow); }
+.games-card { grid-column: span 7; }
+.dev-card { grid-column: span 5; }
+.services-card { grid-column: span 5; }
+.vision-card { grid-column: span 7; }
+.bento-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.heading-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.icon-tile { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 14px; }
+.icon-tile svg { width: 23px; height: 23px; }
+.icon-terracotta { color: #ac472e; background: #fbe6dc; }
+.icon-amber { color: #967147; background: #fbefde; }
+.icon-sage { color: #548074; background: #e6f1ec; }
+.bento-eyebrow { font-size: 9px; font-weight: 800; letter-spacing: .105em; color: #987e6e; margin: 0 0 5px; }
+.bento-card h3 { margin: 0; font-size: clamp(18px, 2vw, 23px); font-weight: 800; letter-spacing: -.045em; }
+.count-pill { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; padding: 8px 10px; color: #8a6b5b; background: #fff7f2; border: 1px solid #f0e4dc; border-radius: 999px; font-size: 9px; font-weight: 800; letter-spacing: .04em; }
+.bento-desc { margin: 19px 0 19px; color: var(--zr-muted); font-size: 12px; line-height: 1.85; max-width: 410px; }
+.product-list { display: grid; gap: 9px; }
+.product-item { display: flex; width: 100%; min-width: 0; align-items: center; padding: 13px; gap: 13px; border: 1px solid #f0e7e1; background: #fffdfb; color: var(--zr-navy); border-radius: 13px; text-align: left; text-decoration: none; transition: background .18s, border-color .18s, transform .18s; }
+.product-button { cursor: pointer; }
+.product-item:hover { transform: translateY(-2px); border-color: #e3bdaa; background: #fff7f0; }
+.product-item:focus-visible { outline-offset: 3px; }
+.app-mark { display: inline-flex; flex: 0 0 41px; width: 41px; height: 41px; align-items: center; justify-content: center; border-radius: 12px; background: #f9e6dd; color: #ae5139; font-size: 20px; font-weight: 800; }
+.memory-mark { color: #517980; background: #e4f0f0; }
+.auth-mark { color: #a1774f; background: #f8eddf; font-size: 15px; }
+.ui-mark { color: #7d6899; background: #efe8f6; }
+.links-mark { color: #47816c; background: #e4f1e9; }
+.app-copy { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.app-copy strong { font-size: 12px; font-weight: 800; line-height: 1.4; }
+.app-copy small { color: #74808b; font-size: 10px; line-height: 1.45; }
+.item-cta { display: inline-flex; align-items: center; gap: 7px; background: #fbe8de; color: #a64832; padding: 8px 10px; border-radius: 9px; font-size: 10px; font-weight: 750; white-space: nowrap; }
+.item-arrow { font-size: 18px; color: #b2583b; }
+.card-footer-note { margin-top: 17px; display: flex; align-items: center; gap: 8px; color: #8a786c; font-size: 10px; }
+.small-dot { width: 6px; height: 6px; background: #c86c49; border-radius: 100%; }
+.services-card .product-item { margin-top: 14px; }
+.service-extra { display: inline-flex; align-items: center; gap: 10px; margin-top: 19px; text-decoration: none; color: #ac4b33; font-size: 11px; font-weight: 800; }
+.service-extra:hover { text-decoration: underline; }
+.vision-card { position: relative; overflow: hidden; min-height: 292px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; background: #fbe9df; border-color: #efcfbd; padding: 40px; }
+.vision-card::after { position: absolute; content: ""; width: 210px; height: 210px; right: -60px; top: -90px; border: 1px solid #e6b49c; border-radius: 50%; box-shadow: 0 0 0 28px rgba(232,170,144,.10), 0 0 0 60px rgba(232,170,144,.06); }
+.vision-line { position: absolute; right: 31px; bottom: 12px; font-size: 98px; line-height: 1; color: rgba(170,76,47,.19); }
+.vision-card .bento-eyebrow { color: #ac664f; }
+.vision-card h3 { position: relative; z-index: 1; font-size: clamp(23px, 3vw, 36px); line-height: 1.23; }
+.vision-card h3 em { color: #aa4e34; font-style: normal; }
+.vision-card p:not(.bento-eyebrow) { position: relative; z-index: 1; max-width: 430px; font-size: 12px; line-height: 1.85; color: #7b6156; }
+.vision-card a { position: relative; z-index: 1; margin-top: 9px; text-decoration: none; font-size: 11px; font-weight: 800; color: #a2472e; }
+.vision-card a:hover { text-decoration: underline; }
+.about-section { padding: 93px 0 65px; display: grid; grid-template-columns: 1fr 1fr; gap: 62px; }
+.about-section h2 { margin: 0; font-size: clamp(27px, 3.2vw, 41px); letter-spacing: -.055em; line-height: 1.24; }
+.about-section h2 span { color: var(--zr-terra); }
+.about-description { padding-top: 20px; }
+.about-description p { max-width: 510px; color: var(--zr-muted); line-height: 1.9; font-size: 13px; margin: 0 0 16px; }
+.about-description a { color: var(--zr-terra); font-size: 12px; font-weight: 800; text-decoration: none; }
+.about-description a:hover { text-decoration: underline; }
+.contact-bar { border-top: 1px solid var(--zr-line); padding: 24px 0 42px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.contact-bar span { color: #a47a64; font-size: 10px; letter-spacing: .12em; font-weight: 850; }
+.contact-bar a { font-size: 13px; color: var(--zr-terra); font-weight: 750; text-decoration: none; }
+.contact-bar a:hover { text-decoration: underline; }
+/* Keep the contact prompt visually unchanged while making it clickable. */
+.contact-bar a.contact-question { color: #a47a64; font-size: 10px; letter-spacing: .12em; font-weight: 850; }
+.contact-bar a.contact-question:hover { color: var(--zr-terra); }
+
+@media (max-width: 1000px) {
+  .hero { padding: 52px 42px; }
+  .hero-art { max-width: 310px; }
+  .hero-art-orbit { width: 245px; height: 245px; top: 24px; }
+  .orbit-two { width: 202px; height: 202px; top: 46px; }
+  .pill-one { right: -8px; }
+  .bento-card { padding: 23px; }
+  .bento-head { align-items: start; }
+  .count-pill { font-size: 8px; }
+}
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; padding: 49px; min-height: auto; }
+  .hero-art { display: none; }
+  .hero h1 { font-size: clamp(37px, 6vw, 54px); }
+  .bento-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  .games-card,.dev-card,.services-card,.vision-card { grid-column: span 1; }
+  .bento-card { padding: 20px; }
+  .bento-head { flex-wrap: wrap; }
+  .vision-card { min-height: 300px; padding: 24px; }
+  .vision-card h3 { font-size: 25px; }
+}
+@media (max-width: 640px) {
+  .site-container { width: calc(100% - 28px); }
+  .zrain-header .zrain-header__inner { width: calc(100% - 28px); }
+  .zrain-header .zrain-brand__product,.zrain-header .zrain-brand__home { font-size: 14px; }
+  .header-github { font-size: 11px; padding: 10px 11px; margin-left: auto; }
+  .hero { margin-top: 18px; padding: 39px 25px; border-radius: 18px; }
+  .hero-lead { font-size: 13px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .button { width: 100%; }
+  .directory { padding-top: 54px; }
+  .section-heading { align-items: start; flex-direction: column; gap: 10px; margin-bottom: 19px; }
+  .section-heading > p { max-width: 100%; }
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-card { padding: 21px; border-radius: 17px; }
+  .vision-card { min-height: 235px; }
+  .about-section { grid-template-columns: 1fr; padding: 58px 0 45px; gap: 8px; }
+  .about-description { padding-top: 0; }
+  .contact-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+@media (max-width: 380px) {
+  .hero { padding: 31px 20px; }
+  .hero h1 { font-size: 34px; }
+  .item-cta { padding: 7px; font-size: 9px; }
+  .product-item { gap: 8px; padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* App icons are official artwork provided by Zrain. */
+.app-icon { display: block; width: 46px; height: 46px; flex: 0 0 46px; border-radius: 11px; object-fit: cover; background: #fff7f2; }
+.brand-icon { object-fit: contain; padding: 5px; background: #fff1e8; }
+.service-subtext { margin: 16px 0 0; font-size: 11px; color: #8a786c; }
+
+/* Zrain Console v4.1.0. Every hosted product starts in Mobile View.
+   Only the presentation is scaled to fit, not the browser zoom. */
+.zrain-console {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  width: min(1470px, calc(100vw - 20px));
+  max-width: none;
+  height: calc(100dvh - 20px);
+  max-height: none;
+  overflow: hidden;
+  border: 1px solid #e6cfc1;
+  border-radius: 18px;
+  color: var(--zr-navy);
+  background: #fffaf6;
+  box-shadow: 0 35px 105px rgba(24, 35, 43, .23);
+}
+.zrain-console::backdrop { background: rgba(30,39,47,.50); backdrop-filter: blur(4px); }
+body:has(.zrain-console[open]) { overflow: hidden; }
+.console-shell { display: flex; flex-direction: column; min-height: 0; height: 100%; overflow: hidden; background: #fffaf6; }
+.console-toolbar { flex: 0 0 auto; min-height: 66px; padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid #ecdbd0; background: #fffcfa; }
+.console-product { display: flex; min-width: 0; gap: 11px; align-items: center; }
+.console-product img { flex-shrink: 0; width: 38px; height: 38px; object-fit: cover; border-radius: 10px; background: #fff2e9; }
+.console-product-copy { min-width: 0; }
+.console-kicker { color: #a95b41; font-size: 9px; line-height: 1.3; letter-spacing: .08em; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
+.console-kicker span { margin: 0 3px; }
+.console-product h2 { font-size: 17px; letter-spacing: -.035em; font-weight: 800; line-height: 1.2; margin: 3px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.console-actions { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; }
+.console-tool { min-height: 38px; min-width: 38px; padding: 8px 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid #e9d7ca; color: #815445; background: #fff; border-radius: 10px; text-decoration: none; font-size: 12px; font-weight: 700; cursor: pointer; }
+.console-tool:hover { background: #fff0e5; border-color: #d6a994; }
+.console-tool:focus-visible { outline: 3px solid #d99b80; outline-offset: 2px; }
+.console-tool > span:first-child[aria-hidden] { font-size: 18px; line-height: 1; }
+.console-open { background: var(--zr-terra); border-color: var(--zr-terra); color: #fff; }
+.console-open:hover { background: var(--zr-terra-deep); color: #fff; }
+.console-close { margin-left: 3px; font-size: 17px; }
+.console-info { flex: 0 0 auto; min-height: 40px; padding: 9px 19px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px 16px; color: #78808a; border-bottom: 1px solid #efe4dc; background: #fffaf6; }
+.console-info p { margin: 0; font-size: 11px; line-height: 1.4; text-align: center; }
+.console-info a { color: var(--zr-terra); font-size: 11px; font-weight: 800; white-space: nowrap; text-decoration: none; }
+.console-info a:hover { text-decoration: underline; }
+
+/* Available on every web edition, including games. Mobile is the default. */
+.console-view-switch { display: inline-flex; align-items: center; flex: 0 0 auto; gap: 4px; padding: 4px; border: 1px solid #e9d7ca; border-radius: 11px; background: #fff; }
+.console-view-caption { padding: 0 8px; font-size: 9px; font-weight: 850; letter-spacing: .09em; color: #926c5c; }
+.console-view-button { min-height: 32px; padding: 7px 13px; border: 0; border-radius: 7px; color: #806455; background: transparent; font-size: 11px; font-weight: 750; cursor: pointer; }
+.console-view-button[aria-pressed="true"] { background: var(--zr-terra); color: #fff; box-shadow: 0 2px 7px rgba(185,81,54,.13); }
+.console-view-button:not([aria-pressed="true"]):hover { background: #fff0e6; }
+.console-view-button:focus-visible { outline: 3px solid #d99b80; outline-offset: 2px; }
+
+.console-stage { min-height: 0; min-width: 0; flex: 1 1 auto; padding: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(145deg, #fff4ec, #fffaf6 48%, #f6e7dd); }
+.console-viewer { flex: none; position: relative; overflow: hidden; border-radius: 14px; border: 1px solid #e1c6b5; background: #fff; box-shadow: 0 10px 34px rgba(75,45,30,.10); }
+.console-viewer iframe { display: block; position: absolute; top: 0; left: 0; padding: 0; margin: 0; border: 0; background: #fff; transform-origin: top left; }
+.console-shell[data-view="mobile"] .console-viewer { border-radius: 18px; }
+.console-shell[data-view="desktop"] .console-stage { padding: 8px; background: #f8eee7; }
+.console-shell[data-view="desktop"] .console-viewer { border-radius: 11px; box-shadow: 0 10px 24px rgba(75,45,30,.08); }
+.console-note { flex: 0 0 auto; min-height: 31px; padding: 8px 12px; text-align: center; color: #8b807a; font-size: 10px; line-height: 1.35; background: #fffaf6; border-top: 1px solid #eedfd4; }
+.console-note strong { color: #a74d34; }
+.console-shell:fullscreen { width: 100vw; height: 100dvh; border: 0; background: #fffaf6; }
+@media (max-width: 780px) {
+  .console-tool .tool-label { display: none; }
+  .console-toolbar { padding: 9px 10px; min-height: 59px; gap: 7px; }
+  .console-product img { width: 32px; height: 32px; }
+  .console-product h2 { font-size: 14px; }
+  .console-kicker { font-size: 8px; }
+  .console-kicker span { display: none; }
+  .console-tool { min-width: 36px; min-height: 36px; padding: 6px; }
+  .console-actions { gap: 5px; }
+  .console-info { padding: 7px 10px; }
+  .console-info p { display: none; }
+  .console-view-caption { display: none; }
+}
+@media (max-width: 600px) {
+  .zrain-console { width: 100vw; height: 100dvh; border: 0; border-radius: 0; }
+  .console-toolbar { min-height: 54px; }
+  .console-info { min-height: 32px; }
+  .console-view-button { min-height: 30px; padding: 7px 10px; }
+  .console-info p { font-size: 10px; }
+  .console-note { min-height: 26px; padding: 5px; font-size: 9px; }
+  .console-stage { padding: 3px; }
+  .app-icon { width: 43px; height: 43px; flex-basis: 43px; }
+}
+@media (max-height: 570px) {
+  .console-info { display: none; }
+  .console-note { min-height: 22px; font-size: 9px; padding: 3px; }
+  .console-toolbar { min-height: 48px; padding-top: 4px; padding-bottom: 4px; }
+}
+
+/* v4.1.1: Always-visible mode switch in the Console toolbar.
+   It cannot disappear with the optional information strip, including low-height
+   laptop viewports. The app iframe itself is left untouched on toggle. */
+.console-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: clamp(8px, 1.4vw, 18px);
+}
+.console-toolbar .console-product { min-width: 0; }
+.console-toolbar .console-view-switch {
+  justify-self: center;
+  margin: 0;
+  flex-wrap: nowrap;
+  box-shadow: 0 1px 5px rgba(115, 63, 40, .06);
+}
+.console-view-switch .console-view-caption { font-size: 10px; font-weight: 850; letter-spacing: .1em; }
+.console-toolbar .console-view-button { white-space: nowrap; }
+@media (max-width: 790px) {
+  .console-toolbar { gap: 7px; }
+  .console-toolbar .console-view-caption { display: none; }
+  .console-toolbar .console-view-button { padding-inline: 9px; }
+}
+@media (max-width: 660px) {
+  .console-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "product actions" "views views";
+    row-gap: 7px;
+    padding-block: 8px;
+    min-height: 0;
+  }
+  .console-toolbar .console-product { grid-area: product; }
+  .console-toolbar .console-actions { grid-area: actions; }
+  .console-toolbar .console-view-switch {
+    grid-area: views;
+    justify-self: stretch;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff6f0;
+  }
+  .console-toolbar .console-view-caption { display: inline; }
+  .console-toolbar .console-view-button { flex: 1 1 auto; max-width: 160px; }
+}
+@media (max-height: 570px) {
+  /* The info line can disappear, never the view controls. */
+  .console-toolbar .console-view-switch { display: inline-flex; }
+}
+
+/* v4.1.3: One balanced toolbar on desktop and equal-height controls.
+   Previous @max-width 1370px rule forced a second row unnecessarily.
+   Keep controls inside the viewport without touching iframe sizing. */
+.console-toolbar {
+  display: grid;
+  grid-template-columns: minmax(175px, 1fr) auto auto;
+  grid-template-areas: "product views actions";
+  gap: 10px;
+  padding: 10px clamp(10px, 1.3vw, 20px);
+}
+.console-toolbar .console-product { grid-area: product; }
+.console-toolbar .console-view-switch { grid-area: views; justify-self: end; }
+.console-toolbar .console-actions { grid-area: actions; justify-self: end; display: flex; flex-wrap: nowrap; gap: 8px; }
+.console-toolbar .console-tool,
+.console-toolbar .console-store-badge,
+.console-toolbar .console-view-switch {
+  box-sizing: border-box;
+  height: 46px;
+  min-height: 46px;
+  border-radius: 11px;
+}
+.console-toolbar .console-tool {
+  padding: 0 14px;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.console-toolbar .console-close { width: 46px; min-width: 46px; padding: 0; margin: 0; font-size: 19px; }
+.console-toolbar .console-view-switch {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 4px;
+  gap: 3px;
+}
+.console-toolbar .console-view-button { height: 36px; min-height: 36px; padding: 0 11px; font-size: 11px; }
+.console-toolbar .console-store-badge {
+  flex: 0 0 auto;
+  width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 9px;
+  background: transparent;
+  text-decoration: none;
+  line-height: 1;
+}
+.console-store-badge[hidden] { display: none !important; }
+.console-toolbar .console-store-badge img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 8px;
+}
+.console-store-badge:hover { filter: brightness(1.08); }
+.console-store-badge:focus-visible { outline: 3px solid #c47758; outline-offset: 2px; }
+
+/* At narrower laptop sizes, keep the view switch by the title.
+   Actions share a single tidy second row, right aligned. */
+@media (max-width: 1100px) and (min-width: 661px) {
+  .console-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "product views" "actions actions";
+    row-gap: 7px;
+  }
+  .console-toolbar .console-actions { justify-self: end; }
+}
+/* On a real phone, icon-only secondary buttons remain equal-height.
+   The download badge uses the same height as the rest of the actions. */
+@media (max-width: 660px) {
+  .console-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "product" "views" "actions";
+    row-gap: 6px;
+  }
+  .console-toolbar .console-view-switch { justify-self: stretch; width: 100%; justify-content: center; }
+  .console-toolbar .console-view-button { height: 32px; min-height: 32px; }
+  .console-toolbar .console-actions { justify-self: stretch; width: 100%; justify-content: center; gap: 5px; }
+  .console-toolbar .console-tool,
+  .console-toolbar .console-store-badge,
+  .console-toolbar .console-view-switch { height: 40px; min-height: 40px; }
+  .console-toolbar .console-tool { padding: 0 7px; min-width: 36px; }
+  .console-toolbar .console-close { width: 40px; min-width: 40px; }
+  .console-toolbar .console-store-badge { width: 130px; }
+}
+@media (max-width: 360px) {
+  .console-toolbar .console-actions { gap: 4px; }
+  .console-toolbar .console-tool { min-width: 34px; padding: 0 5px; }
+  .console-toolbar .console-store-badge { width: 121px; }
+  .console-toolbar .console-close { min-width: 40px; width: 40px; }
+}
