@@ -1,4 +1,4 @@
-import { PRODUCTS } from "./console-products.js?v=4.1.4";
+import { PRODUCTS } from "./console-products.js?v=4.1.6";
 
 const dialog = document.getElementById("zrain-console");
 const stage = document.getElementById("console-stage");
@@ -95,7 +95,9 @@ function openConsole(id, trigger) {
   name.textContent = product.name;
   description.textContent = product.description;
   frame.title = product.name + " web app";
-  external.href = product.webUrl;
+  external.href = product.externalUrl || product.webUrl;
+  external.title = product.externalUrl ? 'View Zrain UI source on GitHub' : 'Open website in new tab';
+  external.setAttribute('aria-label', external.title);
   store.hidden = !product.storeUrl;
   if (product.storeUrl) store.href = product.storeUrl;
   else store.removeAttribute("href");
