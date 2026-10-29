@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/style.css?v=ecosystem-4.1.4">
-  <script type="module" src="/zrain-ui-config.js?v=brand-20261029-footeronly"></script>
+  <link rel="stylesheet" href="/style.css?v=ecosystem-4.1.5">
+  <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
   <script type="module" src="/zrain-console.js?v=4.1.4"></script>
   <title>Zrain | Made for people. Built with purpose.</title>
 </head>
@@ -34,7 +34,7 @@
         <a class="zrain-brand__product" href="#top">Ecosystem</a>
       </div>
       <nav class="main-nav" aria-label="Main navigation">
-        <a class="current" href="#products" aria-current="page">Products</a>
+        <a href="#products">Products</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -108,7 +108,7 @@
                 </span>
                 <div><p class="bento-eyebrow">FOR DEVELOPERS</p><h3 id="dev-title">Developer Tools</h3></div>
               </div>
-              <span class="count-pill">02 TOOLS</span>
+              <span class="count-pill">03 TOOLS</span>
             </div>
             <p class="bento-desc">Reliable foundations and a shared visual identity for independent applications.</p>
             <div class="product-list">
@@ -117,6 +117,11 @@
                 <span class="app-copy"><strong>Zrain Auth Starter</strong><small>Java Spring Boot + JWT foundation</small></span>
                 <span class="item-cta">Open app <span aria-hidden="true">↗</span></span>
               </button>
+              <a class="product-item" href="https://zrain-monitor.web.app/" target="_blank" rel="noopener noreferrer" aria-label="Open Zrain Monitor website in a new tab">
+                <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <span class="app-copy"><strong>Zrain Monitor</strong><small>Monitor public HTTPS services and review incidents</small></span>
+                <span class="item-cta">Open site <span aria-hidden="true">↗</span></span>
+              </a>
               <a class="product-item" href="https://github.com/zrain03/zrain-ui" target="_blank" rel="noopener noreferrer">
                 <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
                 <span class="app-copy"><strong>Zrain UI</strong><small>Reusable design system on GitHub</small></span>
@@ -160,11 +165,32 @@
           <h2 id="about-title">Built separately.<br><span>Connected thoughtfully.</span></h2>
         </div>
         <div class="about-description">
-          <p>Zrain creates games and practical tools with a focus on straightforward experiences. Each product has its own functionality and technology, while Zrain UI makes the family feel connected.</p>
-          <a href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">See source projects <span aria-hidden="true">↗</span></a>
+          <p>Zrain creates games, developer tools and online services that people can use. Each project has its own purpose and technology, while a shared design identity keeps the experience familiar.</p>
+          <div class="about-principles" aria-label="How Zrain products are built">
+            <div><strong>Useful on their own</strong><span>Every product is designed around a clear task or experience.</span></div>
+            <div><strong>Independent by design</strong><span>Products can run and evolve separately, with their own features and services.</span></div>
+            <div><strong>Connected by Zrain UI</strong><span>One recognizable visual language links the ecosystem together.</span></div>
+          </div>
+          <a href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">Explore source projects <span aria-hidden="true">↗</span></a>
         </div>
       </section>
-      <div class="contact-bar" id="contact"><a class="contact-question" href="mailto:zrain.dev@gmail.com" aria-label="Email Zrain with a question or idea">HAVE A QUESTION OR IDEA?</a><a href="mailto:zrain.dev@gmail.com">zrain.dev@gmail.com <span aria-hidden="true">↗</span></a></div>
+
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-copy">
+          <p class="eyebrow eyebrow-small">GET IN TOUCH / 03</p>
+          <h2 id="contact-title">Questions, feedback<br>or an idea?</h2>
+          <p>Found something to improve, have a question about a Zrain product, or want to share an idea? Get in touch directly.</p>
+        </div>
+        <div class="contact-panel">
+          <p class="contact-label">ZRAIN CONTACT</p>
+          <a class="contact-email" href="mailto:zrain.dev@gmail.com">zrain.dev@gmail.com <span aria-hidden="true">↗</span></a>
+          <p>For product questions, suggestions and collaboration enquiries.</p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="mailto:zrain.dev@gmail.com?subject=Hello%20Zrain">Send an email <span aria-hidden="true">↗</span></a>
+            <a class="contact-github" href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">View GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 

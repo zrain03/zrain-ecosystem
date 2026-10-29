@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile, stat} from 'node:fs/promises';
 import {PRODUCTS} from '../public/console-products.js';
+import {chooseActiveSection} from '../public/zrain-ui-config.js';
 const read = file => readFile(new URL(file, import.meta.url), 'utf8');
 
 test('official Zrain UI remains pinned, and deploys only to Hosting site zrain', async()=>{
@@ -34,8 +35,8 @@ test('light Bento identity remains unchanged with Inter and terracotta',async()=
 
 test('directory shows real applications only, with no placeholder projects',async()=>{
   const html=await read('../public/index.html');
-  for(const name of ['Guess The Flag','Memory Rush','Zrain Auth Starter','Zrain UI','Zrain Links']) assert.ok(html.includes(name),name);
-  for(const name of ['Zrain Monitor','Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
+  for(const name of ['Guess The Flag','Memory Rush','Zrain Auth Starter','Zrain UI','Zrain Links','Zrain Monitor']) assert.ok(html.includes(name),name);
+  for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
   assert.equal(Object.keys(PRODUCTS).length,4);
   for(const [id,p] of Object.entries(PRODUCTS)){
     assert.match(html,new RegExp(`data-console="${id}"`));
@@ -43,6 +44,9 @@ test('directory shows real applications only, with no placeholder projects',asyn
     assert.ok(p.icon.startsWith('/'));
   }
   assert.ok(html.includes('https://github.com/zrain03/zrain-ui'), 'Zrain UI stays a repository, not a hosted application');
+  assert.match(html, /03 TOOLS/);
+  assert.match(html, /href="https:\/\/zrain-monitor\.web\.app\/" target="_blank" rel="noopener noreferrer"/);
+  assert.doesNotMatch(html, /data-console="zrain-monitor"/, 'Monitor must open directly for independent sign-in');
 });
 
 test('the two actual uploaded game icons are installed, not generic glyphs',async()=>{
@@ -217,7 +221,7 @@ test('view controls are always visible in the Console header even when info bar 
   assert.doesNotMatch(info.slice(0,info.indexOf('console-stage')), /id="console-desktop"/);
   assert.match(css,/\.console-toolbar\s*\{\s*display: grid;/);
   assert.match(css,/@media \(max-height: 570px\)\s*\{[^}]*\.console-toolbar \.console-view-switch\s*\{\s*display: inline-flex;/);
-  assert.match(html,/style\.css\?v=ecosystem-4\.1\.4/);
+  assert.match(html,/style\.css\?v=ecosystem-4\.1\.5/);
 });
 
 
@@ -266,11 +270,34 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.4/);
 });
 
-test('contact prompt opens Zrain email and the right-hand email link remains',async()=>{
+test('About and Contact are distinct accessible sections with useful content',async()=>{
   const [html,css]=await Promise.all([read('../public/index.html'),read('../public/style.css')]);
-  const contact=html.match(/<div class="contact-bar" id="contact">([\s\S]*?)<\/div>/)?.[1];
-  assert.ok(contact, 'Contact bar must exist');
-  assert.match(contact, /<a class="contact-question" href="mailto:zrain\.dev@gmail\.com"[^>]*>HAVE A QUESTION OR IDEA\?<\/a>/);
-  assert.match(contact, /<a href="mailto:zrain\.dev@gmail\.com">zrain\.dev@gmail\.com/);
-  assert.match(css, /\.contact-bar a\.contact-question \{/);
+  assert.match(html, /<section class="about-section" id="about" aria-labelledby="about-title">/);
+  assert.match(html, /<div class="about-principles" aria-label="How Zrain products are built">/);
+  assert.match(html, /Independent by design/);
+  assert.match(html, /<section class="contact-section" id="contact" aria-labelledby="contact-title">/);
+  assert.match(html, /<h2 id="contact-title">Questions, feedback/);
+  assert.match(html, /href="mailto:zrain\.dev@gmail\.com\?subject=Hello%20Zrain"/);
+  assert.match(html, /<a class="contact-email" href="mailto:zrain\.dev@gmail\.com">/);
+  assert.match(css, /\.contact-section\s*\{/);
+});
+
+test('navigation highlights the visible section and contact remains active at the footer',async()=>{
+  const nav = await read('../public/zrain-ui-config.js');
+  assert.doesNotMatch(nav, /current:\s*true/);
+  assert.match(nav, /window\.addEventListener\("scroll", scheduleNavUpdate/);
+  assert.match(nav, /window\.addEventListener\("resize", scheduleNavUpdate/);
+  assert.match(nav, /item\.link\.classList\.toggle\("current", isActive\)/);
+  assert.match(nav, /item\.link\.removeAttribute\("aria-current"\)/);
+  assert.match(await read('../public/style.css'), /scroll-behavior: smooth/);
+  const area = (products,about,contact) => [
+    {id:'products',top:products[0],bottom:products[1]},
+    {id:'about',top:about[0],bottom:about[1]},
+    {id:'contact',top:contact[0],bottom:contact[1]}
+  ];
+  assert.equal(chooseActiveSection(area([500,1200],[1300,1750],[1800,2200]),900,90),null, 'hero does not pretend Products is visible');
+  assert.equal(chooseActiveSection(area([-80,900],[940,1350],[1400,1750]),900,90),'products');
+  assert.equal(chooseActiveSection(area([-950,200],[180,780],[820,1100]),900,90),'about');
+  assert.equal(chooseActiveSection(area([-1100,-50],[-260,510],[540,860]),900,90),'contact');
+  assert.equal(chooseActiveSection(area([-1800,-600],[-600,-200],[-130,65]),900,90),'contact', 'footer position');
 });
