@@ -27,7 +27,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #db9f84; outline-offs
 .zrain-header .zrain-brand { gap: 9px; }
 .zrain-header .main-nav a { font-size: 13px; font-weight: 650; text-decoration: none; }
 .zrain-header .main-nav a:hover { color: var(--zr-terra); }
-.zrain-header .main-nav a.current { color: var(--zr-terra); }
+.zrain-header .main-nav a { transition: color .2s ease; }
+.zrain-header .main-nav a.current { color: var(--zr-terra); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 9px; }
 .header-github { flex: 0 0 auto; margin-left: 4px; padding: 12px 18px; display: inline-flex; align-items: center; gap: 10px; color: var(--zr-terra); border: 1px solid #dfbaac; border-radius: 11px; font-size: 12px; font-weight: 750; text-decoration: none; background: #fff8f3; transition: .2s ease; }
 .header-github:hover { background: #fce7dc; border-color: #cf947e; }
 .zrain-footer { background: #fff2e9; border-color: #ead9ce; margin-top: 0; }
@@ -115,20 +116,28 @@ a:focus-visible, button:focus-visible { outline: 3px solid #db9f84; outline-offs
 .vision-card p:not(.bento-eyebrow) { position: relative; z-index: 1; max-width: 430px; font-size: 12px; line-height: 1.85; color: #7b6156; }
 .vision-card a { position: relative; z-index: 1; margin-top: 9px; text-decoration: none; font-size: 11px; font-weight: 800; color: #a2472e; }
 .vision-card a:hover { text-decoration: underline; }
-.about-section { padding: 93px 0 65px; display: grid; grid-template-columns: 1fr 1fr; gap: 62px; }
+.about-section { padding: 90px 0 77px; display: grid; grid-template-columns: 1fr 1fr; gap: 62px; }
 .about-section h2 { margin: 0; font-size: clamp(27px, 3.2vw, 41px); letter-spacing: -.055em; line-height: 1.24; }
 .about-section h2 span { color: var(--zr-terra); }
 .about-description { padding-top: 20px; }
-.about-description p { max-width: 510px; color: var(--zr-muted); line-height: 1.9; font-size: 13px; margin: 0 0 16px; }
-.about-description a { color: var(--zr-terra); font-size: 12px; font-weight: 800; text-decoration: none; }
-.about-description a:hover { text-decoration: underline; }
-.contact-bar { border-top: 1px solid var(--zr-line); padding: 24px 0 42px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-.contact-bar span { color: #a47a64; font-size: 10px; letter-spacing: .12em; font-weight: 850; }
-.contact-bar a { font-size: 13px; color: var(--zr-terra); font-weight: 750; text-decoration: none; }
-.contact-bar a:hover { text-decoration: underline; }
-/* Keep the contact prompt visually unchanged while making it clickable. */
-.contact-bar a.contact-question { color: #a47a64; font-size: 10px; letter-spacing: .12em; font-weight: 850; }
-.contact-bar a.contact-question:hover { color: var(--zr-terra); }
+.about-description > p { max-width: 510px; color: var(--zr-muted); line-height: 1.85; font-size: 13px; margin: 0 0 22px; }
+.about-description > a { display: inline-flex; margin-top: 20px; color: var(--zr-terra); font-size: 12px; font-weight: 800; text-decoration: none; }
+.about-description > a:hover { text-decoration: underline; }
+.about-principles { display: grid; gap: 10px; max-width: 540px; }
+.about-principles > div { display: grid; gap: 4px; padding: 14px 17px; background: #fff6ef; border: 1px solid #f0e4dc; border-radius: 12px; }
+.about-principles strong { font-size: 12px; color: var(--zr-navy); }
+.about-principles span { font-size: 11px; line-height: 1.65; color: var(--zr-muted); }
+
+.contact-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 46px 40px; margin-bottom: 62px; background: #fff6ef; border: 1px solid #ecdccf; border-radius: 22px; }
+.contact-copy h2 { margin: 0; font-size: clamp(28px, 3vw, 40px); letter-spacing: -.055em; line-height: 1.18; }
+.contact-copy > p:last-child { max-width: 390px; font-size: 13px; line-height: 1.8; color: var(--zr-muted); }
+.contact-panel { min-width: 0; padding: 25px; background: #fffdfb; border: 1px solid #eee0d7; border-radius: 16px; }
+.contact-label { margin: 0 0 12px; color: #a57c65; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+.contact-email { display: inline-flex; gap: 8px; color: var(--zr-terra); font-size: clamp(15px, 1.6vw, 20px); font-weight: 800; text-decoration: none; overflow-wrap: anywhere; }
+.contact-email:hover,.contact-github:hover { text-decoration: underline; }
+.contact-panel > p:not(.contact-label) { margin: 11px 0 20px; font-size: 11px; line-height: 1.7; color: var(--zr-muted); }
+.contact-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; }
+.contact-github { font-size: 12px; font-weight: 800; color: var(--zr-terra); text-decoration: none; }
 
 @media (max-width: 1000px) {
   .hero { padding: 52px 42px; }
@@ -166,9 +175,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid #db9f84; outline-offs
   .bento-grid { grid-template-columns: 1fr; }
   .bento-card { padding: 21px; border-radius: 17px; }
   .vision-card { min-height: 235px; }
-  .about-section { grid-template-columns: 1fr; padding: 58px 0 45px; gap: 8px; }
+  .about-section { grid-template-columns: 1fr; padding: 58px 0 50px; gap: 8px; }
   .about-description { padding-top: 0; }
-  .contact-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .contact-section { grid-template-columns: 1fr; gap: 18px; padding: 28px 22px; margin-bottom: 35px; }
+  .contact-panel { padding: 21px; }
 }
 @media (max-width: 380px) {
   .hero { padding: 31px 20px; }
@@ -418,4 +428,13 @@ body:has(.zrain-console[open]) { overflow: hidden; }
   .console-toolbar .console-tool { min-width: 34px; padding: 0 5px; }
   .console-toolbar .console-store-badge { width: 121px; }
   .console-toolbar .console-close { min-width: 40px; width: 40px; }
+}
+
+/* Hub section navigation stays available on phones as a second compact row. */
+@media (max-width: 700px) {
+  html { scroll-padding-top: 132px; }
+  .zrain-header .zrain-header__inner { flex-wrap: wrap; row-gap: 6px; padding-block: 10px; }
+  .zrain-header .main-nav { display: flex; order: 3; flex: 0 0 100%; gap: 24px; margin: 0; padding: 5px 0; }
+  .zrain-header .main-nav a { font-size: 12px; }
+  .header-github { margin-left: auto; }
 }
