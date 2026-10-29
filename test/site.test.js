@@ -173,7 +173,7 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     m.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-monitor'].webUrl);
     assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-monitor'].webUrl);
-    nodes.get('zrain-console').fire('close');
+    nodes.get('zrain-console').close();
     u.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-ui'].webUrl);
     assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-ui'].externalUrl);
