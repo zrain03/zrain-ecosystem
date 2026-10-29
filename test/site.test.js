@@ -8,7 +8,7 @@ test('official Zrain UI remains pinned, and deploys only to Hosting site zrain',
   const [pkg,html,fb,deploy]=await Promise.all([read('../package.json'),read('../public/index.html'),read('../firebase.json'),read('../deploy.ps1')]);
   const parsed=JSON.parse(pkg);
   assert.equal(parsed.version,'4.1.4');
-  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#37a699a9e23fb9f023c049d3129206aafc660830');
+  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#ecab5bcea4ed90e357790ff1cada4a66f446d9aa');
   assert.equal(JSON.parse(fb).hosting.site,'zrain');
   assert.equal(JSON.parse(fb).hosting.public,'public');
   assert.match(deploy,/\$ProjectId -ne 'zrain-ecosystem'/);
