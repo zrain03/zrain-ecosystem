@@ -11,7 +11,7 @@
     "test:release": "npm run ui:check && npm test"
   },
   "dependencies": {
-    "@zrain/ui": "github:zrain03/zrain-ui#ecab5bcea4ed90e357790ff1cada4a66f446d9aa"
+    "@zrain/ui": "github:zrain03/zrain-ui#fec7b1fe5deab157bdadf0af19d9384b1dc418f0"
   },
   "engines": {
     "node": ">=20"
