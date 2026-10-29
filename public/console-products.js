@@ -30,5 +30,19 @@ export const PRODUCTS = Object.freeze({
     icon: "/zrain-logo.webp",
     description: "Create custom links, QR previews and visits links.",
     webUrl: "https://zrain-links.web.app/"
+  }),
+  "zrain-monitor": Object.freeze({
+    name: "Zrain Monitor", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Monitor public HTTPS services, inspect incidents and view uptime diagnostics.",
+    webUrl: "https://zrain-monitor.web.app/"
+  }),
+  "zrain-ui": Object.freeze({
+    name: "Zrain UI", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Explore the shared Zrain header, footer and design system showcase.",
+    webUrl: "https://zrain.web.app/zrain-ui-showcase.html",
+    externalUrl: "https://github.com/zrain03/zrain-ui",
+    repositoryUrl: "https://github.com/zrain03/zrain-ui"
   })
 });
