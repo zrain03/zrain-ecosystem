@@ -8,7 +8,7 @@ test('official Zrain UI remains pinned, and deploys only to Hosting site zrain',
   const [pkg,html,fb,deploy]=await Promise.all([read('../package.json'),read('../public/index.html'),read('../firebase.json'),read('../deploy.ps1')]);
   const parsed=JSON.parse(pkg);
   assert.equal(parsed.version,'4.1.4');
-  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#ecab5bcea4ed90e357790ff1cada4a66f446d9aa');
+  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#fec7b1fe5deab157bdadf0af19d9384b1dc418f0');
   assert.equal(JSON.parse(fb).hosting.site,'zrain');
   assert.equal(JSON.parse(fb).hosting.public,'public');
   assert.match(deploy,/\$ProjectId -ne 'zrain-ecosystem'/);
@@ -18,6 +18,7 @@ test('official Zrain UI remains pinned, and deploys only to Hosting site zrain',
   assert.match(html,/class="zrain-footer"/);
   assert.match(html,/Made for people\. Built with purpose\./);
   assert.match(html,/Explore the Zrain Ecosystem\./);
+  assert.doesNotMatch(html,/class="zrain-brand__tagline"/);
 });
 
 test('light Bento identity remains unchanged with Inter and terracotta',async()=>{
