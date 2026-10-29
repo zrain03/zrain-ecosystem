@@ -1,4 +1,4 @@
-import { mountZrainUI } from "./zrain-ui.js?v=1.0.0";
+import { mountZrainUI } from "./zrain-ui.js?v=brand-20261029-v2";
 
 // Product configuration only. The official Zrain UI package stays untouched.
 mountZrainUI({
