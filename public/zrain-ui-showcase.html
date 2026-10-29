@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf6">
+  <title>Zrain UI | Shared Design System Showcase</title>
+  <link rel="icon" href="/zrain-logo.webp" type="image/webp">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fffaf6; color: #172433; font-family: Inter, "Segoe UI", sans-serif; }
+    .showcase { width: min(920px, calc(100% - 36px)); margin: 0 auto; padding: 42px 0 68px; }
+    .eyebrow { font-size: 11px; letter-spacing: .13em; font-weight: 800; color: #b95136; }
+    .hero { background: linear-gradient(110deg,#fff4ec,#fff9f4); border: 1px solid #eadbcf; border-radius: 22px; padding: clamp(24px,6vw,46px); }
+    h1 { font-size: clamp(28px,5.5vw,46px); letter-spacing: -.055em; line-height: 1.1; margin: 12px 0; }
+    h1 span { color: #b95136; }
+    p { color: #667180; line-height: 1.8; font-size: 13px; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 24px; }
+    .button { display:inline-flex; justify-content:center; align-items:center; min-height:45px; padding: 11px 16px; border-radius: 11px; font-size:12px; font-weight:700; text-decoration:none; }
+    .button-primary { color:#fff; background:#b95136; }
+    .button-outline { background:white; color:#9b452f; border: 1px solid #e1c7b9; }
+    .tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top: 18px; }
+    .tile { background:white; border:1px solid #ecded4; border-radius:16px; padding:23px; }
+    .tile h2 { margin:0 0 10px; font-size:16px; letter-spacing:-.025em; }
+    .tile p { margin:0; }
+    .swatches { display:flex; gap:10px; margin-top:14px; }
+    .swatch { flex:1; height:46px; border-radius:10px; border:1px solid rgba(20,25,30,.08); }
+    .small { font-size:11px; }
+    @media(max-width:560px){ .tiles {grid-template-columns:1fr;} .showcase {padding-top:22px;} }
+  </style>
+</head>
+<body>
+  <header class="zrain-header"><div class="zrain-header__inner"><div class="zrain-brand"></div></div></header>
+  <main class="showcase">
+    <section class="hero">
+      <div class="eyebrow">ZRAIN UI / DESIGN SYSTEM</div>
+      <h1>One visual identity.<br><span>Across independent products.</span></h1>
+      <p>This showcase uses the actual shared Zrain header and footer components. Zrain UI is a reusable design system, not a separate account or hosted application.</p>
+      <div class="actions">
+        <a class="button button-primary" href="https://github.com/zrain03/zrain-ui" target="_blank" rel="noopener noreferrer">Explore source on GitHub ↗</a>
+        <a class="button button-outline" href="https://zrain.web.app/" target="_blank" rel="noopener noreferrer">Zrain Ecosystem ↗</a>
+      </div>
+    </section>
+    <div class="tiles">
+      <section class="tile"><h2>Shared branding</h2><p>One logo, compact product header and consistent developer footer.</p></section>
+      <section class="tile"><h2>Independent applications</h2><p>Reusable identity without combining user accounts, services or application data.</p></section>
+      <section class="tile"><h2>Typography & spacing</h2><p>Readable Inter typography, generous spacing and responsive interface patterns.</p></section>
+      <section class="tile"><h2>Muted Zrain palette</h2><p>Warm surfaces, terracotta accents and restrained supporting colors.</p><div class="swatches" aria-label="Zrain palette samples"><span class="swatch" style="background:#fffaf6"></span><span class="swatch" style="background:#172433"></span><span class="swatch" style="background:#b95136"></span><span class="swatch" style="background:#e6f1ec"></span></div></section>
+    </div>
+    <p class="small">This page demonstrates the current Zrain UI branding. For source code, installation and maintenance, use the official GitHub repository.</p>
+  </main>
+  <footer class="zrain-footer"><div class="zrain-footer__inner"><div class="zrain-footer__identity"></div></div></footer>
+  <script type="module">
+    import { mountZrainUI } from "/zrain-ui.js?v=brand-20261029-footeronly";
+    mountZrainUI({ product: "UI", logoSrc: "/zrain-logo.webp", productHref: "https://github.com/zrain03/zrain-ui" });
+  </script>
+</body>
+</html>

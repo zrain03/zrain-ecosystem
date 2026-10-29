@@ -37,16 +37,18 @@ test('directory shows real applications only, with no placeholder projects',asyn
   const html=await read('../public/index.html');
   for(const name of ['Guess The Flag','Memory Rush','Zrain Auth Starter','Zrain UI','Zrain Links','Zrain Monitor']) assert.ok(html.includes(name),name);
   for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
-  assert.equal(Object.keys(PRODUCTS).length,4);
+  assert.equal(Object.keys(PRODUCTS).length,6);
   for(const [id,p] of Object.entries(PRODUCTS)){
     assert.match(html,new RegExp(`data-console="${id}"`));
     assert.ok(p.webUrl.startsWith('https://'));
     assert.ok(p.icon.startsWith('/'));
   }
-  assert.ok(html.includes('https://github.com/zrain03/zrain-ui'), 'Zrain UI stays a repository, not a hosted application');
+  assert.match(html, /data-console="zrain-ui"/);
+  assert.match(html, /data-console="zrain-monitor"/);
   assert.match(html, /03 TOOLS/);
-  assert.match(html, /href="https:\/\/zrain-monitor\.web\.app\/" target="_blank" rel="noopener noreferrer"/);
-  assert.doesNotMatch(html, /data-console="zrain-monitor"/, 'Monitor must open directly for independent sign-in');
+  assert.match(html, /data-console="zrain-monitor"/);
+  assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
+  assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
 });
 
 test('the two actual uploaded game icons are installed, not generic glyphs',async()=>{
@@ -73,7 +75,7 @@ test('universal Console keeps every web app in an iframe until Open in new tab i
   assert.match(js,/frame\.removeAttribute\("src"\)/);
   assert.match(js,/data-console/);
   assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='mobile').map(([id])=>id).sort(),['guess-the-flag','memory-rush']);
-  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='web').map(([id])=>id).sort(),['zrain-auth-starter','zrain-links']);
+  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='web').map(([id])=>id).sort(),['zrain-auth-starter','zrain-links','zrain-monitor','zrain-ui']);
   assert.ok(PRODUCTS['guess-the-flag'].storeUrl.includes('com.zrain.guesstheflag'));
   assert.ok(PRODUCTS['memory-rush'].storeUrl.includes('com.zrain.memoryrush'));
   assert.equal(PRODUCTS['zrain-auth-starter'].storeUrl,undefined);
@@ -111,9 +113,9 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     nodes.set(id,x);return x;
   };
   for(const id of ['zrain-console','console-stage','console-viewer','console-frame','console-icon','console-title','console-description','console-mode','console-external','console-store','console-reload','console-fullscreen','console-close','console-shell','console-mobile','console-desktop']) node(id);
-  const g=node('button-game'),w=node('button-links'),a=node('button-auth');
-  g.dataset.console='guess-the-flag';w.dataset.console='zrain-links';a.dataset.console='zrain-auth-starter';
-  const doc={fullscreenElement:null,getElementById:id=>nodes.get(id),querySelectorAll:q=>q==='[data-console]'?[g,w,a]:[],
+  const g=node('button-game'),w=node('button-links'),a=node('button-auth'),m=node('button-monitor'),u=node('button-ui');
+  g.dataset.console='guess-the-flag';w.dataset.console='zrain-links';a.dataset.console='zrain-auth-starter';m.dataset.console='zrain-monitor';u.dataset.console='zrain-ui';
+  const doc={fullscreenElement:null,getElementById:id=>nodes.get(id),querySelectorAll:q=>q==='[data-console]'?[g,w,a,m,u]:[],
     listeners:{},addEventListener(type,fn){this.listeners[type]=fn;},exitFullscreen(){this.fullscreenElement=null;return Promise.resolve();}};
   const previous={document:globalThis.document,window:globalThis.window,ResizeObserver:globalThis.ResizeObserver};
   globalThis.document=doc;globalThis.window={addEventListener(){}};
@@ -166,6 +168,16 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     assert.equal(w.focused,true);
     a.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-auth-starter'].webUrl);
+    nodes.get('zrain-console').close();
+    assert.equal(nodes.get('console-frame').src,undefined);
+    m.fire('click');
+    assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-monitor'].webUrl);
+    assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-monitor'].webUrl);
+    nodes.get('zrain-console').close();
+    u.fire('click');
+    assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-ui'].webUrl);
+    assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-ui'].externalUrl);
+    assert.match(nodes.get('console-external').title,/GitHub/);
     nodes.get('zrain-console').fire('close');
     assert.equal(nodes.get('console-frame').src,undefined);
   }finally{Object.assign(globalThis,previous)}
@@ -266,8 +278,8 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
   assert.doesNotMatch(html, /Guess the Flag/);
   assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.1\.4/);
-  assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.4/);
+  assert.match(html,/zrain-console\.js\?v=4\.1\.6/);
+  assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
 });
 
 test('About and Contact are distinct accessible sections with useful content',async()=>{
@@ -300,4 +312,15 @@ test('navigation highlights the visible section and contact remains active at th
   assert.equal(chooseActiveSection(area([-950,200],[180,780],[820,1100]),900,90),'about');
   assert.equal(chooseActiveSection(area([-1100,-50],[-260,510],[540,860]),900,90),'contact');
   assert.equal(chooseActiveSection(area([-1800,-600],[-600,-200],[-130,65]),900,90),'contact', 'footer position');
+});
+
+test('Zrain UI showcase uses the real shared branding and links to official source',async()=>{
+  const html=await read('../public/zrain-ui-showcase.html');
+  assert.match(html,/import \{ mountZrainUI \} from "\/zrain-ui\.js/);
+  assert.match(html,/mountZrainUI\(\{ product: "UI"/);
+  assert.match(html,/Zrain UI is a reusable design system, not a separate account/);
+  assert.match(html,/href="https:\/\/github\.com\/zrain03\/zrain-ui"/);
+  assert.match(html,/class="zrain-footer"/);
+  assert.ok(PRODUCTS['zrain-ui'].webUrl.endsWith('/zrain-ui-showcase.html'));
+  assert.ok(PRODUCTS['zrain-ui'].externalUrl.startsWith('https://github.com/'));
 });
