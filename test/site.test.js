@@ -221,7 +221,7 @@ test('view controls are always visible in the Console header even when info bar 
   assert.doesNotMatch(info.slice(0,info.indexOf('console-stage')), /id="console-desktop"/);
   assert.match(css,/\.console-toolbar\s*\{\s*display: grid;/);
   assert.match(css,/@media \(max-height: 570px\)\s*\{[^}]*\.console-toolbar \.console-view-switch\s*\{\s*display: inline-flex;/);
-  assert.match(html,/style\.css\?v=ecosystem-4\.1\.4/);
+  assert.match(html,/style\.css\?v=ecosystem-4\.1\.5/);
 });
 
 
