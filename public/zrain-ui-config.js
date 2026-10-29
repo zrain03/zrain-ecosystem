@@ -8,7 +8,9 @@ export function chooseActiveSection(sections, viewportHeight, headerBottom) {
 
   for (const section of sections) {
     const trigger = section.id === "contact" ? contactLine : readingLine;
-    if (section.top <= trigger && section.bottom > headerBottom) {
+    if (section.id === "contact" && section.top <= trigger) {
+      active = section.id; // Keep Contact selected when the footer is reached.
+    } else if (section.top <= trigger && section.bottom > headerBottom) {
       active = section.id;
     }
   }
