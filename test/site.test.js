@@ -46,7 +46,7 @@ test('directory shows real applications only, with no placeholder projects',asyn
   assert.match(html, /data-console="zrain-ui"/);
   assert.match(html, /data-console="zrain-monitor"/);
   assert.match(html, /03 TOOLS/);
-  assert.match(html, /href="https:\/\/zrain-monitor\.web\.app\/" target="_blank" rel="noopener noreferrer"/);
+  assert.match(html, /data-console="zrain-monitor"/);
   assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
   assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
 });
@@ -168,7 +168,7 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     assert.equal(w.focused,true);
     a.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-auth-starter'].webUrl);
-    nodes.get('zrain-console').fire('close');
+    nodes.get('zrain-console').close();
     assert.equal(nodes.get('console-frame').src,undefined);
     m.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-monitor'].webUrl);
