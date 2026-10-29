@@ -2,6 +2,10 @@
 
 Official hub: https://zrain.web.app
 
+**Official tagline:** Made for people. Built with purpose.
+
+**Supporting line:** Explore the Zrain Ecosystem.
+
 ## What's new
 
 - Zrain Console opens every **currently hosted Zrain web app** in a native browser `dialog` within the ecosystem site. **All apps start in Mobile View**, including Zrain Links and Auth Starter. Choose **Desktop View** only when you want a wide browser preview. On a phone, Desktop View simulates a 1100px desktop viewport and scales the resulting website to fit, so text appears smaller but responsive desktop layouts are actually visible. Switching views preserves the iframe rather than reloading the application.
@@ -10,7 +14,7 @@ Official hub: https://zrain.web.app
 - An always-visible **Open in new tab** option is provided for sites with frame or authentication restrictions.
 - Unreleased project ideas are excluded. Zrain UI is a source code repository, not a hosted web app, so it links directly to GitHub.
 - The design stays light, with cream, terracotta, Inter and Bento sections. No em dash punctuation is used.
-- Firebase Hosting remains site `zrain` in project `zrain-ecosystem`. Zrain UI remains pinned to the same commit `af77e6782bdfa168296c1fe14061d72a1e400c55`.
+- Firebase Hosting remains site `zrain` in project `zrain-ecosystem`. Zrain UI is pinned to the official-tagline commit `37a699a9e23fb9f023c049d3129206aafc660830`.
 
 ## Update the existing production project
 
