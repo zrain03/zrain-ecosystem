@@ -34,7 +34,19 @@ function makeCard(product) {
   const arrow = document.createElement("span"); arrow.setAttribute("aria-hidden", "true"); arrow.textContent = "↗";
   cta.append(arrow);
   node.append(image, copy, cta);
-  return node;
+  if (!product.secondaryUrl || !product.secondaryLabel) return node;
+
+  // Links are siblings, not nested inside a button, for valid accessible HTML.
+  const wrapper = document.createElement("div");
+  wrapper.className = "product-entry";
+  const secondary = document.createElement("a");
+  secondary.className = "product-secondary-link";
+  secondary.href = product.secondaryUrl;
+  secondary.target = "_blank";
+  secondary.rel = "noopener noreferrer";
+  secondary.textContent = product.secondaryLabel + " ↗";
+  wrapper.append(node, secondary);
+  return wrapper;
 }
 
 function utilitiesRoot() {
