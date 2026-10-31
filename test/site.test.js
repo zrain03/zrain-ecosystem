@@ -39,14 +39,15 @@ test('directory shows real applications only, with no placeholder projects',asyn
   for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
   assert.equal(Object.keys(PRODUCTS).length,6);
   for(const [id,p] of Object.entries(PRODUCTS)){
-    assert.match(html,new RegExp(`data-console="${id}"`));
+    if (p.kind === "mobile") assert.match(html,new RegExp(`data-console="${id}"`));
     assert.ok(p.webUrl.startsWith('https://'));
     assert.ok(p.icon.startsWith('/'));
   }
-  assert.match(html, /data-console="zrain-ui"/);
-  assert.match(html, /data-console="zrain-monitor"/);
+  assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-auth-starter"/);
+  assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-ui"/);
+  assert.match(html, /href="https:\/\/zrain-monitor\.web\.app\/"/);
+  assert.match(html, /href="https:\/\/zrain-links\.web\.app\/"/);
   assert.match(html, /03 TOOLS/);
-  assert.match(html, /data-console="zrain-monitor"/);
   assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
   assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
 });

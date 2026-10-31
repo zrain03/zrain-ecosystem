@@ -38,7 +38,7 @@ const categories = Object.freeze({
   GAMES: "Games",
   DEVELOPER_TOOLS: "Developer Tools",
   ONLINE_SERVICES: "Online Services",
-  WEB_UTILITIES: "Web Utilities"
+  WEB_UTILITIES: "Online Services"
 });
 let jwt = null; // Signed access token is only held in memory.
 let editing = null;
@@ -187,7 +187,7 @@ function editProduct(product) {
   inputs.name.value = product.name;
   inputs.slug.value = product.slug;
   inputs.description.value = product.description;
-  inputs.category.value = product.category;
+  inputs.category.value = product.category === "WEB_UTILITIES" ? "ONLINE_SERVICES" : product.category;
   inputs.primaryAction.value = product.primaryAction;
   inputs.primaryLabel.value = product.primaryLabel;
   inputs.primaryUrl.value = product.primaryUrl;
