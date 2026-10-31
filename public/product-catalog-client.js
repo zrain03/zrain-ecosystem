@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./api-config.js";
+import { PUBLIC_CATALOG_URL } from "./api-config.js";
 
 const ACTIONS = new Set(["CONSOLE", "WEBSITE", "GITHUB", "PLAY_STORE", "DOCUMENTATION", "SHOWCASE"]);
 const CATEGORIES = new Set(["GAMES", "DEVELOPER_TOOLS", "ONLINE_SERVICES", "WEB_UTILITIES"]);
@@ -38,11 +38,11 @@ export function normalizeCatalog(rows) {
   }).sort((a,b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
 }
 export async function fetchPublicCatalog(fetcher = fetch) {
-  if (!API_BASE_URL) return null;
+  if (!PUBLIC_CATALOG_URL) return null;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 7000);
   try {
-    const result = await fetcher(API_BASE_URL.replace(/\/$/, "") + "/api/products", {
+    const result = await fetcher(PUBLIC_CATALOG_URL, {
       signal: controller.signal, headers: { Accept: "application/json" }
     });
     if (!result.ok) throw new Error("Catalog request failed");

@@ -1,4 +1,4 @@
-import { ENABLE_DYNAMIC_CATALOG } from "./api-config.js";
+import { ENABLE_DYNAMIC_CATALOG, LOCAL_PREVIEW } from "./api-config.js";
 import { fetchPublicCatalog } from "./product-catalog-client.js";
 import { registerPublishedProducts } from "./zrain-console.js";
 
@@ -86,20 +86,22 @@ export function renderCatalog(products) {
 }
 
 if (ENABLE_DYNAMIC_CATALOG) {
-  const status = document.createElement("p");
-  status.className = "catalog-local-status";
-  status.setAttribute("role", "status");
-  status.textContent = "Local Admin preview: connecting to the product database...";
-  document.querySelector("#products .section-heading")?.after(status);
+  // Only show development status on localhost, not to public visitors.
+  let status = null;
+  if (LOCAL_PREVIEW) {
+    status = document.createElement("p");
+    status.className = "catalog-local-status";
+    status.setAttribute("role", "status");
+    status.textContent = "Local Admin preview: connecting to product database...";
+    document.querySelector("#products .section-heading")?.after(status);
+  }
   fetchPublicCatalog().then(products => {
-    if (products) {
-      renderCatalog(products);
-      status.textContent = "Local Admin preview: showing " + products.length +
-        " published product" + (products.length === 1 ? "" : "s") +
-        " from the database. The live website is unchanged.";
-    }
+    if (!products) return;
+    renderCatalog(products);
+    if (status) status.textContent = "Local Admin preview: showing " +
+      products.length + " published products from the database.";
   }).catch(() => {
-    status.textContent = "Local Admin preview: API unavailable or invalid data. " +
-      "Showing the original website cards instead.";
+    // Keep the six original cards if public catalog cannot be loaded.
+    if (status) status.textContent = "Local catalog unavailable. Original cards preserved.";
   });
 }

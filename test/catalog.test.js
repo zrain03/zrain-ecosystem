@@ -36,7 +36,7 @@ test('admin front end uses real backend login and keeps token in memory',async()
   assert.match(js,/let jwt = null/);
   assert.doesNotMatch(js,/(?:localStorage|sessionStorage)\\./);
   assert.match(backend,/hasRole\("ADMIN"\)/);
-  assert.ok(cfg.includes('export const ENABLE_DYNAMIC_CATALOG = LOCAL && Boolean(API_BASE_URL);'));
-  assert.ok(cfg.includes('export const API_BASE_URL = LOCAL ? "http://localhost:8080" : "";'));
+  assert.ok(cfg.includes('export const ENABLE_DYNAMIC_CATALOG = Boolean(PUBLIC_CATALOG_URL);'));
+  assert.ok(cfg.includes('export const API_BASE_URL = LOCAL ? "http://localhost:8080" : PRODUCTION_API_URL;'));
   assert.doesNotMatch(cfg,/ENABLE_DYNAMIC_CATALOG = true/);
 });
