@@ -78,27 +78,27 @@ Production fails closed and refuses to start without these settings. It also ref
 
 After Render reports a healthy deployment, open `https://<render-service>.onrender.com/api/health`. Only expect `{"status":"ok"}`; no admin information or passwords are exposed.
 
-## D. Verify product publication before activating website
+## D. Two-stage production cutover (keeps the public website intact)
 
-1. In a local preview of the Admin UI (or a protected staging environment with the correct API URL), login using your private ADMIN credentials.
-2. Click **Import the 6 existing products** and review each imported Draft.
-3. Publish the six real products (Guess The Flag, Memory Rush, Zrain Auth Starter, Zrain Monitor, Zrain UI, Zrain Links). Do **not** publish test records.
-4. Choose **Retry website sync** if a network error occurred.
-5. Verify `https://<worker>/api/catalog` contains exactly the six published products and appropriate URLs, logos and categories. Do not enable dynamic catalog if it returns an error or contains test data.
-6. Check a file upload and ensure its public media URL resolves through Cloudflare.
+The database is initially empty. Do not immediately enable the dynamic catalog before importing the six products.
 
-The website must continue using its static fallback until these steps pass.
+**Stage 1 — Admin deployment with static public directory:**
 
-## E. One-time production frontend configuration and Firebase deploy
+1. After the Render API and Cloudflare Worker are healthy, set **only** `PRODUCTION_API_URL` in `public/api-config.js` to the verified Render HTTPS origin.
+2. Leave `PRODUCTION_CATALOG_URL` as the empty string. This preserves the existing six hardcoded cards on the public website.
+3. Merge the reviewed Admin branch and deploy Firebase Hosting using the existing gated `deploy.ps1 -ProjectId zrain-ecosystem` command. The rewrite enables `https://zrain.web.app/admin`. Sign in with the actual ADMIN account and confirm JWT protected API requests work.
+4. Click **Import the 6 existing products** and review them as Drafts.
+5. Publish only Guess The Flag, Memory Rush, Zrain Auth Starter, Zrain Monitor, Zrain UI and Zrain Links; don't publish test records.
+6. Each Publish calls the Java catalog API, which writes a new snapshot to Cloudflare. If it reports a sync error, use **Retry website sync**.
+7. Confirm `https://<worker>/api/catalog` returns all six products with accurate links, logos and categories, and check upload of one logo through the protected UI.
 
-After actual Render and Cloudflare URLs are confirmed, set these two constants in `public/api-config.js`:
+**Stage 2 — Switch homepage to Admin-managed catalog:**
 
-- `PRODUCTION_API_URL` = verified Render HTTPS origin.
-- `PRODUCTION_CATALOG_URL` = verified Cloudflare HTTPS origin + `/api/catalog`.
+1. Now set `PRODUCTION_CATALOG_URL` in `public/api-config.js` to the verified HTTPS Cloudflare Worker URL ending with `/api/catalog`.
+2. Run all tests and deploy Firebase Hosting again. It now reads published product data from Cloudflare, but retains static fallback cards if the Worker is unreachable.
+3. Test all actions and Console views on desktop and mobile, verify no missing products, and check browser console/network errors.
 
-Update the version query strings for changed frontend scripts when needed. Run all tests, merge reviewed Admin work, then use the existing gated `deploy.ps1 -ProjectId zrain-ecosystem` on branch `main`. The Firebase rewrite maps `/admin` to the login/dashboard page. API requests are protected by JWT regardless of who can open the URL.
-
-Once these one-time components are live, adding another product uses **Admin → Add Product → Save as Draft → Publish** without editing HTML or Firebase redeployment.
+**After Stage 2:** Adding, editing, publishing or unpublishing a product updates the public catalog without manual HTML edits or Firebase redeploys. Content may be cached by Cloudflare for a short period.
 
 ## Safety and operational requirements
 
