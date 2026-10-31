@@ -79,9 +79,23 @@ export function renderCatalog(products) {
 }
 
 if (ENABLE_DYNAMIC_CATALOG) {
+  // A visible development-only status makes it clear whether the homepage is
+  // showing saved admin content or the fallback cards shipped in the HTML.
+  const status = document.createElement("p");
+  status.className = "catalog-local-status";
+  status.setAttribute("role", "status");
+  status.textContent = "Local Admin preview: connecting to the product database...";
+  document.querySelector("#products .section-heading")?.after(status);
   fetchPublicCatalog().then(products => {
-    if (products) renderCatalog(products);
+    if (products) {
+      renderCatalog(products);
+      status.textContent = "Local Admin preview: showing " + products.length +
+        " published product" + (products.length === 1 ? "" : "s") +
+        " from the database. The live website is unchanged.";
+    }
   }).catch(() => {
+    status.textContent = "Local Admin preview: API unavailable or invalid data. " +
+      "Showing the original website cards instead.";
     // Keep the original six static cards if the API is down or malformed.
   });
 }
