@@ -94,6 +94,6 @@ test('local showcase action previews local HEX palette instead of old live page'
     read('../public/index.html'),
     read('../public/product-directory.js')
   ]);
-  assert.match(html, /href="\\/zrain-ui-showcase\\.html"/);
-  assert.match(client, /url === "https:\\/\\/zrain\\.web\\.app\\/zrain-ui-showcase\\.html"/);
+  assert.match(html, /href="\/zrain-ui-showcase\.html"/);
+  assert.match(client, /url === "https:\/\/zrain\.web\.app\/zrain-ui-showcase\.html"/);
 });
