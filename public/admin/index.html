@@ -9,9 +9,9 @@
   <link rel="icon" href="/zrain-logo.webp" type="image/webp">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/admin/admin.css?v=1">
+  <link rel="stylesheet" href="/admin/admin.css?v=2">
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
-  <script type="module" src="/admin/admin.js?v=1"></script>
+  <script type="module" src="/admin/admin.js?v=2"></script>
 </head>
 <body>
   <header class="zrain-header">
@@ -54,49 +54,113 @@
       <p id="dashboard-notice" class="notice" role="status" hidden></p>
       <div class="admin-grid">
         <section class="panel" aria-labelledby="list-title">
-          <div class="section-title"><h2 id="list-title">Products</h2><button id="new-product" type="button" class="secondary">+ New product</button></div>
+          <div class="section-title">
+            <div>
+              <h2 id="list-title">Your products</h2>
+              <p class="muted small">Manage what appears in the Zrain Ecosystem.</p>
+            </div>
+            <button id="new-product" type="button" class="secondary">+ Add product</button>
+          </div>
+          <div class="import-panel">
+            <strong>Already have products on Zrain?</strong>
+            <p class="muted small">Bring in all 6 existing Zrain products with their names, logos, descriptions, categories and links. They will be saved as drafts for you to review first.</p>
+            <button id="import-existing" class="secondary" type="button">Import the 6 existing products</button>
+            <p class="tiny">Safe to press again: existing entries will not be overwritten. This does not change the live website.</p>
+          </div>
           <div id="product-list" class="product-list"><p class="muted">Loading products...</p></div>
         </section>
         <section class="panel" aria-labelledby="editor-title">
-          <h2 id="editor-title">Add product</h2>
-          <p class="muted small">Product content can change without editing website source after API integration.</p>
+          <h2 id="editor-title">Add a product</h2>
+          <p class="muted small">Fill in the essentials. We create the technical ID and button text for you.</p>
           <form id="product-form" class="form-stack">
-            <label for="product-name">Name</label>
+            <label for="product-name">1. Product name</label>
             <input id="product-name" required maxlength="100" placeholder="Example: FileFit">
-            <label for="product-slug">Unique slug</label>
-            <input id="product-slug" required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="filefit">
-            <label for="product-description">Description</label>
-            <textarea id="product-description" required maxlength="300" rows="3"></textarea>
-            <label for="product-category">Category</label>
+            <p class="field-help">The name visitors will see on the Zrain website.</p>
+
+            <label for="product-description">2. What does it do?</label>
+            <textarea id="product-description" required maxlength="300" rows="3" placeholder="Explain what visitors can use this product for."></textarea>
+            <p class="field-help">One short sentence is enough.</p>
+
+            <label for="product-category">3. Choose a category</label>
             <select id="product-category">
               <option value="GAMES">Games</option>
               <option value="DEVELOPER_TOOLS">Developer Tools</option>
               <option value="ONLINE_SERVICES">Online Services</option>
               <option value="WEB_UTILITIES">Web Utilities</option>
             </select>
-            <label for="product-logo">Logo URL (upload integration follows later)</label>
-            <input id="product-logo" required maxlength="500" value="/zrain-logo.webp">
-            <div class="logo-preview"><img id="logo-preview" src="/zrain-logo.webp" width="56" height="56" alt="Logo preview"><span class="tiny">Use the existing Zrain logo or a published HTTPS image URL.</span></div>
-            <label for="product-action">Primary button action</label>
-            <select id="product-action">
-              <option value="CONSOLE">Open in Zrain Console</option>
-              <option value="WEBSITE">Open Web App</option>
-              <option value="GITHUB">View on GitHub</option>
-              <option value="PLAY_STORE">Get on Google Play</option>
-              <option value="DOCUMENTATION">View Documentation</option>
-              <option value="SHOWCASE">View Showcase</option>
+            <p class="field-help">The section where the product appears.</p>
+
+            <label for="product-logo-choice">4. Choose a logo</label>
+            <select id="product-logo-choice">
+              <option value="/zrain-logo.webp">Official Zrain logo</option>
+              <option value="/icons/guess-the-flag.webp">Guess The Flag logo</option>
+              <option value="/icons/memory-rush.webp">Memory Rush logo</option>
+              <option value="custom">Other logo URL</option>
             </select>
-            <label for="product-label">Primary button label</label>
-            <input id="product-label" required maxlength="50" value="Play now">
-            <label for="product-url">Primary HTTPS URL</label>
+            <div id="custom-logo-wrap" hidden>
+              <label for="product-logo">Logo image URL or hosted path</label>
+              <input id="product-logo" maxlength="500" placeholder="https://.../logo.webp">
+              <p class="field-help">Direct image upload is not active yet. Use an image already hosted online.</p>
+            </div>
+            <div class="logo-preview">
+              <img id="logo-preview" src="/zrain-logo.webp" width="56" height="56" alt="Selected product logo preview">
+              <span class="tiny">Logo preview. Existing Zrain images are already available.</span>
+            </div>
+
+            <label for="product-action">5. What should the main button do?</label>
+            <select id="product-action">
+              <option value="CONSOLE">Play / open inside Zrain Console</option>
+              <option value="WEBSITE">Open a web app or website</option>
+              <option value="GITHUB">Open the GitHub repository / template</option>
+              <option value="PLAY_STORE">Open Google Play</option>
+              <option value="DOCUMENTATION">Open documentation</option>
+              <option value="SHOWCASE">Open a UI showcase</option>
+            </select>
+            <p class="field-help">For GitHub templates, choose GitHub. For playable web games, choose Zrain Console.</p>
+
+            <label for="product-url">6. Where does the button go?</label>
             <input id="product-url" required type="url" maxlength="500" placeholder="https://...">
-            <label for="product-secondary-label">Secondary button label (optional)</label>
-            <input id="product-secondary-label" maxlength="50" placeholder="Get on Google Play">
-            <label for="product-secondary-url">Secondary HTTPS URL (optional)</label>
-            <input id="product-secondary-url" type="url" maxlength="500" placeholder="https://...">
-            <label for="product-order">Display order</label>
-            <input id="product-order" type="number" min="-1000" max="1000" value="0">
-            <div class="form-actions"><button type="submit" class="primary" id="save-product">Save draft</button><button type="button" class="secondary" id="reset-product">Clear</button></div>
+            <p class="field-help">Paste the exact HTTPS address of the app, repository or store page.</p>
+
+            <details id="advanced-options" class="advanced">
+              <summary>Optional: second button and advanced settings</summary>
+              <div class="advanced-fields">
+                <label for="product-secondary-type">Another button (optional)</label>
+                <select id="product-secondary-type">
+                  <option value="NONE">No extra button</option>
+                  <option value="PLAY_STORE">Get on Google Play</option>
+                  <option value="GITHUB">View on GitHub</option>
+                  <option value="DEMO">Try Demo</option>
+                  <option value="SHOWCASE">View Showcase</option>
+                  <option value="DOCUMENTATION">View Documentation</option>
+                  <option value="WEBSITE">Open another website</option>
+                </select>
+                <div id="secondary-url-wrap" hidden>
+                  <label for="product-secondary-url">Link for the extra button</label>
+                  <input id="product-secondary-url" type="url" maxlength="500" placeholder="https://...">
+                </div>
+                <label for="product-label">Main button text (optional customization)</label>
+                <input id="product-label" maxlength="50" value="Play Now">
+                <p class="field-help">Example: Play Now, Open Web App or View on GitHub. We fill this automatically.</p>
+                <label for="product-slug">Internal product ID (automatic)</label>
+                <input id="product-slug" readonly required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*">
+                <p class="field-help">Created from the name. You do not need to edit it.</p>
+              </div>
+            </details>
+
+            <div class="product-preview" aria-live="polite">
+              <strong>How the product card will look</strong>
+              <div class="preview-line">
+                <img id="card-preview-logo" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div><strong id="preview-name">Your product name</strong><p id="preview-description">Your short description appears here.</p></div>
+              </div>
+              <span class="preview-button" id="preview-button">Play Now ↗</span>
+            </div>
+            <p class="field-help"><strong>Save as Draft</strong> keeps it private. After reviewing, press <strong>Publish</strong> on the product in your list. Products are placed automatically at the end of their category.</p>
+            <div class="form-actions">
+              <button type="submit" class="primary" id="save-product">Save as Draft</button>
+              <button type="button" class="secondary" id="reset-product">Clear</button>
+            </div>
           </form>
         </section>
       </div>
