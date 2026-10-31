@@ -19,7 +19,8 @@ function showNotice(element, message) {
   element.hidden = !message;
 }
 async function request(path, options = {}) {
-  if (!API_BASE_URL || !safeHttpsUrl(API_BASE_URL)) throw new Error("Admin API is not configured yet.");
+  const localApi = typeof location !== "undefined" && ["localhost", "127.0.0.1"].includes(location.hostname) && API_BASE_URL === "http://localhost:8080";
+  if (!API_BASE_URL || (!safeHttpsUrl(API_BASE_URL) && !localApi)) throw new Error("Admin API is not configured yet.");
   const response = await fetch(API_BASE_URL.replace(/\/$/, "") + path, {
     ...options, headers: { Accept: "application/json",
       ...(options.body ? { "Content-Type": "application/json" } : {}),
