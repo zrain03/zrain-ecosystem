@@ -34,6 +34,7 @@ const secondaryLabels = Object.freeze({
   DOCUMENTATION: "View Documentation",
   WEBSITE: "Open Web App"
 });
+const IS_LOCAL = ["localhost","127.0.0.1"].includes(location.hostname);
 const categories = Object.freeze({
   GAMES: "Games",
   DEVELOPER_TOOLS: "Developer Tools",
@@ -59,7 +60,7 @@ async function request(path, options = {}) {
     ...options,
     headers: {
       Accept: "application/json",
-      ...(options.body ? { "Content-Type": "application/json" } : {}),
+      ...(options.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
       ...(jwt ? { Authorization: "Bearer " + jwt } : {}),
       ...options.headers
     }
@@ -116,6 +117,48 @@ byId("signin-form").addEventListener("submit", async event => {
   }
 });
 byId("signout").addEventListener("click", signOut);
+
+async function syncWebsite() {
+  if (IS_LOCAL) return "Saved in the local database. The live website is unchanged.";
+  try {
+    const result = await request("/api/admin/catalog/sync", { method: "POST" });
+    return "Website synced: " + result.published + " published products. A short cache refresh may apply.";
+  } catch (error) {
+    return "Saved to database, but website sync failed: " + error.message +
+      " Use Retry website sync to publish the latest version.";
+  }
+}
+
+byId("sync-catalog").addEventListener("click", async () => {
+  const button = byId("sync-catalog");
+  button.disabled = true;
+  try {
+    showNotice(byId("dashboard-notice"), await syncWebsite());
+  } finally { button.disabled = false; }
+});
+
+byId("upload-logo").addEventListener("click", async () => {
+  const input = byId("product-logo-file");
+  const button = byId("upload-logo");
+  if (!input.files.length) return showNotice(byId("dashboard-notice"), "Choose an image first.");
+  const file = input.files[0];
+  if (file.size > 2_000_000 || !["image/png","image/jpeg","image/webp"].includes(file.type)) {
+    return showNotice(byId("dashboard-notice"), "Upload a PNG, JPG or WebP image under 2 MB.");
+  }
+  const body = new FormData();
+  body.append("file", file);
+  button.disabled = true;
+  try {
+    const media = await request("/api/admin/catalog/logo", { method: "POST", body });
+    if (!safeHttpsUrl(media.url)) throw new Error("Invalid image URL returned.");
+    inputs.logoChoice.value = "custom";
+    inputs.customLogo.value = media.url;
+    syncPreview();
+    showNotice(byId("dashboard-notice"), "Logo uploaded. Save the product to keep this image.");
+  } catch (error) {
+    showNotice(byId("dashboard-notice"), error.message);
+  } finally { button.disabled = false; }
+});
 byId("new-product").addEventListener("click", () => {
   resetForm();
   byId("product-name").focus();
@@ -289,9 +332,11 @@ async function refresh() {
 }
 async function changeStatus(id, action) {
   try {
+    const previous = list.find(p => p.id === id)?.status;
     await request("/api/admin/products/" + encodeURIComponent(id) + "/" + action, { method: "POST" });
-    showNotice(byId("dashboard-notice"), "Product updated in the local database. The live website is unchanged.");
     await refresh();
+    showNotice(byId("dashboard-notice"), previous === "PUBLISHED" || action === "publish"
+      ? await syncWebsite() : "Product saved as Draft or Archived.");
   } catch (error) {
     showNotice(byId("dashboard-notice"), error.message);
   }
@@ -303,7 +348,7 @@ byId("import-existing").addEventListener("click", async () => {
   try {
     const result = await request("/api/admin/products/import-existing", { method: "POST" });
     showNotice(byId("dashboard-notice"),
-      result.added + " imported, " + result.skipped + " already present. Review each draft before publishing. Live site is unchanged.");
+      result.added + " imported, " + result.skipped + " already present. Review each draft before publishing.");
     await refresh();
   } catch (error) {
     showNotice(byId("dashboard-notice"), error.message);
@@ -342,12 +387,14 @@ form.addEventListener("submit", async event => {
   const submit = byId("save-product");
   submit.disabled = true;
   try {
+    const publishedBefore = editing && list.some(p => p.id === editing && p.status === "PUBLISHED");
     await request(editing ? "/api/admin/products/" + encodeURIComponent(editing) : "/api/admin/products", {
       method: editing ? "PUT" : "POST", body: JSON.stringify(data)
     });
-    showNotice(error, "Product saved successfully. New products start as Draft. The live website is unchanged.");
     resetForm();
     await refresh();
+    showNotice(error, publishedBefore ? await syncWebsite()
+      : "Draft saved successfully. Press Publish when ready.");
   } catch (ex) {
     showNotice(error, ex.message);
   } finally {
