@@ -97,3 +97,14 @@ test('local showcase action previews local HEX palette instead of old live page'
   assert.match(html, /href="\/zrain-ui-showcase\.html"/);
   assert.match(client, /url === "https:\/\/zrain\.web\.app\/zrain-ui-showcase\.html"/);
 });
+
+test('Admin publishing and logo upload only use authenticated API',async()=>{
+  const [html,code]=await Promise.all([read('../public/admin/index.html'),read('../public/admin/admin.js')]);
+  assert.match(html,/id="sync-catalog"/);
+  assert.match(html,/id="upload-logo"/);
+  assert.match(html,/id="product-logo-file"/);
+  assert.match(code,/\/api\/admin\/catalog\/sync/);
+  assert.match(code,/\/api\/admin\/catalog\/logo/);
+  assert.match(code,/new FormData\(\)/);
+  assert.match(code,/publishedBefore \? await syncWebsite\(\)/);
+});

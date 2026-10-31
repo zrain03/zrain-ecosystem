@@ -181,4 +181,19 @@ class AdminCatalogIntegrationTest {
                 .andExpect(jsonPath("$.sortOrder").value(30));
     }
 
+    @Test
+    void catalogSyncAndLogoUploadRequireAdminAndProductionStorage() throws Exception {
+        mvc.perform(get("/api/health"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("ok"));
+        mvc.perform(post("/api/admin/catalog/sync"))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/admin/catalog/status"))
+                .andExpect(status().isUnauthorized());
+        String token = login();
+        mvc.perform(get("/api/admin/catalog/status").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.configured").value(false));
+        mvc.perform(post("/api/admin/catalog/sync").header("Authorization", "Bearer " + token))
+                .andExpect(status().isServiceUnavailable());
+    }
+
 }
