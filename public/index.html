@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/style.css?v=ecosystem-4.1.5">
+  <link rel="stylesheet" href="/style.css?v=ecosystem-4.1.7">
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
   <script type="module" src="/zrain-console.js?v=4.1.6"></script>
   <title>Zrain | Made for people. Built with purpose.</title>
@@ -86,16 +86,22 @@
             </div>
             <p class="bento-desc">A little challenge goes a long way. Open the real web editions directly in Zrain Console.</p>
             <div class="product-list">
-              <button class="product-item product-button" type="button" data-console="guess-the-flag" aria-label="Open Guess The Flag in Zrain Console">
+              <article class="product-entry">
                 <img class="app-mark app-icon" src="/icons/guess-the-flag.webp" width="46" height="46" alt="">
-                <span class="app-copy"><strong>Guess The Flag</strong><small>Geography and flag challenges</small></span>
-                <span class="item-cta">Play now <span aria-hidden="true">↗</span></span>
-              </button>
-              <button class="product-item product-button" type="button" data-console="memory-rush" aria-label="Open Memory Rush in Zrain Console">
+                <div class="app-copy"><strong>Guess The Flag</strong><small>Geography and flag challenges with 190 country flags.</small></div>
+                <div class="product-actions">
+                  <button class="item-cta product-action product-action-primary" type="button" data-console="guess-the-flag" aria-label="Open Guess The Flag in Zrain Console">Play Now <span aria-hidden="true">↗</span></button>
+                  <a class="item-cta product-action product-action-secondary" href="https://play.google.com/store/apps/details?id=com.zrain.guesstheflag" target="_blank" rel="noopener noreferrer" aria-label="Get on Google Play: Guess The Flag">Get on Google Play <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+              <article class="product-entry">
                 <img class="app-mark app-icon" src="/icons/memory-rush.webp" width="46" height="46" alt="">
-                <span class="app-copy"><strong>Memory Rush</strong><small>Grid, Number and Pattern Recall</small></span>
-                <span class="item-cta">Play now <span aria-hidden="true">↗</span></span>
-              </button>
+                <div class="app-copy"><strong>Memory Rush</strong><small>Challenge your memory with Grid, Number and Pattern Recall.</small></div>
+                <div class="product-actions">
+                  <button class="item-cta product-action product-action-primary" type="button" data-console="memory-rush" aria-label="Open Memory Rush in Zrain Console">Play Now <span aria-hidden="true">↗</span></button>
+                  <a class="item-cta product-action product-action-secondary" href="https://play.google.com/store/apps/details?id=com.zrain.memoryrush" target="_blank" rel="noopener noreferrer" aria-label="Get on Google Play: Memory Rush">Get on Google Play <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
             </div>
             <div class="card-footer-note"><span class="small-dot"></span> No installation required for the web editions</div>
           </section>
@@ -112,21 +118,29 @@
             </div>
             <p class="bento-desc">Reliable foundations and a shared visual identity for independent applications.</p>
             <div class="product-list">
-              <button class="product-item product-button" type="button" data-console="zrain-auth-starter" aria-label="Open Zrain Auth Starter in Zrain Console">
-                <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
-                <span class="app-copy"><strong>Zrain Auth Starter</strong><small>Java Spring Boot + JWT foundation</small></span>
-                <span class="item-cta">Open app <span aria-hidden="true">↗</span></span>
-              </button>
-              <button class="product-item product-button" type="button" data-console="zrain-monitor" aria-label="Open Zrain Monitor in Zrain Console">
-                <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
-                <span class="app-copy"><strong>Zrain Monitor</strong><small>Monitor public HTTPS services and review incidents</small></span>
-                <span class="item-cta">Open app <span aria-hidden="true">↗</span></span>
-              </button>
-              <button class="product-item product-button" type="button" data-console="zrain-ui" aria-label="Open Zrain UI showcase in Zrain Console">
-                <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
-                <span class="app-copy"><strong>Zrain UI</strong><small>Explore the actual shared design system</small></span>
-                <span class="item-cta">Explore UI <span aria-hidden="true">↗</span></span>
-              </button>
+              <article class="product-entry">
+                <img class="app-mark app-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div class="app-copy"><strong>Zrain Auth Starter</strong><small>Reusable Java Spring Boot authentication template with JWT and role-based access.</small></div>
+                <div class="product-actions">
+                  <a class="item-cta product-action product-action-primary" href="https://github.com/zrain03/zrain-auth-starter" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub: Zrain Auth Starter">View on GitHub <span aria-hidden="true">↗</span></a>
+                  <a class="item-cta product-action product-action-secondary" href="https://zrain03.github.io/zrain-auth-starter/" target="_blank" rel="noopener noreferrer" aria-label="Try Demo: Zrain Auth Starter">Try Demo <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+              <article class="product-entry">
+                <img class="app-mark app-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div class="app-copy"><strong>Zrain Monitor</strong><small>Monitor public HTTPS services, review incidents and check uptime.</small></div>
+                <div class="product-actions">
+                  <a class="item-cta product-action product-action-primary" href="https://zrain-monitor.web.app/" target="_blank" rel="noopener noreferrer" aria-label="Open Web App: Zrain Monitor">Open Web App <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+              <article class="product-entry">
+                <img class="app-mark app-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div class="app-copy"><strong>Zrain UI</strong><small>Shared design system and UI components for Zrain products.</small></div>
+                <div class="product-actions">
+                  <a class="item-cta product-action product-action-primary" href="https://github.com/zrain03/zrain-ui" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub: Zrain UI">View on GitHub <span aria-hidden="true">↗</span></a>
+                  <a class="item-cta product-action product-action-secondary" href="/zrain-ui-showcase.html" target="_blank" rel="noopener noreferrer" aria-label="View Showcase: Zrain UI">View Showcase <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
             </div>
           </section>
 
@@ -136,17 +150,21 @@
                 <span class="icon-tile icon-sage" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 .3l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7-.3l-2 2a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>
                 </span>
-                <div><p class="bento-eyebrow">EVERYDAY USE</p><h3 id="services-title">Online Services</h3></div>
+                <div><p class="bento-eyebrow">USEFUL WHEN NEEDED</p><h3 id="services-title">Online Services</h3></div>
               </div>
               <span class="count-pill">01 SERVICE</span>
             </div>
-            <p class="bento-desc">Small tools that solve everyday tasks without unnecessary complexity.</p>
-            <button class="product-item product-button" type="button" data-console="zrain-links" aria-label="Open Zrain Links in Zrain Console">
-              <img class="app-mark app-icon brand-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
-              <span class="app-copy"><strong>Zrain Links</strong><small>Custom links, QR preview and visits links</small></span>
-              <span class="item-cta">Open app <span aria-hidden="true">↗</span></span>
-            </button>
-            <p class="service-subtext">Explore the live service without leaving Zrain.</p>
+            <p class="bento-desc">Useful web services for specific tasks, available whenever you need them.</p>
+            <div id="services-products" class="product-list">
+              <article class="product-entry">
+                <img class="app-mark app-icon" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div class="app-copy"><strong>Zrain Links</strong><small>Create custom short links, QR previews and visits links.</small></div>
+                <div class="product-actions">
+                  <a class="item-cta product-action product-action-primary" href="https://zrain-links.web.app/" target="_blank" rel="noopener noreferrer" aria-label="Open Web App: Zrain Links">Open Web App <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </div>
+            <p class="service-subtext">Open these services whenever you need them.</p>
           </section>
 
           <section class="bento-card vision-card" aria-labelledby="vision-title">

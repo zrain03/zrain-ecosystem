@@ -39,14 +39,15 @@ test('directory shows real applications only, with no placeholder projects',asyn
   for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
   assert.equal(Object.keys(PRODUCTS).length,6);
   for(const [id,p] of Object.entries(PRODUCTS)){
-    assert.match(html,new RegExp(`data-console="${id}"`));
+    if (p.kind === 'mobile') assert.match(html,new RegExp(`data-console="${id}"`));
     assert.ok(p.webUrl.startsWith('https://'));
     assert.ok(p.icon.startsWith('/'));
   }
-  assert.match(html, /data-console="zrain-ui"/);
-  assert.match(html, /data-console="zrain-monitor"/);
-  assert.match(html, /03 TOOLS/);
-  assert.match(html, /data-console="zrain-monitor"/);
+  assert.match(html,/href="https:\/\/github\.com\/zrain03\/zrain-auth-starter"/);
+  assert.match(html,/href="https:\/\/github\.com\/zrain03\/zrain-ui"/);
+  assert.match(html,/href="https:\/\/zrain-monitor\.web\.app\/"/);
+  assert.match(html,/href="https:\/\/zrain-links\.web\.app\/"/);
+  assert.match(html,/03 TOOLS/);
   assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
   assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
 });
@@ -233,7 +234,7 @@ test('view controls are always visible in the Console header even when info bar 
   assert.doesNotMatch(info.slice(0,info.indexOf('console-stage')), /id="console-desktop"/);
   assert.match(css,/\.console-toolbar\s*\{\s*display: grid;/);
   assert.match(css,/@media \(max-height: 570px\)\s*\{[^}]*\.console-toolbar \.console-view-switch\s*\{\s*display: inline-flex;/);
-  assert.match(html,/style\.css\?v=ecosystem-4\.1\.5/);
+  assert.match(html,/style\.css\?v=ecosystem-4\.1\.7/);
 });
 
 
