@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#fffaf6">
+  <title>Zrain Admin | Ecosystem Management</title>
+  <link rel="icon" href="/zrain-logo.webp" type="image/webp">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
+  <link rel="stylesheet" href="/admin/admin.css?v=2">
+  <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
+  <script type="module" src="/admin/admin.js?v=2"></script>
+</head>
+<body>
+  <header class="zrain-header">
+    <div class="zrain-header__inner">
+      <div class="zrain-brand">
+        <a class="zrain-brand__home" href="https://zrain.web.app/" aria-label="Zrain Ecosystem home">
+          <img class="zrain-brand__logo" src="/zrain-logo.webp" width="42" height="42" alt="">
+          <strong class="zrain-brand__name">Zrain</strong>
+        </a>
+        <span class="zrain-brand__product">Admin</span>
+      </div>
+      <a class="home-link" href="/">Back to Ecosystem ↗</a>
+    </div>
+  </header>
+  <main>
+    <section id="signin-section" class="login-panel" aria-labelledby="login-title">
+      <span class="eyebrow">ZRAIN / RESTRICTED ACCESS</span>
+      <h1 id="login-title">Administrator sign in<span class="period">.</span></h1>
+      <p class="muted">Use your authorized Zrain Ecosystem administrator account.</p>
+      <form id="signin-form" class="form-stack">
+        <label for="signin-email">Email</label>
+        <input required id="signin-email" name="email" type="email" autocomplete="username" maxlength="254">
+        <label for="signin-password">Password</label>
+        <input required id="signin-password" name="password" type="password" autocomplete="current-password">
+        <button id="signin-submit" class="primary" type="submit">Sign in securely</button>
+      </form>
+      <p id="signin-error" class="notice" role="alert" hidden></p>
+      <p class="tiny">Protected with Zrain Auth Starter · JWT · No public registration</p>
+    </section>
+    <section id="dashboard" class="dashboard" aria-labelledby="dashboard-title" hidden>
+      <div class="dashboard-heading">
+        <div>
+          <span class="eyebrow">ECOSYSTEM MANAGEMENT</span>
+          <h1 id="dashboard-title">Manage products<span class="period">.</span></h1>
+          <p class="muted">Draft, edit and publish your public product directory.</p>
+          <p class="tiny" id="admin-identity"></p>
+        </div>
+        <button id="signout" class="secondary" type="button">Sign out</button>
+      </div>
+      <p id="dashboard-notice" class="notice" role="status" hidden></p>
+      <div class="admin-grid">
+        <section class="panel" aria-labelledby="list-title">
+          <div class="section-title">
+            <div>
+              <h2 id="list-title">Your products</h2>
+              <p class="muted small">Manage what appears in the Zrain Ecosystem.</p>
+            </div>
+            <button id="new-product" type="button" class="secondary">+ Add product</button>
+          </div>
+          <div class="import-panel">
+            <strong>Already have products on Zrain?</strong>
+            <p class="muted small">Bring in all 6 existing Zrain products with their names, logos, descriptions, categories and links. They will be saved as drafts for you to review first.</p>
+            <button id="import-existing" class="secondary" type="button">Import the 6 existing products</button>
+            <p class="tiny">Safe to press again: existing entries will not be overwritten. This does not change the live website.</p>
+          </div>
+          <div id="product-list" class="product-list"><p class="muted">Loading products...</p></div>
+        </section>
+        <section class="panel" aria-labelledby="editor-title">
+          <h2 id="editor-title">Add a product</h2>
+          <p class="muted small">Fill in the essentials. We create the technical ID and button text for you.</p>
+          <form id="product-form" class="form-stack">
+            <label for="product-name">1. Product name</label>
+            <input id="product-name" required maxlength="100" placeholder="Example: FileFit">
+            <p class="field-help">The name visitors will see on the Zrain website.</p>
+
+            <label for="product-description">2. What does it do?</label>
+            <textarea id="product-description" required maxlength="300" rows="3" placeholder="Explain what visitors can use this product for."></textarea>
+            <p class="field-help">One short sentence is enough.</p>
+
+            <label for="product-category">3. Choose a category</label>
+            <select id="product-category">
+              <option value="GAMES">Games</option>
+              <option value="DEVELOPER_TOOLS">Developer Tools</option>
+              <option value="ONLINE_SERVICES">Online Services</option>
+              <option value="WEB_UTILITIES">Web Utilities</option>
+            </select>
+            <p class="field-help">The section where the product appears.</p>
+
+            <label for="product-logo-choice">4. Choose a logo</label>
+            <select id="product-logo-choice">
+              <option value="/zrain-logo.webp">Official Zrain logo</option>
+              <option value="/icons/guess-the-flag.webp">Guess The Flag logo</option>
+              <option value="/icons/memory-rush.webp">Memory Rush logo</option>
+              <option value="custom">Other logo URL</option>
+            </select>
+            <div id="custom-logo-wrap" hidden>
+              <label for="product-logo">Logo image URL or hosted path</label>
+              <input id="product-logo" maxlength="500" placeholder="https://.../logo.webp">
+              <p class="field-help">Direct image upload is not active yet. Use an image already hosted online.</p>
+            </div>
+            <div class="logo-preview">
+              <img id="logo-preview" src="/zrain-logo.webp" width="56" height="56" alt="Selected product logo preview">
+              <span class="tiny">Logo preview. Existing Zrain images are already available.</span>
+            </div>
+
+            <label for="product-action">5. What should the main button do?</label>
+            <select id="product-action">
+              <option value="CONSOLE">Play / open inside Zrain Console</option>
+              <option value="WEBSITE">Open a web app or website</option>
+              <option value="GITHUB">Open the GitHub repository / template</option>
+              <option value="PLAY_STORE">Open Google Play</option>
+              <option value="DOCUMENTATION">Open documentation</option>
+              <option value="SHOWCASE">Open a UI showcase</option>
+            </select>
+            <p class="field-help">For GitHub templates, choose GitHub. For playable web games, choose Zrain Console.</p>
+
+            <label for="product-url">6. Where does the button go?</label>
+            <input id="product-url" required type="url" maxlength="500" placeholder="https://...">
+            <p class="field-help">Paste the exact HTTPS address of the app, repository or store page.</p>
+
+            <details id="advanced-options" class="advanced">
+              <summary>Optional: second button and advanced settings</summary>
+              <div class="advanced-fields">
+                <label for="product-secondary-type">Another button (optional)</label>
+                <select id="product-secondary-type">
+                  <option value="NONE">No extra button</option>
+                  <option value="PLAY_STORE">Get on Google Play</option>
+                  <option value="GITHUB">View on GitHub</option>
+                  <option value="DEMO">Try Demo</option>
+                  <option value="SHOWCASE">View Showcase</option>
+                  <option value="DOCUMENTATION">View Documentation</option>
+                  <option value="WEBSITE">Open another website</option>
+                </select>
+                <div id="secondary-url-wrap" hidden>
+                  <label for="product-secondary-url">Link for the extra button</label>
+                  <input id="product-secondary-url" type="url" maxlength="500" placeholder="https://...">
+                </div>
+                <label for="product-label">Main button text (optional customization)</label>
+                <input id="product-label" maxlength="50" value="Play Now">
+                <p class="field-help">Example: Play Now, Open Web App or View on GitHub. We fill this automatically.</p>
+                <label for="product-slug">Internal product ID (automatic)</label>
+                <input id="product-slug" readonly required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*">
+                <p class="field-help">Created from the name. You do not need to edit it.</p>
+              </div>
+            </details>
+
+            <div class="product-preview" aria-live="polite">
+              <strong>How the product card will look</strong>
+              <div class="preview-line">
+                <img id="card-preview-logo" src="/zrain-logo.webp" width="46" height="46" alt="">
+                <div><strong id="preview-name">Your product name</strong><p id="preview-description">Your short description appears here.</p></div>
+              </div>
+              <span class="preview-button" id="preview-button">Play Now ↗</span>
+            </div>
+            <p class="field-help"><strong>Save as Draft</strong> keeps it private. After reviewing, press <strong>Publish</strong> on the product in your list. Products are placed automatically at the end of their category.</p>
+            <div class="form-actions">
+              <button type="submit" class="primary" id="save-product">Save as Draft</button>
+              <button type="button" class="secondary" id="reset-product">Clear</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="zrain-footer">
+    <div class="zrain-footer__inner">
+      <div class="zrain-footer__identity"><a class="zrain-footer__home" href="https://zrain.web.app/">
+        <img class="zrain-footer__logo" src="/zrain-logo.webp" width="38" height="38" alt="">
+        <span class="zrain-footer__copy"><strong>Developed by Zrain</strong><small>Made for people. Built with purpose.</small></span>
+      </a></div>
+      <div class="zrain-footer__links"><a href="/">Ecosystem</a><a href="mailto:zrain.dev@gmail.com">Support</a></div>
+    </div>
+  </footer>
+</body>
+</html>

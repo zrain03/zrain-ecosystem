@@ -438,3 +438,12 @@ body:has(.zrain-console[open]) { overflow: hidden; }
   .zrain-header .main-nav a { font-size: 12px; }
   .header-github { margin-left: auto; }
 }
+
+/* Secondary product destinations are shown beside the main card action. */
+.product-entry{display:grid;gap:5px}
+.product-entry>.product-item{margin-top:0}
+.product-secondary-link{justify-self:end;padding:4px 8px;color:#9b4d35;font-size:11px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.product-secondary-link:hover{color:#762e20}
+
+/* Visible only for the localhost development catalog preview. */
+.catalog-local-status{margin:0 0 18px;padding:12px 15px;border:1px solid #e7c7b7;border-radius:12px;background:#fff4ec;color:#8f422d;font-size:12px;font-weight:650;line-height:1.5}

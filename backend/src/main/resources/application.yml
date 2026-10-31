@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: zrain-ecosystem-api
+  profiles:
+    default: local
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+zrain:
+  jwt:
+    secret-base64: ${ZRAIN_JWT_SECRET_BASE64:}
+    issuer: zrain-ecosystem-admin
+    audience: zrain-ecosystem-api
+    access-minutes: 15
+  admin:
+    email: ${ZRAIN_ADMIN_EMAIL:}
+    password: ${ZRAIN_ADMIN_PASSWORD:}
+  allowed-origin: ${ZRAIN_ALLOWED_ORIGIN:https://zrain.web.app}
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
