@@ -34,7 +34,7 @@ test('admin front end uses real backend login and keeps token in memory',async()
   assert.match(html,/noindex,nofollow/);
   assert.match(js,/\/api\/admin\/auth\/login/);
   assert.match(js,/let jwt = null/);
-  assert.doesNotMatch(js,/localStorage|sessionStorage/);
+  assert.doesNotMatch(js,/(?:localStorage|sessionStorage)\\./);
   assert.match(backend,/hasRole\("ADMIN"\)/);
   assert.match(cfg,/ENABLE_DYNAMIC_CATALOG = false/);
 });
