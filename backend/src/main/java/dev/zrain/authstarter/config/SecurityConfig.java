@@ -35,7 +35,7 @@ public class SecurityConfig {
             try {
                 UUID id = UUID.fromString(jwt.getSubject());
                 return users.findById(id).filter(user -> user.getRole() == Role.ADMIN)
-                        .map(user -> List.of(new SimpleGrantedAuthority("ROLE_ADMIN")))
+                        .map(user -> List.<org.springframework.security.core.GrantedAuthority>of(new SimpleGrantedAuthority("ROLE_ADMIN")))
                         .orElseGet(List::of);
             } catch (IllegalArgumentException ex) {
                 return List.of();
