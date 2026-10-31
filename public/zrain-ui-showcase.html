@@ -26,8 +26,13 @@
     .tile { background:white; border:1px solid #ecded4; border-radius:16px; padding:23px; }
     .tile h2 { margin:0 0 10px; font-size:16px; letter-spacing:-.025em; }
     .tile p { margin:0; }
-    .swatches { display:flex; gap:10px; margin-top:14px; }
-    .swatch { flex:1; height:46px; border-radius:10px; border:1px solid rgba(20,25,30,.08); }
+    .swatches { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:14px; }
+    .swatch-item { margin:0; min-width:0; }
+    .swatch { display:block; height:46px; border-radius:10px; border:1px solid rgba(20,25,30,.10); }
+    .swatch-item figcaption { display:grid; gap:3px; margin-top:8px; color:#5f6b78; font-size:10px; }
+    .swatch-item strong { color:#172433; font-size:11px; }
+    .swatch-item code { font-size:11px; font-weight:700; color:#a2472e; user-select:all; }
+    @media(max-width:360px){ .swatches {grid-template-columns:repeat(2,minmax(0,1fr));} }
     .small { font-size:11px; }
     @media(max-width:560px){ .tiles {grid-template-columns:1fr;} .showcase {padding-top:22px;} }
   </style>
@@ -48,7 +53,12 @@
       <section class="tile"><h2>Shared branding</h2><p>One logo, compact product header and consistent developer footer.</p></section>
       <section class="tile"><h2>Independent applications</h2><p>Reusable identity without combining user accounts, services or application data.</p></section>
       <section class="tile"><h2>Typography & spacing</h2><p>Readable Inter typography, generous spacing and responsive interface patterns.</p></section>
-      <section class="tile"><h2>Muted Zrain palette</h2><p>Warm surfaces, terracotta accents and restrained supporting colors.</p><div class="swatches" aria-label="Zrain palette samples"><span class="swatch" style="background:#fffaf6"></span><span class="swatch" style="background:#172433"></span><span class="swatch" style="background:#b95136"></span><span class="swatch" style="background:#e6f1ec"></span></div></section>
+      <section class="tile"><h2>Muted Zrain palette</h2><p>Warm surfaces, terracotta accents and restrained supporting colors.</p><div class="swatches" aria-label="Zrain palette with exact HEX color values">
+        <figure class="swatch-item"><span class="swatch" style="background:#fffaf6" aria-hidden="true"></span><figcaption><strong>Warm Surface</strong><code>#FFFAF6</code></figcaption></figure>
+        <figure class="swatch-item"><span class="swatch" style="background:#172433" aria-hidden="true"></span><figcaption><strong>Deep Navy</strong><code>#172433</code></figcaption></figure>
+        <figure class="swatch-item"><span class="swatch" style="background:#b95136" aria-hidden="true"></span><figcaption><strong>Terracotta</strong><code>#B95136</code></figcaption></figure>
+        <figure class="swatch-item"><span class="swatch" style="background:#e6f1ec" aria-hidden="true"></span><figcaption><strong>Soft Mint</strong><code>#E6F1EC</code></figcaption></figure>
+      </div></section>
     </div>
     <p class="small">This page demonstrates the current Zrain UI branding. For source code, installation and maintenance, use the official GitHub repository.</p>
   </main>
