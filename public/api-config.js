@@ -1,4 +1,5 @@
-// Set this once after the Java Admin API is hosted and verified.
-// Leave blank to preserve the existing static website and disable admin sign-in.
-export const API_BASE_URL = "";
+// Production is disabled until the actual backend deployment and 6-product migration are verified.
+// Local development uses a Java API at http://localhost:8080, never a production HTTP origin.
+const LOCAL = typeof location !== "undefined" && ["localhost", "127.0.0.1"].includes(location.hostname);
+export const API_BASE_URL = LOCAL ? "http://localhost:8080" : "";
 export const ENABLE_DYNAMIC_CATALOG = false;
