@@ -19,7 +19,10 @@ function actionLink(product, secondary = false) {
     action.type = "button";
     action.dataset.console = product.slug;
   } else {
-    action.href = url;
+    // On localhost, preview the actual local Zrain UI page instead of the old live version.
+    const local = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    action.href = local && url === "https://zrain.web.app/zrain-ui-showcase.html"
+      ? "/zrain-ui-showcase.html" : url;
     action.target = "_blank";
     action.rel = "noopener noreferrer";
   }

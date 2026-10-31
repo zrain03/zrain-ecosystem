@@ -88,3 +88,12 @@ test('Zrain UI showcase displays exact hexadecimal codes under every swatch', as
   }
   assert.equal((page.match(/class="swatch-item"/g)||[]).length, 4);
 });
+
+test('local showcase action previews local HEX palette instead of old live page', async () => {
+  const [html, client] = await Promise.all([
+    read('../public/index.html'),
+    read('../public/product-directory.js')
+  ]);
+  assert.match(html, /href="\\/zrain-ui-showcase\\.html"/);
+  assert.match(client, /url === "https:\\/\\/zrain\\.web\\.app\\/zrain-ui-showcase\\.html"/);
+});
