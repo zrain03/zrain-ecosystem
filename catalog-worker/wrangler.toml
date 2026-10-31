@@ -1,0 +1,8 @@
+name = "zrain-ecosystem-catalog"
+main = "src/index.js"
+compatibility_date = "2026-10-29"
+workers_dev = true
+
+[[r2_buckets]]
+binding = "ZRAIN_ASSETS"
+bucket_name = "zrain-ecosystem-catalog"
