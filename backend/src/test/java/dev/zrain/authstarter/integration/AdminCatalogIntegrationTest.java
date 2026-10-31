@@ -165,7 +165,7 @@ class AdminCatalogIntegrationTest {
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(form().replace("\"category\":\"WEB_UTILITIES\"", "\"category\":\"GAMES\"")
-                        .replace(",\n                  \"sortOrder\":1", "")))
+                        .replace("\"sortOrder\":1", "\"sortOrder\":null")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.sortOrder").value(30))
                 .andReturn().getResponse().getContentAsString();
@@ -176,7 +176,7 @@ class AdminCatalogIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(form().replace("\"category\":\"WEB_UTILITIES\"", "\"category\":\"GAMES\"")
                         .replace("Sample App", "Updated App")
-                        .replace(",\n                  \"sortOrder\":1", "")))
+                        .replace("\"sortOrder\":1", "\"sortOrder\":null")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.sortOrder").value(30));
     }

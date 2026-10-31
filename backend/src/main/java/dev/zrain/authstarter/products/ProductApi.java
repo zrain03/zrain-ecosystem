@@ -53,7 +53,10 @@ public class ProductApi {
     public Product edit(@PathVariable UUID id, @Valid @RequestBody ProductInput input) {
         if (products.existsBySlugAndIdNot(input.slug(), id)) throw new ResponseStatusException(HttpStatus.CONFLICT, "Slug is already in use.");
         Product product = require(id);
+        int newPosition = product.getCategory() == input.category() ? product.getSortOrder()
+                : nextPosition(input.category());
         product.update(input);
+        product.setSortOrder(newPosition);
         return products.saveAndFlush(product);
     }
     @PostMapping("/api/admin/products/{id}/publish")

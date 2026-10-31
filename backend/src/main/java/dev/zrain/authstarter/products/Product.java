@@ -47,6 +47,7 @@ public class Product {
         status = Status.DRAFT;
         createdAt = Instant.now();
         update(input);
+        this.sortOrder = input.sortOrder() == null ? 0 : input.sortOrder();
     }
     public void update(ProductInput input) {
         this.slug = input.slug().strip();
@@ -60,7 +61,6 @@ public class Product {
         this.secondaryLabel = input.secondaryLabel() == null || input.secondaryLabel().isBlank() ? null : input.secondaryLabel().strip();
         this.secondaryUrl = input.secondaryUrl() == null || input.secondaryUrl().isBlank() ? null : ProductInput.safeUrl(input.secondaryUrl());
         if ((secondaryLabel == null) != (secondaryUrl == null)) throw new IllegalArgumentException("Secondary label and URL must both be supplied.");
-        if (input.sortOrder() != null) this.sortOrder = input.sortOrder();
         this.updatedAt = Instant.now();
     }
     public UUID getId() { return id; }
