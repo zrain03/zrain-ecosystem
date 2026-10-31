@@ -9,9 +9,9 @@
   <link rel="icon" href="/zrain-logo.webp" type="image/webp">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/admin/admin.css?v=2">
+  <link rel="stylesheet" href="/admin/admin.css?v=3">
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
-  <script type="module" src="/admin/admin.js?v=2"></script>
+  <script type="module" src="/admin/admin.js?v=3"></script>
 </head>
 <body>
   <header class="zrain-header">
@@ -52,6 +52,10 @@
         <button id="signout" class="secondary" type="button">Sign out</button>
       </div>
       <p id="dashboard-notice" class="notice" role="status" hidden></p>
+      <div class="catalog-sync-bar">
+        <span>Published products are synced to the public catalog automatically.</span>
+        <button id="sync-catalog" type="button" class="secondary">Retry website sync</button>
+      </div>
       <div class="admin-grid">
         <section class="panel" aria-labelledby="list-title">
           <div class="section-title">
@@ -99,7 +103,13 @@
             <div id="custom-logo-wrap" hidden>
               <label for="product-logo">Logo image URL or hosted path</label>
               <input id="product-logo" maxlength="500" placeholder="https://.../logo.webp">
-              <p class="field-help">Direct image upload is not active yet. Use an image already hosted online.</p>
+              <p class="field-help">You may also upload a new image below (PNG, JPG or WebP).</p>
+            </div>
+            <div class="logo-upload-field">
+              <label for="product-logo-file">Upload logo from your computer (optional)</label>
+              <input id="product-logo-file" type="file" accept="image/png,image/jpeg,image/webp">
+              <button id="upload-logo" type="button" class="secondary">Upload selected image</button>
+              <p class="field-help">Maximum 2 MB. The uploaded URL is filled in automatically.</p>
             </div>
             <div class="logo-preview">
               <img id="logo-preview" src="/zrain-logo.webp" width="56" height="56" alt="Selected product logo preview">
