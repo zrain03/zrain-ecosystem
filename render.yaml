@@ -5,7 +5,8 @@ services:
     region: singapore
     plan: free
     rootDir: backend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /api/health
     autoDeployTrigger: off
     envVars:
@@ -20,7 +21,7 @@ services:
       - key: JDBC_DATABASE_PASSWORD
         sync: false
       - key: ZRAIN_JWT_SECRET_BASE64
-        sync: false
+        generateValue: true
       - key: ZRAIN_ADMIN_EMAIL
         sync: false
       - key: ZRAIN_ADMIN_PASSWORD
