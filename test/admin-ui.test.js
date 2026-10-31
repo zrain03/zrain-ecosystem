@@ -44,7 +44,7 @@ test('all six fallback product cards contain their actions inside one outline', 
     read('../public/style.css'),
     read('../public/product-directory.js')
   ]);
-  const cards = [...html.matchAll(/<article class="product-entry">([\\s\\S]*?)<\\/article>/g)].map(x => x[1]);
+  const cards = [...html.matchAll(/<article class="product-entry">([\s\S]*?)<\/article>/g)].map(x => x[1]);
   assert.equal(cards.length, 6);
   for (const name of ['Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain Monitor', 'Zrain UI', 'Zrain Links']) {
     assert.equal(cards.filter(card => card.includes('<strong>' + name + '</strong>')).length, 1, name);
@@ -56,9 +56,9 @@ test('all six fallback product cards contain their actions inside one outline', 
     assert.match(card, /product-action-secondary/);
     assert.match(card, /<a class="item-cta product-action product-action-secondary"/);
   }
-  assert.match(css, /\\.product-entry\\{display:grid/);
-  assert.match(css, /\\.product-actions\\{display:flex/);
-  assert.match(js, /card\\.append\\(image, copy, actions\\)/);
+  assert.match(css, /\.product-entry\{display:grid/);
+  assert.match(css, /\.product-actions\{display:flex/);
+  assert.match(js, /card\.append\(image, copy, actions\)/);
   assert.doesNotMatch(js, /product-secondary-link|utilitiesRoot/);
 });
 
@@ -68,8 +68,8 @@ test('legacy Web Utilities shares the Online Services section, and copy matches 
     read('../public/index.html'),
     read('../public/admin/index.html')
   ]);
-  assert.match(directory, /product\\.category === "WEB_UTILITIES" \\? "ONLINE_SERVICES"/);
-  assert.doesNotMatch(directory, /createElement\\("section"\\)/);
+  assert.match(directory, /product\.category === "WEB_UTILITIES" \? "ONLINE_SERVICES"/);
+  assert.doesNotMatch(directory, /createElement\("section"\)/);
   assert.match(home, /USEFUL WHEN NEEDED/);
   assert.match(home, /Open these services whenever you need them/);
   assert.doesNotMatch(home, /EVERYDAY USE/);
