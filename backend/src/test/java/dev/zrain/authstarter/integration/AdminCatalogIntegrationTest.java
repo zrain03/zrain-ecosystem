@@ -123,4 +123,62 @@ class AdminCatalogIntegrationTest {
         mvc.perform(get("/api/admin/products").header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden());
     }
+    @Test
+    void importExistingSixAsDraftsWithoutOverwritingAnything() throws Exception {
+        mvc.perform(post("/api/admin/products/import-existing"))
+                .andExpect(status().isUnauthorized());
+        String token = login();
+
+        mvc.perform(post("/api/admin/products/import-existing").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.added").value(6))
+                .andExpect(jsonPath("$.skipped").value(0))
+                .andExpect(jsonPath("$.totalAvailable").value(6));
+
+        assertEquals(6, products.count());
+        mvc.perform(get("/api/products")).andExpect(jsonPath("$.length()").value(0));
+
+        var bySlug = products.findAll().stream()
+                .collect(java.util.stream.Collectors.toMap(p -> p.getSlug(), p -> p));
+        assertEquals("https://github.com/zrain03/zrain-auth-starter", bySlug.get("zrain-auth-starter").getPrimaryUrl());
+        assertEquals("View on GitHub", bySlug.get("zrain-ui").getPrimaryLabel());
+        assertEquals("https://play.google.com/store/apps/details?id=com.zrain.memoryrush",
+                bySlug.get("memory-rush").getSecondaryUrl());
+        assertEquals(10, bySlug.get("guess-the-flag").getSortOrder());
+        assertEquals(20, bySlug.get("memory-rush").getSortOrder());
+        for (var item : bySlug.values()) assertEquals(dev.zrain.authstarter.products.Product.Status.DRAFT, item.getStatus());
+
+        mvc.perform(post("/api/admin/products/import-existing").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.added").value(0))
+                .andExpect(jsonPath("$.skipped").value(6));
+        assertEquals(6, products.count());
+    }
+
+    @Test
+    void productOrderIsGeneratedAndRemainsStableWhenEditing() throws Exception {
+        String token = login();
+        mvc.perform(post("/api/admin/products/import-existing").header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+
+        String body = mvc.perform(post("/api/admin/products")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(form().replace("\"category\":\"WEB_UTILITIES\"", "\"category\":\"GAMES\"")
+                        .replace(",\n                  \"sortOrder\":1", "")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.sortOrder").value(30))
+                .andReturn().getResponse().getContentAsString();
+        String id = mapper.readTree(body).get("id").stringValue();
+
+        mvc.perform(put("/api/admin/products/" + id)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(form().replace("\"category\":\"WEB_UTILITIES\"", "\"category\":\"GAMES\"")
+                        .replace("Sample App", "Updated App")
+                        .replace(",\n                  \"sortOrder\":1", "")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.sortOrder").value(30));
+    }
+
 }
