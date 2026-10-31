@@ -17,7 +17,7 @@ export function safeLogoUrl(value) {
 export function normalizeCatalog(rows) {
   if (!Array.isArray(rows)) throw new Error("Catalog response must be an array");
   const ids = new Set();
-  return rows.map(row => {
+  return rows.filter(row => row?.status === "PUBLISHED").map(row => {
     if (!row || row.status !== "PUBLISHED" || typeof row.slug !== "string" ||
         !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(row.slug) || ids.has(row.slug) ||
         !CATEGORIES.has(row.category) || !ACTIONS.has(row.primaryAction) ||
