@@ -1,6 +1,6 @@
 # Zrain Ecosystem Admin — Zero-billing release gate
 
-**Status: NOT DEPLOYED.** Code may be prepared and tested, but never claim `zrain.web.app/admin` is live before verifying its real URL and login.
+**Status: Cloudflare Worker deployed by the user on 1 November 2026; frontend NOT DEPLOYED.** Worker origin: `https://zrain-ecosystem-catalog.zrain-dev.workers.dev`. Health, readiness, authenticated login and Spark plan must still be verified before deploying Firebase. Do not claim `zrain.web.app/admin` is live yet.
 
 ## Hard requirement: no possibility of usage charges
 

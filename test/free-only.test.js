@@ -27,7 +27,7 @@ test('zero-billing production path excludes R2 and Render', async () => {
 
 test('Free-only public catalog stays behind an explicit one-time endpoint configuration', async () => {
   const config = await read('../public/api-config.js');
-  assert.match(config, /const PRODUCTION_API_URL = ""/);
+  assert.match(config, /const PRODUCTION_API_URL = "https:\/\/zrain-ecosystem-catalog\.zrain-dev\.workers\.dev"/);
   assert.match(config, /const PRODUCTION_CATALOG_URL = ""/);
   assert.match(config, /ENABLE_DYNAMIC_CATALOG = Boolean\(PUBLIC_CATALOG_URL\)/);
 });
