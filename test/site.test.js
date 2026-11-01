@@ -359,3 +359,18 @@ test('the public Console project page is discoverable and launches real producti
   assert.match(client,/Object\.prototype\.hasOwnProperty\.call\(PRODUCTS, requestedDemo\)/);
   assert.doesNotMatch(client,/frame\.src = requestedDemo/);
 });
+
+test('public Console project export preserves the existing production app',async()=>{
+  const [script,readme,arch] = await Promise.all([
+    read('../scripts/publish-zrain-console-repo.ps1'),
+    read('../projects/zrain-console/README.md'),
+    read('../projects/zrain-console/ARCHITECTURE.md')
+  ]);
+  assert.match(script,/Copy-Item -LiteralPath \(Join-Path \$root "public\\zrain-console\.js"\)/);
+  assert.match(script,/Copy-Item -LiteralPath \(Join-Path \$root "public\\console-products\.js"\)/);
+  assert.match(script,/gh repo create zrain03\/zrain-console --public/);
+  assert.match(script,/if \(Test-Path \$destination\)/);
+  assert.doesNotMatch(script,/git clean|git reset --hard|--force-with-lease/);
+  assert.match(readme,/source-code snapshot/);
+  assert.match(arch,/frontend viewing layer/);
+});
