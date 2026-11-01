@@ -21,7 +21,7 @@ services:
       - key: JDBC_DATABASE_PASSWORD
         sync: false
       - key: ZRAIN_JWT_SECRET_BASE64
-        generateValue: true
+        sync: false
       - key: ZRAIN_ADMIN_EMAIL
         sync: false
       - key: ZRAIN_ADMIN_PASSWORD

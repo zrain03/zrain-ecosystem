@@ -126,14 +126,15 @@ function closeConsole() {
   if (dialog.open) dialog.close();
 }
 
-for (const control of document.querySelectorAll("[data-console]")) {
+// Static actions are registered directly; delegated clicks only handle new cards.
+// This prevents duplicate open events when the original buttons are clicked.
+const staticControls = new Set(document.querySelectorAll("[data-console]"));
+for (const control of staticControls) {
   control.addEventListener("click", () => openConsole(control.dataset.console, control));
 }
-
-// Delegation supports product cards added after the page loads.
 document.addEventListener("click", event => {
   const trigger = event.target?.closest?.("[data-console]");
-  if (trigger) openConsole(trigger.dataset.console, trigger);
+  if (trigger && !staticControls.has(trigger)) openConsole(trigger.dataset.console, trigger);
 });
 
 mobileButton.addEventListener("click", () => setView("mobile"));

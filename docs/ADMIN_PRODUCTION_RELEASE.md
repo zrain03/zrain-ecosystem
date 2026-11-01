@@ -50,6 +50,8 @@ Store the matching database username and password securely. Do not commit creden
 
 ## C. Render Java API
 
+Render requires `ZRAIN_JWT_SECRET_BASE64` as **Base64 of at least 32 cryptographically random bytes**. Do not choose Render generic `generateValue` for this parameter: its generated text may not decode into a 32-byte signing key. Generate a Base64 signing key locally and enter it directly into the Render secret editor; never share it in chat or commit it.
+
 In Render, create the new service using `render.yaml` on the intended branch, or configure Docker manually with:
 
 - Project repository: `zrain03/zrain-ecosystem`

@@ -16,3 +16,16 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run ui:sync
       - run: npm run test:release
+      - name: Validate PowerShell deployment script syntax
+        shell: pwsh
+        run: |
+          $errorsFound = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path (Get-Location) 'deploy.ps1'),
+            [ref]$null,
+            [ref]$errorsFound
+          )
+          if ($errorsFound.Count -gt 0) {
+            $errorsFound | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
