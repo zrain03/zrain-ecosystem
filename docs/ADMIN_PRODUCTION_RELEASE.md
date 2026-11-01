@@ -3,6 +3,15 @@
 This is a release checklist, not a claim that production has been deployed.
 Every source remains under `zrain-ecosystem`. The original Zrain Auth Starter repository is unchanged.
 
+## Provisioned infrastructure (1 November 2026)
+
+- **Neon PostgreSQL project CREATED**: `zrain-ecosystem` (`cool-snow-27258730`).
+- Default branch: `main` (`br-winter-cake-a11mxg6d`).
+- Database: `zrain_ecosystem`, PostgreSQL 17, Singapore (`aws-ap-southeast-1`).
+- Verified with a read-only SQL query. No application schema or admin accounts have been migrated yet.
+- Neon credentials were **not** committed. The backend service is not yet deployed.
+- Cloudflare R2 and Render service configuration remain outstanding.
+
 ## Validated
 
 - Java Spring Boot 4.1.2 / Java 21 JWT Admin API and role protection.
