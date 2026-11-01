@@ -16,7 +16,7 @@ Every source remains under `zrain-ecosystem`. The original Zrain Auth Starter re
 
 1. **Cloudflare**: R2 must be activated for the account. Use the existing Cloudflare account, but create a NEW bucket dedicated to this project: `zrain-ecosystem-catalog`. R2 usage has provider limits/terms.
 2. **PostgreSQL**: Create a persistent **separate** Neon PostgreSQL database for Zrain Ecosystem. Do not reuse Zrain Links or other apps' databases; do not use Render Free Postgres, which expires after 30 days.
-3. **Render**: Create a NEW Free Web Service with this repo on the intended release branch, root `backend`, Dockerfile `backend/Dockerfile`, Docker context `backend`; the `render.yaml` Blueprint documents the intended configuration.
+3. **Render**: Create a NEW Free Web Service with this repo on the intended release branch, repository root as Render service root, Dockerfile `backend/Dockerfile`, Docker context `backend`; the `render.yaml` Blueprint documents the intended configuration.
 4. **Firebase**: An authenticated Firebase CLI is needed on the user's computer for the final production Hosting deploy. GitHub merges do not publish Firebase Hosting by themselves.
 
 Do not put credentials or password values into GitHub, chat, logs, or committed files.
@@ -55,7 +55,8 @@ Render requires `ZRAIN_JWT_SECRET_BASE64` as **Base64 of at least 32 cryptograph
 In Render, create the new service using `render.yaml` on the intended branch, or configure Docker manually with:
 
 - Project repository: `zrain03/zrain-ecosystem`
-- Root directory/build context: `backend`
+- Service root directory: repository root (leave Root Directory blank)
+- Docker build context: `backend`
 - Dockerfile path (from repo root): `backend/Dockerfile`
 - Plan: Free; region: Singapore
 - Health check: `/api/health`
