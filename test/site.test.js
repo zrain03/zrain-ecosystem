@@ -12,6 +12,12 @@ test('official Zrain UI remains pinned, and deploys only to Hosting site zrain',
   assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#fec7b1fe5deab157bdadf0af19d9384b1dc418f0');
   assert.equal(JSON.parse(fb).hosting.site,'zrain');
   assert.equal(JSON.parse(fb).hosting.public,'public');
+  // The UI showcase shares zrain.web.app with Zrain Console: allow only
+  // same-origin embedding; third-party sites must remain blocked.
+  const commonHeaders=JSON.parse(fb).hosting.headers
+    .find(rule=>rule.source==="**").headers;
+  const framePolicy=commonHeaders.find(header=>header.key==="X-Frame-Options");
+  assert.equal(framePolicy.value,"SAMEORIGIN");
   assert.match(deploy,/\$ProjectId -ne 'zrain-ecosystem'/);
   assert.match(deploy,/hosting:sites:get zrain/);
   assert.match(deploy,/npm run test:release/);
