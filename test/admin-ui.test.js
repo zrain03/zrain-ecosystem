@@ -98,13 +98,12 @@ test('local showcase action previews local HEX palette instead of old live page'
   assert.match(client, /url === "https:\/\/zrain\.web\.app\/zrain-ui-showcase\.html"/);
 });
 
-test('Admin publishing and logo upload only use authenticated API',async()=>{
-  const [html,code]=await Promise.all([read('../public/admin/index.html'),read('../public/admin/admin.js')]);
+test('Admin catalog publishing uses authenticated API and provides free-tier logos',async()=>{
+  const [html,code] = await Promise.all([read('../public/admin/index.html'),read('../public/admin/admin.js')]);
   assert.match(html,/id="sync-catalog"/);
-  assert.match(html,/id="upload-logo"/);
-  assert.match(html,/id="product-logo-file"/);
   assert.match(code,/\/api\/admin\/catalog\/sync/);
-  assert.match(code,/\/api\/admin\/catalog\/logo/);
-  assert.match(code,/new FormData\(\)/);
+  assert.doesNotMatch(code,/\/api\/admin\/catalog\/logo|new FormData\(\)/);
+  assert.doesNotMatch(html,/id="product-logo-file"|id="upload-logo"/);
+  assert.match(html,/Direct upload is unavailable on the zero-billing plan/);
   assert.match(code,/publishedBefore \? await syncWebsite\(\)/);
 });

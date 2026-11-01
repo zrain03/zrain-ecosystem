@@ -13,8 +13,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
-import java.util.Locale;
 
 @Service
 public class CatalogPublisher {
@@ -68,7 +66,6 @@ public class CatalogPublisher {
         }
     }
     public record SyncResult(int published, boolean success) {}
-    public record UploadResult(String url) {}
 
     public SyncResult publish() {
         var published = products.findByStatusOrderBySortOrderAscNameAsc(Product.Status.PUBLISHED)
@@ -79,28 +76,6 @@ public class CatalogPublisher {
                 .PUT(HttpRequest.BodyPublishers.ofString(data)).build();
         send(req);
         return new SyncResult(published.size(), true);
-    }
-
-    public UploadResult upload(byte[] bytes, String contentType) {
-        if (bytes == null || bytes.length == 0 || bytes.length > 2_000_000)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image must be under 2 MB.");
-        if (contentType == null ||
-                !List.of("image/png", "image/jpeg", "image/webp")
-                    .contains(contentType.toLowerCase(Locale.ROOT)))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose PNG, JPEG or WebP.");
-        HttpRequest req = request("/api/media")
-                .header("Content-Type", contentType)
-                .POST(HttpRequest.BodyPublishers.ofByteArray(bytes)).build();
-        String response = send(req);
-        try {
-            String url = json.readTree(response).get("url").asText();
-            URI result = URI.create(url);
-            if (!result.toString().startsWith(worker.toString() + "/api/media/"))
-                throw new IllegalArgumentException("Untrusted returned media URL");
-            return new UploadResult(result.toString());
-        } catch (RuntimeException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Invalid media response.");
-        }
     }
 
     private String send(HttpRequest request) {

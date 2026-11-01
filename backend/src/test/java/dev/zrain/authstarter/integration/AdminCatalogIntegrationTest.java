@@ -182,7 +182,7 @@ class AdminCatalogIntegrationTest {
     }
 
     @Test
-    void catalogSyncAndLogoUploadRequireAdminAndProductionStorage() throws Exception {
+    void catalogSyncRequiresAdminAndConfiguredStorage() throws Exception {
         mvc.perform(get("/api/health"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("ok"));
         mvc.perform(post("/api/admin/catalog/sync"))

@@ -60,7 +60,7 @@ async function request(path, options = {}) {
     ...options,
     headers: {
       Accept: "application/json",
-      ...(options.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
+      ...(options.body ? { "Content-Type": "application/json" } : {}),
       ...(jwt ? { Authorization: "Bearer " + jwt } : {}),
       ...options.headers
     }
@@ -137,28 +137,7 @@ byId("sync-catalog").addEventListener("click", async () => {
   } finally { button.disabled = false; }
 });
 
-byId("upload-logo").addEventListener("click", async () => {
-  const input = byId("product-logo-file");
-  const button = byId("upload-logo");
-  if (!input.files.length) return showNotice(byId("dashboard-notice"), "Choose an image first.");
-  const file = input.files[0];
-  if (file.size > 2_000_000 || !["image/png","image/jpeg","image/webp"].includes(file.type)) {
-    return showNotice(byId("dashboard-notice"), "Upload a PNG, JPG or WebP image under 2 MB.");
-  }
-  const body = new FormData();
-  body.append("file", file);
-  button.disabled = true;
-  try {
-    const media = await request("/api/admin/catalog/logo", { method: "POST", body });
-    if (!safeHttpsUrl(media.url)) throw new Error("Invalid image URL returned.");
-    inputs.logoChoice.value = "custom";
-    inputs.customLogo.value = media.url;
-    syncPreview();
-    showNotice(byId("dashboard-notice"), "Logo uploaded. Save the product to keep this image.");
-  } catch (error) {
-    showNotice(byId("dashboard-notice"), error.message);
-  } finally { button.disabled = false; }
-});
+
 byId("new-product").addEventListener("click", () => {
   resetForm();
   byId("product-name").focus();

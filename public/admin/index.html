@@ -9,9 +9,9 @@
   <link rel="icon" href="/zrain-logo.webp" type="image/webp">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/admin/admin.css?v=3">
+  <link rel="stylesheet" href="/admin/admin.css?v=4">
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
-  <script type="module" src="/admin/admin.js?v=3"></script>
+  <script type="module" src="/admin/admin.js?v=4"></script>
 </head>
 <body>
   <header class="zrain-header">
@@ -103,13 +103,7 @@
             <div id="custom-logo-wrap" hidden>
               <label for="product-logo">Logo image URL or hosted path</label>
               <input id="product-logo" maxlength="500" placeholder="https://.../logo.webp">
-              <p class="field-help">You may also upload a new image below (PNG, JPG or WebP).</p>
-            </div>
-            <div class="logo-upload-field">
-              <label for="product-logo-file">Upload logo from your computer (optional)</label>
-              <input id="product-logo-file" type="file" accept="image/png,image/jpeg,image/webp">
-              <button id="upload-logo" type="button" class="secondary">Upload selected image</button>
-              <p class="field-help">Maximum 2 MB. The uploaded URL is filled in automatically.</p>
+              <p class="field-help">Choose an existing logo or enter a previously hosted HTTPS image URL. Direct upload is unavailable on the zero-billing plan.</p>
             </div>
             <div class="logo-preview">
               <img id="logo-preview" src="/zrain-logo.webp" width="56" height="56" alt="Selected product logo preview">
