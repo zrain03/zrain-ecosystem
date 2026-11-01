@@ -7,3 +7,6 @@ workers_dev = true
 # Run 'npx wrangler kv namespace create ZRAIN_CATALOG --update-config'
 # on the user's already authenticated computer to add the generated binding ID.
 # Do not enable Workers Paid or R2.
+
+[vars]
+ZRAIN_ALLOWED_ORIGIN = "https://zrain.web.app"

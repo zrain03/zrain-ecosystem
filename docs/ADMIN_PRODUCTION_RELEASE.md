@@ -1,123 +1,62 @@
-# Zrain Ecosystem Admin — Production release
+# Zrain Ecosystem Admin — Zero-billing release gate
 
-This is a release checklist, not a claim that production has been deployed.
-Every source remains under `zrain-ecosystem`. The original Zrain Auth Starter repository is unchanged.
+**Status: NOT DEPLOYED.** Code may be prepared and tested, but never claim `zrain.web.app/admin` is live before verifying its real URL and login.
 
-## Provisioned infrastructure (1 November 2026)
+## Hard requirement: no possibility of usage charges
 
-- **Neon PostgreSQL project CREATED**: `zrain-ecosystem` (`cool-snow-27258730`).
-- Default branch: `main` (`br-winter-cake-a11mxg6d`).
-- Database: `zrain_ecosystem`, PostgreSQL 17, Singapore (`aws-ap-southeast-1`).
-- Verified with a read-only SQL query. No application schema or admin accounts have been migrated yet.
-- Neon credentials were **not** committed. The backend service is not yet deployed.
-- Cloudflare R2 and Render service configuration remain outstanding.
+The production path uses **Firebase Spark Hosting + Cloudflare Workers Free + Workers KV Free** only.
 
-## Validated
+- No Cloudflare R2 subscription, no Workers Paid plan.
+- No Render deployment, no paid compute instance or paid PostgreSQL.
+- No billing method on the project/accounts used for these services.
+- No auto-upgrade.
+- When the usage quota is exhausted, API/catalog operations may become unavailable instead of incurring an overage.
+- Changes in provider plan/terms can never be promised away; the release is blocked unless current account billing settings satisfy all these conditions.
 
-- Java Spring Boot 4.1.2 / Java 21 JWT Admin API and role protection.
-- Account bootstrap with BCrypt, password validation, no public registration.
-- Flyway schema for PostgreSQL.
-- Cloudflare Worker with R2-backed public catalog and logo uploads.
-- Admin dashboard with import, Draft/Publish/Unpublish, logo upload, website sync.
-- Public site renders the published catalog and falls back to original static cards if unavailable.
+The existing **Neon Free** database project `zrain-ecosystem` (`cool-snow-27258730`) remains isolated and unused by this no-billing production architecture. It does not need to be deleted. The Spring Boot 4.1.2 / JWT project source remains in `backend/` for developer demonstration and unit tests, but is not the deployed Admin API.
 
-## Release prerequisites (one-time external setup)
+## What is ready in source
 
-1. **Cloudflare**: R2 must be activated for the account. Use the existing Cloudflare account, but create a NEW bucket dedicated to this project: `zrain-ecosystem-catalog`. R2 usage has provider limits/terms.
-2. **PostgreSQL**: Create a persistent **separate** Neon PostgreSQL database for Zrain Ecosystem. Do not reuse Zrain Links or other apps' databases; do not use Render Free Postgres, which expires after 30 days.
-3. **Render**: Create a NEW Free Web Service with this repo on the intended release branch, repository root as Render service root, Dockerfile `backend/Dockerfile`, Docker context `backend`; the `render.yaml` Blueprint documents the intended configuration.
-4. **Firebase**: An authenticated Firebase CLI is needed on the user's computer for the final production Hosting deploy. GitHub merges do not publish Firebase Hosting by themselves.
+- JWT admin login verified by a Worker using encrypted Worker secrets. No user sign-up route.
+- Hard-fail token verification, rate limiting on login attempts, and protected product endpoints.
+- Import of the six official products (Drafts), product edit, publish, unpublish and archive.
+- Workers KV Free storage for draft records and public published snapshot.
+- Existing Zrain logos and HTTPS image links; **no file upload**.
+- Public site continues to show the six original static cards if the API has no valid published catalog.
 
-Do not put credentials or password values into GitHub, chat, logs, or committed files.
+## Before any production deployment
 
-## A. Cloudflare Worker deployment
+1. Confirm in Cloudflare dashboard that the account uses **Workers Free** and that no chargeable plan, R2 subscription, or payment method has been enabled for this deployment.
+2. Confirm `zrain-ecosystem` Firebase project uses **Spark** (not Blaze).
+3. Confirm `catalog-worker/wrangler.toml` lists Workers KV binding only. It must never include `r2_buckets`.
+4. Set encrypted Admin email, 32+ random-character password and 32+ byte Base64 JWT signing key as private Wrangler secrets. Never place them in this repo or chat.
+5. Deploy the Worker on Free. Confirm its `/api/ready` endpoint reports `ready: true` and check unauthenticated admin access is rejected.
+6. Install the frontend in **two stages**, retaining static public cards until six published products are confirmed.
 
-From clean branch `feature/admin-console-foundation`:
+See `catalog-worker/README.md` for the exact one-time deployment commands.
 
-```powershell
-cd "$env:USERPROFILE\Downloads\zrain-ecosystem\catalog-worker"
-npm install
-node --test test/worker.test.js
-npx wrangler login
-npx wrangler r2 bucket list
-npx wrangler r2 bucket create zrain-ecosystem-catalog
-npx wrangler secret put ZRAIN_CATALOG_PUBLISH_KEY
-npx wrangler deploy
-```
+## Two-stage Firebase cutover
 
-If the bucket already exists, do not recreate it. Generate a long cryptographically random secret (at least 32 characters), store it in a password manager and supply the **same exact value** to the backend environment variable below. Do not echo or paste the secret in chat. Record the deployed origin `https://<worker>.<subdomain>.workers.dev`.
+**Stage 1 — Enable protected Admin login only.**
 
-Test the public `/api/health` endpoint on that Worker, but `/api/catalog` will return 404 until the admin publishes its first snapshot. That's intentional.
+- Set `PRODUCTION_API_URL` in `public/api-config.js` to verified HTTPS Cloudflare Worker origin.
+- Keep `PRODUCTION_CATALOG_URL` empty. Public homepage remains static.
+- Merge reviewed changes to `main`, run `npm run test:release`, then `deploy.ps1 -ProjectId zrain-ecosystem` from an authenticated local Firebase CLI.
+- At `https://zrain.web.app/admin`, login with the private account. Import the 6 built-in Drafts, review their links, Publish each and sync to the Worker.
 
-## B. Persistent PostgreSQL
+**Stage 2 — Enable dynamic public catalog.**
 
-Create a new PostgreSQL project (suggested name `zrain-ecosystem`) at Neon. Obtain an SSL-protected connection URI in JDBC form:
+- Verify `GET /api/catalog` contains exactly the six verified products (no test items).
+- Set `PRODUCTION_CATALOG_URL` to `https://<worker>.workers.dev/api/catalog`.
+- Rerun tests and deploy Hosting. Check all buttons and Console behavior on desktop and mobile.
 
-`jdbc:postgresql://<neon-host>/<db>?sslmode=require`
+**Normal use:** Admin → Add Product → Save Draft → Publish. This edits Workers KV Free; website content refreshes without code changes.
 
-Store the matching database username and password securely. Do not commit credentials. The application uses Flyway to create `users` and `products` on its first authorized startup.
+## Operational limits and safeguards
 
-## C. Render Java API
-
-Render requires `ZRAIN_JWT_SECRET_BASE64` as **Base64 of at least 32 cryptographically random bytes**. Do not choose Render generic `generateValue` for this parameter: its generated text may not decode into a 32-byte signing key. Generate a Base64 signing key locally and enter it directly into the Render secret editor; never share it in chat or commit it.
-
-In Render, create the new service using `render.yaml` on the intended branch, or configure Docker manually with:
-
-- Project repository: `zrain03/zrain-ecosystem`
-- Service root directory: repository root (leave Root Directory blank)
-- Docker build context: `backend`
-- Dockerfile path (from repo root): `backend/Dockerfile`
-- Plan: Free; region: Singapore
-- Health check: `/api/health`
-- Auto-deploy disabled until production smoke tests pass
-
-Set environment variables privately:
-
-| Key | Value |
-|---|---|
-| `SPRING_PROFILES_ACTIVE` | `prod` |
-| `JDBC_DATABASE_URL` | New Neon JDBC URL |
-| `JDBC_DATABASE_USERNAME` | New Neon DB user |
-| `JDBC_DATABASE_PASSWORD` | New Neon DB password |
-| `ZRAIN_JWT_SECRET_BASE64` | 32+ bytes generated securely in Base64; Render Blueprint can generate this |
-| `ZRAIN_ADMIN_EMAIL` | Your private administrator email |
-| `ZRAIN_ADMIN_PASSWORD` | Unique strong administrator password, minimum 16 characters |
-| `ZRAIN_ALLOWED_ORIGIN` | `https://zrain.web.app` |
-| `ZRAIN_CATALOG_WORKER_URL` | Cloudflare Worker HTTPS origin, without `/api/catalog` |
-| `ZRAIN_CATALOG_PUBLISH_KEY` | Same secret supplied to Wrangler |
-
-Production fails closed and refuses to start without these settings. It also refuses H2 as the production database.
-
-After Render reports a healthy deployment, open `https://<render-service>.onrender.com/api/health`. Only expect `{"status":"ok"}`; no admin information or passwords are exposed.
-
-## D. Two-stage production cutover (keeps the public website intact)
-
-The database is initially empty. Do not immediately enable the dynamic catalog before importing the six products.
-
-**Stage 1 — Admin deployment with static public directory:**
-
-1. After the Render API and Cloudflare Worker are healthy, set **only** `PRODUCTION_API_URL` in `public/api-config.js` to the verified Render HTTPS origin.
-2. Leave `PRODUCTION_CATALOG_URL` as the empty string. This preserves the existing six hardcoded cards on the public website.
-3. Merge the reviewed Admin branch and deploy Firebase Hosting using the existing gated `deploy.ps1 -ProjectId zrain-ecosystem` command. The rewrite enables `https://zrain.web.app/admin`. Sign in with the actual ADMIN account and confirm JWT protected API requests work.
-4. Click **Import the 6 existing products** and review them as Drafts.
-5. Publish only Guess The Flag, Memory Rush, Zrain Auth Starter, Zrain Monitor, Zrain UI and Zrain Links; don't publish test records.
-6. Each Publish calls the Java catalog API, which writes a new snapshot to Cloudflare. If it reports a sync error, use **Retry website sync**.
-7. Confirm `https://<worker>/api/catalog` returns all six products with accurate links, logos and categories, and check upload of one logo through the protected UI.
-
-**Stage 2 — Switch homepage to Admin-managed catalog:**
-
-1. Now set `PRODUCTION_CATALOG_URL` in `public/api-config.js` to the verified HTTPS Cloudflare Worker URL ending with `/api/catalog`.
-2. Run all tests and deploy Firebase Hosting again. It now reads published product data from Cloudflare, but retains static fallback cards if the Worker is unreachable.
-3. Test all actions and Console views on desktop and mobile, verify no missing products, and check browser console/network errors.
-
-**After Stage 2:** Adding, editing, publishing or unpublishing a product updates the public catalog without manual HTML edits or Firebase redeploys. Content may be cached by Cloudflare for a short period.
-
-## Safety and operational requirements
-
-- Never merge/deploy this feature until the real hosted Java API, persistent database, Worker and admin credentials all work.
-- Never redirect any other Zrain app to this auth service; each app retains its own Firebase Auth.
-- Verify `401` for missing JWT, `403` for non-admin JWT, and that admin changes are denied by the backend, not merely hidden in frontend.
-- Browser JWT remains in memory; page reload requires login again. HTTPS required outside localhost.
-- Render Free cold-start delay affects the Admin API but not the public Cloudflare snapshot.
-- R2 object storage and free-tier availability are subject to Cloudflare account activation and usage limits.
-- Check responsive layout, link destinations and public catalog fallback on real mobile/desktop before announcing completion.
+- The free Worker and KV may return errors when daily limits are hit. The homepage falls back to hardcoded cards. Don't upgrade plans to bypass limits.
+- Workers KV is eventually consistent; product updates may take roughly a minute to propagate and are not a transactional database. Avoid rapid consecutive edits and use Retry sync if necessary.
+- Only the private admin email/password is authorized; strong unique 32+ character password is mandatory. JWTs last 15 minutes and are held only in browser memory.
+- Code tests are necessary but not a substitute for real account-plan and security verification.
+- Never deploy `render.yaml` as part of this strict Free-only production release. It is an obsolete legacy plan.
+- GitHub source changes do not directly update Firebase Hosting or Cloudflare Worker.

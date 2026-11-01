@@ -10,11 +10,11 @@ All implementation is in the existing **zrain-ecosystem** repository. No indepen
 
 ## Important release gate
 
-**Do not deploy this branch to production yet.** The hosted Java API, PostgreSQL credentials, admin bootstrap, migration of the six existing products, production logo upload and Cloudflare public catalog have NOT been deployed.
+**Do not deploy this branch to production yet.** The hosted Java API, PostgreSQL credentials, admin bootstrap, migration of the six existing products, Cloudflare Workers KV Free and the JWT Worker API have NOT been deployed.
 
 In `public/api-config.js`, production `API_BASE_URL` is deliberately blank and `ENABLE_DYNAMIC_CATALOG` is false. This prevents the public directory from changing while the API is unfinished. The admin page will refuse login until there is a real configured backend.
 
-The API currently provides `GET /api/products` directly from PostgreSQL as a local integration endpoint. The planned Cloudflare Worker/R2 published snapshot is a separate release gate; the public directory should use it before we activate the feature in production, so the website is not dependent on Render cold starts.
+The API currently provides `GET /api/products` directly from PostgreSQL as a local integration endpoint. The strict zero-billing production Admin uses a Worker JWT API + Workers KV Free. The Java Spring Boot source remains available for local development, but is not deployed to Render. See docs/ADMIN_PRODUCTION_RELEASE.md.
 
 ## Test entirely in the existing folder (Windows PowerShell)
 
@@ -71,10 +71,10 @@ Open http://localhost:5000/admin and sign in using the local account you created
 
 1. Verify admin UI in a real browser and preserve the existing Zrain UI design.
 2. Provide persistent PostgreSQL on a suitable free plan; provision the admin securely via secret environment variables.
-3. Add R2 logo upload with content validation and size limits.
-4. Publish catalog snapshots through Cloudflare Worker + R2 with authenticated server-to-server publication and rollback-safe revisions.
+3. Reuse existing Zrain logos or HTTPS image URLs. Do not activate R2 or paid storage.
+4. Publish catalog snapshots through Cloudflare Workers KV Free using the Worker JWT Admin API.
 5. Import and review the six existing products, including accurate URL/button actions.
 6. Enable the dynamic catalog only once the public snapshot is verified, then run browser and end-to-end security tests.
 7. Create a reviewed PR and deploy to Firebase only after these gates pass.
 
-Security notes: `/admin` is a public route displaying a login form, **not** a secret URL. Every admin API request is protected with a signed JWT and current account role lookup. Access tokens exist only in JS memory. The in-process login throttle provides a basic development safeguard; production needs edge/API rate limiting and ideally MFA. No public registration endpoint is exposed. Changes to GitHub do not update your local folder or live Firebase Hosting automatically.
+Security notes: `/admin` is a public route displaying a login form, **not** a secret URL. Every admin API request is protected with a signed JWT and current account role lookup. Access tokens exist only in JS memory. The in-process login throttle provides a basic development safeguard; the Workers Free deployment adds KV login-attempt limiting; additional security review remains necessary. No public registration endpoint is exposed. Changes to GitHub do not update your local folder or live Firebase Hosting automatically.
