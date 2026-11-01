@@ -39,6 +39,15 @@ try {
             throw 'Production Admin API health check failed.'
         }
 
+        try {
+            $ready = Invoke-RestMethod -Uri "$apiUrl/api/ready" -TimeoutSec 30
+        } catch {
+            throw 'Admin API configuration is incomplete. Deployment stopped.'
+        }
+        if ($ready.ready -ne $true) {
+            throw 'Admin API is not ready. Deployment stopped.'
+        }
+
         # Stage 1 permits an empty catalog URL while the six products are imported.
         # Stage 2 requires the published catalog to contain all six official products.
         if ($config -match 'const PRODUCTION_CATALOG_URL = "([^"]+)";') {
