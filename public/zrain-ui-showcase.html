@@ -36,6 +36,7 @@
     .small { font-size:11px; }
     @media(max-width:560px){ .tiles {grid-template-columns:1fr;} .showcase {padding-top:22px;} }
   </style>
+  <link rel="stylesheet" href="/feedback.css">
 </head>
 <body>
   <header class="zrain-header"><div class="zrain-header__inner"><div class="zrain-brand"></div></div></header>
@@ -67,5 +68,6 @@
     import { mountZrainUI } from "/zrain-ui.js?v=brand-20261029-footeronly";
     mountZrainUI({ product: "UI", logoSrc: "/zrain-logo.webp", productHref: "https://github.com/zrain03/zrain-ui" });
   </script>
+  <script defer src="/feedback-embed.js" data-product="zrain-ui"></script>
 </body>
 </html>
