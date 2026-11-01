@@ -60,8 +60,15 @@ try {
             } catch {
                 throw 'Public catalog endpoint unavailable. Deployment stopped.'
             }
-            if ($null -eq $catalog -or @($catalog).Count -lt 6) {
-                throw 'Fewer than six published products. Deployment stopped.'
+            $required = @(
+                'guess-the-flag', 'memory-rush', 'zrain-auth-starter',
+                'zrain-monitor', 'zrain-ui', 'zrain-links'
+            )
+            $slugs = @($catalog | ForEach-Object { $_.slug })
+            foreach ($name in $required) {
+                if ($name -notin $slugs) {
+                    throw "Official product $name is missing. Deployment stopped."
+                }
             }
         }
     }
