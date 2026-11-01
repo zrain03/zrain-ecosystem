@@ -161,3 +161,12 @@ test("R2/media upload and paid service endpoints are absent",async()=>{
   assert.equal((await send(env,"/api/media","POST",{x:1})).status,404);
   assert.equal((await send(env,"/api/admin/catalog/logo","POST",{x:1})).status,401);
 });
+
+test("readiness blocks the web release when configuration is incomplete", async () => {
+  const { env } = mock();
+  assert.equal((await send(env, "/api/ready")).status, 200);
+  env.ZRAIN_ADMIN_PASSWORD = "";
+  const response = await send(env, "/api/ready");
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).ready, false);
+});
