@@ -37,6 +37,24 @@ function actionLink(product, secondary = false) {
   return action;
 }
 
+function communityLink(slug) {
+  const a=document.createElement("a");
+  a.className="item-cta product-action product-action-secondary";
+  a.href="/feedback.html?product="+encodeURIComponent(slug);
+  a.textContent="Feedback ↗";
+  a.setAttribute("aria-label","Read public feedback for "+slug);
+  return a;
+}
+
+// Populate review links on static fallback cards too; API catalog cards use makeCard().
+document.querySelectorAll(".product-entry").forEach(card => {
+  const slug=card.querySelector("[data-console]")?.dataset?.console;
+  const actions=card.querySelector(".product-actions");
+  if(slug&&actions&&!actions.querySelector('a[href^="/feedback.html"]')) {
+    actions.append(communityLink(slug));
+  }
+});
+
 export function makeCard(product) {
   const card = document.createElement("article");
   card.className = "product-entry";
@@ -60,6 +78,7 @@ export function makeCard(product) {
       (product.primaryAction === "GITHUB" && product.primaryUrl.startsWith("https://github.com/"))) {
     actions.append(actionLink(product, true));
   }
+  actions.append(communityLink(product.slug));
   card.append(image, copy, actions);
   return card;
 }
