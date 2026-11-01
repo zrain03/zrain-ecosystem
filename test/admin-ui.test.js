@@ -126,3 +126,12 @@ test('all six fallback primary actions open Zrain Console with a category label'
   assert.match(consoleCode,/published\.set\(item\.slug/);
   assert.match(consoleCode,/const sourceFirst =/);
 });
+
+test('Zrain UI Console loads the local showcase as srcdoc, never a GitHub iframe',async()=>{
+  const js=await read('../public/zrain-console.js');
+  assert.match(js,/item\.slug === "zrain-ui" \? PRODUCTS\["zrain-ui"\]\.webUrl/);
+  assert.match(js,/fetch\("\/zrain-ui-showcase\.html"/);
+  assert.match(js,/frame\.srcdoc = markup/);
+  assert.match(js,/frame\.removeAttribute\("srcdoc"\)/);
+  assert.match(js,/localShowcase: id === "zrain-ui"/);
+});

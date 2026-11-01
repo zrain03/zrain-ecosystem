@@ -6,7 +6,9 @@ export function registerPublishedProducts(products) {
   for (const item of products) {
     const builtIn = PRODUCTS[item.slug];
     const sourceFirst = ["GITHUB","PLAY_STORE","DOCUMENTATION"].includes(item.primaryAction);
-    const webUrl = sourceFirst && builtIn ? builtIn.webUrl : item.primaryUrl;
+    // The UI design-system preview is always the actual local showcase.
+    const webUrl = item.slug === "zrain-ui" ? PRODUCTS["zrain-ui"].webUrl :
+      sourceFirst && builtIn ? builtIn.webUrl : item.primaryUrl;
     published.set(item.slug, {
       name: item.name, description: item.description, icon: item.logoUrl,
       webUrl,
@@ -40,9 +42,12 @@ const PHONE = Object.freeze({ width: 390, height: 844 });
 let current = null;
 let opener = null;
 let viewMode = "mobile";
+let frameVersion = 0;
 
 function clearFrame() {
+  frameVersion++;
   frame.removeAttribute("src");
+  frame.removeAttribute("srcdoc");
 }
 
 export function fitPortrait(bounds, logical = PHONE) {
@@ -93,10 +98,28 @@ function setView(mode) {
   // Resize the same iframe: do not reset a user's game or account session.
 }
 
-function loadCurrent() {
+async function loadCurrent() {
   if (!current) return;
-  // Remove the prior document before loading to reset its JS/game state.
+  // Reset the document and invalidate any earlier asynchronous preview load.
   clearFrame();
+  if (current.localShowcase) {
+    const version = frameVersion;
+    try {
+      // Trusted local HTML only: srcdoc avoids a framed HTTP navigation
+      // and its response headers.
+      const response = await fetch("/zrain-ui-showcase.html", {cache:"no-store"});
+      if (!response.ok) throw new Error("Showcase unavailable");
+      const markup = await response.text();
+      if (version !== frameVersion || !current?.localShowcase) return;
+      frame.srcdoc = markup;
+    } catch {
+      if (version !== frameVersion || !current?.localShowcase) return;
+      frame.srcdoc = '<!doctype html><html><body style="font:16px sans-serif;padding:24px">' +
+        '<h2>Unable to load Zrain UI preview</h2>' +
+        '<p>Use Open in new tab to view the showcase.</p></body></html>';
+    }
+    return;
+  }
   frame.src = current.webUrl;
 }
 
@@ -104,7 +127,7 @@ function openConsole(id, trigger) {
   const product = published.get(id) || PRODUCTS[id];
   if (!product || dialog.open) return;
   opener = trigger;
-  current = product;
+  current = {...product, localShowcase: id === "zrain-ui"};
   setView("mobile");
   icon.src = product.icon;
   icon.alt = "";
