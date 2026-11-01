@@ -30,14 +30,31 @@ try {
     }
     $config = Get-Content '.\wrangler.toml' -Raw
     if ($config -notmatch '\[\[kv_namespaces\]\]') {
-        # Wrangler may create the namespace but print a TOML snippet instead
-        # of applying --update-config. Never create a second namespace on retry.
-        Write-Host 'A KV namespace was already created. Reuse its existing ID.' -ForegroundColor Yellow
-        $namespaceId = (Read-Host 'Paste the 32-character KV Namespace ID from the successful creation output').Trim()
-        if ($namespaceId -cnotmatch '^[a-fA-F0-9]{32}
+        # Reuse the existing namespace. Never create another one automatically.
+        Write-Host 'Reuse the KV namespace that Cloudflare already created.' -ForegroundColor Yellow
+        $namespaceId = (Read-Host 'Paste the existing 32-character KV Namespace ID').Trim()
+        if ($namespaceId -cnotmatch '^[a-fA-F0-9]{32}$') {
+            throw 'Invalid namespace ID. Nothing has been deployed.'
+        }
+        $remoteNamespaces = @(npx wrangler kv namespace list)
+        if ($LASTEXITCODE -ne 0) {
+            throw 'Could not verify existing namespace. Nothing has been deployed.'
+        }
+        $remoteText = $remoteNamespaces -join [Environment]::NewLine
+        if ($remoteText -notmatch [regex]::Escape($namespaceId)) {
+            throw 'Namespace ID is not present in your Cloudflare account.'
+        }
+        $binding = [Environment]::NewLine + '[[kv_namespaces]]' +
+            [Environment]::NewLine + 'binding = "ZRAIN_CATALOG"' +
+            [Environment]::NewLine + 'id = "' + $namespaceId + '"' +
+            [Environment]::NewLine
+        Add-Content -LiteralPath '.\wrangler.toml' -Value $binding -Encoding UTF8
+        Write-Host 'Linked the existing KV namespace; no duplicate was created.' -ForegroundColor Green
+    }
     $config = Get-Content '.\wrangler.toml' -Raw
-    if ($config -notmatch '\[\[kv_namespaces\]\]' -or $config -notmatch 'binding\s*=\s*"ZRAIN_CATALOG"') {
-        throw 'KV binding is missing. Do not deploy.'
+    if ($config -notmatch '\[\[kv_namespaces\]\]' -or
+        $config -notmatch 'binding\s*=\s*"ZRAIN_CATALOG"') {
+        throw 'KV binding missing. Deployment blocked.'
     }
     $email = Read-Host 'Enter the private admin email'
     if ($email -notmatch '^[^\s@]+@[^\s@]+\.[^\s@]+$') {
