@@ -22,6 +22,10 @@ try {
 
     # This release must not publish a nonfunctional /admin page.
     if (Test-Path '.\public\admin\index.html') {
+        $spark = Read-Host 'Confirm Firebase zrain-ecosystem is on Spark (NOT Blaze), with no billable payment method. Type SPARK'
+        if ($spark -cne 'SPARK') {
+            throw 'Spark no-billing confirmation missing. Deployment stopped.'
+        }
         $config = Get-Content '.\public\api-config.js' -Raw
         if ($config -notmatch 'const PRODUCTION_API_URL = "([^"]+)";') {
             throw 'Production Admin API URL is not configured.'
