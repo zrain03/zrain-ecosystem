@@ -43,6 +43,34 @@ function authorized(request, env) {
   return typeof key === "string" && key.length >= 32 &&
     given === "Bearer " + key;
 }
+// Bound the upload size while reading. Content-Length is optional and cannot be trusted.
+async function readLimited(request, limit) {
+  if (!request.body) return new Uint8Array();
+  const reader = request.body.getReader();
+  const chunks = [];
+  let total = 0;
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > limit) {
+        await reader.cancel();
+        return null;
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const bytes = new Uint8Array(total);
+  let position = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, position);
+    position += chunk.byteLength;
+  }
+  return bytes;
+}
 function mediaType(bytes) {
   if (bytes.length >= 8 &&
       bytes[0] === 137 && bytes[1] === 80 && bytes[2] === 78 && bytes[3] === 71 &&
@@ -85,8 +113,8 @@ export default {
       if (!authorized(request, env)) return respond({ error:"Unauthorized" }, 401);
       if (Number(request.headers.get("Content-Length")) > MAX_CATALOG_BYTES)
         return respond({ error:"Catalog too large" }, 413);
-      const data = await request.arrayBuffer();
-      if (data.byteLength > MAX_CATALOG_BYTES) return respond({ error:"Catalog too large" }, 413);
+      const data = await readLimited(request, MAX_CATALOG_BYTES);
+      if (!data) return respond({ error:"Catalog too large" }, 413);
       let parsed;
       try { parsed = JSON.parse(new TextDecoder().decode(data)); }
       catch { return respond({ error:"Invalid JSON" }, 400); }
@@ -100,8 +128,8 @@ export default {
       if (!authorized(request, env)) return respond({ error:"Unauthorized" }, 401);
       if (Number(request.headers.get("Content-Length")) > MAX_MEDIA_BYTES)
         return respond({ error:"Image too large" }, 413);
-      const bytes = new Uint8Array(await request.arrayBuffer());
-      if (!bytes.length || bytes.length > MAX_MEDIA_BYTES)
+      const bytes = await readLimited(request, MAX_MEDIA_BYTES);
+      if (!bytes || !bytes.length)
         return respond({ error:"Image must be under 2 MB" }, 413);
       const type = mediaType(bytes);
       if (!type || type !== request.headers.get("Content-Type")?.split(";")[0]?.trim())

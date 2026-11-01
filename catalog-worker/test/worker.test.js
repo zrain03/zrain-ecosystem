@@ -58,3 +58,18 @@ test("logo upload rejects invalid bytes even with permitted content type",async(
   }),env);
   assert.equal(res.status,400);
 });
+
+test("streaming upload has a hard size limit even without Content-Length",async()=>{
+  const env=mock();
+  const bytes=new Uint8Array(2_000_001);
+  bytes.set([137,80,78,71,13,10,26,10]);
+  const request=new Request("https://example.workers.dev/api/media",{
+    method:"POST",
+    headers:{Authorization:"Bearer "+env.ZRAIN_CATALOG_PUBLISH_KEY,
+      "Content-Type":"image/png"},
+    body:new ReadableStream({start(controller){controller.enqueue(bytes);controller.close();}}),
+    duplex:"half"
+  });
+  const response=await worker.fetch(request,env);
+  assert.equal(response.status,413);
+});
