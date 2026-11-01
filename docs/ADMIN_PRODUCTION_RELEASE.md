@@ -58,5 +58,5 @@ See `catalog-worker/README.md` for the exact one-time deployment commands.
 - Workers KV is eventually consistent; product updates may take roughly a minute to propagate and are not a transactional database. Avoid rapid consecutive edits and use Retry sync if necessary.
 - Only the private admin email/password is authorized; strong unique 32+ character password is mandatory. JWTs last 15 minutes and are held only in browser memory.
 - Code tests are necessary but not a substitute for real account-plan and security verification.
-- Never deploy `render.yaml` as part of this strict Free-only production release. It is an obsolete legacy plan.
+- The obsolete `render.yaml` Blueprint has been removed from this branch to avoid chargeable Render deployment.
 - GitHub source changes do not directly update Firebase Hosting or Cloudflare Worker.

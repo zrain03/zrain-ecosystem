@@ -13,7 +13,7 @@ Cloudflare Workers Free / KV Free have usage limits and return errors if exceede
 
 ## One-time Worker provisioning (Cloudflare account sign-in needed)
 
-In the existing `zrain-ecosystem/catalog-worker` folder:
+Use the guarded one-time script at `scripts/setup-free-admin-worker.ps1`, or in the existing `zrain-ecosystem/catalog-worker` folder:
 
 ```powershell
 npm install
