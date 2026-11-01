@@ -350,8 +350,19 @@ test('the public Console project page is discoverable and launches real producti
   assert.match(page,/<title>Zrain Console/);
   assert.match(page,/mountZrainUI\(\{ product: "Console"/);
   assert.match(page,/class="zrain-footer"/);
-  for(const id of ['guess-the-flag','zrain-links','zrain-ui'])
-    assert.match(page,new RegExp('href="/\\?console=' + id + '"'));
+  const demoSection = page.split('id="zc-demos-title"')[1].split('id="zc-features-title"')[0];
+  const projectNames = [
+    'Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain Monitor',
+    'Zrain UI', 'Zrain Links', 'Zrain Console', 'Zrain Ecosystem'
+  ];
+  for(const product of projectNames)
+    assert.match(demoSection, new RegExp('<h3>' + product + '</h3>'));
+  assert.equal((demoSection.match(/class="zc-demo"/g) || []).length, projectNames.length);
+  for(const id of Object.keys(PRODUCTS))
+    assert.match(demoSection, new RegExp('href="/\\?console=' + id + '"'));
+  assert.match(demoSection, /<h3>Zrain Console<\/h3>/);
+  assert.match(demoSection, /Try Console/);
+  assert.match(demoSection, /href="\/" target="_top">Explore Ecosystem/);
   assert.match(page,/Source on GitHub/);
   assert.match(page,/iframe/);
   assert.match(css,/\.zc-hero/);
