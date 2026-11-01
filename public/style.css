@@ -474,3 +474,24 @@ body:has(.zrain-console[open]) { overflow: hidden; }
 @media(min-width:801px){
   .bento-grid:has(.services-card[hidden]) .vision-card{grid-column:span 12}
 }
+
+/* First-party Zrain Console project discovery, within the existing About section. */
+.about-description .console-project-discovery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  margin: 18px 0;
+  border: 1px solid #e4c7b6;
+  border-radius: 15px;
+  background: #fff7f1;
+  color: #94462f;
+  text-decoration: none;
+}
+.console-project-discovery strong,
+.console-project-discovery small { display: block; }
+.console-project-discovery strong { font-size: 14px; }
+.console-project-discovery small { margin-top: 4px; font-size: 12px; font-weight: 500; line-height: 1.5; color: #796b63; }
+.console-project-discovery:hover { background: #ffede1; border-color: #bd8d76; }
+.console-project-discovery:focus-visible { outline: 3px solid #e7b7a1; outline-offset: 3px; }

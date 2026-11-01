@@ -192,3 +192,10 @@ if (typeof ResizeObserver !== "undefined") {
 }
 document.addEventListener("fullscreenchange", layoutFrame);
 window.addEventListener("resize", layoutFrame);
+
+// The public project page links into the REAL production Console.
+// Only documented, built-in product IDs are accepted; no arbitrary iframe URL.
+const requestedDemo = new URLSearchParams(window.location?.search || "").get("console");
+if (requestedDemo && Object.prototype.hasOwnProperty.call(PRODUCTS, requestedDemo)) {
+  openConsole(requestedDemo, null);
+}

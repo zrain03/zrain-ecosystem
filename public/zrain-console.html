@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fffaf6">
+  <meta name="description" content="Zrain Console is the responsive app preview experience used across the Zrain Ecosystem. Explore the implementation and try live demos.">
+  <meta property="og:title" content="Zrain Console | Explore live apps in one place">
+  <meta property="og:description" content="A lightweight, responsive viewing layer for Zrain games and web applications.">
+  <link rel="icon" href="/zrain-logo.webp" type="image/webp">
+  <link rel="canonical" href="https://zrain.web.app/zrain-console.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
+  <link rel="stylesheet" href="/zrain-console-page.css?v=1">
+  <title>Zrain Console | App Preview & Developer Project</title>
+</head>
+<body>
+  <a class="zc-skip" href="#main">Skip to content</a>
+  <header class="zrain-header"><div class="zrain-header__inner"><div class="zrain-brand"></div></div></header>
+  <main class="zc-page" id="main">
+    <nav class="zc-breadcrumb" aria-label="Breadcrumb"><a href="/">Zrain Ecosystem</a><span aria-hidden="true">/</span><span>Zrain Console</span></nav>
+
+    <section class="zc-hero" aria-labelledby="zc-title">
+      <div class="zc-intro">
+        <p class="zc-eyebrow">ZRAIN / DEVELOPER PROJECT</p>
+        <h1 id="zc-title">Explore apps.<br><span>In one Console.</span></h1>
+        <p class="zc-lead">Zrain Console is the viewing experience behind the <strong>Play Now</strong> and <strong>Open Web App</strong> buttons in Zrain Ecosystem. Visitors can try an app without leaving the product directory.</p>
+        <div class="zc-actions">
+          <a class="zc-button zc-primary" href="/?console=zrain-links" target="_top">Try the live Console <span aria-hidden="true">↗</span></a>
+          <a class="zc-button zc-outline" href="https://github.com/zrain03/zrain-console" target="_blank" rel="noopener noreferrer">Source on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="zc-note">A frontend feature, not a new login service or a separate backend.</p>
+      </div>
+      <div class="zc-preview" aria-label="How Zrain Console works">
+        <div class="zc-preview-top"><span class="zc-preview-dot"></span> ZRAIN CONSOLE <span>LIVE APP VIEW</span></div>
+        <div class="zc-device">
+          <img src="/zrain-logo.webp" alt="" width="56" height="56">
+          <strong>Choose an app</strong>
+          <span>Mobile View · Desktop View</span>
+          <a href="/?console=zrain-ui" target="_top">Open live Showcase <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="zc-preview-caption">Illustration of the viewer. Use the live demo to explore the actual interface.</p>
+      </div>
+    </section>
+
+    <section class="zc-section" aria-labelledby="zc-demos-title">
+      <div class="zc-heading">
+        <div><p class="zc-eyebrow">TRY IT / 01</p><h2 id="zc-demos-title">See it in action<span class="zc-period">.</span></h2></div>
+        <p>These buttons open the real Zrain Console already running on the Ecosystem homepage.</p>
+      </div>
+      <div class="zc-demos">
+        <article class="zc-demo">
+          <img src="/icons/guess-the-flag.webp" width="47" height="47" alt="">
+          <div><span class="zc-type">WEB GAME</span><h3>Guess The Flag</h3><p>Open a playable Flutter Web game in the mobile-first viewer.</p></div>
+          <a href="/?console=guess-the-flag" target="_top">Play Now <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="zc-demo">
+          <img src="/zrain-logo.webp" width="47" height="47" alt="">
+          <div><span class="zc-type">WEB APPLICATION</span><h3>Zrain Links</h3><p>Explore an independent web app without sharing its account or backend.</p></div>
+          <a href="/?console=zrain-links" target="_top">Open Web App <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="zc-demo">
+          <img src="/zrain-logo.webp" width="47" height="47" alt="">
+          <div><span class="zc-type">DESIGN SHOWCASE</span><h3>Zrain UI</h3><p>Preview the real design-system showcase inside the same Console.</p></div>
+          <a href="/?console=zrain-ui" target="_top">View Showcase <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="zc-section" aria-labelledby="zc-features-title">
+      <div class="zc-heading">
+        <div><p class="zc-eyebrow">FEATURES / 02</p><h2 id="zc-features-title">Small layer. Useful details<span class="zc-period">.</span></h2></div>
+        <p>No app duplication. Zrain Console loads each product from its own existing web address.</p>
+      </div>
+      <div class="zc-features">
+        <article><span>01 / VIEWS</span><h3>Mobile and Desktop</h3><p>Switch between a mobile-sized viewport and a scaled desktop viewport without resetting the app.</p></article>
+        <article><span>02 / CONTROLS</span><h3>Preview controls</h3><p>Refresh, fullscreen, close, or open the original website in a separate tab.</p></article>
+        <article><span>03 / DISCOVERY</span><h3>One familiar experience</h3><p>The same preview is used for games, web apps and developer showcases.</p></article>
+        <article><span>04 / INDEPENDENCE</span><h3>Apps remain separate</h3><p>The viewer does not merge authentication, databases, or product backends.</p></article>
+      </div>
+    </section>
+
+    <section class="zc-section zc-implementation" aria-labelledby="zc-implementation-title">
+      <div class="zc-heading">
+        <div><p class="zc-eyebrow">HOW WE BUILT IT / 03</p><h2 id="zc-implementation-title">Implemented in the Ecosystem<span class="zc-period">.</span></h2></div>
+      </div>
+      <div class="zc-how">
+        <div class="zc-code">
+          <p>01. A product button selects a known Console ID.</p>
+          <pre><code>&lt;button data-console="memory-rush"&gt;
+  Play Now
+&lt;/button&gt;</code></pre>
+          <p>02. The Console looks up that product and opens its original web edition.</p>
+          <p>03. Visitors use the viewer, or <strong>Open in new tab</strong> when an app forbids embedding.</p>
+        </div>
+        <aside class="zc-stack">
+          <h3>Built with</h3>
+          <p>Vanilla JavaScript, HTML, CSS, browser <code>&lt;dialog&gt;</code> and <code>&lt;iframe&gt;</code>. The published product directory is served by the existing Cloudflare Worker and KV storage.</p>
+          <p>There is no extra server, separate user account or paid infrastructure for Zrain Console.</p>
+          <a href="https://github.com/zrain03/zrain-ecosystem/blob/main/public/zrain-console.js" target="_blank" rel="noopener noreferrer">See the production implementation <span aria-hidden="true">↗</span></a>
+        </aside>
+      </div>
+      <p class="zc-limitation"><strong>Embedding limitation:</strong> Some external websites and sign-in providers forbid iframe previews. Zrain Console respects those restrictions and provides <em>Open in new tab</em>. The Zrain UI showcase has a same-origin local preview.</p>
+    </section>
+    <div class="zc-bottom"><a class="zc-button zc-outline" href="/">Back to Zrain Ecosystem <span aria-hidden="true">↗</span></a></div>
+  </main>
+  <footer class="zrain-footer"><div class="zrain-footer__inner"><div class="zrain-footer__identity"></div></div></footer>
+  <script type="module">
+    import { mountZrainUI } from "/zrain-ui.js?v=brand-20261029-footeronly";
+    mountZrainUI({ product: "Console", logoSrc: "/zrain-logo.webp", productHref: "https://zrain.web.app/zrain-console.html" });
+  </script>
+</body>
+</html>
