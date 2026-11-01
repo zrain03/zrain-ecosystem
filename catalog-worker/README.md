@@ -26,6 +26,8 @@ npx wrangler secret put ZRAIN_JWT_SECRET_BASE64
 npx wrangler deploy
 ```
 
+**If Wrangler already created `ZRAIN_CATALOG` but did not update `wrangler.toml`: do not create another namespace.** Run `scripts/setup-free-admin-worker.ps1` from the repository root. The corrected script asks for the existing 32-character Namespace ID printed by Wrangler, verifies it exists in your account, and writes the binding locally before continuing.
+
 Only create the namespace once. Wrangler writes its generated namespace ID into `wrangler.toml`. There is no R2 bucket.
 
 Three encrypted Worker secrets are required:
