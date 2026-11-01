@@ -46,8 +46,9 @@ test("Worker health does not require credentials or a database",async()=>{
   assert.equal((await response.json()).storage,"workers-kv-free");
 });
 test("an unbound KV namespace fails closed",async()=>{
-  assert.equal((await send({},"/api/catalog")).status,503);
-  assert.equal((await send({},"/api/admin/auth/login","POST",{email:adminEmail,password})).status,503);
+  const noStorage={ZRAIN_ALLOWED_ORIGIN:origin};
+  assert.equal((await send(noStorage,"/api/catalog")).status,503);
+  assert.equal((await send(noStorage,"/api/admin/auth/login","POST",{email:adminEmail,password})).status,503);
 });
 test("public website keeps static fallback until there is a real published catalog",async()=>{
   const {env}=mock();
