@@ -371,6 +371,6 @@ test('public Console project export preserves the existing production app',async
   assert.match(script,/gh repo create zrain03\/zrain-console --public/);
   assert.match(script,/if \(Test-Path \$destination\)/);
   assert.doesNotMatch(script,/git clean|git reset --hard|--force-with-lease/);
-  assert.match(readme,/source-code snapshot/);
+  assert.match(readme,/exported snapshot/);
   assert.match(arch,/frontend viewing layer/);
 });
