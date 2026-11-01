@@ -9,9 +9,12 @@ const roots = {
 };
 
 function actionLink(product, secondary = false) {
-  const label = secondary ? product.secondaryLabel :
+  const repoSecondary = secondary && product.primaryAction === "GITHUB" &&
+    product.primaryUrl.startsWith("https://github.com/");
+  const label = secondary ? (repoSecondary ? "View on GitHub" : product.secondaryLabel) :
     (product.category === "GAMES" ? "Play Now" : "Open Web App");
-  const url = secondary ? product.secondaryUrl : product.primaryUrl;
+  const url = secondary ? (repoSecondary ? product.primaryUrl : product.secondaryUrl) :
+    product.primaryUrl;
   const action = document.createElement(secondary ? "a" : "button");
   action.className = secondary ? "item-cta product-action product-action-secondary"
     : "item-cta product-action product-action-primary";
@@ -53,7 +56,8 @@ export function makeCard(product) {
   const actions = document.createElement("div");
   actions.className = "product-actions";
   actions.append(actionLink(product));
-  if (product.secondaryLabel && product.secondaryUrl) {
+  if ((product.secondaryLabel && product.secondaryUrl) ||
+      (product.primaryAction === "GITHUB" && product.primaryUrl.startsWith("https://github.com/"))) {
     actions.append(actionLink(product, true));
   }
   card.append(image, copy, actions);

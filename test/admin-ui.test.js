@@ -94,7 +94,7 @@ test('local showcase action previews local HEX palette instead of old live page'
     read('../public/index.html'),
     read('../public/product-directory.js')
   ]);
-  assert.match(html, /href="\/zrain-ui-showcase\.html"/);
+  assert.match(html, /data-console="zrain-ui"/);
   assert.match(client, /url === "https:\/\/zrain\.web\.app\/zrain-ui-showcase\.html"/);
 });
 
@@ -120,6 +120,7 @@ test('all six fallback primary actions open Zrain Console with a category label'
     assert.match(html,new RegExp('data-console="' + slug + '"'));
   assert.equal((html.match(/data-console="/g)||[]).length,6);
   assert.match(directory,/action\.dataset\.console = product\.slug/);
+  assert.match(directory,/repoSecondary \? "View on GitHub"/);
   assert.match(directory,/product\.category === "GAMES" \? "Play Now" : "Open Web App"/);
   assert.doesNotMatch(directory,/product\.primaryAction === "CONSOLE"/);
   assert.match(consoleCode,/published\.set\(item\.slug/);

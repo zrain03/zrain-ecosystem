@@ -89,7 +89,7 @@ test("existing product import is idempotent and remains in Draft",async()=>{
   const a=await send(env,"/api/admin/products/import-existing","POST",undefined,jwt);
   assert.equal((await a.json()).added,6);
   assert.equal((await (await send(env,"/api/admin/products","GET",undefined,jwt)).json()).length,6);
-  assert.equal((await send(env,"/api/catalog")).status,404);
+  assert.deepEqual(await (await send(env,"/api/catalog")).json(),[]);
   const b=await send(env,"/api/admin/products/import-existing","POST",undefined,jwt);
   assert.deepEqual(await b.json(),{added:0,skipped:6,totalAvailable:6});
   assert.equal(EXISTING.length,6);

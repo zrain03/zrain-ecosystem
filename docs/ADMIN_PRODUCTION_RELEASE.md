@@ -60,3 +60,12 @@ See `catalog-worker/README.md` for the exact one-time deployment commands.
 - Code tests are necessary but not a substitute for real account-plan and security verification.
 - The obsolete `render.yaml` Blueprint has been removed from this branch to avoid chargeable Render deployment.
 - GitHub source changes do not directly update Firebase Hosting or Cloudflare Worker.
+
+## November 1 update: simple Admin, live catalog, and universal Console
+
+- The public website now reads published entries directly from the existing Workers KV product list. Publish, Unpublish, Archive and edits are reflected automatically without a second sync/write. KV is eventually consistent, so other regions may take about a minute to see changes.
+- Every main product action opens Zrain Console. Games show **Play Now**; all web apps and tools show **Open Web App**. GitHub and Google Play remain secondary, direct links.
+- Zrain Auth Starter uses its existing web demo in Console; Zrain UI uses the existing showcase. The console still offers **Open in new tab** for websites that block iframe embedding.
+- Signed-in Admin can change the password to a unique 16-128 character value. The Worker stores a secret-keyed HMAC in Workers KV and validates the current password; it does not store plaintext or expose the password. Existing 15-minute tokens are rejected after a credential version change (subject to Workers KV propagation).
+- Deploy code in **two separate operations on the existing Free services**: `npx wrangler deploy` from `catalog-worker`, then `./deploy.ps1 -ProjectId zrain-ecosystem` from root on a Firebase Spark account. Neither operation provisions new infrastructure.
+- Do **not** deploy frontend before Worker is updated: the new frontend relies on Worker serving published rows directly from `admin/products-v1`. 
