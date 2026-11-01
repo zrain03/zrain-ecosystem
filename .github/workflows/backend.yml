@@ -22,3 +22,39 @@ jobs:
       - run: ./mvnw -B clean verify
         env:
           ZRAIN_JWT_SECRET_BASE64: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      - name: Build production Docker image
+        run: docker build --file Dockerfile --tag zrain-ecosystem-api:ci .
+  postgres-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: zrain_ci
+          POSTGRES_PASSWORD: zrain_ci_test_only
+          POSTGRES_DB: zrain_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U zrain_ci -d zrain_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: chmod +x ./mvnw
+      - name: Verify migrations and ADMIN JWT flows against PostgreSQL 17
+        run: ./mvnw -B clean verify
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/zrain_ci?sslmode=disable
+          SPRING_DATASOURCE_USERNAME: zrain_ci
+          SPRING_DATASOURCE_PASSWORD: zrain_ci_test_only
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+          ZRAIN_JWT_SECRET_BASE64: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
