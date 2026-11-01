@@ -160,7 +160,7 @@ async function routeAdmin(request,env,path) {
 export default {
   async fetch(request,env) {
     const path=new URL(request.url).pathname;
-    const isPublic=path==="/api/catalog" || path==="/api/products" || path==="/api/health";
+    const isPublic=path==="/api/catalog" || path==="/api/products" || path==="/api/health" || path==="/api/ready";
     const origin=request.headers.get("Origin");
     const allowed=trustedOrigin(request,env);
     if(request.method==="OPTIONS") {
@@ -178,6 +178,11 @@ export default {
     if(path==="/api/health" && request.method==="GET")
       return reply(request,env,{status:"ok",service:"zrain-ecosystem-admin-free",
         storage:"workers-kv-free"},200,true);
+    if(path==="/api/ready" && request.method==="GET") {
+      const ready=Boolean(env.ZRAIN_CATALOG?.get && env.ZRAIN_CATALOG?.put) &&
+        authConfigured(env) && env.ZRAIN_ALLOWED_ORIGIN==="https://zrain.web.app";
+      return reply(request,env,{ready,storage:"workers-kv-free"},ready?200:503,true);
+    }
     if(!env.ZRAIN_CATALOG?.get || !env.ZRAIN_CATALOG?.put)
       return reply(request,env,{error:"KV Free namespace is not bound"},503,isPublic);
     try{
