@@ -9,9 +9,9 @@
   <link rel="icon" href="/zrain-logo.webp" type="image/webp">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/brand.css?v=brand-20261029-footeronly">
-  <link rel="stylesheet" href="/admin/admin.css?v=5">
+  <link rel="stylesheet" href="/admin/admin.css?v=6">
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
-  <script type="module" src="/admin/admin.js?v=5"></script>
+  <script type="module" src="/admin/admin.js?v=6"></script>
 </head>
 <body>
   <header class="zrain-header">
@@ -52,9 +52,23 @@
         <button id="signout" class="secondary" type="button">Sign out</button>
       </div>
       <p id="dashboard-notice" class="notice" role="status" hidden></p>
+      <details id="password-settings" class="advanced password-settings">
+        <summary>Change admin password</summary>
+        <form id="password-form" class="form-stack">
+          <label for="password-current">Current password</label>
+          <input id="password-current" type="password" autocomplete="current-password" required>
+          <label for="password-new">New password (at least 16 characters)</label>
+          <input id="password-new" type="password" autocomplete="new-password" minlength="16" maxlength="128" required>
+          <label for="password-confirm">Confirm new password</label>
+          <input id="password-confirm" type="password" autocomplete="new-password" minlength="16" maxlength="128" required>
+          <p class="field-help">Save your new password in your password manager. You will sign in again after changing it.</p>
+          <button type="submit" class="primary" id="password-submit">Update password</button>
+          <p id="password-notice" class="notice" role="alert" hidden></p>
+        </form>
+      </details>
       <div class="catalog-sync-bar">
-        <span>Published products are synced to the public catalog automatically.</span>
-        <button id="sync-catalog" type="button" class="secondary">Retry website sync</button>
+        <span>Published products appear on the public website automatically. Changes may take about a minute worldwide.</span>
+        <button id="sync-catalog" type="button" class="secondary">Check published products</button>
       </div>
       <div class="admin-grid">
         <section class="panel" aria-labelledby="list-title">
@@ -110,7 +124,7 @@
               <span class="tiny">Logo preview. Existing Zrain images are already available.</span>
             </div>
 
-            <label for="product-action">5. What should the main button do?</label>
+            <label for="product-action">5. Destination type</label>
             <select id="product-action">
               <option value="CONSOLE">Play / open inside Zrain Console</option>
               <option value="WEBSITE">Open a web app or website</option>
@@ -119,7 +133,7 @@
               <option value="DOCUMENTATION">Open documentation</option>
               <option value="SHOWCASE">Open a UI showcase</option>
             </select>
-            <p class="field-help">For GitHub templates, choose GitHub. For playable web games, choose Zrain Console.</p>
+            <p class="field-help">All main buttons open Zrain Console first. Games say Play Now; web products say Open Web App. GitHub and store links can be secondary buttons.</p>
 
             <label for="product-url">6. Where does the button go?</label>
             <input id="product-url" required type="url" maxlength="500" placeholder="https://...">
@@ -142,9 +156,9 @@
                   <label for="product-secondary-url">Link for the extra button</label>
                   <input id="product-secondary-url" type="url" maxlength="500" placeholder="https://...">
                 </div>
-                <label for="product-label">Main button text (optional customization)</label>
-                <input id="product-label" maxlength="50" value="Play Now">
-                <p class="field-help">Example: Play Now, Open Web App or View on GitHub. We fill this automatically.</p>
+                <label for="product-label">Main button text (automatic)</label>
+                <input id="product-label" maxlength="50" value="Play Now" readonly>
+                <p class="field-help">Play Now for Games. Open Web App for everything else.</p>
                 <label for="product-slug">Internal product ID (automatic)</label>
                 <input id="product-slug" readonly required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*">
                 <p class="field-help">Created from the name. You do not need to edit it.</p>

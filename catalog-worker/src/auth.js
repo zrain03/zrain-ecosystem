@@ -37,11 +37,11 @@ async function signingKey(env) {
   const bytes=Uint8Array.from(atob(env.ZRAIN_JWT_SECRET_BASE64),c=>c.charCodeAt(0));
   return crypto.subtle.importKey("raw",bytes,{name:"HMAC",hash:"SHA-256"},false,["sign","verify"]);
 }
-export async function issueJWT(email,env) {
+export async function issueJWT(email,env,passwordVersion="bootstrap") {
   const now=Math.floor(Date.now()/1000);
   const head=encode(JSON.stringify({alg:"HS256",typ:"JWT"}));
   const body=encode(JSON.stringify({iss:"zrain-ecosystem",aud:"zrain-admin",sub:email,
-    role:"ADMIN",iat:now,exp:now+900}));
+    role:"ADMIN",passwordVersion,iat:now,exp:now+900}));
   const toSign=head+"."+body;
   const mac=new Uint8Array(await crypto.subtle.sign("HMAC",await signingKey(env),encoder.encode(toSign)));
   return toSign+"."+toBase64Url(mac);
@@ -62,16 +62,45 @@ export async function verifyJWT(token,env) {
     const now=Math.floor(Date.now()/1000);
     return payload.iss==="zrain-ecosystem" && payload.aud==="zrain-admin" &&
       payload.sub===env.ZRAIN_ADMIN_EMAIL && payload.role==="ADMIN" &&
+      typeof payload.passwordVersion==="string" &&
       Number.isInteger(payload.iat) && payload.iat<=now &&
       Number.isInteger(payload.exp) && payload.exp>now && payload.exp<=now+900
       ? payload : null;
   }catch {return null;}
 }
-export async function passwordMatches(password,env) {
+// One immutable Worker secret bootstraps the administrator. A password change
+// stores a keyed MAC in KV; the new password never appears in source or KV.
+const PASSWORD_KEY="admin/password-override-v1";
+export async function readPasswordOverride(kv) {
+  const value=await kv.get(PASSWORD_KEY);
+  if(value===null)return null;
+  const saved=JSON.parse(value);
+  if(!saved || typeof saved!=="object" ||
+     !/^[a-f0-9-]{36}$/.test(saved.version) ||
+     !/^[A-Za-z0-9_-]{43}$/.test(saved.hash))
+    throw new Error("Invalid stored administrator credentials");
+  return saved;
+}
+export async function passwordMac(password,env) {
+  const data=encoder.encode("zrain-admin-password-v1:"+password);
+  const mac=await crypto.subtle.sign("HMAC",await signingKey(env),data);
+  return toBase64Url(new Uint8Array(mac));
+}
+export async function passwordMatches(password,env,override=null) {
   if (!authConfigured(env)||typeof password!=="string"||password.length>512) return false;
+  if(override) {
+    const a=encoder.encode(await passwordMac(password,env));
+    const b=encoder.encode(override.hash);
+    return fixedDigestEqual(a,b);
+  }
   const a=await digest(password);
   const b=await digest(env.ZRAIN_ADMIN_PASSWORD);
   return fixedDigestEqual(a,b);
+}
+export async function savePasswordOverride(kv,password,env) {
+  const value={version:crypto.randomUUID(),hash:await passwordMac(password,env)};
+  await kv.put(PASSWORD_KEY,JSON.stringify(value));
+  return value;
 }
 export async function rateLimitKey(request,email) {
   const ip=request.headers.get("CF-Connecting-IP")||"unknown";

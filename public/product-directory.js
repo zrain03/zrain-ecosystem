@@ -9,17 +9,19 @@ const roots = {
 };
 
 function actionLink(product, secondary = false) {
-  const label = secondary ? product.secondaryLabel : product.primaryLabel;
-  const url = secondary ? product.secondaryUrl : product.primaryUrl;
-  const isConsole = !secondary && product.primaryAction === "CONSOLE";
-  const action = document.createElement(isConsole ? "button" : "a");
+  const repoSecondary = secondary && product.primaryAction === "GITHUB" &&
+    product.primaryUrl.startsWith("https://github.com/");
+  const label = secondary ? (repoSecondary ? "View on GitHub" : product.secondaryLabel) :
+    (product.category === "GAMES" ? "Play Now" : "Open Web App");
+  const url = secondary ? (repoSecondary ? product.primaryUrl : product.secondaryUrl) :
+    product.primaryUrl;
+  const action = document.createElement(secondary ? "a" : "button");
   action.className = secondary ? "item-cta product-action product-action-secondary"
     : "item-cta product-action product-action-primary";
-  if (isConsole) {
+  if (!secondary) {
     action.type = "button";
     action.dataset.console = product.slug;
   } else {
-    // On localhost, preview the actual local Zrain UI page instead of the old live version.
     const local = ["localhost", "127.0.0.1"].includes(window.location.hostname);
     action.href = local && url === "https://zrain.web.app/zrain-ui-showcase.html"
       ? "/zrain-ui-showcase.html" : url;
@@ -54,7 +56,8 @@ export function makeCard(product) {
   const actions = document.createElement("div");
   actions.className = "product-actions";
   actions.append(actionLink(product));
-  if (product.secondaryLabel && product.secondaryUrl) {
+  if ((product.secondaryLabel && product.secondaryUrl) ||
+      (product.primaryAction === "GITHUB" && product.primaryUrl.startsWith("https://github.com/"))) {
     actions.append(actionLink(product, true));
   }
   card.append(image, copy, actions);

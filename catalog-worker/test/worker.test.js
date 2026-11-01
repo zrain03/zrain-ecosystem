@@ -89,27 +89,25 @@ test("existing product import is idempotent and remains in Draft",async()=>{
   const a=await send(env,"/api/admin/products/import-existing","POST",undefined,jwt);
   assert.equal((await a.json()).added,6);
   assert.equal((await (await send(env,"/api/admin/products","GET",undefined,jwt)).json()).length,6);
-  assert.equal((await send(env,"/api/catalog")).status,404);
+  assert.deepEqual(await (await send(env,"/api/catalog")).json(),[]);
   const b=await send(env,"/api/admin/products/import-existing","POST",undefined,jwt);
   assert.deepEqual(await b.json(),{added:0,skipped:6,totalAvailable:6});
   assert.equal(EXISTING.length,6);
 });
-test("published products are public after admin sync and cannot be modified anonymously",async()=>{
+test("published products appear publicly without manual sync and cannot be modified anonymously",async()=>{
   const {env}=mock(),jwt=await login(env);
   await send(env,"/api/admin/products/import-existing","POST",undefined,jwt);
   const rows=await (await send(env,"/api/admin/products","GET",undefined,jwt)).json();
   const p=rows.find(x=>x.slug==="memory-rush");
   assert.equal((await send(env,"/api/admin/products/"+p.id+"/publish","POST")).status,401);
   assert.equal((await send(env,"/api/admin/products/"+p.id+"/publish","POST",undefined,jwt)).status,200);
-  const result=await send(env,"/api/admin/catalog/sync","POST",undefined,jwt);
-  assert.equal((await result.json()).published,1);
   const response=await send(env,"/api/catalog");
   assert.equal(response.status,200);
   assert.equal(response.headers.get("Access-Control-Allow-Origin"),"*");
   assert.deepEqual((await response.json()).map(x=>x.slug),["memory-rush"]);
   assert.equal((await send(env,"/api/admin/products/"+p.id+"/unpublish","POST",undefined,jwt)).status,200);
-  assert.equal((await (await send(env,"/api/admin/catalog/sync","POST",undefined,jwt)).json()).published,0);
   assert.deepEqual(await (await send(env,"/api/catalog")).json(),[]);
+  assert.equal((await (await send(env,"/api/admin/catalog/sync","POST",undefined,jwt)).json()).published,0);
 });
 test("new products are Draft; duplicate and invalid URLs are rejected; editing preserves order",async()=>{
   const {env}=mock(),jwt=await login(env);
@@ -169,4 +167,38 @@ test("readiness blocks the web release when configuration is incomplete", async 
   const response = await send(env, "/api/ready");
   assert.equal(response.status, 503);
   assert.equal((await response.json()).ready, false);
+});
+
+test("administrator can change to a 16-character password, and old credentials and tokens stop working",async()=>{
+  const {env,entries}=mock();
+  const token=await login(env);
+  assert.equal((await send(env,"/api/admin/auth/password","POST",
+    {currentPassword:"wrong",newPassword:"New-password-2026!"},token)).status,400);
+  assert.equal((await send(env,"/api/admin/auth/password","POST",
+    {currentPassword:password,newPassword:"short"},token)).status,400);
+  const changed=await send(env,"/api/admin/auth/password","POST",
+    {currentPassword:password,newPassword:"New-password-2026!"},token);
+  assert.equal(changed.status,200);
+  assert.deepEqual(await changed.json(),{changed:true,message:"Password updated. Sign in again."});
+  const stored=entries.get("admin/password-override-v1");
+  assert.ok(stored);
+  assert.equal(stored.includes("New-password-2026!"),false);
+  assert.equal((await send(env,"/api/admin/auth/me","GET",undefined,token)).status,401);
+  assert.equal((await send(env,"/api/admin/auth/login","POST",
+    {email:adminEmail,password})).status,401);
+  const fresh=await send(env,"/api/admin/auth/login","POST",
+    {email:adminEmail,password:"New-password-2026!"});
+  assert.equal(fresh.status,200);
+  const newToken=(await fresh.json()).accessToken;
+  assert.equal((await send(env,"/api/admin/auth/me","GET",undefined,newToken)).status,200);
+  assert.equal((await send(env,"/api/admin/auth/password","POST",
+    {currentPassword:"New-password-2026!",newPassword:"Another-password-2026"},newToken)).status,200);
+  assert.equal((await send(env,"/api/admin/auth/me","GET",undefined,newToken)).status,401);
+});
+
+test("missing or malformed password overrides fail closed",async()=>{
+  const {env,entries}=mock();
+  entries.set("admin/password-override-v1",'{"hash":"invalid"}');
+  assert.equal((await send(env,"/api/admin/auth/login","POST",
+    {email:adminEmail,password})).status,503);
 });

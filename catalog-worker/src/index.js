@@ -3,7 +3,8 @@
 // No Render, R2, third-party paid database, payments or automatic upgrades.
 import { KEYS, EXISTING, validateProduct, loadProducts, saveProducts,
   publishProducts, publicProducts, newProduct, nextOrder } from "./products.js";
-import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey } from "./auth.js";
+import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey,
+  readPasswordOverride, savePasswordOverride } from "./auth.js";
 
 const MAX_REQUEST_BYTES=250_000;
 const JSON_HEADERS={"Content-Type":"application/json; charset=utf-8",
@@ -60,7 +61,10 @@ async function readLimited(request,limit) {
   return bytes;
 }
 async function readPublic(env) {
-  return env.ZRAIN_CATALOG.get(KEYS.public);
+  // Always derive the public catalog from the latest product statuses.
+  // This removes manual sync and uses only one Free KV read per page load.
+  const products=await loadProducts(env.ZRAIN_CATALOG);
+  return products.length ? JSON.stringify(publicProducts(products)) : null;
 }
 async function login(request,env) {
   if(!authConfigured(env))throw new ErrorResponse(503,"Admin is not configured");
@@ -76,20 +80,24 @@ async function login(request,env) {
     attempts=Number(await env.ZRAIN_CATALOG.get(key))||0;
   }catch {throw new ErrorResponse(503,"Login temporarily unavailable");}
   if(attempts>=5)throw new ErrorResponse(429,"Too many attempts. Try again later.");
+  const credential=await readPasswordOverride(env.ZRAIN_CATALOG);
   const okay=email===env.ZRAIN_ADMIN_EMAIL.trim().toLowerCase() &&
-    await passwordMatches(body.password,env);
+    await passwordMatches(body.password,env,credential);
   if(!okay) {
     try{await env.ZRAIN_CATALOG.put(key,String(attempts+1),{expirationTtl:900});}
     catch {throw new ErrorResponse(503,"Login temporarily unavailable");}
     throw new ErrorResponse(401,"Invalid email or password");
   }
-  return {accessToken:await issueJWT(env.ZRAIN_ADMIN_EMAIL,env),
-    expiresIn:900,tokenType:"Bearer"};
+  return {accessToken:await issueJWT(env.ZRAIN_ADMIN_EMAIL,env,
+    credential?.version||"bootstrap"),expiresIn:900,tokenType:"Bearer"};
 }
 async function authenticated(request,env) {
   const header=request.headers.get("Authorization");
   if(!header?.startsWith("Bearer "))return null;
-  return verifyJWT(header.slice(7),env);
+  const claims=await verifyJWT(header.slice(7),env);
+  if(!claims)return null;
+  const credential=await readPasswordOverride(env.ZRAIN_CATALOG);
+  return claims.passwordVersion===(credential?.version||"bootstrap")?claims:null;
 }
 function validateUniqueness(rows,slug,excluding=null) {
   if(rows.some(p=>p.slug===slug && p.id!==excluding))
@@ -106,11 +114,25 @@ async function routeAdmin(request,env,path) {
   if(!claims)throw new ErrorResponse(401,"Administrator authentication required");
   if(path==="/api/admin/auth/me" && request.method==="GET")
     return {email:claims.sub,role:"ADMIN"};
+  if(path==="/api/admin/auth/password" && request.method==="POST") {
+    const data=await readJSON(request,4096);
+    if(typeof data?.currentPassword!=="string" ||
+       typeof data?.newPassword!=="string" ||
+       data.newPassword.length<16 || data.newPassword.length>128)
+      throw new ErrorResponse(400,"Use a new password of 16 to 128 characters.");
+    const existing=await readPasswordOverride(env.ZRAIN_CATALOG);
+    if(!await passwordMatches(data.currentPassword,env,existing))
+      throw new ErrorResponse(400,"Current password is incorrect.");
+    if(data.currentPassword===data.newPassword)
+      throw new ErrorResponse(400,"Choose a different password.");
+    await savePasswordOverride(env.ZRAIN_CATALOG,data.newPassword,env);
+    return {changed:true,message:"Password updated. Sign in again."};
+  }
   if(path==="/api/admin/catalog/status" && request.method==="GET")
     return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put};
   if(path==="/api/admin/catalog/sync" && request.method==="POST") {
     const rows=await loadProducts(env.ZRAIN_CATALOG);
-    return {published:await publishProducts(env.ZRAIN_CATALOG,rows),success:true};
+    return {published:publicProducts(rows).length,success:true};
   }
   if(path==="/api/admin/products" && request.method==="GET")
     return loadProducts(env.ZRAIN_CATALOG);
@@ -190,7 +212,7 @@ export default {
         const result=await readPublic(env);
         if(result===null)return reply(request,env,{error:"Catalog not yet published"},404,true);
         return new Response(result,{headers:{
-          ...JSON_HEADERS,"Cache-Control":"public, max-age=30",
+          ...JSON_HEADERS,"Cache-Control":"no-store",
           "Access-Control-Allow-Origin":"*"}});
       }
       if(path.startsWith("/api/admin/")){

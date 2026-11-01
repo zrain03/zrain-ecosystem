@@ -39,14 +39,14 @@ test('directory shows real applications only, with no placeholder projects',asyn
   for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
   assert.equal(Object.keys(PRODUCTS).length,6);
   for(const [id,p] of Object.entries(PRODUCTS)){
-    if (p.kind === "mobile") assert.match(html,new RegExp(`data-console="${id}"`));
+    assert.match(html,new RegExp(`data-console="${id}"`));
     assert.ok(p.webUrl.startsWith('https://'));
     assert.ok(p.icon.startsWith('/'));
   }
   assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-auth-starter"/);
   assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-ui"/);
-  assert.match(html, /href="https:\/\/zrain-monitor\.web\.app\/"/);
-  assert.match(html, /href="https:\/\/zrain-links\.web\.app\/"/);
+  assert.match(html, /data-console="zrain-monitor"/);
+  assert.match(html, /data-console="zrain-links"/);
   assert.match(html, /03 TOOLS/);
   assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
   assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
@@ -177,8 +177,8 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     nodes.get('zrain-console').close();
     u.fire('click');
     assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-ui'].webUrl);
-    assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-ui'].externalUrl);
-    assert.match(nodes.get('console-external').title,/GitHub/);
+    assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-ui'].webUrl);
+    assert.match(nodes.get('console-external').title,/new tab/);
     nodes.get('zrain-console').fire('close');
     assert.equal(nodes.get('console-frame').src,undefined);
   }finally{Object.assign(globalThis,previous)}
@@ -279,7 +279,7 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
   assert.doesNotMatch(html, /Guess the Flag/);
   assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.1\.6/);
+  assert.match(html,/zrain-console\.js\?v=4\.1\.8/);
   assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
 });
 

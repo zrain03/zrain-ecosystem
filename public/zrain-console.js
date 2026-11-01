@@ -4,10 +4,14 @@ const published = new Map();
 export function registerPublishedProducts(products) {
   published.clear();
   for (const item of products) {
-    if (item.primaryAction === "CONSOLE") published.set(item.slug, {
+    const builtIn = PRODUCTS[item.slug];
+    const sourceFirst = ["GITHUB","PLAY_STORE","DOCUMENTATION"].includes(item.primaryAction);
+    const webUrl = sourceFirst && builtIn ? builtIn.webUrl : item.primaryUrl;
+    published.set(item.slug, {
       name: item.name, description: item.description, icon: item.logoUrl,
-      webUrl: item.primaryUrl,
-      storeUrl: item.secondaryUrl?.includes("play.google.com/store/apps/") ? item.secondaryUrl : undefined
+      webUrl,
+      storeUrl: item.secondaryUrl?.includes("play.google.com/store/apps/") ?
+        item.secondaryUrl : builtIn?.storeUrl
     });
   }
 }
@@ -107,8 +111,8 @@ function openConsole(id, trigger) {
   name.textContent = product.name;
   description.textContent = product.description;
   frame.title = product.name + " web app";
-  external.href = product.externalUrl || product.webUrl;
-  external.title = product.externalUrl ? 'View Zrain UI source on GitHub' : 'Open website in new tab';
+  external.href = product.webUrl;
+  external.title = 'Open website in new tab';
   external.setAttribute('aria-label', external.title);
   store.hidden = !product.storeUrl;
   if (product.storeUrl) store.href = product.storeUrl;
