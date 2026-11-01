@@ -1,139 +1,203 @@
-// Zrain public product directory. Workers Free + Workers KV Free ONLY.
-// No R2, paid storage, images, or billing-dependent integrations.
-const MAX_CATALOG_BYTES = 250_000;
-const CATALOG_KEY = "catalog/published-v1";
-const JSON_HEADERS = Object.freeze({
-  "Content-Type": "application/json; charset=utf-8",
-  "X-Content-Type-Options": "nosniff"
-});
-function respond(body, status = 200, headers = {}) {
-  return new Response(JSON.stringify(body), {
-    status, headers: { ...JSON_HEADERS, ...headers }
-  });
+// Zrain Ecosystem Admin API and public catalog.
+// Production target: Cloudflare Workers Free + Workers KV Free ONLY.
+// No Render, R2, third-party paid database, payments or automatic upgrades.
+import { KEYS, EXISTING, validateProduct, loadProducts, saveProducts,
+  publishProducts, publicProducts, newProduct, nextOrder } from "./products.js";
+import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey } from "./auth.js";
+
+const MAX_REQUEST_BYTES=250_000;
+const JSON_HEADERS={"Content-Type":"application/json; charset=utf-8",
+  "X-Content-Type-Options":"nosniff","Cache-Control":"no-store"};
+const ALLOW_METHODS="GET, POST, PUT, OPTIONS";
+class ErrorResponse extends Error {
+  constructor(status,message){super(message);this.status=status;}
 }
-function allowedHttpsUrl(value) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" && !!url.hostname && !url.username &&
-      !url.password && !url.port && !url.hash.startsWith("#javascript:");
-  } catch { return false; }
+function trustedOrigin(request,env) {
+  const origin=request.headers.get("Origin");
+  if(!origin)return null;
+  if(origin==="https://zrain.web.app" && env.ZRAIN_ALLOWED_ORIGIN===origin)return origin;
+  if(env.ZRAIN_ALLOW_LOCAL_PREVIEW==="true" &&
+     (origin==="http://localhost:5000" || origin==="http://127.0.0.1:5000"))
+    return origin;
+  return null;
 }
-function validLogo(path) {
-  return typeof path === "string" && path.length <= 500 &&
-    (/^\/(?!\/)(?!.*\.\.)[a-zA-Z0-9_./-]+$/.test(path) || allowedHttpsUrl(path));
+function reply(request,env,body,status=200,publicRead=false,extra={}) {
+  const origin=trustedOrigin(request,env);
+  const headers={...JSON_HEADERS,...extra};
+  if(publicRead)headers["Access-Control-Allow-Origin"]="*";
+  else if(origin) {
+    headers["Access-Control-Allow-Origin"]=origin;
+    headers["Vary"]="Origin";
+  }
+  return new Response(JSON.stringify(body),{status,headers});
 }
-function validCatalog(value) {
-  if (!Array.isArray(value) || value.length > 300) return false;
-  const slugs = new Set();
-  const categories = new Set(["GAMES", "DEVELOPER_TOOLS", "ONLINE_SERVICES", "WEB_UTILITIES"]);
-  const actions = new Set(["CONSOLE", "WEBSITE", "GITHUB", "PLAY_STORE", "DOCUMENTATION", "SHOWCASE"]);
-  for (const item of value) {
-    if (!item || item.status !== "PUBLISHED" ||
-        typeof item.slug !== "string" ||
-        !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug) ||
-        slugs.has(item.slug) ||
-        typeof item.name !== "string" || !item.name.trim() || item.name.length > 100 ||
-        typeof item.description !== "string" || item.description.length > 300 ||
-        !categories.has(item.category) || !actions.has(item.primaryAction) ||
-        typeof item.primaryLabel !== "string" || !item.primaryLabel.trim() ||
-        item.primaryLabel.length > 50 ||
-        !allowedHttpsUrl(item.primaryUrl) ||
-        !validLogo(item.logoUrl) ||
-        ((item.secondaryLabel == null) !== (item.secondaryUrl == null)) ||
-        (item.secondaryUrl != null && (!allowedHttpsUrl(item.secondaryUrl) ||
-          typeof item.secondaryLabel !== "string" ||
-          !item.secondaryLabel.trim() || item.secondaryLabel.length > 50))) {
-      return false;
+async function readJSON(request,limit=MAX_REQUEST_BYTES) {
+  if(!request.headers.get("Content-Type")?.toLowerCase().includes("application/json"))
+    throw new ErrorResponse(415,"JSON required");
+  if(Number(request.headers.get("Content-Length"))>limit)
+    throw new ErrorResponse(413,"Request too large");
+  const bytes=await readLimited(request,limit);
+  if(!bytes)throw new ErrorResponse(413,"Request too large");
+  try{return JSON.parse(new TextDecoder().decode(bytes));}
+  catch {throw new ErrorResponse(400,"Invalid JSON");}
+}
+async function readLimited(request,limit) {
+  if(!request.body)return new Uint8Array();
+  const reader=request.body.getReader();
+  const parts=[];let length=0;
+  try{
+    while(true){
+      const {value,done}=await reader.read();
+      if(done)break;
+      length+=value.byteLength;
+      if(length>limit){await reader.cancel();return null;}
+      parts.push(value);
     }
-    slugs.add(item.slug);
-  }
-  return true;
-}
-function authorized(request, env) {
-  const key = env.ZRAIN_CATALOG_PUBLISH_KEY;
-  return typeof key === "string" && key.length >= 32 &&
-    request.headers.get("Authorization") === "Bearer " + key;
-}
-async function readLimited(request, limit) {
-  if (!request.body) return new Uint8Array();
-  const reader = request.body.getReader();
-  const chunks = [];
-  let length = 0;
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      length += value.byteLength;
-      if (length > limit) {
-        await reader.cancel();
-        return null;
-      }
-      chunks.push(value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
-  const bytes = new Uint8Array(length);
-  let offset = 0;
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
+  }finally{reader.releaseLock();}
+  const bytes=new Uint8Array(length);
+  let offset=0;
+  for(const part of parts){bytes.set(part,offset);offset+=part.byteLength;}
   return bytes;
 }
+async function readPublic(env) {
+  return env.ZRAIN_CATALOG.get(KEYS.public);
+}
+async function login(request,env) {
+  if(!authConfigured(env))throw new ErrorResponse(503,"Admin is not configured");
+  const body=await readJSON(request,4096);
+  if(typeof body?.email!=="string"||typeof body?.password!=="string")
+    throw new ErrorResponse(400,"Email and password are required");
+  if(body.email.length>254 || body.password.length>512)
+    throw new ErrorResponse(400,"Credentials invalid");
+  const email=body.email.trim().toLowerCase();
+  const key=await rateLimitKey(request,email);
+  let attempts=0;
+  try {
+    attempts=Number(await env.ZRAIN_CATALOG.get(key))||0;
+  }catch {throw new ErrorResponse(503,"Login temporarily unavailable");}
+  if(attempts>=5)throw new ErrorResponse(429,"Too many attempts. Try again later.");
+  const okay=email===env.ZRAIN_ADMIN_EMAIL.trim().toLowerCase() &&
+    await passwordMatches(body.password,env);
+  if(!okay) {
+    try{await env.ZRAIN_CATALOG.put(key,String(attempts+1),{expirationTtl:900});}
+    catch {throw new ErrorResponse(503,"Login temporarily unavailable");}
+    throw new ErrorResponse(401,"Invalid email or password");
+  }
+  return {accessToken:await issueJWT(env.ZRAIN_ADMIN_EMAIL,env),
+    expiresIn:900,tokenType:"Bearer"};
+}
+async function authenticated(request,env) {
+  const header=request.headers.get("Authorization");
+  if(!header?.startsWith("Bearer "))return null;
+  return verifyJWT(header.slice(7),env);
+}
+function validateUniqueness(rows,slug,excluding=null) {
+  if(rows.some(p=>p.slug===slug && p.id!==excluding))
+    throw new ErrorResponse(409,"The product ID is already used.");
+}
+async function saveAndRespond(env,rows,value) {
+  await saveProducts(env.ZRAIN_CATALOG,rows);
+  return value;
+}
+async function routeAdmin(request,env,path) {
+  if(path==="/api/admin/auth/login" && request.method==="POST")
+    return login(request,env);
+  const claims=await authenticated(request,env);
+  if(!claims)throw new ErrorResponse(401,"Administrator authentication required");
+  if(path==="/api/admin/auth/me" && request.method==="GET")
+    return {email:claims.sub,role:"ADMIN"};
+  if(path==="/api/admin/catalog/status" && request.method==="GET")
+    return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put};
+  if(path==="/api/admin/catalog/sync" && request.method==="POST") {
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    return {published:await publishProducts(env.ZRAIN_CATALOG,rows),success:true};
+  }
+  if(path==="/api/admin/products" && request.method==="GET")
+    return loadProducts(env.ZRAIN_CATALOG);
+  if(path==="/api/admin/products/import-existing" && request.method==="POST") {
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    let added=0;
+    for(const entry of EXISTING) {
+      if(rows.some(p=>p.slug===entry.slug))continue;
+      rows.push(newProduct(entry,entry.sortOrder));
+      added++;
+    }
+    if(added)await saveProducts(env.ZRAIN_CATALOG,rows);
+    return {added,skipped:EXISTING.length-added,totalAvailable:EXISTING.length};
+  }
+  if(path==="/api/admin/products" && request.method==="POST") {
+    const input=validateProduct(await readJSON(request));
+    if(!input)throw new ErrorResponse(400,"Invalid product fields");
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    if(rows.length>=300)throw new ErrorResponse(400,"Product limit reached");
+    validateUniqueness(rows,input.slug);
+    const product=newProduct(input,nextOrder(rows,input.category));
+    rows.push(product);
+    return saveAndRespond(env,rows,product);
+  }
+  const match=path.match(/^\/api\/admin\/products\/([a-f0-9-]{36})(?:\/(publish|unpublish|archive))?$/);
+  if(match){
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    const found=rows.find(p=>p.id===match[1]);
+    if(!found)throw new ErrorResponse(404,"Product not found");
+    if(match[2] && request.method==="POST") {
+      found.status={publish:"PUBLISHED",unpublish:"DRAFT",archive:"ARCHIVED"}[match[2]];
+      found.updatedAt=new Date().toISOString();
+      return saveAndRespond(env,rows,found);
+    }
+    if(!match[2] && request.method==="PUT") {
+      const input=validateProduct(await readJSON(request));
+      if(!input)throw new ErrorResponse(400,"Invalid product fields");
+      validateUniqueness(rows,input.slug,found.id);
+      const order=input.category===found.category?found.sortOrder:nextOrder(rows,input.category);
+      Object.assign(found,input,{sortOrder:order,updatedAt:new Date().toISOString()});
+      return saveAndRespond(env,rows,found);
+    }
+  }
+  throw new ErrorResponse(404,"Admin endpoint not found");
+}
+
 export default {
-  async fetch(request, env) {
-    const path = new URL(request.url).pathname;
-    if (request.method === "GET" && path === "/api/health") {
-      return respond({ status: "ok", service: "zrain-ecosystem-catalog", storage: "kv-free" },
-        200, { "Cache-Control": "no-store" });
+  async fetch(request,env) {
+    const path=new URL(request.url).pathname;
+    const isPublic=path==="/api/catalog" || path==="/api/products" || path==="/api/health";
+    const origin=request.headers.get("Origin");
+    const allowed=trustedOrigin(request,env);
+    if(request.method==="OPTIONS") {
+      if(!allowed)return reply(request,env,{error:"Origin not allowed"},403);
+      return new Response(null,{status:204,headers:{
+        "Access-Control-Allow-Origin":allowed,
+        "Access-Control-Allow-Methods":ALLOW_METHODS,
+        "Access-Control-Allow-Headers":"Authorization, Content-Type",
+        "Access-Control-Max-Age":"300",
+        "Vary":"Origin"
+      }});
     }
-    if (path !== "/api/catalog") {
-      return respond({ error: "Not found" }, 404, { "Cache-Control": "no-store" });
-    }
-    // All catalog operations fail closed if KV has not been bound.
-    if (!env.ZRAIN_CATALOG?.get || !env.ZRAIN_CATALOG?.put) {
-      return respond({ error: "Catalog not configured" }, 503, { "Cache-Control": "no-store" });
-    }
-    if (request.method === "GET") {
-      try {
-        const value = await env.ZRAIN_CATALOG.get(CATALOG_KEY, "text");
-        if (value === null) {
-          return respond({ error: "Catalog not published" }, 404,
-            { "Access-Control-Allow-Origin": "*", "Cache-Control": "no-store" });
-        }
-        return new Response(value, {
-          headers: {
-            ...JSON_HEADERS,
-            "Access-Control-Allow-Origin": "*",
-            "Cache-Control": "public, max-age=30"
-          }
-        });
-      } catch {
-        return respond({ error: "Catalog temporarily unavailable" }, 503,
-          { "Access-Control-Allow-Origin": "*", "Cache-Control": "no-store" });
+    if(!isPublic && origin && !allowed)
+      return reply(request,env,{error:"Origin not allowed"},403);
+    if(path==="/api/health" && request.method==="GET")
+      return reply(request,env,{status:"ok",service:"zrain-ecosystem-admin-free",
+        storage:"workers-kv-free"},200,true);
+    if(!env.ZRAIN_CATALOG?.get || !env.ZRAIN_CATALOG?.put)
+      return reply(request,env,{error:"KV Free namespace is not bound"},503,isPublic);
+    try{
+      if((path==="/api/catalog" || path==="/api/products") && request.method==="GET"){
+        const result=await readPublic(env);
+        if(result===null)return reply(request,env,{error:"Catalog not yet published"},404,true);
+        return new Response(result,{headers:{
+          ...JSON_HEADERS,"Cache-Control":"public, max-age=30",
+          "Access-Control-Allow-Origin":"*"}});
       }
-    }
-    if (request.method === "PUT") {
-      if (!authorized(request, env)) return respond({ error: "Unauthorized" }, 401);
-      if (Number(request.headers.get("Content-Length")) > MAX_CATALOG_BYTES) {
-        return respond({ error: "Catalog too large" }, 413);
+      if(path.startsWith("/api/admin/")){
+        const value=await routeAdmin(request,env,path);
+        return reply(request,env,value,200);
       }
-      const data = await readLimited(request, MAX_CATALOG_BYTES);
-      if (!data) return respond({ error: "Catalog too large" }, 413);
-      let parsed;
-      try { parsed = JSON.parse(new TextDecoder().decode(data)); }
-      catch { return respond({ error: "Invalid JSON" }, 400); }
-      if (!validCatalog(parsed)) return respond({ error: "Invalid published catalog" }, 400);
-      try {
-        await env.ZRAIN_CATALOG.put(CATALOG_KEY, JSON.stringify(parsed));
-      } catch {
-        // A Free-plan write limit must fail, NOT trigger an upgrade or bill.
-        return respond({ error: "Catalog write unavailable or Free quota reached" }, 503);
-      }
-      return respond({ published: parsed.length, success: true }, 200,
-        { "Cache-Control": "no-store" });
+      return reply(request,env,{error:"Not found"},404,isPublic);
+    }catch(error) {
+      if(error instanceof ErrorResponse)
+        return reply(request,env,{error:error.message},error.status,isPublic);
+      // Free plan limits or storage outages must fail closed, never auto-upgrade.
+      return reply(request,env,{error:"Service unavailable or Free quota reached"},503,isPublic);
     }
-    return respond({ error: "Method not allowed" }, 405, { "Allow": "GET, PUT" });
   }
 };
