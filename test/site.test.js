@@ -292,7 +292,7 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
   assert.doesNotMatch(html, /Guess the Flag/);
   assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.1\.9/);
+  assert.match(html,/zrain-console\.js\?v=4\.2\.0/);
   assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
 });
 
@@ -337,4 +337,24 @@ test('Zrain UI showcase uses the real shared branding and links to official sour
   assert.match(html,/class="zrain-footer"/);
   assert.ok(PRODUCTS['zrain-ui'].webUrl.endsWith('/zrain-ui-showcase.html'));
   assert.ok(PRODUCTS['zrain-ui'].externalUrl.startsWith('https://github.com/'));
+});
+
+test('the public Console project page is discoverable and launches real production previews', async()=>{
+  const [home, page, css, client] = await Promise.all([
+    read('../public/index.html'),
+    read('../public/zrain-console.html'),
+    read('../public/zrain-console-page.css'),
+    read('../public/zrain-console.js')
+  ]);
+  assert.match(home,/href="\/zrain-console\.html"/);
+  assert.match(page,/<title>Zrain Console/);
+  assert.match(page,/Developed by Zrain/);
+  for(const id of ['guess-the-flag','zrain-links','zrain-ui'])
+    assert.match(page,new RegExp('href="/\\?console=' + id + '"'));
+  assert.match(page,/Source on GitHub/);
+  assert.match(page,/iframe/);
+  assert.match(css,/\.zc-hero/);
+  assert.match(client,/new URLSearchParams\(window\.location\?\.search \|\| ""\)/);
+  assert.match(client,/Object\.prototype\.hasOwnProperty\.call\(PRODUCTS, requestedDemo\)/);
+  assert.doesNotMatch(client,/frame\.src = requestedDemo/);
 });
