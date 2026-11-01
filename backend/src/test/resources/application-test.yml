@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:zrain-ecosystem-test;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: validate
+zrain:
+  jwt:
+    secret-base64: AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=
+    issuer: zrain-ecosystem-admin
+    audience: zrain-ecosystem-api
+    access-minutes: 15

@@ -442,6 +442,8 @@ body:has(.zrain-console[open]) { overflow: hidden; }
 /* Secondary product destinations are shown beside the main card action. */
 
 
+/* Visible only for the localhost development catalog preview. */
+.catalog-local-status{margin:0 0 18px;padding:12px 15px;border:1px solid #e7c7b7;border-radius:12px;background:#fff4ec;color:#8f422d;font-size:12px;font-weight:650;line-height:1.5}
 
 /* Unified product cards: every action stays INSIDE the same outlined card. */
 .product-list{display:grid;gap:11px}

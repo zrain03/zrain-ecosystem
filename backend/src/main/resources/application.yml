@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: zrain-ecosystem-api
+  profiles:
+    default: local
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+zrain:
+  jwt:
+    secret-base64: ${ZRAIN_JWT_SECRET_BASE64:}
+    issuer: zrain-ecosystem-admin
+    audience: zrain-ecosystem-api
+    access-minutes: 15
+  admin:
+    email: ${ZRAIN_ADMIN_EMAIL:}
+    password: ${ZRAIN_ADMIN_PASSWORD:}
+  allowed-origin: ${ZRAIN_ALLOWED_ORIGIN:https://zrain.web.app}
+  catalog:
+    worker-url: ${ZRAIN_CATALOG_WORKER_URL:}
+    publish-key: ${ZRAIN_CATALOG_PUBLISH_KEY:}
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never

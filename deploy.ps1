@@ -20,6 +20,63 @@ try {
         throw 'Missing firebase.json or public/index.html. Deployment stopped.'
     }
 
+    # This release must not publish a nonfunctional /admin page.
+    if (Test-Path '.\public\admin\index.html') {
+        $spark = Read-Host 'Confirm Firebase zrain-ecosystem is on Spark (NOT Blaze), with no billable payment method. Type SPARK'
+        if ($spark -cne 'SPARK') {
+            throw 'Spark no-billing confirmation missing. Deployment stopped.'
+        }
+        $config = Get-Content '.\public\api-config.js' -Raw
+        if ($config -notmatch 'const PRODUCTION_API_URL = "([^"]+)";') {
+            throw 'Production Admin API URL is not configured.'
+        }
+        $apiUrl = $Matches[1]
+        if ($apiUrl -notmatch '^https://[A-Za-z0-9.-]+$') {
+            throw 'Production Admin API URL must be an HTTPS origin.'
+        }
+        try {
+            $health = Invoke-RestMethod -Uri "$apiUrl/api/health" -TimeoutSec 90
+        } catch {
+            throw 'Production Admin API is unreachable. Deployment stopped.'
+        }
+        if ($health.status -ne 'ok') {
+            throw 'Production Admin API health check failed.'
+        }
+
+        try {
+            $ready = Invoke-RestMethod -Uri "$apiUrl/api/ready" -TimeoutSec 30
+        } catch {
+            throw 'Admin API configuration is incomplete. Deployment stopped.'
+        }
+        if ($ready.ready -ne $true) {
+            throw 'Admin API is not ready. Deployment stopped.'
+        }
+
+        # Stage 1 permits an empty catalog URL while the six products are imported.
+        # Stage 2 requires the published catalog to contain all six official products.
+        if ($config -match 'const PRODUCTION_CATALOG_URL = "([^"]+)";') {
+            $catalogUrl = $Matches[1]
+            if ($catalogUrl -notmatch '^https://[A-Za-z0-9.-]+/api/catalog$') {
+                throw 'Invalid Cloudflare public catalog URL.'
+            }
+            try {
+                $catalog = Invoke-RestMethod -Uri $catalogUrl -TimeoutSec 30
+            } catch {
+                throw 'Public catalog endpoint unavailable. Deployment stopped.'
+            }
+            $required = @(
+                'guess-the-flag', 'memory-rush', 'zrain-auth-starter',
+                'zrain-monitor', 'zrain-ui', 'zrain-links'
+            )
+            $slugs = @($catalog | ForEach-Object { $_.slug })
+            foreach ($name in $required) {
+                if ($name -notin $slugs) {
+                    throw "Official product $name is missing. Deployment stopped."
+                }
+            }
+        }
+    }
+
     npm install
     Assert-Success 'Dependency installation'
 

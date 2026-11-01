@@ -16,3 +16,29 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run ui:sync
       - run: npm run test:release
+      - name: Validate PowerShell deployment script syntax
+        shell: pwsh
+        run: |
+          $errorsFound = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path (Get-Location) 'deploy.ps1'),
+            [ref]$null,
+            [ref]$errorsFound
+          )
+          if ($errorsFound.Count -gt 0) {
+            $errorsFound | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+      - name: Parse guarded Cloudflare Free setup script
+        shell: pwsh
+        run: |
+          $parseErrors = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path (Get-Location) 'scripts/setup-free-admin-worker.ps1'),
+            [ref]$null,
+            [ref]$parseErrors
+          )
+          if ($parseErrors.Count -gt 0) {
+            $parseErrors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }

@@ -1,0 +1,17 @@
+name = "zrain-ecosystem-catalog"
+main = "src/index.js"
+compatibility_date = "2026-10-29"
+workers_dev = true
+
+# Cloudflare Workers Free + Workers KV Free only. R2 is NOT used.
+# Run 'npx wrangler kv namespace create ZRAIN_CATALOG --update-config'
+# on the user's already authenticated computer to add the generated binding ID.
+# Do not enable Workers Paid or R2.
+
+[vars]
+ZRAIN_ALLOWED_ORIGIN = "https://zrain.web.app"
+
+# Namespace ID is a public binding identifier, not a password or access token.
+[[kv_namespaces]]
+binding = "ZRAIN_CATALOG"
+id = "612415c528bf4d9b9a96d08b2be4f581"

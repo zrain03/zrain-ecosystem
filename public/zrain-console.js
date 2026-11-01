@@ -1,5 +1,17 @@
 import { PRODUCTS } from "./console-products.js?v=4.1.6";
 
+const published = new Map();
+export function registerPublishedProducts(products) {
+  published.clear();
+  for (const item of products) {
+    if (item.primaryAction === "CONSOLE") published.set(item.slug, {
+      name: item.name, description: item.description, icon: item.logoUrl,
+      webUrl: item.primaryUrl,
+      storeUrl: item.secondaryUrl?.includes("play.google.com/store/apps/") ? item.secondaryUrl : undefined
+    });
+  }
+}
+
 const dialog = document.getElementById("zrain-console");
 const stage = document.getElementById("console-stage");
 const viewer = document.getElementById("console-viewer");
@@ -85,7 +97,7 @@ function loadCurrent() {
 }
 
 function openConsole(id, trigger) {
-  const product = PRODUCTS[id];
+  const product = published.get(id) || PRODUCTS[id];
   if (!product || dialog.open) return;
   opener = trigger;
   current = product;
@@ -114,9 +126,16 @@ function closeConsole() {
   if (dialog.open) dialog.close();
 }
 
-for (const control of document.querySelectorAll("[data-console]")) {
+// Static actions are registered directly; delegated clicks only handle new cards.
+// This prevents duplicate open events when the original buttons are clicked.
+const staticControls = new Set(document.querySelectorAll("[data-console]"));
+for (const control of staticControls) {
   control.addEventListener("click", () => openConsole(control.dataset.console, control));
 }
+document.addEventListener("click", event => {
+  const trigger = event.target?.closest?.("[data-console]");
+  if (trigger && !staticControls.has(trigger)) openConsole(trigger.dataset.console, trigger);
+});
 
 mobileButton.addEventListener("click", () => setView("mobile"));
 desktopButton.addEventListener("click", () => setView("desktop"));
