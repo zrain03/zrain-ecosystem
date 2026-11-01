@@ -142,7 +142,7 @@ byId("password-form").addEventListener("submit", async event => {
       body: JSON.stringify({ currentPassword, newPassword })
     });
     signOut();
-    showNotice(byId("signin-error"), "Password updated. Sign in with your new password.");
+    showNotice(byId("signin-error"), "Password updated. Wait about 60 seconds, then sign in with your new password.");
   } catch(error) {
     showNotice(notice, error.message);
   } finally {
