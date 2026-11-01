@@ -124,9 +124,14 @@ test('actions open products, reload, fullscreen and close while restoring focus'
   g.dataset.console='guess-the-flag';w.dataset.console='zrain-links';a.dataset.console='zrain-auth-starter';m.dataset.console='zrain-monitor';u.dataset.console='zrain-ui';
   const doc={fullscreenElement:null,getElementById:id=>nodes.get(id),querySelectorAll:q=>q==='[data-console]'?[g,w,a,m,u]:[],
     listeners:{},addEventListener(type,fn){this.listeners[type]=fn;},exitFullscreen(){this.fullscreenElement=null;return Promise.resolve();}};
-  const previous={document:globalThis.document,window:globalThis.window,ResizeObserver:globalThis.ResizeObserver};
+  const previous={document:globalThis.document,window:globalThis.window,
+    ResizeObserver:globalThis.ResizeObserver,fetch:globalThis.fetch};
   globalThis.document=doc;globalThis.window={addEventListener(){}};
   globalThis.ResizeObserver=class{observe(){}};
+  globalThis.fetch=async path=>{
+    assert.equal(path,"/zrain-ui-showcase.html");
+    return {ok:true,text:async()=>"<h1>Zrain UI showcase</h1>"};
+  };
   try{
     const module=await import('../public/zrain-console.js?test=v4.1-interaction');
     assert.equal(nodes.get('console-frame').src,undefined);
@@ -182,7 +187,9 @@ test('actions open products, reload, fullscreen and close while restoring focus'
     assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-monitor'].webUrl);
     nodes.get('zrain-console').close();
     u.fire('click');
-    assert.equal(nodes.get('console-frame').src,PRODUCTS['zrain-ui'].webUrl);
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(nodes.get('console-frame').src,undefined);
+    assert.match(nodes.get('console-frame').srcdoc,/Zrain UI showcase/);
     assert.equal(nodes.get('console-external').href,PRODUCTS['zrain-ui'].webUrl);
     assert.match(nodes.get('console-external').title,/new tab/);
     nodes.get('zrain-console').fire('close');
@@ -285,7 +292,7 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
   assert.doesNotMatch(html, /Guess the Flag/);
   assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.1\.8/);
+  assert.match(html,/zrain-console\.js\?v=4\.1\.9/);
   assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
 });
 
