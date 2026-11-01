@@ -17,7 +17,9 @@ test('zero-billing production path excludes R2 and Render', async () => {
   assert.doesNotMatch(worker, /ZRAIN_ASSETS|api\/media/);
   assert.doesNotMatch(admin, /id="upload-logo"|id="product-logo-file"/);
   assert.match(setup, /Type FREE to continue/);
-  assert.match(setup, /wrangler kv namespace create ZRAIN_CATALOG/);
+  assert.match(setup, /wrangler kv namespace list/);
+  assert.match(setup, /Existing KV namespace linked/);
+  assert.doesNotMatch(setup, /wrangler kv namespace create ZRAIN_CATALOG/);
   assert.match(deploy, /Type SPARK/);
   assert.match(deploy, /\/api\/ready/);
   await assert.rejects(access(new URL('../render.yaml', import.meta.url)));
