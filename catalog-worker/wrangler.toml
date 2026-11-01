@@ -3,6 +3,7 @@ main = "src/index.js"
 compatibility_date = "2026-10-29"
 workers_dev = true
 
-[[r2_buckets]]
-binding = "ZRAIN_ASSETS"
-bucket_name = "zrain-ecosystem-catalog"
+# Cloudflare Workers Free + Workers KV Free only. R2 is NOT used.
+# Run 'npx wrangler kv namespace create ZRAIN_CATALOG --update-config'
+# on the user's already authenticated computer to add the generated binding ID.
+# Do not enable Workers Paid or R2.

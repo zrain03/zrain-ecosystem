@@ -4,72 +4,89 @@ import worker from "../src/index.js";
 
 function mock() {
   const storage = new Map();
-  return { ZRAIN_CATALOG_PUBLISH_KEY:"A".repeat(48),
-    ZRAIN_ASSETS: {
-      async get(key) {
-        const item = storage.get(key);
-        return item ? { body:item.body, httpEtag:'"abc"', httpMetadata:item.meta } : null;
-      },
-      async put(key, body, options) {
-        storage.set(key, { body, meta:options?.httpMetadata });
-      }
+  return {
+    ZRAIN_CATALOG_PUBLISH_KEY: "A".repeat(48),
+    ZRAIN_CATALOG: {
+      async get(key) { return storage.get(key) ?? null; },
+      async put(key, data) { storage.set(key, data); }
     }
   };
 }
-const sample = { slug:"zrain-links", name:"Zrain Links",description:"Short links",
-  logoUrl:"/zrain-logo.webp",status:"PUBLISHED",category:"ONLINE_SERVICES",
-  primaryAction:"WEBSITE",primaryLabel:"Open Web App",primaryUrl:"https://zrain-links.web.app/",
-  secondaryLabel:null,secondaryUrl:null,sortOrder:10 };
-test("public data unavailable until a real published snapshot exists", async()=>{
-  const env=mock();
-  const response=await worker.fetch(new Request("https://example.workers.dev/api/catalog"),env);
-  assert.equal(response.status,404);
-});
-test("catalog modification rejects requests without backend secret",async()=>{
-  const env=mock(), url="https://example.workers.dev/api/catalog";
-  const response=await worker.fetch(new Request(url,{method:"PUT",body:JSON.stringify([sample])}),env);
-  assert.equal(response.status,401);
-});
-test("backend may publish valid catalog and any visitor may read it",async()=>{
-  const env=mock(), url="https://example.workers.dev/api/catalog";
-  const response=await worker.fetch(new Request(url,{method:"PUT",
-    headers:{Authorization:"Bearer "+env.ZRAIN_CATALOG_PUBLISH_KEY},
-    body:JSON.stringify([sample])}),env);
-  assert.equal(response.status,200);
-  const get=await worker.fetch(new Request(url),env);
-  assert.equal(get.status,200);
-  assert.equal(get.headers.get("Access-Control-Allow-Origin"),"*");
-  assert.deepEqual(await get.json(),[sample]);
-});
-test("invalid URLs and archived products cannot enter the public snapshot",async()=>{
-  const env=mock(), url="https://example.workers.dev/api/catalog";
-  for (const entry of [{...sample,primaryUrl:"javascript:alert(1)"},{...sample,status:"DRAFT"}]) {
-    const response=await worker.fetch(new Request(url,{method:"PUT",
-      headers:{Authorization:"Bearer "+env.ZRAIN_CATALOG_PUBLISH_KEY},
-      body:JSON.stringify([entry])}),env);
-    assert.equal(response.status,400);
-  }
-});
-test("logo upload rejects invalid bytes even with permitted content type",async()=>{
-  const env=mock();
-  const res=await worker.fetch(new Request("https://example.workers.dev/api/media",{
-    method:"POST",headers:{Authorization:"Bearer "+env.ZRAIN_CATALOG_PUBLISH_KEY,
-      "Content-Type":"image/png"},body:new Uint8Array([1,2,3,4])
-  }),env);
-  assert.equal(res.status,400);
+const sample = {
+  slug: "zrain-links", name: "Zrain Links", description: "Short links",
+  logoUrl: "/zrain-logo.webp", status: "PUBLISHED",
+  category: "ONLINE_SERVICES",
+  primaryAction: "WEBSITE", primaryLabel: "Open Web App",
+  primaryUrl: "https://zrain-links.web.app/",
+  secondaryLabel: null, secondaryUrl: null, sortOrder: 10
+};
+const url = "https://zrain-ecosystem-catalog.example.workers.dev/api/catalog";
+const authorized = env => ({ Authorization: "Bearer " + env.ZRAIN_CATALOG_PUBLISH_KEY });
+const put = (env, list, headers) =>
+  worker.fetch(new Request(url, {
+    method: "PUT", headers: headers ?? authorized(env), body: JSON.stringify(list)
+  }), env);
+
+test("no catalog exists until the admin publishes one", async () => {
+  const response = await worker.fetch(new Request(url), mock());
+  assert.equal(response.status, 404);
 });
 
-test("streaming upload has a hard size limit even without Content-Length",async()=>{
-  const env=mock();
-  const bytes=new Uint8Array(2_000_001);
-  bytes.set([137,80,78,71,13,10,26,10]);
-  const request=new Request("https://example.workers.dev/api/media",{
-    method:"POST",
-    headers:{Authorization:"Bearer "+env.ZRAIN_CATALOG_PUBLISH_KEY,
-      "Content-Type":"image/png"},
-    body:new ReadableStream({start(controller){controller.enqueue(bytes);controller.close();}}),
-    duplex:"half"
+test("catalog modification requires the backend secret", async () => {
+  const response = await put(mock(), [sample], {});
+  assert.equal(response.status, 401);
+});
+
+test("published product JSON is available anonymously via KV", async () => {
+  const env = mock();
+  const published = await put(env, [sample]);
+  assert.equal(published.status, 200);
+  assert.equal((await published.json()).published, 1);
+  const response = await worker.fetch(new Request(url), env);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+  assert.deepEqual(await response.json(), [sample]);
+});
+
+test("unsafe URL or unpublished product is rejected", async () => {
+  const env = mock();
+  for (const entry of [
+    { ...sample, primaryUrl: "javascript:alert(1)" },
+    { ...sample, status: "DRAFT" },
+    { ...sample, logoUrl: "data:image/svg+xml,<svg/>" },
+    { ...sample, secondaryLabel: "Demo", secondaryUrl: "http://invalid" }
+  ]) assert.equal((await put(env, [entry])).status, 400);
+});
+
+test("an unbound KV namespace fails closed", async () => {
+  assert.equal((await worker.fetch(new Request(url), {})).status, 503);
+  assert.equal((await put({ ZRAIN_CATALOG_PUBLISH_KEY: "A".repeat(48) }, [sample])).status, 503);
+});
+
+test("KV Free quota rejection returns unavailable rather than upgrading", async () => {
+  const env = mock();
+  env.ZRAIN_CATALOG.put = async () => { throw new Error("KV Free write limit reached"); };
+  const response = await put(env, [sample]);
+  assert.equal(response.status, 503);
+});
+
+test("oversized streaming catalog is rejected without Content-Length", async () => {
+  const env = mock();
+  const bytes = new Uint8Array(250_001);
+  bytes.fill(32);
+  const request = new Request(url, {
+    method: "PUT",
+    headers: authorized(env),
+    body: new ReadableStream({ start(c) { c.enqueue(bytes); c.close(); } }),
+    duplex: "half"
   });
-  const response=await worker.fetch(request,env);
-  assert.equal(response.status,413);
+  assert.equal((await worker.fetch(request, env)).status, 413);
+});
+
+test("media uploads are not supported and no R2 integration is required", async () => {
+  const response = await worker.fetch(
+    new Request("https://zrain-ecosystem-catalog.example.workers.dev/api/media", { method: "POST" }),
+    mock()
+  );
+  assert.equal(response.status, 404);
 });
