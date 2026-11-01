@@ -57,3 +57,9 @@ button:disabled{opacity:.55;cursor:default}.notice{padding:12px;border-radius:10
 .catalog-sync-bar span{font-size:12px;color:#806557}
 .catalog-sync-bar button{flex-shrink:0}
 @media(max-width:700px){.catalog-sync-bar{align-items:stretch;flex-direction:column}.catalog-sync-bar button{width:100%}}
+
+.password-settings{margin:0 0 18px;padding:0 16px;background:#fff}
+.password-settings summary{padding:14px 0}
+.password-settings .form-stack{max-width:440px;margin:0 0 17px;gap:7px}
+.password-settings button{justify-self:start}
+.password-settings .notice{margin:6px 0}

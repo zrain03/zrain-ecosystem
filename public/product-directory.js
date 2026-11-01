@@ -9,17 +9,16 @@ const roots = {
 };
 
 function actionLink(product, secondary = false) {
-  const label = secondary ? product.secondaryLabel : product.primaryLabel;
+  const label = secondary ? product.secondaryLabel :
+    (product.category === "GAMES" ? "Play Now" : "Open Web App");
   const url = secondary ? product.secondaryUrl : product.primaryUrl;
-  const isConsole = !secondary && product.primaryAction === "CONSOLE";
-  const action = document.createElement(isConsole ? "button" : "a");
+  const action = document.createElement(secondary ? "a" : "button");
   action.className = secondary ? "item-cta product-action product-action-secondary"
     : "item-cta product-action product-action-primary";
-  if (isConsole) {
+  if (!secondary) {
     action.type = "button";
     action.dataset.console = product.slug;
   } else {
-    // On localhost, preview the actual local Zrain UI page instead of the old live version.
     const local = ["localhost", "127.0.0.1"].includes(window.location.hostname);
     action.href = local && url === "https://zrain.web.app/zrain-ui-showcase.html"
       ? "/zrain-ui-showcase.html" : url;

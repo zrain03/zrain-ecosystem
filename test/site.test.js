@@ -279,7 +279,7 @@ test('Guess The Flag title is consistent in both directory and Console',async()=
   assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
   assert.doesNotMatch(html, /Guess the Flag/);
   assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.1\.6/);
+  assert.match(html,/zrain-console\.js\?v=4\.1\.8/);
   assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
 });
 

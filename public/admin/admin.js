@@ -83,6 +83,9 @@ function signOut() {
   byId("dashboard").hidden = true;
   byId("signin-section").hidden = false;
   byId("signin-password").value = "";
+  byId("password-form").reset();
+  byId("password-settings").open = false;
+  showNotice(byId("password-notice"), "");
 }
 byId("signin-form").addEventListener("submit", async event => {
   event.preventDefault();
@@ -118,11 +121,40 @@ byId("signin-form").addEventListener("submit", async event => {
 });
 byId("signout").addEventListener("click", signOut);
 
+byId("password-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const currentPassword = byId("password-current").value;
+  const newPassword = byId("password-new").value;
+  const confirmation = byId("password-confirm").value;
+  const submit = byId("password-submit");
+  const notice = byId("password-notice");
+  showNotice(notice, "");
+  if (newPassword.length < 16 || newPassword.length > 128) {
+    return showNotice(notice, "Choose a password between 16 and 128 characters.");
+  }
+  if (newPassword !== confirmation) {
+    return showNotice(notice, "New password and confirmation do not match.");
+  }
+  submit.disabled = true;
+  try {
+    await request("/api/admin/auth/password", {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    signOut();
+    showNotice(byId("signin-error"), "Password updated. Sign in with your new password.");
+  } catch(error) {
+    showNotice(notice, error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
+
 async function syncWebsite() {
   if (IS_LOCAL) return "Saved in the local database. The live website is unchanged.";
   try {
     const result = await request("/api/admin/catalog/sync", { method: "POST" });
-    return "Website synced: " + result.published + " published products. A short cache refresh may apply.";
+    return result.published + " published products are visible in the public catalog. Changes may take up to a minute to appear in other regions.";
   } catch (error) {
     return "Saved to database, but website sync failed: " + error.message +
       " Use Retry website sync to publish the latest version.";
@@ -189,14 +221,16 @@ function syncPreview() {
   if (!editing) inputs.slug.value = createUniqueSlug(inputs.name.value);
   byId("preview-name").textContent = inputs.name.value.trim() || "Your product name";
   byId("preview-description").textContent = inputs.description.value.trim() || "Your short description appears here.";
-  byId("preview-button").textContent = (inputs.primaryLabel.value.trim() || buttonLabels[inputs.primaryAction.value]) + " ↗";
+  const label = inputs.category.value === "GAMES" ? "Play Now" : "Open Web App";
+  inputs.primaryLabel.value = label;
+  byId("preview-button").textContent = label + " ↗";
   syncLogo();
 }
 function resetForm() {
   editing = null;
   form.reset();
   byId("advanced-options").open = false;
-  inputs.primaryLabel.value = buttonLabels.CONSOLE;
+  inputs.primaryLabel.value = "Play Now";
   inputs.slug.value = "";
   chooseLogo("/zrain-logo.webp");
   syncSecondary();
@@ -228,16 +262,13 @@ function editProduct(product) {
   syncPreview();
   form.scrollIntoView({ behavior: "smooth", block: "start" });
 }
-for (const key of ["name", "description", "category", "primaryLabel"]) {
+for (const key of ["name", "description", "category"]) {
   inputs[key].addEventListener("input", syncPreview);
 }
 inputs.logoChoice.addEventListener("change", syncPreview);
 inputs.customLogo.addEventListener("input", syncPreview);
 inputs.secondaryType.addEventListener("change", syncSecondary);
-inputs.primaryAction.addEventListener("change", () => {
-  inputs.primaryLabel.value = buttonLabels[inputs.primaryAction.value];
-  syncPreview();
-});
+inputs.primaryAction.addEventListener("change", syncPreview);
 function button(label, action, actionName) {
   const node = document.createElement("button");
   node.type = "button";
@@ -357,7 +388,7 @@ form.addEventListener("submit", async event => {
     category: inputs.category.value,
     logoUrl,
     primaryAction: inputs.primaryAction.value,
-    primaryLabel: inputs.primaryLabel.value.trim() || buttonLabels[inputs.primaryAction.value],
+    primaryLabel: inputs.category.value === "GAMES" ? "Play Now" : "Open Web App",
     primaryUrl,
     secondaryLabel,
     secondaryUrl
