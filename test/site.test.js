@@ -348,7 +348,8 @@ test('the public Console project page is discoverable and launches real producti
   ]);
   assert.match(home,/href="\/zrain-console\.html"/);
   assert.match(page,/<title>Zrain Console/);
-  assert.match(page,/Developed by Zrain/);
+  assert.match(page,/mountZrainUI\(\{ product: "Console"/);
+  assert.match(page,/class="zrain-footer"/);
   for(const id of ['guess-the-flag','zrain-links','zrain-ui'])
     assert.match(page,new RegExp('href="/\\?console=' + id + '"'));
   assert.match(page,/Source on GitHub/);
