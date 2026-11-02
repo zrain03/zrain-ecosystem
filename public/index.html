@@ -21,6 +21,7 @@
   <script type="module" src="/zrain-console.js?v=4.2.0"></script>
   <script type="module" src="/product-directory.js?v=4"></script>
   <script type="module" src="/tools-directory.js?v=1.0"></script>
+  <script type="module" src="/ecosystem-search.js?v=1"></script>
   <title>Zrain | Made for people. Built with purpose.</title>
   <link rel="stylesheet" href="/feedback.css">
 </head>
@@ -41,6 +42,7 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
+      <button class="header-project-search" type="button" data-open-search aria-haspopup="dialog" aria-controls="ecosystem-search">⌕ Search all projects <kbd>Ctrl K</kbd></button>
       <a class="header-github" href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </header>
@@ -54,6 +56,7 @@
           <p class="hero-lead"><strong>Explore the Zrain Ecosystem.</strong><br>A collection of games, developer tools and simple web services. Built independently, connected through one identity.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#products">Explore products <span aria-hidden="true">↗</span></a>
+            <button class="button button-outline" type="button" data-open-search>Search all projects &amp; tools <span aria-hidden="true">⌕</span></button>
             <a class="button button-outline" href="#games">Play web games <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -254,6 +257,24 @@
     </div>
   </footer>
 
+  <dialog id="ecosystem-search" class="ecosystem-search" aria-labelledby="ecosystem-search-title" aria-describedby="ecosystem-search-help">
+    <div class="ecosystem-search-shell">
+      <div class="ecosystem-search-header">
+        <div><h2 id="ecosystem-search-title">Search the Zrain Ecosystem</h2><p id="ecosystem-search-help">Find a project or open any of our working tools.</p></div>
+        <button type="button" class="ecosystem-search-close" id="ecosystem-search-close" aria-label="Close search">×</button>
+      </div>
+      <label class="ecosystem-search-label" for="ecosystem-query">What would you like to find?</label>
+      <input type="search" id="ecosystem-query" placeholder="Try Memory Rush, PDF, QR, invoice..." autocomplete="off" aria-controls="ecosystem-search-results">
+      <div class="ecosystem-search-filters" role="group" aria-label="Filter search results">
+        <button type="button" data-search-type="all" aria-pressed="true">Everything</button>
+        <button type="button" data-search-type="project" aria-pressed="false">Projects</button>
+        <button type="button" data-search-type="tool" aria-pressed="false">Tools</button>
+      </div>
+      <p id="ecosystem-search-status" role="status" aria-live="polite"></p>
+      <div class="ecosystem-search-results" id="ecosystem-search-results" aria-label="Search results"></div>
+      <div class="ecosystem-search-footer">Ctrl K to open · ↑ ↓ to navigate · Esc to close</div>
+    </div>
+  </dialog>
   <dialog id="zrain-console" class="zrain-console" aria-labelledby="console-title" aria-describedby="console-description">
     <div class="console-shell" id="console-shell" data-view="mobile">
       <header class="console-toolbar">

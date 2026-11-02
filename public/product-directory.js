@@ -86,6 +86,7 @@ export function renderCatalog(products) {
     }
   }
   registerPublishedProducts(products);
+  document.dispatchEvent(new CustomEvent("zrain:catalog-rendered", {detail:{products}}));
 }
 
 if (ENABLE_DYNAMIC_CATALOG) {
