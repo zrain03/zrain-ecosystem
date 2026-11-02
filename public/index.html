@@ -20,6 +20,7 @@
   <script type="module" src="/zrain-ui-config.js?v=ecosystem-4.1.5"></script>
   <script type="module" src="/zrain-console.js?v=4.2.0"></script>
   <script type="module" src="/product-directory.js?v=4"></script>
+  <script type="module" src="/tools-directory.js?v=1.0"></script>
   <title>Zrain | Made for people. Built with purpose.</title>
   <link rel="stylesheet" href="/feedback.css">
 </head>
@@ -177,6 +178,27 @@
             <a href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">View the projects <span aria-hidden="true">↗</span></a>
           </section>
         </div>
+
+        <section class="tool-explorer" id="explore-tools" aria-labelledby="tool-explorer-title">
+          <div class="tool-explorer__heading">
+            <div>
+              <p class="eyebrow eyebrow-small">28 PRACTICAL TOOLS / 5 WEBSITES</p>
+              <h3 id="tool-explorer-title">Explore All Tools<span class="period">.</span></h3>
+              <p>Find the right tool without needing to know which Zrain product contains it. Each tool opens its own independent web app.</p>
+            </div>
+            <span class="tool-explorer__count">28 tools</span>
+          </div>
+          <nav class="tools-families" id="tools-families" aria-label="Five independent Zrain Tools websites"></nav>
+          <div class="tools-search-panel">
+            <label for="tools-search">Search tools by name or purpose</label>
+            <input id="tools-search" type="search" autocomplete="off" placeholder="Try PDF, image, QR, JSON, invoice..." aria-describedby="tools-count">
+            <div class="tools-family-filters" id="tools-family-filters" role="group" aria-label="Filter tools by product"></div>
+            <p class="tools-count" id="tools-count" role="status" aria-live="polite"></p>
+            <div class="tools-results" id="tools-results"></div>
+            <button type="button" class="tools-show-all" id="tools-show-all" hidden>Show all matching tools <span aria-hidden="true">↗</span></button>
+          </div>
+          <noscript><p>Browse the five websites directly: <a href="https://zrain-image-tools.pages.dev/">Image</a>, <a href="https://zrain-pdf-tools.pages.dev/">PDF</a>, <a href="https://zrain-document-tools.pages.dev/">Document</a>, <a href="https://zrain-developer-tools.pages.dev/">Developer</a>, and <a href="https://zrain-productivity-tools.pages.dev/">Productivity Tools</a>.</p></noscript>
+        </section>
       </section>
 
       <section class="about-section" id="about" aria-labelledby="about-title">
