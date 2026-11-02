@@ -358,7 +358,9 @@ test('the public Console project page is discoverable and launches real producti
   const demoSection = page.split('id="zc-demos-title"')[1].split('id="zc-features-title"')[0];
   const projectNames = [
     'Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain Monitor',
-    'Zrain UI', 'Zrain Links', 'Zrain Console', 'Zrain Ecosystem'
+    'Zrain UI', 'Zrain Links', 'Zrain Console', 'Zrain Ecosystem',
+    'Zrain Image Tools', 'Zrain PDF Tools', 'Zrain Document Tools',
+    'Zrain Developer Tools', 'Zrain Productivity Tools'
   ];
   for(const product of projectNames)
     assert.match(demoSection, new RegExp('<h3>' + product + '</h3>'));
