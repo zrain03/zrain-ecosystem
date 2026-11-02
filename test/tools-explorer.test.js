@@ -52,3 +52,10 @@ test("Console has safe explicit links for all five standalone Zrain websites",as
     assert.ok(html.includes('/?console='+family.slug));
   }
 });
+
+test("PowerShell release script safely captures native Git output without early pipeline exit",async()=>{
+  const script=await read("../scripts/deploy-v17-tools-launch.ps1");
+  assert.match(script,/\$originLines = @\(& git -C \$root remote get-url origin\)/);
+  assert.match(script,/\$origin = \(\$originLines -join ''\)\.Trim\(\)/);
+  assert.doesNotMatch(script,/git -C \$root remote get-url origin \| Select-Object/);
+});

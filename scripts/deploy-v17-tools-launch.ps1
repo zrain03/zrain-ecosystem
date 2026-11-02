@@ -9,8 +9,11 @@ $api = 'https://zrain-ecosystem-catalog.zrain-dev.workers.dev'
 function Assert-Exit([string]$step) {
   if ($LASTEXITCODE -ne 0) { throw "$step failed (exit code $LASTEXITCODE). Stopped." }
 }
-$origin = (& git -C $root remote get-url origin | Select-Object -First 1)
+# Capture Git output without terminating a native-process pipeline early.
+# Select-Object -First 1 may cause git.exe to exit -1 on Windows PowerShell.
+$originLines = @(& git -C $root remote get-url origin)
 Assert-Exit 'Read Git origin'
+$origin = ($originLines -join '').Trim()
 if ($origin -notmatch 'github[.]com[:/]zrain03/zrain-ecosystem([.]git)?$') {
   throw "Unexpected repository origin. Stopped without deploying."
 }
