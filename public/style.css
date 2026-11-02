@@ -495,3 +495,38 @@ body:has(.zrain-console[open]) { overflow: hidden; }
 .console-project-discovery small { margin-top: 4px; font-size: 12px; font-weight: 500; line-height: 1.5; color: #796b63; }
 .console-project-discovery:hover { background: #ffede1; border-color: #bd8d76; }
 .console-project-discovery:focus-visible { outline: 3px solid #e7b7a1; outline-offset: 3px; }
+
+
+/* Zrain Tools family discovery. Retains the original Cozy Bento structure. */
+.tool-explorer{margin-top:27px;background:#fffdfa;border:1px solid #eadbd1;border-radius:24px;padding:clamp(19px,3vw,33px);box-shadow:0 14px 30px rgba(64,39,28,.045)}
+.tool-explorer__heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.tool-explorer__heading h3{font-size:clamp(23px,3.4vw,33px);letter-spacing:-.045em;line-height:1.17;margin:6px 0 10px}
+.tool-explorer__heading p:not(.eyebrow){max-width:620px;font-size:13px;line-height:1.75;color:#687382;margin:0}
+.tool-explorer__count{color:#a14f38;border:1px solid #ead0c2;background:#fff5ef;border-radius:999px;padding:7px 12px;font-size:11px;font-weight:800;white-space:nowrap}
+.tools-families{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:24px 0}
+.tools-family-link{display:flex;flex-direction:column;gap:6px;justify-content:center;min-height:83px;min-width:0;border:1px solid #eadcd0;background:#fff8f3;border-radius:14px;padding:12px;color:#263b3c;text-decoration:none;transition:border-color .15s,background .15s}
+.tools-family-link:hover{background:#fef0e5;border-color:#d8a991}
+.tools-family-link strong{font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.tools-family-link small{font-size:10px;color:#946453}
+.tools-search-panel{background:#f8f7f3;border:1px solid #e7e7e0;border-radius:17px;padding:clamp(14px,2.5vw,21px)}
+.tools-search-panel label{display:block;font-size:12px;font-weight:800;color:#253842;margin-bottom:8px}
+.tools-search-panel input[type="search"]{display:block;width:100%;min-height:45px;padding:11px 14px;background:#fff;color:#172433;border:1px solid #d9ddd9;border-radius:12px;font:inherit;font-size:13px}
+.tools-search-panel input[type="search"]:focus-visible,.tools-filter:focus-visible,.tools-show-all:focus-visible,.tools-result:focus-visible,.tools-family-link:focus-visible{outline:3px solid #8fbfaf;outline-offset:2px}
+.tools-family-filters{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}
+.tools-filter{appearance:none;border:1px solid #ddd8d2;background:#fff;border-radius:999px;min-height:36px;padding:8px 12px;color:#52606b;font-size:11px;font-family:inherit;font-weight:700;cursor:pointer}
+.tools-filter[aria-pressed="true"]{border-color:#b95136;color:#a14730;background:#fff0e8}
+.tools-count{font-size:11px;color:#697585;margin:10px 0}
+.tools-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.tools-result{display:flex;min-height:105px;align-items:center;justify-content:space-between;gap:10px;padding:13px;border:1px solid #e9ddd6;border-radius:13px;background:#fff;text-decoration:none;color:#253947;min-width:0}
+.tools-result:hover{border-color:#d1ac99;background:#fffcf8}
+.tools-result-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.tools-result-copy strong{font-size:12px;line-height:1.3}
+.tools-result-copy small{font-size:10px;color:#ac654d;font-weight:750}
+.tools-result-description{color:#6e7986;font-size:11px;line-height:1.45}
+.tools-result-arrow{color:#a44a34;font-size:17px;flex:none}
+.tools-empty{grid-column:1/-1;text-align:center;color:#697585;font-size:12px;padding:20px}
+.tools-show-all{display:block;margin:16px auto 0;border:1px solid #cba58f;border-radius:11px;background:#fff4ed;color:#94432b;font-size:12px;font-weight:750;padding:10px 17px;cursor:pointer}
+.tools-show-all[hidden]{display:none}
+@media(max-width:1050px){.tools-families{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:740px){.tools-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.tool-explorer{padding:17px;margin-top:16px}.tools-families{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tools-family-link{min-height:72px}.tools-results{grid-template-columns:1fr}.tools-result{min-height:84px}}
