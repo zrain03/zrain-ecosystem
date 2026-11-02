@@ -40,7 +40,7 @@ test("admin-only import of five published Pages products, existing catalog remai
   assert.match(worker,/\/api\/admin\/products\/import-verified-tools/);
   assert.match(worker,/const claims=await authenticated\(request,env\)/);
   assert.match(source,/VERIFIED_TOOLS/);
-  assert.match(admin,/id\("publish-verified-tools"\)/);
+  assert.match(admin,/byId\("publish-verified-tools"\)/);
   assert.match(html,/id="publish-verified-tools"/);
   assert.doesNotMatch(admin,/localStorage\.setItem/);
 });
