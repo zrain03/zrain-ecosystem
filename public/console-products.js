@@ -37,6 +37,36 @@ export const PRODUCTS = Object.freeze({
     description: "Monitor public HTTPS services, inspect incidents and view uptime diagnostics.",
     webUrl: "https://zrain-monitor.web.app/"
   }),
+  "zrain-image-tools": Object.freeze({
+    name: "Zrain Image Tools", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Convert, inspect, improve and create with images.",
+    webUrl: "https://zrain-image-tools.pages.dev/"
+  }),
+  "zrain-pdf-tools": Object.freeze({
+    name: "Zrain PDF Tools", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Edit, merge, organize and watermark PDF pages.",
+    webUrl: "https://zrain-pdf-tools.pages.dev/"
+  }),
+  "zrain-document-tools": Object.freeze({
+    name: "Zrain Document Tools", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Convert files, compare text, extract OCR and clean CSV data.",
+    webUrl: "https://zrain-document-tools.pages.dev/"
+  }),
+  "zrain-developer-tools": Object.freeze({
+    name: "Zrain Developer Tools", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "JSON, Markdown, QR codes, passwords and UTM campaign links.",
+    webUrl: "https://zrain-developer-tools.pages.dev/"
+  }),
+  "zrain-productivity-tools": Object.freeze({
+    name: "Zrain Productivity Tools", kind: "web",
+    icon: "/zrain-logo.webp",
+    description: "Invoice generation, text utilities and a focus timer.",
+    webUrl: "https://zrain-productivity-tools.pages.dev/"
+  }),
   "zrain-ui": Object.freeze({
     name: "Zrain UI", kind: "web",
     icon: "/zrain-logo.webp",
