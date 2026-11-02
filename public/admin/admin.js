@@ -351,6 +351,24 @@ async function changeStatus(id, action) {
     showNotice(byId("dashboard-notice"), error.message);
   }
 }
+byId("publish-verified-tools").addEventListener("click", async () => {
+  if (!window.confirm("Publish the five independently hosted Zrain Tools in your public Ecosystem? Existing products and drafts will not be overwritten.")) return;
+  const button = byId("publish-verified-tools");
+  button.disabled = true;
+  try {
+    const result = await request("/api/admin/products/import-verified-tools", { method: "POST" });
+    await refresh();
+    const summary = await syncWebsite();
+    showNotice(byId("dashboard-notice"),
+      result.added + " newly published, " + result.skipped +
+      " already present (not modified). " + summary);
+  } catch (error) {
+    showNotice(byId("dashboard-notice"), error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
+
 byId("import-existing").addEventListener("click", async () => {
   const button = byId("import-existing");
   if (!window.confirm("Import all 6 existing Zrain products as Drafts? Existing records will not be overwritten.")) return;
