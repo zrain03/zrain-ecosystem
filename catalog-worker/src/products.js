@@ -92,3 +92,68 @@ export async function publishProducts(kv,products) {
   await kv.put(KEYS.public,JSON.stringify(rows));
   return rows.length;
 }
+
+// Five independently deployed Pages websites confirmed live by the owner.
+// Never changes existing Draft, Published, or Archived records without admin action.
+export const VERIFIED_TOOLS = Object.freeze([
+  {
+    "slug": "zrain-image-tools",
+    "name": "Zrain Image Tools",
+    "description": "Convert, inspect, crop and create images in the browser. Enhancement cannot recover missing detail.",
+    "category": "ONLINE_SERVICES",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "WEBSITE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-image-tools.pages.dev/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-pdf-tools",
+    "name": "Zrain PDF Tools",
+    "description": "Organize and merge PDF pages, add text and apply watermarks. Existing PDF text is not rewritten.",
+    "category": "ONLINE_SERVICES",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "WEBSITE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-pdf-tools.pages.dev/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-document-tools",
+    "name": "Zrain Document Tools",
+    "description": "Convert supported files, compare text, extract OCR and clean CSV. Complex layouts may differ.",
+    "category": "ONLINE_SERVICES",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "WEBSITE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-document-tools.pages.dev/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-developer-tools",
+    "name": "Zrain Developer Tools",
+    "description": "Validate JSON, edit Markdown, create QR images, generate passwords and build UTM links.",
+    "category": "DEVELOPER_TOOLS",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "WEBSITE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-developer-tools.pages.dev/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-productivity-tools",
+    "name": "Zrain Productivity Tools",
+    "description": "Create simple PDF invoices, transform text and use a focus timer with local session history.",
+    "category": "ONLINE_SERVICES",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "WEBSITE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-productivity-tools.pages.dev/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  }
+]);
