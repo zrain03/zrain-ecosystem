@@ -43,9 +43,14 @@ test('directory shows real applications only, with no placeholder projects',asyn
   const html=await read('../public/index.html');
   for(const name of ['Guess The Flag','Memory Rush','Zrain Auth Starter','Zrain UI','Zrain Links','Zrain Monitor']) assert.ok(html.includes(name),name);
   for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
-  assert.equal(Object.keys(PRODUCTS).length,6);
+  assert.equal(Object.keys(PRODUCTS).length,11);
   for(const [id,p] of Object.entries(PRODUCTS)){
-    assert.match(html,new RegExp(`data-console="${id}"`));
+    if (id.endsWith("-tools")) {
+      const consolePage = await read('../public/zrain-console.html');
+      assert.ok(consolePage.includes('/?console=' + id), id);
+    } else {
+      assert.match(html,new RegExp(`data-console="${id}"`));
+    }
     assert.ok(p.webUrl.startsWith('https://'));
     assert.ok(p.icon.startsWith('/'));
   }
@@ -82,7 +87,7 @@ test('universal Console keeps every web app in an iframe until Open in new tab i
   assert.match(js,/frame\.removeAttribute\("src"\)/);
   assert.match(js,/data-console/);
   assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='mobile').map(([id])=>id).sort(),['guess-the-flag','memory-rush']);
-  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='web').map(([id])=>id).sort(),['zrain-auth-starter','zrain-links','zrain-monitor','zrain-ui']);
+  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='web').map(([id])=>id).sort(),['zrain-auth-starter','zrain-developer-tools','zrain-document-tools','zrain-image-tools','zrain-links','zrain-monitor','zrain-pdf-tools','zrain-productivity-tools','zrain-ui']);
   assert.ok(PRODUCTS['guess-the-flag'].storeUrl.includes('com.zrain.guesstheflag'));
   assert.ok(PRODUCTS['memory-rush'].storeUrl.includes('com.zrain.memoryrush'));
   assert.equal(PRODUCTS['zrain-auth-starter'].storeUrl,undefined);
