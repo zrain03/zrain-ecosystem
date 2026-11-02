@@ -202,3 +202,26 @@ test("missing or malformed password overrides fail closed",async()=>{
   assert.equal((await send(env,"/api/admin/auth/login","POST",
     {email:adminEmail,password})).status,503);
 });
+
+
+test("verified live Tools require admin, publish only absent products and are idempotent",async()=>{
+  const {env}=mock(),jwt=await login(env);
+  assert.equal((await send(env,"/api/admin/products/import-verified-tools","POST")).status,401);
+  const first=await send(env,"/api/admin/products/import-verified-tools","POST",undefined,jwt);
+  assert.equal(first.status,200);
+  assert.deepEqual(await first.json(),{added:5,skipped:0,totalAvailable:5,publishedNow:5});
+  const rows=await (await send(env,"/api/admin/products","GET",undefined,jwt)).json();
+  assert.equal(rows.length,5);
+  assert.ok(rows.every(r=>r.status==="PUBLISHED"));
+  const visible=await (await send(env,"/api/catalog")).json();
+  assert.equal(visible.length,5);
+  assert.equal(visible.find(r=>r.slug==="zrain-image-tools").primaryUrl,
+    "https://zrain-image-tools.pages.dev/");
+  const chosen=rows.find(r=>r.slug==="zrain-pdf-tools");
+  assert.equal((await send(env,"/api/admin/products/"+chosen.id+"/unpublish","POST",undefined,jwt)).status,200);
+  const again=await send(env,"/api/admin/products/import-verified-tools","POST",undefined,jwt);
+  assert.deepEqual(await again.json(),{added:0,skipped:5,totalAvailable:5,publishedNow:0});
+  const after=await (await send(env,"/api/admin/products","GET",undefined,jwt)).json();
+  assert.equal(after.find(r=>r.slug==="zrain-pdf-tools").status,"DRAFT",
+    "An admin-unpublished product must not be force-published again");
+});
