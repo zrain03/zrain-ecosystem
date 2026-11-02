@@ -1,7 +1,7 @@
 // Zrain Ecosystem Admin API and public catalog.
 // Production target: Cloudflare Workers Free + Workers KV Free ONLY.
 // No Render, R2, third-party paid database, payments or automatic upgrades.
-import { KEYS, EXISTING, validateProduct, loadProducts, saveProducts,
+import { KEYS, EXISTING, VERIFIED_TOOLS, validateProduct, loadProducts, saveProducts,
   publishProducts, publicProducts, newProduct, nextOrder } from "./products.js";
 import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey,
   readPasswordOverride, savePasswordOverride } from "./auth.js";
@@ -136,6 +136,22 @@ async function routeAdmin(request,env,path) {
   }
   if(path==="/api/admin/products" && request.method==="GET")
     return loadProducts(env.ZRAIN_CATALOG);
+  // Deliberate, authenticated publishing of the five Cloudflare Pages products.
+  // Never overwrites entries already managed by the admin.
+  if(path==="/api/admin/products/import-verified-tools" && request.method==="POST") {
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    let added=0,skipped=0;
+    for(const entry of VERIFIED_TOOLS) {
+      if(rows.some(p=>p.slug===entry.slug)){skipped++;continue;}
+      if(rows.length>=300)throw new ErrorResponse(400,"Product limit reached");
+      const valid=validateProduct(entry);
+      if(!valid)throw new ErrorResponse(500,"Built-in product metadata invalid");
+      rows.push({...newProduct(valid,nextOrder(rows,valid.category)),status:"PUBLISHED"});
+      added++;
+    }
+    if(added)await saveProducts(env.ZRAIN_CATALOG,rows);
+    return {added,skipped,totalAvailable:VERIFIED_TOOLS.length,publishedNow:added};
+  }
   if(path==="/api/admin/products/import-existing" && request.method==="POST") {
     const rows=await loadProducts(env.ZRAIN_CATALOG);
     let added=0;
