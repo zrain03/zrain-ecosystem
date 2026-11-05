@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/zrain-ui-config.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyambungkan shared Zrain UI kepada seksyen homepage tanpa mengulang komponen header.
+ * EN: Connects shared Zrain UI to homepage sections without duplicating header components.
+ */
 import { mountZrainUI } from "./zrain-ui.js?v=brand-20261029-footeronly";
 
 // The shared component owns brand identity; this site owns its section navigation.
@@ -41,6 +49,8 @@ if (typeof document !== "undefined" && typeof window !== "undefined") {
     link: document.querySelector(`.zrain-header .main-nav a[href="#${id}"]`)
   })).filter(item => item.section && item.link);
 
+  // BM: updateActiveNav: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: menyambungkan shared Zrain UI kepada seksyen homepage tanpa mengulang komponen header.
+  // EN: updateActiveNav: Mutates relevant state only after input and access conditions are verified. Module purpose: connects shared Zrain UI to homepage sections without duplicating header components.
   function updateActiveNav() {
     const headerBottom = header?.getBoundingClientRect().bottom || 0;
     const positions = navItems.map(item => ({
@@ -59,6 +69,8 @@ if (typeof document !== "undefined" && typeof window !== "undefined") {
   }
 
   let queued = false;
+  // BM: scheduleNavUpdate: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyambungkan shared Zrain UI kepada seksyen homepage tanpa mengulang komponen header.
+  // EN: scheduleNavUpdate: Isolates one operation so it can be reviewed and tested. Module purpose: connects shared Zrain UI to homepage sections without duplicating header components.
   function scheduleNavUpdate() {
     if (queued) return;
     queued = true;
@@ -68,6 +80,8 @@ if (typeof document !== "undefined" && typeof window !== "undefined") {
     });
   }
 
+  // BM: Event scroll: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+  // EN: scroll event: handle interaction without mutating source data or bypassing module validation.
   window.addEventListener("scroll", scheduleNavUpdate, { passive: true });
   window.addEventListener("resize", scheduleNavUpdate);
   window.addEventListener("hashchange", scheduleNavUpdate);

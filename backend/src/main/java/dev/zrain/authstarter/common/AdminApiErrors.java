@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/common/AdminApiErrors.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyeragamkan ralat HTTP pentadbir supaya butiran keselamatan dalaman tidak terbocor.
+ * EN: Standardizes administrator HTTP errors without leaking internal security details.
+ */
 package dev.zrain.authstarter.common;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
+// BM: AdminApiErrors: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyeragamkan ralat HTTP pentadbir supaya butiran keselamatan dalaman tidak terbocor.
+// EN: AdminApiErrors: Isolates one operation so it can be reviewed and tested. Module purpose: standardizes administrator HTTP errors without leaking internal security details.
 public class AdminApiErrors {
     public record Error(String error) {}
     @ExceptionHandler(BadCredentialsException.class)

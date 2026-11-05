@@ -1,0 +1,81 @@
+/*
+ * Fail / File: public/ecosystem-quick-console.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menggayakan dialog Console segera dan kawalan responsifnya.
+ * EN: Styles the quick Console dialog and its responsive controls.
+ */
+/* Zrain UI inline Console, using the unchanged official brand colors. */
+.zrain-preview{position:fixed;inset:0;margin:auto;width:calc(100vw - 24px);max-width:1600px;
+  height:calc(100dvh - 20px);max-height:none;padding:0;border:1px solid #ead7cc;
+  border-radius:20px;background:#fffaf6;color:#172433;box-shadow:0 24px 90px #17243366;overflow:hidden}
+.zrain-preview::backdrop{background:#172433b7;backdrop-filter:blur(4px)}
+.zrain-preview-shell{height:100%;min-height:0;display:flex;flex-direction:column;background:#fffaf6}
+.zrain-preview-toolbar{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #ead9cd;background:#fffaf6}
+.zrain-preview-identity{display:flex;align-items:center;gap:10px;min-width:190px;flex:1 1 240px}
+.zrain-preview-identity img{width:39px;height:39px;object-fit:contain;border-radius:9px;flex:none}
+.zrain-preview-identity small{display:block;font-size:10px;color:#a3523a;font-weight:800;letter-spacing:.04em}
+.zrain-preview-identity h2{font-size:17px;letter-spacing:-.03em;margin:3px 0 0;overflow-wrap:anywhere}
+.zrain-preview-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.zrain-preview-controls button,.zrain-preview-links a{font-size:11px;font-weight:800;min-height:36px;border-radius:10px;cursor:pointer}
+.zrain-preview-controls button{border:1px solid #e5d6cb;background:#fff;padding:7px 11px;color:#824d3b}
+.zrain-preview-switch{display:flex;align-items:center;padding:3px;gap:3px;background:#f6eee9;border:1px solid #e8dace;border-radius:11px}
+.zrain-preview-switch button{border:0;background:transparent;color:#796c66;min-height:31px}
+.zrain-preview-switch button[aria-pressed="true"]{background:#fff;color:#97442e;box-shadow:0 2px 7px #b9513620}
+.zrain-preview-controls button:hover{background:#fff4ed}
+.zrain-preview-controls .zrain-preview-close{font-size:20px;width:39px;height:39px;padding:0;color:#683d2c}
+.zrain-preview-description{font-size:12px;line-height:1.6;color:#65717b;margin:0;padding:10px 16px 3px}
+.zrain-preview-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px 16px 11px}
+.zrain-preview-links a{display:inline-flex;align-items:center;gap:7px;justify-content:center;text-decoration:none;border:1px solid #dfb7a5;color:#8e422e;background:#fff;padding:8px 12px}
+.zrain-preview-links a:hover{background:#fff2e9}
+.zrain-preview-links .zrain-preview-external{background:#b95136;color:#fff;border-color:#b95136}
+.zrain-preview-links .zrain-preview-external:hover{background:#993c28}
+.zrain-preview-links .zrain-preview-play{padding:0;border:0;background:transparent;min-height:0}
+.zrain-preview-play img{height:auto;max-height:38px;width:auto;max-width:140px}
+.zrain-preview-stage{flex:1 1 auto;min-height:120px;display:grid;place-items:center;overflow:hidden;background:#f2eeea;padding:8px}
+.zrain-preview-viewer{position:relative;overflow:hidden;border:1px solid #ddd6d1;background:#fff;border-radius:11px;box-shadow:0 10px 24px #17243319;max-width:100%;max-height:100%;transition:width .2s ease,height .2s ease}
+.zrain-preview-viewer iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:white}
+.zrain-preview-note{flex:none;margin:0;padding:9px 16px;border-top:1px solid #eadacf;background:#fff7ef;color:#75695f;font-size:11px;line-height:1.5}
+.zrain-preview-shell:fullscreen{border-radius:0;width:100%;height:100dvh}
+.zrain-preview-shell:fullscreen .zrain-preview-stage{flex:1}
+@media(max-width:680px){.zrain-preview{width:calc(100vw - 10px);height:calc(100dvh - 10px);border-radius:12px}
+ .zrain-preview-toolbar{padding:8px;gap:7px}.zrain-preview-identity{flex-basis:100%;min-width:0}
+ .zrain-preview-identity h2{font-size:14px}.zrain-preview-controls{width:100%}
+ .zrain-preview-controls button{padding:6px 8px;font-size:10px}.zrain-preview-controls .zrain-preview-close{margin-left:auto}
+ .zrain-preview-description{padding:8px 10px 2px;font-size:11px}
+ .zrain-preview-links{padding:7px 10px 9px;gap:5px}
+ .zrain-preview-links a{font-size:10px;padding:7px 9px}
+ .zrain-preview-stage{min-height:100px;padding:4px}.zrain-preview-note{padding:7px 10px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.zrain-preview-viewer{transition:none}}
+
+/* v9: viewing space takes priority over chrome, on EVERY viewport size. */
+.zrain-preview-toolbar{padding:6px 12px;gap:6px;min-height:0}
+.zrain-preview-identity{gap:8px;min-width:0;flex:1 1 180px}
+.zrain-preview-identity img{width:32px;height:32px}
+.zrain-preview-identity small{font-size:9px;letter-spacing:0}
+.zrain-preview-identity h2{font-size:15px;margin:1px 0 0}
+.zrain-preview-controls{gap:4px}
+.zrain-preview-controls button{min-height:30px;padding:5px 8px;font-size:10px}
+.zrain-preview-switch{padding:2px;gap:2px}
+.zrain-preview-switch button{min-height:28px}
+.zrain-preview-controls .zrain-preview-close{width:32px;height:32px;font-size:17px}
+.zrain-preview-description{font-size:11px;line-height:1.35;padding:5px 12px 0;max-height:2.9em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.zrain-preview-links{gap:5px;padding:5px 12px 6px}
+.zrain-preview-links a{font-size:10px;min-height:29px;padding:5px 9px}
+.zrain-preview-play img{max-height:29px;max-width:118px}
+.zrain-preview-stage{min-height:0;padding:3px;flex:1 1 0}
+.zrain-preview-note{font-size:10px;line-height:1.3;padding:5px 12px}
+@media(max-width:680px){
+  .zrain-preview-toolbar{padding:5px 8px;gap:4px}
+  .zrain-preview-identity{flex:1 1 155px}
+  .zrain-preview-identity img{width:28px;height:28px}
+  .zrain-preview-identity h2{font-size:13px}
+  .zrain-preview-controls{flex:0 1 auto;width:auto}
+  .zrain-preview-controls button{min-height:28px;padding:4px 6px;font-size:9px}
+  .zrain-preview-description{padding:4px 8px 0;font-size:10px}
+  .zrain-preview-links{padding:4px 8px 5px}
+  .zrain-preview-links a{padding:4px 7px;font-size:9px}
+  .zrain-preview-stage{padding:2px;min-height:0}
+  .zrain-preview-note{padding:4px 8px;font-size:9px}
+}

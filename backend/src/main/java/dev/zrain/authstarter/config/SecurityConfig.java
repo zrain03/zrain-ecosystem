@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/config/SecurityConfig.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menetapkan sempadan route awam dan admin serta ralat 401/403 berformat seragam.
+ * EN: Defines public versus administrator route boundaries and consistent 401/403 errors.
+ */
 package dev.zrain.authstarter.config;
 
 import dev.zrain.authstarter.user.Role;
@@ -20,6 +28,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+// BM: SecurityConfig: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menetapkan sempadan route awam dan admin serta ralat 401/403 berformat seragam.
+// EN: SecurityConfig: Isolates one operation so it can be reviewed and tested. Module purpose: defines public versus administrator route boundaries and consistent 401/403 errors.
 public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {

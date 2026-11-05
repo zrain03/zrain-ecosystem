@@ -1,3 +1,11 @@
+<#
+Fail / File: deploy.ps1
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Memvalidasi Firebase Hosting, branch, ujian dan syarat release sebelum deploy terkawal.
+EN: Validates Firebase Hosting, branch, tests and release gates before controlled deployment.
+#>
 param(
     [Parameter(Mandatory=$true)]
     [string]$ProjectId

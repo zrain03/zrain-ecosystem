@@ -1,28 +1,29 @@
+/*
+ * Fail / File: test/admin-ui.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji sempadan admin ui, output dan kes gagal tanpa membuat permintaan production.
+ * EN: Tests admin ui contracts, outputs and failure paths without making production requests.
+ */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
+// BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan admin ui, output dan kes gagal tanpa membuat permintaan production.
+// EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests admin ui contracts, outputs and failure paths without making production requests.
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
-test('the new admin editor explains all required fields and hides technical ordering', async () => {
-  const [html, js, css] = await Promise.all([
-    read('../public/admin/index.html'),
-    read('../public/admin/admin.js'),
-    read('../public/admin/admin.css')
+test('the protected editor exposes meaningful fields across eleven categories',async()=>{
+  const [html, core, ui] = await Promise.all([
+    read('../public/admin/index.html'),read('../public/admin/manage-core.mjs'),read('../public/admin/manage.mjs')
   ]);
-  for (const field of ['product-name','product-description','product-category',
-                       'product-logo-choice','product-action','product-url']) {
-    assert.match(html, new RegExp('id="' + field + '"'));
-  }
-  assert.doesNotMatch(html, /id="product-order"/);
-  assert.match(html, /id="advanced-options"/);
-  assert.match(html, /id="product-slug" readonly/);
-  assert.match(html, /id="import-existing"/);
-  assert.match(html, /id="preview-name"/);
-  assert.match(js, /\/api\/admin\/products\/import-existing/);
-  assert.match(js, /createUniqueSlug/);
-  assert.doesNotMatch(js, /inputs\.sortOrder/);
-  assert.match(css, /\.advanced/);
+  for(const id of ['login-form','admin-dashboard','project-form','field-name','field-description','field-category','field-url','field-github','field-slug','password-form'])
+    assert.match(html, new RegExp('id="'+id+'"'), id);
+  assert.match(html,/id="metric-categories">11</);
+  assert.match(core,/export const CATEGORY_CODES/);
+  assert.match(ui,/\/api\/admin\/auth\/login/);
+  assert.match(ui,/let jwt = null/);
 });
 
 test('the imported inventory includes all six existing live Zrain products as drafts', async () => {
@@ -38,42 +39,24 @@ test('the imported inventory includes all six existing live Zrain products as dr
   assert.match(api, /nextPosition/);
 });
 
-test('all six fallback product cards contain their actions inside one outline', async () => {
-  const [html, css, js] = await Promise.all([
-    read('../public/index.html'),
-    read('../public/style.css'),
-    read('../public/product-directory.js')
-  ]);
-  const cards = [...html.matchAll(/<article class="product-entry">([\s\S]*?)<\/article>/g)].map(x => x[1]);
-  assert.equal(cards.length, 6);
-  for (const name of ['Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain Monitor', 'Zrain UI', 'Zrain Links']) {
-    assert.equal(cards.filter(card => card.includes('<strong>' + name + '</strong>')).length, 1, name);
-  }
-  for (const name of ['Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain UI']) {
-    const card = cards.find(x => x.includes('<strong>' + name + '</strong>'));
-    assert.match(card, /class="product-actions"/);
-    assert.match(card, /product-action-primary/);
-    assert.match(card, /product-action-secondary/);
-    assert.match(card, /<a class="item-cta product-action product-action-secondary"/);
-  }
-  assert.match(css, /\.product-entry\{display:grid/);
-  assert.match(css, /\.product-actions\{display:flex/);
-  assert.match(js, /card\.append\(image, copy, actions\)/);
-  assert.doesNotMatch(js, /product-secondary-link|utilitiesRoot/);
+test('eleven category cards are rendered from one inventory with five-row scrolling',async()=>{
+  const {INVENTORY,CATEGORIES} = await import('../public/ecosystem-inventory.mjs');
+  const [html, ui] = await Promise.all([read('../public/index.html'),read('../public/ecosystem-unified.mjs')]);
+  assert.equal(INVENTORY.length,58);
+  assert.equal(CATEGORIES.length,11);
+  assert.match(html,/id="category-board"/);
+  assert.match(ui,/CATEGORIES\.map\(renderCategory\)/);
+  assert.match(ui,/items\.length<=5/);
+  assert.match(ui,/list\.style\.overflowY='auto'/);
 });
 
-test('legacy Web Utilities shares the Online Services section, and copy matches behavior', async () => {
-  const [directory, home, admin] = await Promise.all([
-    read('../public/product-directory.js'),
-    read('../public/index.html'),
-    read('../public/admin/index.html')
-  ]);
-  assert.match(directory, /product\.category === "WEB_UTILITIES" \? "ONLINE_SERVICES"/);
-  assert.doesNotMatch(directory, /createElement\("section"\)/);
-  assert.match(home, /USEFUL WHEN NEEDED/);
-  assert.match(home, /Open these services whenever you need them/);
-  assert.doesNotMatch(home, /EVERYDAY USE/);
-  assert.doesNotMatch(admin, /<option value="WEB_UTILITIES"/);
+test('legacy Worker category codes remain readable without overriding official categories',async()=>{
+  const {categoryFromWorker,categoryToWorker,WORKER_CATEGORIES} = await import('../public/admin/manage-core.mjs');
+  assert.equal(WORKER_CATEGORIES.WEB_UTILITIES,'productivity');
+  assert.equal(categoryFromWorker('WEB_UTILITIES','pdf'),'pdf');
+  assert.equal(categoryFromWorker('UNKNOWN','games'),'games');
+  for(const category of ['games','ai','infrastructure','links','monitoring','pdf','image','document','art','developer','productivity'])
+    assert.ok(categoryToWorker(category));
 });
 
 test('Zrain UI showcase displays exact hexadecimal codes under every swatch', async () => {
@@ -89,42 +72,37 @@ test('Zrain UI showcase displays exact hexadecimal codes under every swatch', as
   assert.equal((page.match(/class="swatch-item"/g)||[]).length, 4);
 });
 
-test('local showcase action previews local HEX palette instead of old live page', async () => {
-  const [html, client] = await Promise.all([
-    read('../public/index.html'),
-    read('../public/product-directory.js')
+test('the Console offers the local Zrain UI showcase without arbitrary URL injection',async()=>{
+  const [consoleCode,showcase] = await Promise.all([
+    read('../public/zrain-console.js'),read('../public/zrain-ui-showcase.html')
   ]);
-  assert.match(html, /data-console="zrain-ui"/);
-  assert.match(client, /url === "https:\/\/zrain\.web\.app\/zrain-ui-showcase\.html"/);
+  assert.match(consoleCode,/fetch\("\/zrain-ui-showcase\.html"/);
+  assert.match(consoleCode,/frame\.srcdoc = markup/);
+  assert.match(showcase,/Zrain UI/);
+  assert.doesNotMatch(consoleCode,/frame\.src = requestedDemo/);
 });
 
-test('Admin catalog publishing uses authenticated API and provides free-tier logos',async()=>{
-  const [html,code] = await Promise.all([read('../public/admin/index.html'),read('../public/admin/admin.js')]);
-  assert.match(html,/id="sync-catalog"/);
-  assert.match(code,/\/api\/admin\/catalog\/sync/);
-  assert.doesNotMatch(code,/\/api\/admin\/catalog\/logo|new FormData\(\)/);
-  assert.doesNotMatch(html,/id="product-logo-file"|id="upload-logo"/);
-  assert.match(html,/Direct upload is unavailable on the zero-billing plan/);
-  assert.match(code,/publishedBefore \? await syncWebsite\(\)/);
+test('admin publishing remains privileged and account credentials stay outside public HTML',async()=>{
+  const [worker,admin,html] = await Promise.all([
+    read('../catalog-worker/src/index.js'),read('../public/admin/manage.mjs'),read('../public/admin/index.html')
+  ]);
+  assert.match(worker,/const claims=await authenticated\(request,env\)/);
+  assert.match(worker,/\/api\/admin\/products/);
+  assert.match(admin,/\/api\/admin\/auth\/password/);
   assert.match(html,/id="password-form"/);
-  assert.match(code,/\/api\/admin\/auth\/password/);
+  assert.doesNotMatch(admin,/localStorage\.setItem\([^,]*jwt/);
 });
 
-test('all six fallback primary actions open Zrain Console with a category label',async()=>{
-  const [html,directory,consoleCode] = await Promise.all([
-    read('../public/index.html'), read('../public/product-directory.js'),
-    read('../public/zrain-console.js')
+test('all project preview actions use the allowlisted inline Console',async()=>{
+  const {INVENTORY} = await import('../public/ecosystem-inventory.mjs');
+  const [html,ui,consoleCode] = await Promise.all([
+    read('../public/index.html'),read('../public/ecosystem-unified.mjs'),read('../public/ecosystem-quick-console.mjs')
   ]);
-  for(const slug of ["guess-the-flag","memory-rush","zrain-auth-starter",
-                     "zrain-monitor","zrain-ui","zrain-links"])
-    assert.match(html,new RegExp('data-console="' + slug + '"'));
-  assert.equal((html.match(/data-console="/g)||[]).length,6);
-  assert.match(directory,/action\.dataset\.console = product\.slug/);
-  assert.match(directory,/repoSecondary \? "View on GitHub"/);
-  assert.match(directory,/product\.category === "GAMES" \? "Play Now" : "Open Web App"/);
-  assert.doesNotMatch(directory,/product\.primaryAction === "CONSOLE"/);
-  assert.match(consoleCode,/published\.set\(item\.slug/);
-  assert.match(consoleCode,/const sourceFirst =/);
+  assert.equal(INVENTORY.filter(x=>x.kind==='project').length,10);
+  assert.match(html,/id="zrain-preview-frame"/);
+  assert.match(ui,/resultRow\(/);
+  assert.match(consoleCode,/zrain-preview-frame/);
+  assert.ok(INVENTORY.every(x=>x.url.startsWith('https://')||x.url.startsWith('/')));
 });
 
 test('Zrain UI Console loads the local showcase as srcdoc, never a GitHub iframe',async()=>{

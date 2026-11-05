@@ -1,3 +1,9 @@
+# Fail / File: .github/workflows/catalog-worker.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menguji kontrak Worker katalog termasuk kawalan akses admin sebelum release.
+# EN: Tests Catalogue Worker contracts including administrator access controls before release.
 name: Verify Zrain Catalog Worker
 on:
   push:

@@ -1,3 +1,9 @@
+# Fail / File: .github/workflows/website.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menguji Zrain UI, build laman dan semakan release pada setiap push atau pull request.
+# EN: Tests shared Zrain UI, site builds and release verification on pushes and pull requests.
 name: Verify Zrain Ecosystem website
 on:
   push:

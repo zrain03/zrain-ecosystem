@@ -1,3 +1,11 @@
+<#
+Fail / File: scripts/setup-free-admin-worker.ps1
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menyediakan konfigurasi Worker dan KV berkuota Free dengan preflight keselamatan.
+EN: Sets up Free-quota Worker and KV with safety preflight checks.
+#>
 # Safe Cloudflare Workers + KV Free setup. Run only from your own authenticated PC.
 # No R2, paid plan, billing activation, card, or Render.
 $ErrorActionPreference = 'Stop'

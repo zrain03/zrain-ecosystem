@@ -1,0 +1,61 @@
+# Zrain Tools v1.7 — five separate Cloudflare Pages websites
+# Run this PowerShell content on YOUR Windows PC after checking your Cloudflare account is Free.
+# Uses only static Pages. No Workers, D1, R2, billing or API tokens are created.
+$ErrorActionPreference = 'Stop'
+$base = Join-Path $env:USERPROFILE 'Downloads'
+$archive = Join-Path $base 'Zrain-Tools-v1.7-RELEASE-SOURCE.zip'
+$stage = Join-Path $base 'Zrain-v1.7-Publish'
+$project = Join-Path $stage 'Zrain-Tools-v1.7'
+$sites = @('zrain-image-tools','zrain-pdf-tools','zrain-document-tools','zrain-developer-tools','zrain-productivity-tools')
+
+if (!(Test-Path -LiteralPath $archive)) { throw "Download Zrain-Tools-v1.7-RELEASE-SOURCE.zip to Downloads first." }
+if (!(Test-Path -LiteralPath $stage)) {
+  New-Item -ItemType Directory -Path $stage | Out-Null
+  Expand-Archive -LiteralPath $archive -DestinationPath $stage
+}
+# This is a separate release staging folder; your existing Zrain project folders are never overwritten.
+if (!(Test-Path -LiteralPath (Join-Path $project 'package.json'))) { throw 'Source project folder missing or ZIP structure unexpected.' }
+
+Push-Location $project
+try {
+  npm run check
+  if ($LASTEXITCODE -ne 0) { throw 'Project tests failed. Hosting deployment cancelled.' }
+  foreach ($site in $sites) {
+    $folder = Join-Path $project "dist\$site"
+    foreach ($name in @('index.html','feedback-embed.js','feedback.css','zrain-logo.webp')) {
+      if (!(Test-Path -LiteralPath (Join-Path $folder $name))) { throw "Missing $site/$name" }
+    }
+    if ((Test-Path (Join-Path $folder '_worker.js')) -or (Test-Path (Join-Path $folder 'functions'))) {
+      throw "Unexpected server-side Functions in $site. Only static assets are approved."
+    }
+  }
+  Write-Host "`nVerified: all five static websites exist and local tests pass." -ForegroundColor Green
+  Write-Host 'Cloudflare Pages Free only. Confirm billing and account plan in Cloudflare dashboard.' -ForegroundColor Yellow
+  $confirmation = Read-Host 'Type FREE if the target account is the FREE plan and you approve publishing five public websites'
+  if ($confirmation -cne 'FREE') { throw 'Stopped; deployment was not started.' }
+
+  npx --yes wrangler whoami
+  if ($LASTEXITCODE -ne 0) {
+    throw 'Wrangler login missing. Run npx wrangler login, then rerun this script.'
+  }
+  $raw = (npx --yes wrangler pages project list --json 2>&1) -join "`n"
+  if ($LASTEXITCODE -ne 0) { throw "Could not list Pages projects: $raw" }
+  try { $obj = $raw | ConvertFrom-Json } catch { throw 'Could not parse Cloudflare Pages projects; deployment cancelled.' }
+  if ($obj -is [array]) { $projects = @($obj) }
+  elseif ($null -ne $obj.result) { $projects = @($obj.result) }
+  else { throw 'Cloudflare Pages project listing has an unexpected structure; deployment cancelled.' }
+  $names = @($projects | ForEach-Object { $_.name })
+
+  foreach ($site in $sites) {
+    if ($names -notcontains $site) {
+      Write-Host "Creating new static Cloudflare Pages project: $site" -ForegroundColor Cyan
+      npx --yes wrangler pages project create $site --production-branch main
+      if ($LASTEXITCODE -ne 0) { throw "Failed creating $site" }
+    }
+    Write-Host "`nPublishing $site (static files only)..." -ForegroundColor Cyan
+    npx --yes wrangler pages deploy (Join-Path $project "dist\$site") --project-name $site --branch main
+    if ($LASTEXITCODE -ne 0) { throw "Deployment failed for $site. Check Cloudflare terminal output before retrying." }
+    Write-Host "Check the actual URL printed by Wrangler for $site." -ForegroundColor Green
+  }
+  Write-Host "`nCloudflare upload commands completed. Verify each printed URL and real tool functions before adding Ecosystem published entries." -ForegroundColor Green
+} finally { Pop-Location }

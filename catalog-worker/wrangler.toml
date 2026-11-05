@@ -1,3 +1,9 @@
+# Fail / File: catalog-worker/wrangler.toml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Mengikat tetapan dan sumber Cloudflare Worker mengikut Free tier tanpa bayaran automatik.
+# EN: Binds Cloudflare Worker settings and resources for the Free tier without automatic billing.
 name = "zrain-ecosystem-catalog"
 main = "src/index.js"
 compatibility_date = "2026-10-29"

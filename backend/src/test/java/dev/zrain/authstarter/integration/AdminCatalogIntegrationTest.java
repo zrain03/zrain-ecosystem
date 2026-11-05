@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/test/java/dev/zrain/authstarter/integration/AdminCatalogIntegrationTest.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji aliran login admin, akses API dan perubahan produk pada konteks Spring sebenar.
+ * EN: Exercises administrator login, API access and catalogue changes in a real Spring test context.
+ */
 package dev.zrain.authstarter.integration;
 
 import dev.zrain.authstarter.products.ProductRepository;
@@ -22,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+// BM: AdminCatalogIntegrationTest: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji aliran login admin, akses API dan perubahan produk pada konteks Spring sebenar.
+// EN: AdminCatalogIntegrationTest: Isolates one operation so it can be reviewed and tested. Module purpose: exercises administrator login, API access and catalogue changes in a real Spring test context.
 class AdminCatalogIntegrationTest {
     @Autowired MockMvc mvc;
     @Autowired UserRepository users;
@@ -36,6 +46,8 @@ class AdminCatalogIntegrationTest {
         users.saveAndFlush(new AppUser("admin@example.com", encoder.encode("LongUniqueTestPassword123!"), Role.ADMIN));
     }
 
+    // BM: login: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji aliran login admin, akses API dan perubahan produk pada konteks Spring sebenar.
+    // EN: login: Isolates one operation so it can be reviewed and tested. Module purpose: exercises administrator login, API access and catalogue changes in a real Spring test context.
     private String login() throws Exception {
         String content = mvc.perform(post("/api/admin/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -44,6 +56,8 @@ class AdminCatalogIntegrationTest {
         return mapper.readTree(content).get("accessToken").stringValue();
     }
 
+    // BM: form: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji aliran login admin, akses API dan perubahan produk pada konteks Spring sebenar.
+    // EN: form: Isolates one operation so it can be reviewed and tested. Module purpose: exercises administrator login, API access and catalogue changes in a real Spring test context.
     private static String form() {
         return """
                 {

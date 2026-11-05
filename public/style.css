@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/style.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengekalkan identiti Bento Zrain dan komponen responsive homepage tanpa mengatasi shared UI.
+ * EN: Maintains the Zrain Bento identity and responsive homepage components without overriding shared UI.
+ */
 /* Zrain Ecosystem v4.1.0. Product-specific design, official shared UI stays unchanged. */
 :root {
   color-scheme: light;

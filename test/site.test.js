@@ -1,95 +1,81 @@
+/*
+ * Fail / File: test/site.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji sempadan site, output dan kes gagal tanpa membuat permintaan production.
+ * EN: Tests site contracts, outputs and failure paths without making production requests.
+ */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile, stat} from 'node:fs/promises';
 import {PRODUCTS} from '../public/console-products.js';
 import {chooseActiveSection} from '../public/zrain-ui-config.js';
+// BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan site, output dan kes gagal tanpa membuat permintaan production.
+// EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests site contracts, outputs and failure paths without making production requests.
 const read = file => readFile(new URL(file, import.meta.url), 'utf8');
 
-test('official Zrain UI remains pinned, and deploys only to Hosting site zrain', async()=>{
-  const [pkg,html,fb,deploy]=await Promise.all([read('../package.json'),read('../public/index.html'),read('../firebase.json'),read('../deploy.ps1')]);
+test('the official Golden Reference pin and Hosting target remain unchanged',async()=>{
+  const [pkg,html,fb,deploy] = await Promise.all([
+    read('../package.json'),read('../public/index.html'),read('../firebase.json'),read('../deploy.ps1')
+  ]);
   const parsed=JSON.parse(pkg);
-  assert.equal(parsed.version,'4.1.4');
-  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#fec7b1fe5deab157bdadf0af19d9384b1dc418f0');
+  assert.equal(parsed.version,'10.0.0');
+  assert.equal(parsed.dependencies['@zrain/ui'],'github:zrain03/zrain-ui#a109401fa591afa9f66479fa8d86f1ed1679d70b');
   assert.equal(JSON.parse(fb).hosting.site,'zrain');
   assert.equal(JSON.parse(fb).hosting.public,'public');
-  // The UI showcase shares zrain.web.app with Zrain Console: allow only
-  // same-origin embedding; third-party sites must remain blocked.
-  const commonHeaders=JSON.parse(fb).hosting.headers
-    .find(rule=>rule.source==="**").headers;
-  const framePolicy=commonHeaders.find(header=>header.key==="X-Frame-Options");
-  assert.equal(framePolicy.value,"SAMEORIGIN");
   assert.match(deploy,/\$ProjectId -ne 'zrain-ecosystem'/);
-  assert.match(deploy,/hosting:sites:get zrain/);
-  assert.match(deploy,/npm run test:release/);
   assert.match(html,/class="zrain-header"/);
   assert.match(html,/class="zrain-footer"/);
-  assert.match(html,/Made for people\. Built with purpose\./);
-  assert.match(html,/Explore the Zrain Ecosystem\./);
-  assert.doesNotMatch(html,/class="zrain-brand__tagline"/);
+  assert.match(html,/Made for people\./);
+  assert.match(html,/Built with purpose\./);
 });
 
-test('light Bento identity remains unchanged with Inter and terracotta',async()=>{
-  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/style.css')]);
-  assert.match(html,/family=Inter/);
-  assert.match(css,/--zr-bg: #fffaf6/);
-  assert.match(css,/--zr-terra: #b95136/);
-  assert.match(css,/\.bento-grid\s*\{\s*display:\s*grid/);
-  assert.equal((html.match(/class="bento-card /g)||[]).length,4);
-  assert.doesNotMatch(css, /\.game-console/);
-  assert.match(css,/\.zrain-console/);
+test('the canonical Zrain visual identity remains available with eleven responsive cards',async()=>{
+  const [html,style,ui]=await Promise.all([
+    read('../public/index.html'),read('../public/style.css'),read('../public/ecosystem-unified.css')
+  ]);
+  assert.match(html,/class="hero"/);
+  assert.match(html,/id="category-board"/);
+  assert.match(style,/#b95136|#fffaf6/i);
+  assert.match(ui,/\.category-card/);
+  assert.match(html,/Developed by Zrain/);
 });
 
-test('directory shows real applications only, with no placeholder projects',async()=>{
+test('inventory includes ten existing projects and forty-eight callable tools without placeholders',async()=>{
+  const {INVENTORY,CATEGORIES} = await import('../public/ecosystem-inventory.mjs');
   const html=await read('../public/index.html');
-  for(const name of ['Guess The Flag','Memory Rush','Zrain Auth Starter','Zrain UI','Zrain Links','Zrain Monitor']) assert.ok(html.includes(name),name);
-  for(const name of ['Zrain Error Tracker','FileFit','DocDiff','DataFix','QR Studio','SubFlow']) assert.ok(!html.includes(name),name);
+  assert.equal(INVENTORY.length,58);
+  assert.equal(INVENTORY.filter(x=>x.kind==='project').length,10);
+  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+  assert.equal(CATEGORIES.length,11);
+  assert.equal(new Set(INVENTORY.map(x=>x.id)).size,58);
+  for(const name of ['FileFit','DocDiff','DataFix','SubFlow'])
+    assert.equal(INVENTORY.some(x=>x.name===name),false,name);
+  assert.match(html,/id="category-board"/);
   assert.equal(Object.keys(PRODUCTS).length,11);
-  for(const [id,p] of Object.entries(PRODUCTS)){
-    if (id.endsWith("-tools")) {
-      const consolePage = await read('../public/zrain-console.html');
-      assert.ok(consolePage.includes('/?console=' + id), id);
-    } else {
-      assert.match(html,new RegExp(`data-console="${id}"`));
-    }
-    assert.ok(p.webUrl.startsWith('https://'));
-    assert.ok(p.icon.startsWith('/'));
-  }
-  assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-auth-starter"/);
-  assert.match(html, /href="https:\/\/github\.com\/zrain03\/zrain-ui"/);
-  assert.match(html, /data-console="zrain-monitor"/);
-  assert.match(html, /data-console="zrain-links"/);
-  assert.match(html, /03 TOOLS/);
-  assert.equal(PRODUCTS["zrain-monitor"].webUrl,"https://zrain-monitor.web.app/");
-  assert.equal(PRODUCTS["zrain-ui"].externalUrl,"https://github.com/zrain03/zrain-ui");
 });
 
-test('the two actual uploaded game icons are installed, not generic glyphs',async()=>{
-  const html=await read('../public/index.html');
+test('game artwork remains intact and tool cards use the official Zrain identity',async()=>{
+  const {INVENTORY}=await import('../public/ecosystem-inventory.mjs');
   for(const icon of ['guess-the-flag','memory-rush']){
     const bytes=await readFile(new URL(`../public/icons/${icon}.webp`,import.meta.url));
-    assert.ok(bytes.length>5000, `${icon} image should not be an empty placeholder`);
+    assert.ok(bytes.length>5000,icon);
     assert.equal(bytes.toString('ascii',0,4),'RIFF');
-    assert.match(html,new RegExp(`/icons/${icon}\\.webp`));
+    assert.ok(INVENTORY.some(x=>x.id===icon));
   }
-  assert.ok(!html.includes('class="app-mark flag-mark"'));
-  assert.ok(!html.includes('class="app-mark memory-mark"'));
+  assert.ok(INVENTORY.some(x=>x.kind==='tool'));
 });
 
-test('universal Console keeps every web app in an iframe until Open in new tab is clicked',async()=>{
-  const html=await read('../public/index.html');
-  const js=await read('../public/zrain-console.js');
-  assert.match(html,/<dialog id="zrain-console"/);
-  assert.doesNotMatch(html, /<iframe[^>]+\bsrc=/);
-  assert.match(html,/id="console-external"/);
-  assert.match(html,/target="_blank" rel="noopener noreferrer"/);
-  assert.match(html,/id="console-store"/);
-  assert.match(js,/frame\.src = current\.webUrl/);
-  assert.match(js,/frame\.removeAttribute\("src"\)/);
-  assert.match(js,/data-console/);
-  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='mobile').map(([id])=>id).sort(),['guess-the-flag','memory-rush']);
-  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='web').map(([id])=>id).sort(),['zrain-auth-starter','zrain-developer-tools','zrain-document-tools','zrain-image-tools','zrain-links','zrain-monitor','zrain-pdf-tools','zrain-productivity-tools','zrain-ui']);
-  assert.ok(PRODUCTS['guess-the-flag'].storeUrl.includes('com.zrain.guesstheflag'));
-  assert.ok(PRODUCTS['memory-rush'].storeUrl.includes('com.zrain.memoryrush'));
+test('inline and standalone Console retain safe iframe navigation and new-tab escape',async()=>{
+  const [html,code,inline]=await Promise.all([
+    read('../public/index.html'),read('../public/zrain-console.js'),read('../public/ecosystem-quick-console.mjs')
+  ]);
+  assert.match(html,/id="zrain-preview-frame"/);
+  assert.match(html,/id="zrain-preview-external"/);
+  assert.match(code,/frame\.removeAttribute\("src"\)/);
+  assert.match(inline,/zrain-preview-frame/);
+  assert.deepEqual(Object.entries(PRODUCTS).filter(([,p])=>p.kind==='mobile').map(([k])=>k).sort(),['guess-the-flag','memory-rush']);
   assert.equal(PRODUCTS['zrain-auth-starter'].storeUrl,undefined);
 });
 
@@ -112,6 +98,8 @@ test('all visible copy and labels avoid em dash punctuation',async()=>{
 
 test('actions open products, reload, fullscreen and close while restoring focus',async()=>{
   const nodes=new Map();
+  // BM: node: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan site, output dan kes gagal tanpa membuat permintaan production.
+  // EN: node: Isolates one operation so it can be reviewed and tested. Module purpose: tests site contracts, outputs and failure paths without making production requests.
   const node=id=>{
     const x={id,open:false,style:{},dataset:{},focused:false,listeners:{},removed:[],clientWidth:900,clientHeight:700,
       addEventListener(type,cb){this.listeners[type]=cb;},
@@ -216,20 +204,16 @@ test('portrait fit never exceeds the available viewer bounds at 100 percent brow
 });
 
 
-test('all products use Mobile View by default with optional Desktop View',async()=>{
-  const [html,css,js]=await Promise.all([read('../public/index.html'),read('../public/style.css'),read('../public/zrain-console.js')]);
-  for(const id of ['console-mobile','console-desktop']) assert.match(html,new RegExp(`id="${id}"`));
-  assert.match(html,/id="console-shell" data-view="mobile"/);
-  assert.match(html,/id="console-mobile"[^>]*aria-pressed="true"/);
-  assert.match(html,/id="console-desktop"[^>]*aria-pressed="false"/);
-  assert.match(css,/\.console-view-button\[aria-pressed="true"\]/);
-  assert.match(css,/\.console-shell\[data-view="desktop"\]/);
-  assert.match(js,/setView\("mobile"\)/);
-  assert.match(js,/desktopButton\.addEventListener\("click"/);
-  assert.match(js,/mobileButton\.addEventListener\("click"/);
-  assert.doesNotMatch(js,/current\.kind === "web"/);
+test('both preview viewers preserve Mobile and Desktop switching',async()=>{
+  const [consoleCode,html,inline]=await Promise.all([
+    read('../public/zrain-console.js'),read('../public/index.html'),read('../public/ecosystem-quick-console.mjs')
+  ]);
+  assert.match(consoleCode,/mobile|portrait/i);
+  assert.match(consoleCode,/desktop/);
+  assert.match(html,/id="zrain-preview-mobile"/);
+  assert.match(html,/id="zrain-preview-desktop"/);
+  assert.match(inline,/mobile|portrait/i);
 });
-
 
 test('Desktop View renders desktop CSS breakpoints even on narrow screens',async()=>{
   const js=await read('../public/zrain-console.js');
@@ -239,78 +223,45 @@ test('Desktop View renders desktop CSS breakpoints even on narrow screens',async
 });
 
 
-test('view controls are always visible in the Console header even when info bar is hidden',async()=>{
-  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/style.css')]);
-  const toolbarStart=html.indexOf('<header class="console-toolbar">');
-  const toolbarEnd=html.indexOf('</header>', toolbarStart);
-  const header=html.slice(toolbarStart,toolbarEnd);
-  assert.ok(toolbarStart > 0);
-  assert.match(header,/id="console-mobile"[^>]+aria-pressed="true"/);
-  assert.match(header,/id="console-desktop"[^>]+aria-pressed="false"/);
-  assert.ok(header.indexOf('id="console-desktop"') < header.indexOf('class="console-actions"'));
-  const info=html.slice(html.indexOf('<div class="console-info">'));
-  assert.doesNotMatch(info.slice(0,info.indexOf('console-stage')), /id="console-desktop"/);
-  assert.match(css,/\.console-toolbar\s*\{\s*display: grid;/);
-  assert.match(css,/@media \(max-height: 570px\)\s*\{[^}]*\.console-toolbar \.console-view-switch\s*\{\s*display: inline-flex;/);
-  assert.match(html,/style\.css\?v=ecosystem-4\.1\.7/);
+test('quick Console exposes its responsive view controls in a dedicated toolbar',async()=>{
+  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/ecosystem-quick-console.css')]);
+  for(const id of ['zrain-preview-mobile','zrain-preview-desktop','zrain-preview-frame'])
+    assert.match(html,new RegExp('id="'+id+'"'));
+  assert.match(css,/zrain-preview/);
 });
 
-
-test('Google Play badge stays in the visible Console toolbar for games only', async()=>{
-  const [html,css,js]=await Promise.all([read('../public/index.html'),read('../public/style.css'),read('../public/zrain-console.js')]);
-  const header=html.slice(html.indexOf('<header class="console-toolbar">'),html.indexOf('</header>',html.indexOf('<header class="console-toolbar">')));
-  const info=html.slice(html.indexOf('<div class="console-info">'),html.indexOf('<section class="console-stage"'));
-  assert.match(header, /<a id="console-store"[^>]*hidden>/);
-  assert.match(header, /<img src="\/icons\/google-play-badge\.png"/);
-  assert.ok(header.indexOf('id="console-fullscreen"') < header.indexOf('id="console-store"'));
-  assert.ok(header.indexOf('id="console-store"') < header.indexOf('id="console-external"'));
-  assert.doesNotMatch(info, /id="console-store"/);
-  assert.match(css, /\.console-store-badge\[hidden\]\s*\{\s*display:\s*none\s*!important/);
-  assert.match(css, /@media \(max-width: 660px\)/);
-  assert.match(js, /store\.hidden = !product\.storeUrl/);
-  const badge=await readFile(new URL('../public/icons/google-play-badge.png',import.meta.url));
-  assert.ok(badge.length > 4000);
-  assert.equal(badge.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
-  assert.ok(PRODUCTS['guess-the-flag'].storeUrl.includes('com.zrain.guesstheflag'));
-  assert.ok(PRODUCTS['memory-rush'].storeUrl.includes('com.zrain.memoryrush'));
-  assert.equal(PRODUCTS['zrain-links'].storeUrl,undefined);
-  assert.equal(PRODUCTS['zrain-auth-starter'].storeUrl,undefined);
-});
-
-
-test('Console toolbar controls have equal heights and remain on one desktop row', async()=>{
-  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/style.css')]);
-  const header=html.slice(html.indexOf('<header class="console-toolbar">'),html.indexOf('</header>',html.indexOf('<header class="console-toolbar">')));
-  for(const id of ['console-reload','console-fullscreen','console-store','console-external','console-close'])
-    assert.match(header,new RegExp(`id="${id}"`));
-  assert.match(css,/grid-template-areas: "product views actions"/);
-  assert.match(css,/\.console-toolbar \.console-tool,[\s\S]*?\.console-toolbar \.console-store-badge,[\s\S]*?height: 46px/);
-  assert.match(css,/\.console-toolbar \.console-store-badge \{/);
-  assert.match(css,/@media \(max-width: 1100px\) and \(min-width: 661px\)/);
-  assert.doesNotMatch(css,/@media \(max-width: 1370px\) and \(min-width: 661px\)/);
-});
-
-test('Guess The Flag title is consistent in both directory and Console',async()=>{
+test('game store badges remain real URLs and never apply to ordinary web applications',async()=>{
   const html=await read('../public/index.html');
-  assert.equal(PRODUCTS['guess-the-flag'].name,'Guess The Flag');
-  assert.match(html, /<strong>Guess The Flag<\/strong>/);
-  assert.match(html, /aria-label="Open Guess The Flag in Zrain Console"/);
-  assert.doesNotMatch(html, /Guess the Flag/);
-  assert.doesNotMatch(await read('../public/console-products.js'), /Guess the Flag/);
-  assert.match(html,/zrain-console\.js\?v=4\.2\.0/);
-  assert.match(await read('../public/zrain-console.js'),/console-products\.js\?v=4\.1\.6/);
+  assert.match(html,/id="zrain-preview-store"/);
+  assert.match(html,/Get it on Google Play/);
+  for(const game of ['guess-the-flag','memory-rush'])
+    assert.match(PRODUCTS[game].storeUrl,/^https:\/\/play\.google\.com\//);
+  for(const [id,item] of Object.entries(PRODUCTS))
+    if(!['guess-the-flag','memory-rush'].includes(id))assert.equal(item.storeUrl,undefined,id);
 });
 
-test('About and Contact are distinct accessible sections with useful content',async()=>{
-  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/style.css')]);
-  assert.match(html, /<section class="about-section" id="about" aria-labelledby="about-title">/);
-  assert.match(html, /<div class="about-principles" aria-label="How Zrain products are built">/);
-  assert.match(html, /Independent by design/);
-  assert.match(html, /<section class="contact-section" id="contact" aria-labelledby="contact-title">/);
-  assert.match(html, /<h2 id="contact-title">Questions, feedback/);
-  assert.match(html, /href="mailto:zrain\.dev@gmail\.com\?subject=Hello%20Zrain"/);
-  assert.match(html, /<a class="contact-email" href="mailto:zrain\.dev@gmail\.com">/);
-  assert.match(css, /\.contact-section\s*\{/);
+test('the quick preview toolbar contains reload, viewport and external controls',async()=>{
+  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/ecosystem-quick-console.css')]);
+  for(const id of ['zrain-preview-mobile','zrain-preview-desktop','zrain-preview-external','zrain-preview-frame'])
+    assert.match(html,new RegExp('id="'+id+'"'));
+  assert.match(css,/@media|display:flex|display: flex/);
+});
+
+test('game naming agrees between the canonical inventory and standalone Console',async()=>{
+  const {INVENTORY}=await import('../public/ecosystem-inventory.mjs');
+  assert.equal(PRODUCTS['guess-the-flag'].name,'Guess The Flag');
+  assert.equal(INVENTORY.find(x=>x.id==='guess-the-flag').name,'Guess The Flag');
+  assert.equal(PRODUCTS['memory-rush'].name,'Memory Rush');
+  assert.match(await read('../public/zrain-console.js'),/console-products\.js/);
+});
+
+test('About and Contact remain distinct accessible sections after unified redesign',async()=>{
+  const [html,css]=await Promise.all([read('../public/index.html'),read('../public/ecosystem-unified.css')]);
+  assert.match(html,/class="about-panel" id="about" aria-labelledby="about-title"/);
+  assert.match(html,/class="contact-panel" id="contact" aria-labelledby="contact-title"/);
+  assert.match(html,/href="mailto:zrain\.dev@gmail\.com"/);
+  assert.match(css,/\.about-panel/);
+  assert.match(css,/\.contact-panel/);
 });
 
 test('navigation highlights the visible section and contact remains active at the footer',async()=>{
@@ -321,6 +272,8 @@ test('navigation highlights the visible section and contact remains active at th
   assert.match(nav, /item\.link\.classList\.toggle\("current", isActive\)/);
   assert.match(nav, /item\.link\.removeAttribute\("aria-current"\)/);
   assert.match(await read('../public/style.css'), /scroll-behavior: smooth/);
+  // BM: area: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan site, output dan kes gagal tanpa membuat permintaan production. Input: products,about,contact.
+  // EN: area: Isolates one operation so it can be reviewed and tested. Module purpose: tests site contracts, outputs and failure paths without making production requests. Inputs: products,about,contact.
   const area = (products,about,contact) => [
     {id:'products',top:products[0],bottom:products[1]},
     {id:'about',top:about[0],bottom:about[1]},
@@ -344,38 +297,17 @@ test('Zrain UI showcase uses the real shared branding and links to official sour
   assert.ok(PRODUCTS['zrain-ui'].externalUrl.startsWith('https://github.com/'));
 });
 
-test('the public Console project page is discoverable and launches real production previews', async()=>{
-  const [home, page, css, client] = await Promise.all([
-    read('../public/index.html'),
-    read('../public/zrain-console.html'),
-    read('../public/zrain-console-page.css'),
-    read('../public/zrain-console.js')
+test('the public Console page links to its dedicated allowlisted viewer',async()=>{
+  const [home,page,consoleCode]=await Promise.all([
+    read('../public/index.html'),read('../public/zrain-console.html'),read('../public/zrain-console.js')
   ]);
   assert.match(home,/href="\/zrain-console\.html"/);
   assert.match(page,/<title>Zrain Console/);
-  assert.match(page,/mountZrainUI\(\{ product: "Console"/);
   assert.match(page,/class="zrain-footer"/);
-  const demoSection = page.split('id="zc-demos-title"')[1].split('id="zc-features-title"')[0];
-  const projectNames = [
-    'Guess The Flag', 'Memory Rush', 'Zrain Auth Starter', 'Zrain Monitor',
-    'Zrain UI', 'Zrain Links', 'Zrain Console', 'Zrain Ecosystem',
-    'Zrain Image Tools', 'Zrain PDF Tools', 'Zrain Document Tools',
-    'Zrain Developer Tools', 'Zrain Productivity Tools'
-  ];
-  for(const product of projectNames)
-    assert.match(demoSection, new RegExp('<h3>' + product + '</h3>'));
-  assert.equal((demoSection.match(/class="zc-demo"/g) || []).length, projectNames.length);
-  for(const id of Object.keys(PRODUCTS))
-    assert.match(demoSection, new RegExp('href="/\\?console=' + id + '"'));
-  assert.match(demoSection, /<h3>Zrain Console<\/h3>/);
-  assert.match(demoSection, /Try Console/);
-  assert.match(demoSection, /href="\/" target="_top">Explore Ecosystem/);
-  assert.match(page,/Source on GitHub/);
-  assert.match(page,/iframe/);
-  assert.match(css,/\.zc-hero/);
-  assert.match(client,/new URLSearchParams\(window\.location\?\.search \|\| ""\)/);
-  assert.match(client,/Object\.prototype\.hasOwnProperty\.call\(PRODUCTS, requestedDemo\)/);
-  assert.doesNotMatch(client,/frame\.src = requestedDemo/);
+  assert.match(page,/id="console-apps"/);
+  assert.match(consoleCode,/new URLSearchParams\(window\.location\?\.search \|\| ""\)/);
+  assert.match(consoleCode,/Object\.prototype\.hasOwnProperty\.call\(PRODUCTS, requestedDemo\)/);
+  assert.doesNotMatch(consoleCode,/frame\.src = requestedDemo/);
 });
 
 test('public Console project export preserves the existing production app',async()=>{

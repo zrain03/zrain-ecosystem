@@ -1,0 +1,51 @@
+# Fail / File: .github/workflows/live-readonly.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: 2026-11-05
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Uji servis live tanpa token admin, penulisan KV, atau deployment.
+# EN: Verify live services without admin tokens, KV writes, or deployments.
+name: Verify Zrain live dependencies (read only)
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Cloudflare health, readiness, Published catalog and CORS
+        shell: bash
+        run: |
+          set -euo pipefail
+          worker="https://zrain-ecosystem-catalog.zrain-dev.workers.dev"
+          temp="$(mktemp -d)"
+          trap 'rm -rf "$temp"' EXIT
+          curl --fail --silent --show-error --location --max-time 25 "$worker/api/health" > "$temp/health.json"
+          jq -e '.status == "ok"' "$temp/health.json" >/dev/null
+          curl --fail --silent --show-error --location --max-time 25 "$worker/api/ready" > "$temp/ready.json"
+          jq -e '.ready == true' "$temp/ready.json" >/dev/null
+          curl --fail --silent --show-error --location --max-time 25 --dump-header "$temp/headers.txt" "$worker/api/catalog" > "$temp/catalog.json"
+          grep -iq 'access-control-allow-origin: \*' "$temp/headers.txt"
+          # BM: Jangan terima Draft atau Archived dan jangan cipta produk Published baharu.
+          # EN: Reject Draft and Archived without creating any Published records.
+          jq -e '
+            (type == "array" and length > 0) and
+            (all(.[]; .status == "PUBLISHED")) and
+            ((map(.slug) | unique | length) == length) and
+            ((["guess-the-flag","memory-rush","zrain-auth-starter","zrain-monitor","zrain-ui","zrain-links"] - map(.slug)) | length == 0)
+          ' "$temp/catalog.json" >/dev/null
+          echo "Published product count: $(jq 'length' "$temp/catalog.json")"
+          echo "Published category codes: $(jq -c '[.[].category] | unique' "$temp/catalog.json")"
+      - name: Check current Firebase site identity without changing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp="$(mktemp)"
+          trap 'rm -f "$temp"' EXIT
+          curl --fail --silent --show-error --location --max-time 25 "https://zrain.web.app/" > "$temp"
+          grep -q 'Developed by Zrain' "$temp"
+          grep -q 'zrain-logo.webp' "$temp"
+          echo "Live Firebase site responds with Zrain brand identity."

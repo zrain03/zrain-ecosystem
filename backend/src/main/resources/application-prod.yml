@@ -1,3 +1,9 @@
+# Fail / File: backend/src/main/resources/application-prod.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menetapkan tetapan production dan memerlukan secret luaran sebelum startup.
+# EN: Configures production behavior and requires external secrets before startup.
 spring:
   config:
     activate:

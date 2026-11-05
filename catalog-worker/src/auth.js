@@ -1,13 +1,25 @@
+/*
+ * Fail / File: catalog-worker/src/auth.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir.
+ * EN: Validates credentials, JWT sessions and login throttling before privileged catalogue operations.
+ */
 // Single-admin authentication for Workers Free.
 // The login secret is an encrypted Worker secret, NOT a browser value.
 // Use a randomly generated 32+ character password and 32+ byte Base64 JWT key.
 const encoder=new TextEncoder();
+// BM: encode: Menukar atau mengesahkan input tanpa melangkau sempadan data yang selamat. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir.
+// EN: encode: Transforms or validates input without bypassing safe data boundaries. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations.
 const encode=value=>btoa(String.fromCharCode(...encoder.encode(value))).replace(/\+/g,"-")
   .replace(/\//g,"_").replace(/=+$/g,"");
 function toBase64Url(bytes) {
   return btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-")
     .replace(/\//g,"_").replace(/=+$/g,"");
 }
+// BM: fromBase64Url: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: value.
+// EN: fromBase64Url: Isolates one operation so it can be reviewed and tested. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: value.
 function fromBase64Url(value) {
   if (!/^[A-Za-z0-9_-]+$/.test(value)) return null;
   try { return Uint8Array.from(atob(value.replace(/-/g,"+").replace(/_/g,"/")), c=>c.charCodeAt(0)); }
@@ -19,6 +31,8 @@ function fixedDigestEqual(a,b) {
   for(let i=0;i<a.length;i++)diff|=a[i]^b[i];
   return diff===0;
 }
+// BM: digest: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: value.
+// EN: digest: Isolates one operation so it can be reviewed and tested. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: value.
 async function digest(value) {
   return new Uint8Array(await crypto.subtle.digest("SHA-256",encoder.encode(value)));
 }
@@ -33,6 +47,8 @@ export function authConfigured(env) {
     return bytes.length>=32;
   } catch { return false; }
 }
+// BM: signingKey: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: env.
+// EN: signingKey: Isolates one operation so it can be reviewed and tested. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: env.
 async function signingKey(env) {
   const bytes=Uint8Array.from(atob(env.ZRAIN_JWT_SECRET_BASE64),c=>c.charCodeAt(0));
   return crypto.subtle.importKey("raw",bytes,{name:"HMAC",hash:"SHA-256"},false,["sign","verify"]);
@@ -46,6 +62,8 @@ export async function issueJWT(email,env,passwordVersion="bootstrap") {
   const mac=new Uint8Array(await crypto.subtle.sign("HMAC",await signingKey(env),encoder.encode(toSign)));
   return toSign+"."+toBase64Url(mac);
 }
+// BM: verifyJWT: Mengesahkan prasyarat atau syarat keselamatan sebelum meneruskan aliran. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: token,env.
+// EN: verifyJWT: Checks a precondition or safety invariant before allowing the flow to continue. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: token,env.
 export async function verifyJWT(token,env) {
   if (!authConfigured(env)||typeof token!=="string"||token.length>4096) return null;
   const pieces=token.split(".");
@@ -71,6 +89,8 @@ export async function verifyJWT(token,env) {
 // One immutable Worker secret bootstraps the administrator. A password change
 // stores a keyed MAC in KV; the new password never appears in source or KV.
 const PASSWORD_KEY="admin/password-override-v1";
+// BM: readPasswordOverride: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: kv.
+// EN: readPasswordOverride: Reads relevant records and returns a bounded result to the caller. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: kv.
 export async function readPasswordOverride(kv) {
   const value=await kv.get(PASSWORD_KEY);
   if(value===null)return null;
@@ -81,6 +101,8 @@ export async function readPasswordOverride(kv) {
     throw new Error("Invalid stored administrator credentials");
   return saved;
 }
+// BM: passwordMac: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: password,env.
+// EN: passwordMac: Isolates one operation so it can be reviewed and tested. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: password,env.
 export async function passwordMac(password,env) {
   const data=encoder.encode("zrain-admin-password-v1:"+password);
   const mac=await crypto.subtle.sign("HMAC",await signingKey(env),data);
@@ -97,6 +119,8 @@ export async function passwordMatches(password,env,override=null) {
   const b=await digest(env.ZRAIN_ADMIN_PASSWORD);
   return fixedDigestEqual(a,b);
 }
+// BM: savePasswordOverride: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: memeriksa credential, sesi JWT dan had percubaan sebelum operasi katalog pentadbir. Input: kv,password,env.
+// EN: savePasswordOverride: Mutates relevant state only after input and access conditions are verified. Module purpose: validates credentials, JWT sessions and login throttling before privileged catalogue operations. Inputs: kv,password,env.
 export async function savePasswordOverride(kv,password,env) {
   const value={version:crypto.randomUUID(),hash:await passwordMac(password,env)};
   await kv.put(PASSWORD_KEY,JSON.stringify(value));

@@ -1,0 +1,2670 @@
+{
+  "schemaVersion": 1,
+  "product": "Zrain Ecosystem",
+  "developer": "Zrain",
+  "releaseDate": "2026-11-05",
+  "scope": "Reviewed source snapshot, excluding node_modules, backend/target and tool-runtime/dist; hosting public/tools is retained.",
+  "warning": "Structural audit enforces provenance and bilingual headers; semantic accuracy and browser/live behavior require independent review.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP; earliest origin not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".github/workflows/backend.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".github/workflows/browser-release.yml",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Introduced in responsive browser release acceptance on 2026-11-05",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".github/workflows/catalog-worker.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".github/workflows/live-readonly.yml",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Introduced in verified live-dependency release-gate review on 2026-11-05",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".github/workflows/website.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": ".gitignore",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP; earliest origin not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/.dockerignore",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP; earliest origin not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/.env.example",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP; earliest origin not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/.mvn/wrapper/maven-wrapper.properties",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "backend/Dockerfile",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": null
+    },
+    {
+      "path": "backend/mvnw",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "backend/mvnw.cmd",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "backend/pom.xml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/AdminLoginController.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/LoginRequest.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/TokenResponse.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/JwtService.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/LoginThrottle.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/AuthStarterApplication.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/catalog/CatalogAdminApi.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/catalog/CatalogPublisher.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/catalog/HealthApi.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/common/AdminApiErrors.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/config/AdminBootstrap.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/config/JwtConfig.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/config/JwtProperties.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/config/ProductionGuard.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/config/SecurityConfig.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/products/ExistingProducts.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/products/Product.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/products/ProductApi.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/products/ProductInput.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/products/ProductRepository.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/user/AppUser.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/user/Role.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/user/UserRepository.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/resources/application-local.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/resources/application-prod.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/resources/application.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V1__initialize_admin_and_products.sql",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/test/java/dev/zrain/authstarter/integration/AdminCatalogIntegrationTest.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/test/resources/application-test.yml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/.gitignore",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP; earliest origin not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/package-lock.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "catalog-worker/package.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "catalog-worker/README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/src/auth.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/src/index.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/src/products.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/test/worker.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "catalog-worker/wrangler.toml",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "deploy.ps1",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/ADMIN_FOUNDATION.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/ADMIN_PRODUCTION_RELEASE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/ADMIN-V10-MIGRATION.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/EXISTING_PRODUCTS_GUIDE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/PERSONA_AUDIT_2026-11-05.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Pre-existing header in uploaded source; original date unverified",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/runtime-map.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "FILE_PROVENANCE.json",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Created in 2026-11-05 release source",
+      "lastUpdated": "2026-11-05",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "firebase.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "package-lock.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "package.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "projects/zrain-console/.gitignore",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": null
+    },
+    {
+      "path": "projects/zrain-console/ARCHITECTURE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "projects/zrain-console/README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin-layout-preview.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/admin.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/admin.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/manage-core.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/manage.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/manage.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/unified-admin.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/admin/unified-admin.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/api-config.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/brand.css",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "public/categories/app.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/categories/category-data.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/categories/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/categories/style.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/console-products.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-ai-worker.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-catalog.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-console.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-console.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-frame-sync.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-inventory.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-links.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-nav.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-quick-console.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-quick-console.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-search-core.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-search-engine.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-search.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-unified.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/ecosystem-unified.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/feedback-embed.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/feedback.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/game-console.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/game-data.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/icons/google-play-badge.png",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "public/icons/guess-the-flag.webp",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "public/icons/memory-rush.webp",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "public/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/product-catalog-client.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/product-directory.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/style.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/tools-directory-data.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/tools-directory.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/tools/app.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/background-remover/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/base64-tool/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/brand.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/catalog.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/collage-maker/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/color-inspector/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/compare/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/core.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/crop-pdf/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/css-shadow-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/csv-cleaner/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/discovery-ui.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/discovery.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/emoji-art/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/extended-core.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/extended-tools.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/extract-pdf-pages/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/feedback-embed.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/feedback.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/file-converter/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/focus-timer/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/hash-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/icon-maker/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-compare/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-compressor/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-converter/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-cropper/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-enhancer/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-inspector/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-metadata.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-resizer/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-rotator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/image-to-ascii/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/invoice-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/jpg-to-pdf/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/json-studio/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/jszip.min.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/jwt-decoder/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/licenses/JSZip-LICENSE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/licenses/QRCode-MIT.txt",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/markdown-editor/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/merge-pdf/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/password-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-editor/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-organizer/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-page-numbers/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-to-image/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-to-text/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pdf-watermark/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/pixel-art/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/qr-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/qr-local.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/remove-pdf-pages/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/rotate-pdf/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/split-pdf/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/style.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/teleprompter/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/text-extractor/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/text-tools/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/unified-tool.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/utm-builder/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/uuid-generator/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/ux-help.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/watermark/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/word-counter/index.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/workflow-guide.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/zrain-logo.webp",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/tools/zrain-ui.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "generated",
+      "inlineHeaderVerified": false,
+      "exception": "Generated build asset; regenerated on npm run build"
+    },
+    {
+      "path": "public/unified-tool.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-console-page.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-console.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-console.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-logo.webp",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "public/zrain-ui-config.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-ui-showcase.html",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "public/zrain-ui.js",
+      "developer": "Zrain integration; upstream source preserved",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
+    },
+    {
+      "path": "README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/add-categories-link.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/build-unified.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/check-persona-release.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Pre-existing header in uploaded source; original date unverified",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/deploy-v17-tools-launch.ps1",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/dev-server.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/preview.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/publish-zrain-console-repo.ps1",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/setup-free-admin-worker.ps1",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/sync-zrain-ui.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/upgrade-worker-categories.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/verify-browser-release.mjs",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Introduced in responsive browser release acceptance on 2026-11-05",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/admin-ui.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/catalog.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/ecosystem-search.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/free-only.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/site.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "test/tools-explorer.test.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/official-taxonomy.test.mjs",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Release authored on 2026-11-05",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/unified.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v10-admin-management.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v10-worker-upgrade.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v6-ui.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v7-regression.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v8-inline-preview.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v9-dynamic-catalog.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tests/v91-frame-sync.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/.gitignore",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/DEPLOY-CLOUDFLARE-FREE.txt",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/ECOSYSTEM-PUBLISHING.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/MANUAL-ACCEPTANCE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/NHAKO-RESEARCH-AND-ZRAIN-DECISIONS.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/PRE-DEPLOYMENT.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/QA-REPORT.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/README-v1.7.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/RELEASE-AND-DEPLOY.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/docs/v1.7-reference/START-HERE.txt",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/licenses/JSZip-LICENSE.md",
+      "developer": "Zrain (integrator; not original author)",
+      "created": "Unverified",
+      "createdEvidence": "Bundled licensed upstream source; original author and license retained unchanged",
+      "lastUpdated": "Not independently verified",
+      "policy": "third-party-preserved",
+      "inlineHeaderVerified": false,
+      "exception": "Upstream author/license retained byte-for-byte; Zrain owns integration only"
+    },
+    {
+      "path": "tool-runtime/licenses/QRCode-MIT.txt",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/package.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/app.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/brand.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte source copy of the pinned Golden Reference; preserve original comment metadata"
+    },
+    {
+      "path": "tool-runtime/src/build.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/catalog.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/core.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/discovery-ui.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/discovery.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/extended-core.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/extended-tools.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/feedback-embed.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/feedback.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/image-metadata.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/jszip.min.js",
+      "developer": "Zrain (integrator; not original author)",
+      "created": "Unverified",
+      "createdEvidence": "Bundled licensed upstream source; original author and license retained unchanged",
+      "lastUpdated": "Not independently verified",
+      "policy": "third-party-preserved",
+      "inlineHeaderVerified": false,
+      "exception": "Upstream author/license retained byte-for-byte; Zrain owns integration only"
+    },
+    {
+      "path": "tool-runtime/src/qr-local.mjs",
+      "developer": "Zrain (integrator; not original author)",
+      "created": "Unverified",
+      "createdEvidence": "Bundled licensed upstream source; original author and license retained unchanged",
+      "lastUpdated": "Not independently verified",
+      "policy": "third-party-preserved",
+      "inlineHeaderVerified": false,
+      "exception": "Upstream author/license retained byte-for-byte; Zrain owns integration only"
+    },
+    {
+      "path": "tool-runtime/src/serve.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/style.css",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/ux-help.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/workflow-guide.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/src/zrain-logo.webp",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/src/zrain-ui.js",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "upstream-or-shared",
+      "inlineHeaderVerified": false,
+      "exception": "Byte-for-byte source copy of the pinned Golden Reference; preserve original comment metadata"
+    },
+    {
+      "path": "tool-runtime/tests/browser-qa-results.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/tests/build.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/core.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/discovery.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/extended-browser-qa.json",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/tests/extended-core.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/extended-functional.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/feedback-v17.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/feedback.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/first-use-and-ecosystem.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/functional.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/initialization.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/tests/sample-gradient.png",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/tests/sample-image.jpg",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/tests/sample-image.png",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "Not independently verified",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/tests/ux-help.test.mjs",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/V2-STATUS.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    }
+  ]
+}

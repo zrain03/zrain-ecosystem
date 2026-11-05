@@ -1,3 +1,38 @@
+<!--
+Fail / File: README.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (rekod penciptaan asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Panduan produk dan langkah release yang memisahkan source tempatan daripada production.
+EN: Product and release guidance separating local source from production.
+-->
+
+## Persona + regression release review (5 November 2026)
+
+- **BM:** 263 fail source diinventori; 159 fail dengan header BM/EN dan 104 pengecualian yang dijelaskan dalam `FILE_PROVENANCE.json`. Tiga fail berlesen pihak ketiga kekal tanpa disunting.
+- **EN:** 263 source files are inventoried; 159 have BM/EN headers and 104 documented exclusions. Three third-party licensed files remain untouched.
+- **BM:** Ujian lama tidak dibuang: 43 ujian disesuaikan untuk kontrak 58/11 dan disertakan dalam `npm run test:release`.
+- **EN:** Historical tests were not discarded: all 43 now cover the current 58/11 contract and run in `npm run test:release`.
+- **BM:** `tool-runtime/dist/` ialah output build, bukan source Git. Jangan padam `public/tools/`, ia diperlukan untuk Firebase Hosting.
+- **EN:** `tool-runtime/dist/` is rebuildable output, not Git source. Do not delete `public/tools/` because Firebase Hosting uses it.
+- **BM:** Pakej ini ialah calon release untuk branch review sahaja, tidak melakukan deploy. Semak CI Java/PostgreSQL dan paparan browser sebenar sebelum menggabung ke `main`.
+- **EN:** This is a review-branch candidate, not a deployment. Verify Java/PostgreSQL CI and real-browser UI before merging to `main`.
+
+**Commands / Arahan:** `npm ci`, `npm run test:release`, kemudian `cd backend` dan `./mvnw -B clean verify` pada Unix atau `mvnw.cmd -B clean verify` pada Windows.
+
+## Zrain Ecosystem 58/11 Golden Reference release candidate (2026-11-05)
+
+- **BM:** Source kini mempunyai 58 entri (10 projek, 48 browser tools), disusun mengikut 11 kategori rasmi daripada `public/categories/category-data.mjs`.
+- **EN:** Source now contains 58 entries (10 projects, 48 browser tools), grouped under the 11 canonical categories in `public/categories/category-data.mjs`.
+- **BM:** Senarai panjang memaparkan lima baris sebelum scroll tanpa label atau butang tambahan. Data Worker Published masih berautoriti selepas refresh berjaya.
+- **EN:** Long lists display five rows before scrolling without additional labels or buttons. Published Worker data remains authoritative after a successful refresh.
+- **BM:** Shared UI menggunakan pin `a109401fa591afa9f66479fa8d86f1ed1679d70b` dan salinan byte-for-byte.
+- **EN:** Shared UI uses pin `a109401fa591afa9f66479fa8d86f1ed1679d70b` with byte-for-byte copies.
+- **BM:** Pakej patch perlu disemak dan diuji pada Windows sebelum perubahan GitHub atau deployment.
+- **EN:** Review and test the patch on Windows before GitHub changes or deployment.
+- **BM:** URL Zrain Community merujuk repo rasmi kerana laman public tersendiri belum disahkan; URL Zrain Gifts menggunakan endpoint Worker yang dibekalkan dalam rekod pengguna dan perlu pengesahan live.
+- **EN:** Zrain Community points to its official repo because no separate public website was verified; Zrain Gifts uses the Worker endpoint supplied in user records and requires live verification.
+
 # Zrain Ecosystem v4.1.0
 
 Official hub: https://zrain.web.app
@@ -14,7 +49,11 @@ Official hub: https://zrain.web.app
 - An always-visible **Open in new tab** option is provided for sites with frame or authentication restrictions.
 - Unreleased project ideas are excluded. Zrain UI is a source code repository, not a hosted web app, so it links directly to GitHub.
 - The design stays light, with cream, terracotta, Inter and Bento sections. No em dash punctuation is used.
-- Firebase Hosting remains site `zrain` in project `zrain-ecosystem`. Zrain UI is pinned to the official-tagline commit `37a699a9e23fb9f023c049d3129206aafc660830`.
+- Firebase Hosting remains site `zrain` in project `zrain-ecosystem`. Zrain UI is pinned to Golden Reference `a109401fa591afa9f66479fa8d86f1ed1679d70b` in this release candidate.
+
+## Historical v4.1 instructions (not the current release procedure)
+
+The instructions below describe an earlier version; **use the guarded 58/11 release kit above**, not an old v4.1 auto-deploy script.
 
 ## Update the existing production project
 

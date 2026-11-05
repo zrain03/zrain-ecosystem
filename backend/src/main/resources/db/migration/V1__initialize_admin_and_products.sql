@@ -1,3 +1,9 @@
+-- Fail / File: backend/src/main/resources/db/migration/V1__initialize_admin_and_products.sql
+-- Pembangun / Developer: Zrain
+-- Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+-- Dikemas kini / Last updated: 2026-11-05
+-- BM: Membina jadual identiti admin dan produk yang diperlukan oleh katalog.
+-- EN: Creates administrator identity and product tables required by the catalogue.
 CREATE TABLE users (
   id UUID PRIMARY KEY,
   email VARCHAR(254) NOT NULL UNIQUE,

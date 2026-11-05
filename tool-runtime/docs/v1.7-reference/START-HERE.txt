@@ -1,0 +1,15 @@
+ZRAIN TOOLS v1.5 — FIVE INDEPENDENT PRODUCTS
+
+1. Extract Zrain-Tools-v1.5-SOURCE.zip into your Downloads directory.
+2. Open PowerShell in Downloads\Zrain-Tools-v1.5.
+3. Run: npm run check
+4. Run: $env:PORT = "8766"
+5. Run: npm start
+6. Type manually in Chrome: http://127.0.0.1:8766/
+
+Each product also works as its own separate static website, from dist\zrain-<product>.
+Place each one independently in Zrain Ecosystem in its stated category.
+See README.md, ECOSYSTEM-PUBLISHING.md and QA-REPORT.md.
+
+Official branding: Developed by Zrain — Made for people. Built with purpose.
+These sites are not deployed and their catalog entries are Draft only.

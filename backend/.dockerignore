@@ -1,3 +1,9 @@
+# Fail / File: backend/.dockerignore
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (rekod sejarah asal belum dipastikan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Mengurangkan Docker build context dengan mengecualikan folder tidak perlu dan rahsia.
+# EN: Reduces Docker build context by excluding unneeded folders and secrets.
 target/
 .git/
 .env

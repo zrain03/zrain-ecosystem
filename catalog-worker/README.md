@@ -1,3 +1,12 @@
+<!--
+Fail / File: catalog-worker/README.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Mendokumentasikan endpoint, secret, KV dan kawalan release Cloudflare Worker.
+EN: Documents Cloudflare Worker endpoints, secrets, KV and release controls.
+-->
+
 # Zrain Admin — strict Free-only deployment
 
 The live Admin does **not** use Render, R2, a paid database or a credit card. Java Spring Boot remains in `backend/` as existing source/test material; the production Admin API is Cloudflare Workers Free and stores its small catalog in Workers KV Free. Firebase Hosting should remain on Spark.

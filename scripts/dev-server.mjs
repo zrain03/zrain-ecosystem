@@ -1,3 +1,11 @@
+/*
+ * Fail / File: scripts/dev-server.mjs
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyediakan server ujian halaman utama tanpa dependency production.
+ * EN: Provides a local homepage test server without production dependencies.
+ */
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";

@@ -1,3 +1,12 @@
+<!--
+Fail / File: projects/zrain-console/ARCHITECTURE.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Memetakan hubungan Console dengan source produksi dan had iframe rentas-origin.
+EN: Maps Console to production sources and cross-origin iframe limitations.
+-->
+
 # How Zrain Console works
 
 Zrain Console is the **frontend viewing layer** inside the Zrain Ecosystem. Each featured product remains its own separate application.

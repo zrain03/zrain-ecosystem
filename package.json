@@ -1,17 +1,20 @@
 {
   "name": "zrain-ecosystem",
-  "version": "4.1.4",
+  "version": "10.0.0",
   "private": true,
   "type": "module",
-  "description": "Zrain Ecosystem light Bento directory with universal fit-to-screen Zrain Console",
+  "description": "Unified Zrain Ecosystem",
   "scripts": {
     "ui:sync": "node scripts/sync-zrain-ui.mjs",
     "ui:check": "node scripts/sync-zrain-ui.mjs --check",
-    "test": "node --test",
-    "test:release": "npm run ui:check && npm test"
+    "build": "node scripts/build-unified.mjs --rebuild-runtime",
+    "test": "node --test tests/*.test.mjs && npm --prefix tool-runtime test && npm --prefix catalog-worker test",
+    "test:release": "npm run persona:check && npm run ui:check && npm run build && npm run test:legacy && npm test",
+    "persona:check": "node scripts/check-persona-release.mjs --strict",
+    "test:legacy": "node --test test/*.js"
   },
   "dependencies": {
-    "@zrain/ui": "github:zrain03/zrain-ui#fec7b1fe5deab157bdadf0af19d9384b1dc418f0"
+    "@zrain/ui": "github:zrain03/zrain-ui#a109401fa591afa9f66479fa8d86f1ed1679d70b"
   },
   "engines": {
     "node": ">=20"

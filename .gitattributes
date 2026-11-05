@@ -1,2 +1,13 @@
+# Fail / File: .gitattributes
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (rekod sejarah asal belum dipastikan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Mengekalkan peraturan line endings supaya skrip Linux dan Windows tidak terjejas oleh Git.
+# EN: Preserves line-ending rules so Git does not break Linux or Windows scripts.
 public/zrain-ui.js text eol=lf
 public/brand.css text eol=lf
+
+# BM: Wrapper Unix perlu LF; wrapper Windows memerlukan CRLF.
+# EN: Unix wrapper requires LF; Windows wrapper uses CRLF.
+backend/mvnw text eol=lf
+backend/mvnw.cmd text eol=crlf

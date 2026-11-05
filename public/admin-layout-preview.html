@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+Fail / File: public/admin-layout-preview.html
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (rekod penciptaan asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Memaparkan demo editor yang tidak menyimpan perubahan pada Cloudflare.
+EN: Displays a non-persistent editor preview without Cloudflare writes.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#fffaf6">
+  <title>Admin Design Preview | Zrain Ecosystem | Made for people. Built with purpose.</title>
+  <link rel="icon" href="/zrain-logo.webp" type="image/webp">
+  <link rel="stylesheet" href="/brand.css"><link rel="stylesheet" href="/admin/manage.css">
+  <script type="module" src="/admin/manage.mjs"></script>
+</head>
+<body data-admin-mode="preview">
+<a class="skip-link" href="#admin-main">Skip to admin content</a>
+<header class="zrain-header"><div class="zrain-header__inner"><div class="zrain-brand">
+ <a class="zrain-brand__home" href="/" aria-label="Zrain Ecosystem home"><img class="zrain-brand__logo" src="/zrain-logo.webp" width="42" height="42" alt=""><strong class="zrain-brand__name">Zrain</strong></a>
+ <span class="zrain-brand__product">Ecosystem Admin</span></div>
+ <nav aria-label="Admin navigation" class="admin-header-nav"><a href="/">Ecosystem</a><a href="/zrain-console.html">Console</a><a href="/#zrain-feedback">Community</a></nav>
+</div></header>
+<main id="admin-main" class="admin-main">
+<section id="admin-login" class="admin-login" aria-labelledby="login-title">
+ <p class="eyebrow">ZRAIN / AUTHORIZED ACCESS</p><h1 id="login-title">Ecosystem management<span class="dot">.</span></h1>
+ <p>Sign in to manage the projects published across Zrain Ecosystem. Browser tools remain part of the verified source build.</p>
+ <form id="login-form" class="admin-form">
+ <label for="login-email">Administrator email</label><input id="login-email" autocomplete="username" type="email" maxlength="254" required>
+ <label for="login-password">Password</label><input id="login-password" autocomplete="current-password" type="password" required>
+ <button type="submit" class="button-primary">Sign in securely</button>
+ </form><p id="login-notice" class="notice" role="alert" hidden></p>
+ <p class="hint">Admin-only JWT authentication. No public registration. Credentials are never saved in localStorage.</p>
+</section>
+<section id="admin-dashboard" hidden aria-labelledby="admin-title">
+ <div class="admin-heading"><div><p class="eyebrow">MADE FOR PEOPLE. BUILT WITH PURPOSE.</p><h1 id="admin-title">Manage the Zrain Ecosystem<span class="dot">.</span></h1>
+ <p>Eleven categories, one catalogue. Publish genuine projects and keep each destination accurate.</p></div><div class="admin-toolbar"><a class="button-secondary" href="/" target="_blank" rel="noopener noreferrer">Preview homepage ↗</a><button type="button" class="button-secondary" id="admin-signout">Sign out</button></div></div>
+ <div class="preview-warning" id="preview-warning" hidden>Design preview only. Changes are kept in this page and are not saved to Cloudflare or GitHub.</div>
+ <p class="notice" id="dashboard-notice" role="status" hidden></p>
+ <div class="metrics" id="admin-metrics" aria-label="Current catalogue summary">
+ <div><strong id="metric-total">58</strong><span>Published choices</span></div><div><strong id="metric-projects">10</strong><span>Published projects</span></div><div><strong id="metric-tools">48</strong><span>Source-managed tools</span></div><div><strong id="metric-categories">11</strong><span>Categories</span></div><div><strong id="metric-drafts">0</strong><span>Project drafts</span></div>
+ </div>
+ <nav class="admin-tabs" aria-label="Management sections"><a href="#catalog-panel">All entries</a><a href="#project-editor">Add or edit project</a><a href="#admin-account">Account</a></nav>
+ <div class="admin-columns">
+ <section class="admin-card" id="catalog-panel" aria-labelledby="catalog-title"><div class="section-row"><div><h2 id="catalog-title">Projects &amp; tools</h2><p class="hint">Published projects are editable. Each browser tool comes from source code.</p></div><button type="button" class="button-primary" id="new-project">+ Add project</button></div>
+ <div class="admin-filters"><label class="sr-only" for="filter-text">Search entries</label><input id="filter-text" type="search" placeholder="Search names, tools or projects..." autocomplete="off"><label class="sr-only" for="filter-category">Category</label><select id="filter-category"><option value="all">All 11 categories</option><option value="games">Games & Interactive Learning</option><option value="ai">Artificial Intelligence</option><option value="infrastructure">Developer Infrastructure & SDKs</option><option value="links">Digital Presence & Link Tools</option><option value="monitoring">Monitoring & Operations</option><option value="pdf">PDF Tools</option><option value="image">Image Tools</option><option value="document">Document Tools</option><option value="art">Digital Art & Creative Design</option><option value="developer">Developer Utilities & Security</option><option value="productivity">Productivity & Business Tools</option></select>
+ <label class="sr-only" for="filter-kind">Entry type</label><select id="filter-kind"><option value="all">All entries</option><option value="project">Projects</option><option value="tool">Tools</option></select>
+ <label class="sr-only" for="filter-status">Status</label><select id="filter-status"><option value="all">Any status</option><option value="PUBLISHED">Published</option><option value="DRAFT">Draft</option><option value="ARCHIVED">Archived</option></select></div>
+ <p class="list-count" id="list-count" role="status"></p><div id="admin-list" class="admin-list" aria-label="Catalogue entries"></div>
+ </section>
+ <section class="admin-card" id="project-editor" aria-labelledby="editor-title"><div class="section-row"><div><h2 id="editor-title">Add a project</h2><p class="hint">Separate apps are added here; the 48 bundled tools remain source-managed.</p></div></div>
+ <form id="project-form" class="admin-form">
+  <label for="field-name">Project name</label><input id="field-name" maxlength="100" required placeholder="Example: Zrain Gifts">
+  <label for="field-slug">Project ID</label><input id="field-slug" maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" required placeholder="zrain-gifts"><p class="hint">Auto-created from the name. Cannot contain spaces.</p>
+  <label for="field-description">Description</label><textarea id="field-description" maxlength="300" rows="3" required placeholder="Explain what the visitor can actually do."></textarea>
+  <label for="field-category">Category</label><select id="field-category"><option value="GAMES">Games & Interactive Learning</option><option value="AI">Artificial Intelligence</option><option value="INFRASTRUCTURE">Developer Infrastructure & SDKs</option><option value="PRESENCE">Digital Presence & Link Tools</option><option value="OPERATIONS">Monitoring & Operations</option><option value="PDF">PDF Tools</option><option value="IMAGES">Image Tools</option><option value="DOCUMENTS">Document Tools</option><option value="CREATIVE">Digital Art & Creative Design</option><option value="DEVELOPER">Developer Utilities & Security</option><option value="PRODUCTIVITY" selected>Productivity & Business Tools</option></select>
+  <label for="field-url">Official Web App URL</label><input id="field-url" type="url" placeholder="https://example.web.app/" required><p class="hint">All Web App actions open the in-page Zrain Console preview first.</p>
+  <label for="field-github">GitHub repository (optional)</label><input id="field-github" type="url" placeholder="https://github.com/zrain03/example"><p class="hint">Only show a GitHub button when a real repository URL is provided.</p>
+  <label for="field-playstore">Google Play link (optional for games)</label><input id="field-playstore" type="url" placeholder="https://play.google.com/store/apps/details?id=..."><p class="hint">A game can have its own logo. Other projects always use the official Zrain logo.</p>
+  <label for="field-game-logo">Game logo (Play category only)</label><select id="field-game-logo"><option value="/zrain-logo.webp">Official Zrain logo</option><option value="https://zrain.web.app/icons/guess-the-flag.webp">Guess The Flag</option><option value="https://zrain.web.app/icons/memory-rush.webp">Memory Rush</option></select>
+  <div class="editor-preview"><img id="editor-logo" src="/zrain-logo.webp" alt="" width="46" height="46"><div><strong id="editor-preview-name">Your new project</strong><small id="editor-preview-description">Your short description appears here.</small></div></div>
+  <div class="form-actions"><button type="submit" class="button-primary" id="save-draft">Save as Draft</button><button type="button" class="button-secondary" id="reset-form">Clear form</button></div>
+ </form><p class="hint">Publishing is a separate action in the Projects list. Draft projects are not shown on the public homepage.</p></section>
+ </div>
+ <section class="admin-card account" id="admin-account"><h2>Account &amp; publishing</h2><p class="hint">Use your existing Zrain administrator identity. All changes are verified by the Cloudflare Worker API.</p>
+ <details><summary>Change administrator password</summary><form class="admin-form password-form" id="password-form"><label for="current-password">Current password</label><input id="current-password" type="password" autocomplete="current-password" required><label for="new-password">New password (16 to 128 characters)</label><input id="new-password" type="password" minlength="16" maxlength="128" autocomplete="new-password" required><label for="confirm-password">Confirm new password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="16" maxlength="128" required><button class="button-secondary" type="submit">Update password</button></form></details>
+ </section>
+</section></main>
+<footer class="zrain-footer"><div class="zrain-footer__inner"><div class="zrain-footer__identity"><a class="zrain-footer__home" href="/"><img class="zrain-footer__logo" src="/zrain-logo.webp" alt="" width="38" height="38"><span class="zrain-footer__copy"><strong>Developed by Zrain</strong><small>Made for people. Built with purpose.</small></span></a></div><div class="zrain-footer__links"><a href="/">Ecosystem</a><a href="/zrain-console.html">Zrain Console</a><a href="mailto:zrain.dev@gmail.com">Contact</a></div></div></footer>
+</body></html>

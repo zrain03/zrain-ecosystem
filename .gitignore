@@ -1,3 +1,9 @@
+# Fail / File: .gitignore
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (rekod sejarah asal belum dipastikan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Mengabaikan rahsia, dependency dan hasil build sementara tanpa mengabaikan aset hosting rasmi.
+# EN: Ignores secrets, dependencies and temporary build outputs without hiding official hosting assets.
 node_modules/
 .firebase/
 .DS_Store
@@ -5,3 +11,7 @@ node_modules/
 .env.*
 *.log
 backend/target/
+
+# BM: Dist dijana daripada source; fail hosted public/tools dikekalkan.
+# EN: Build dist from source while retaining hosted public/tools assets.
+tool-runtime/dist/
