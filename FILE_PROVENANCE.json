@@ -2077,6 +2077,16 @@
       "exception": null
     },
     {
+      "path": "tests/persona-worktree.test.mjs",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Regression test created after Windows Git worktree Persona failure",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
       "path": "tests/unified.test.mjs",
       "developer": "Zrain",
       "created": "Unverified",
