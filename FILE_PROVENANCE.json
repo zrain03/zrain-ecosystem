@@ -27,6 +27,16 @@
       "exception": null
     },
     {
+      "path": ".github/workflows/browser-release.yml",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Introduced in responsive browser release acceptance on 2026-11-05",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
       "path": ".github/workflows/catalog-worker.yml",
       "developer": "Zrain",
       "created": "Unverified",
@@ -1981,6 +1991,16 @@
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "scripts/verify-browser-release.mjs",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Introduced in responsive browser release acceptance on 2026-11-05",
       "lastUpdated": "2026-11-05",
       "policy": "inline",
       "inlineHeaderVerified": true,
