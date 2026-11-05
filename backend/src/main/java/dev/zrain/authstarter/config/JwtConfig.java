@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/config/JwtConfig.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Membina encoder dan decoder JWT serta memaksa secret dan validasi token yang selamat.
+ * EN: Builds JWT encoders and decoders while enforcing safe secrets and token validation.
+ */
 package dev.zrain.authstarter.config;
 
 import java.util.Base64;
@@ -19,6 +27,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 @Configuration
+// BM: JwtConfig: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: membina encoder dan decoder JWT serta memaksa secret dan validasi token yang selamat.
+// EN: JwtConfig: Isolates one operation so it can be reviewed and tested. Module purpose: builds JWT encoders and decoders while enforcing safe secrets and token validation.
 public class JwtConfig {
     @Bean
     public SecretKey jwtSigningKey(JwtProperties properties) {

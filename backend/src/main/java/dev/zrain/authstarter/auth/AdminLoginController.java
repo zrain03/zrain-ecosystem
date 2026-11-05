@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/auth/AdminLoginController.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Memproses login pentadbir sahaja dan mendelegasikan pengesahan kata laluan kepada servis selamat.
+ * EN: Handles administrator-only login and delegates password verification to secured services.
+ */
 package dev.zrain.authstarter.auth;
 
 import dev.zrain.authstarter.auth.dto.LoginRequest;
@@ -15,12 +23,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/admin/auth")
+// BM: AdminLoginController: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memproses login pentadbir sahaja dan mendelegasikan pengesahan kata laluan kepada servis selamat.
+// EN: AdminLoginController: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator-only login and delegates password verification to secured services.
 public class AdminLoginController {
     private final UserRepository users;
     private final PasswordEncoder encoder;
     private final JwtService tokens;
     private final LoginThrottle throttle;
 
+    // BM: AdminLoginController: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memproses login pentadbir sahaja dan mendelegasikan pengesahan kata laluan kepada servis selamat. Input: UserRepository users, PasswordEncoder encoder, JwtService tokens, LoginThrottle th....
+    // EN: AdminLoginController: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator-only login and delegates password verification to secured services. Inputs: UserRepository users, PasswordEncoder encoder, JwtService tokens, LoginThrottle th....
     public AdminLoginController(UserRepository users, PasswordEncoder encoder, JwtService tokens, LoginThrottle throttle) {
         this.users = users;
         this.encoder = encoder;
@@ -29,6 +41,8 @@ public class AdminLoginController {
     }
 
     @PostMapping("/login")
+    // BM: login: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memproses login pentadbir sahaja dan mendelegasikan pengesahan kata laluan kepada servis selamat. Input: @Valid @RequestBody LoginRequest form, HttpServletRequest request.
+    // EN: login: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator-only login and delegates password verification to secured services. Inputs: @Valid @RequestBody LoginRequest form, HttpServletRequest request.
     public TokenResponse login(@Valid @RequestBody LoginRequest form, HttpServletRequest request) {
         String email = form.email().trim().toLowerCase(Locale.ROOT);
         String key = request.getRemoteAddr() + ":" + email;
@@ -51,5 +65,7 @@ public class AdminLoginController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized"));
     }
 
+    // BM: AdminIdentity: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memproses login pentadbir sahaja dan mendelegasikan pengesahan kata laluan kepada servis selamat.
+    // EN: AdminIdentity: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator-only login and delegates password verification to secured services.
     public record AdminIdentity(String id, String email, String role) {}
 }

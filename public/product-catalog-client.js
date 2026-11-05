@@ -1,7 +1,17 @@
+/*
+ * Fail / File: public/product-catalog-client.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengesahkan respons Published dan URL HTTPS sebelum menjadikannya data katalog awam.
+ * EN: Validates Published responses and HTTPS URLs before exposing them as public catalogue data.
+ */
 import { PUBLIC_CATALOG_URL } from "./api-config.js";
 
 const ACTIONS = new Set(["CONSOLE", "WEBSITE", "GITHUB", "PLAY_STORE", "DOCUMENTATION", "SHOWCASE"]);
 const CATEGORIES = new Set(["GAMES", "DEVELOPER_TOOLS", "ONLINE_SERVICES", "WEB_UTILITIES"]);
+// BM: safeHttpsUrl: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan respons Published dan URL HTTPS sebelum menjadikannya data katalog awam. Input: value.
+// EN: safeHttpsUrl: Isolates one operation so it can be reviewed and tested. Module purpose: validates Published responses and HTTPS URLs before exposing them as public catalogue data. Inputs: value.
 export function safeHttpsUrl(value) {
   if (typeof value !== "string") return null;
   try {
@@ -9,6 +19,8 @@ export function safeHttpsUrl(value) {
     return url.protocol === "https:" && !!url.hostname && !url.username && !url.password ? url.href : null;
   } catch { return null; }
 }
+// BM: safeLogoUrl: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan respons Published dan URL HTTPS sebelum menjadikannya data katalog awam. Input: value.
+// EN: safeLogoUrl: Isolates one operation so it can be reviewed and tested. Module purpose: validates Published responses and HTTPS URLs before exposing them as public catalogue data. Inputs: value.
 export function safeLogoUrl(value) {
   if (typeof value !== "string") return null;
   if (/^\/(?!\/)(?!.*\.\.)(?:[a-zA-Z0-9_./-])+$/.test(value)) return value;
@@ -37,6 +49,8 @@ export function normalizeCatalog(rows) {
     };
   }).sort((a,b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
 }
+// BM: fetchPublicCatalog: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: mengesahkan respons Published dan URL HTTPS sebelum menjadikannya data katalog awam. Input: fetcher = fetch.
+// EN: fetchPublicCatalog: Reads relevant records and returns a bounded result to the caller. Module purpose: validates Published responses and HTTPS URLs before exposing them as public catalogue data. Inputs: fetcher = fetch.
 export async function fetchPublicCatalog(fetcher = fetch) {
   if (!PUBLIC_CATALOG_URL) return null;
   const controller = new AbortController();

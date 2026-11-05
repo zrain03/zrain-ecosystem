@@ -1,3 +1,11 @@
+/*
+ * Fail / File: scripts/sync-zrain-ui.mjs
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Membandingkan salinan header, footer dan logo dengan dependency UI yang dipinkan.
+ * EN: Checks copied header, footer and logo against the pinned UI dependency.
+ */
 /** Mirror the exact pinned Zrain UI files into Firebase Hosting's public/ folder. */
 import {readFile, writeFile} from "node:fs/promises";
 import {fileURLToPath} from "node:url";

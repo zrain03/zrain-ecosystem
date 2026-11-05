@@ -1,7 +1,17 @@
+/*
+ * Fail / File: catalog-worker/src/products.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV.
+ * EN: Validates product schemas, category normalization and state transitions before KV persistence.
+ */
 // Product validation and free KV storage, independent from any paid service.
 export const KEYS = Object.freeze({ admin:"admin/products-v1", public:"catalog/published-v1" });
-const CATEGORIES = new Set(["GAMES","DEVELOPER_TOOLS","ONLINE_SERVICES","WEB_UTILITIES"]);
+const CATEGORIES = new Set(["GAMES","DEVELOPER_TOOLS","ONLINE_SERVICES","WEB_UTILITIES","PLAY","DESIGN","DOCUMENTS","BUILD","EVERYDAY","APPS","PDF","IMAGES","CREATIVE","DEVELOPER","PRODUCTIVITY","AI","INFRASTRUCTURE","PRESENCE","OPERATIONS"]);
 const ACTIONS = new Set(["CONSOLE","WEBSITE","GITHUB","PLAY_STORE","DOCUMENTATION","SHOWCASE"]);
+// BM: urlOK: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV. Input: value.
+// EN: urlOK: Isolates one operation so it can be reviewed and tested. Module purpose: validates product schemas, category normalization and state transitions before KV persistence. Inputs: value.
 function urlOK(value) {
   if (typeof value !== "string" || value.length > 500) return false;
   try {
@@ -9,6 +19,8 @@ function urlOK(value) {
     return u.protocol === "https:" && !!u.hostname && !u.username && !u.password && !u.port;
   } catch { return false; }
 }
+// BM: logoOK: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV. Input: value.
+// EN: logoOK: Isolates one operation so it can be reviewed and tested. Module purpose: validates product schemas, category normalization and state transitions before KV persistence. Inputs: value.
 function logoOK(value) {
   return typeof value === "string" && value.length <= 500 &&
     (/^\/(?!\/)(?!.*\.\.)[a-zA-Z0-9_./-]+$/.test(value) || urlOK(value));
@@ -63,6 +75,8 @@ export const EXISTING = Object.freeze([
     "ONLINE_SERVICES","/zrain-logo.webp","WEBSITE","Open Web App",
     "https://zrain-links.web.app/",null,null,10)
 ]);
+// BM: newProduct: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV. Input: input, order.
+// EN: newProduct: Isolates one operation so it can be reviewed and tested. Module purpose: validates product schemas, category normalization and state transitions before KV persistence. Inputs: input, order.
 export function newProduct(input, order) {
   return {...input,id:crypto.randomUUID(),sortOrder:order,status:"DRAFT",
     createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
@@ -71,6 +85,8 @@ export function nextOrder(products,category) {
   return Math.max(0,...products.filter(p=>p.category===category&&p.status!=="ARCHIVED")
     .map(p=>p.sortOrder||0))+10;
 }
+// BM: publicProducts: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV. Input: products.
+// EN: publicProducts: Isolates one operation so it can be reviewed and tested. Module purpose: validates product schemas, category normalization and state transitions before KV persistence. Inputs: products.
 export function publicProducts(products) {
   return products.filter(p=>p.status==="PUBLISHED").sort((a,b)=>
     (a.sortOrder||0)-(b.sortOrder||0)||a.name.localeCompare(b.name))
@@ -83,6 +99,8 @@ export async function loadProducts(kv) {
   if (!Array.isArray(rows)) throw new Error("Stored product catalog invalid");
   return rows;
 }
+// BM: saveProducts: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: mengesahkan skema produk, normalisasi kategori dan peralihan status sebelum disimpan dalam KV. Input: kv,products.
+// EN: saveProducts: Mutates relevant state only after input and access conditions are verified. Module purpose: validates product schemas, category normalization and state transitions before KV persistence. Inputs: kv,products.
 export async function saveProducts(kv,products) {
   if (products.length>300) throw new Error("Product limit reached");
   await kv.put(KEYS.admin,JSON.stringify(products));

@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/products/ExistingProducts.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyediakan inventori awal produk Zrain yang boleh diimport tanpa menduplikasi rekod.
+ * EN: Supplies initial Zrain product inventory for repeatable imports without duplicates.
+ */
 package dev.zrain.authstarter.products;
 
 import java.util.List;
@@ -5,6 +13,8 @@ import java.util.List;
 /** Verified Zrain Ecosystem product inventory from the original public directory.
  * Imported as DRAFT for manual review. Never overwrites existing records.
  */
+// BM: ExistingProducts: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan inventori awal produk Zrain yang boleh diimport tanpa menduplikasi rekod.
+// EN: ExistingProducts: Isolates one operation so it can be reviewed and tested. Module purpose: supplies initial Zrain product inventory for repeatable imports without duplicates.
 public final class ExistingProducts {
     private ExistingProducts() {}
 

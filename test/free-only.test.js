@@ -1,7 +1,17 @@
+/*
+ * Fail / File: test/free-only.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji sempadan free only, output dan kes gagal tanpa membuat permintaan production.
+ * EN: Tests free only contracts, outputs and failure paths without making production requests.
+ */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 
+// BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan free only, output dan kes gagal tanpa membuat permintaan production.
+// EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests free only contracts, outputs and failure paths without making production requests.
 const read = relative => readFile(new URL(relative, import.meta.url), 'utf8');
 
 test('zero-billing production path excludes R2 and Render', async () => {

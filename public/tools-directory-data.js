@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/tools-directory-data.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyediakan metadata keluarga Tools dan laluan tools untuk direktori awam.
+ * EN: Provides tool-family metadata and paths for the public tools directory.
+ */
 // Official Zrain Tools v1.7 release, deployed to distinct Cloudflare Pages projects.
 // This public directory is independent of the private admin catalog and does NOT alter publishing statuses.
 export const FAMILIES = Object.freeze([

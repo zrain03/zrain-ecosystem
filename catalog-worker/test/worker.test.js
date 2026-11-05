@@ -1,3 +1,11 @@
+/*
+ * Fail / File: catalog-worker/test/worker.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji kawalan login, CORS, quota KV dan kontrak penerbitan pada Worker tanpa akses production.
+ * EN: Tests login controls, CORS, KV quotas and publishing contracts without production access.
+ */
 import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
@@ -7,6 +15,8 @@ const baseURL="https://zrain-admin.test";
 const origin="https://zrain.web.app";
 const adminEmail="admin@example.com";
 const password="long-random-password-1234567890ABCDEF";
+// BM: mock: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji kawalan login, CORS, quota KV dan kontrak penerbitan pada Worker tanpa akses production.
+// EN: mock: Isolates one operation so it can be reviewed and tested. Module purpose: tests login controls, CORS, KV quotas and publishing contracts without production access.
 function mock() {
   const entries=new Map();
   return {
@@ -23,6 +33,8 @@ function mock() {
     entries
   };
 }
+// BM: send: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji kawalan login, CORS, quota KV dan kontrak penerbitan pada Worker tanpa akses production. Input: env,path,method="GET",data,token,extras={}.
+// EN: send: Isolates one operation so it can be reviewed and tested. Module purpose: tests login controls, CORS, KV quotas and publishing contracts without production access. Inputs: env,path,method="GET",data,token,extras={}.
 async function send(env,path,method="GET",data,token,extras={}) {
   return worker.fetch(new Request(baseURL+path,{
     method,headers:{
@@ -34,6 +46,8 @@ async function send(env,path,method="GET",data,token,extras={}) {
     ...(data!==undefined?{body:JSON.stringify(data)}:{})
   }),env);
 }
+// BM: login: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji kawalan login, CORS, quota KV dan kontrak penerbitan pada Worker tanpa akses production. Input: env.
+// EN: login: Isolates one operation so it can be reviewed and tested. Module purpose: tests login controls, CORS, KV quotas and publishing contracts without production access. Inputs: env.
 async function login(env) {
   const response=await send(env,"/api/admin/auth/login","POST",
     {email:adminEmail,password});

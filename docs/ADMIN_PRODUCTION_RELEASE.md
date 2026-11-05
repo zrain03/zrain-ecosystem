@@ -1,3 +1,12 @@
+<!--
+Fail / File: docs/ADMIN_PRODUCTION_RELEASE.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menyediakan rujukan Zrain Ecosystem Admin — Zero-billing release gate untuk penyelenggaraan serta keputusan release yang boleh diaudit.
+EN: Provides Zrain Ecosystem Admin — Zero-billing release gate reference for maintenance and auditable release decisions.
+-->
+
 # Zrain Ecosystem Admin — Zero-billing release gate
 
 **Status: Cloudflare Worker deployed and LIVE-VERIFIED by the user on 1 November 2026; frontend NOT DEPLOYED.** Worker origin: `https://zrain-ecosystem-catalog.zrain-dev.workers.dev`. The user personally verified `/api/health` (`ok`), `/api/ready` (`true`), and authenticated login plus `/api/admin/auth/me` (`ADMIN`) from PowerShell. **Firebase Spark plan has NOT yet been confirmed**; do not merge or deploy Firebase Hosting until it is confirmed. Do not claim `zrain.web.app/admin` is live yet.

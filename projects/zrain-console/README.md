@@ -1,3 +1,12 @@
+<!--
+Fail / File: projects/zrain-console/README.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menerangkan peranan Console sebagai paparan iframe di dalam Ecosystem.
+EN: Explains Console as an iframe viewer embedded in Ecosystem.
+-->
+
 # Zrain Console
 
 **Explore apps without leaving the ecosystem.**

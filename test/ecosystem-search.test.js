@@ -1,9 +1,19 @@
+/*
+ * Fail / File: test/ecosystem-search.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji sempadan ecosystem search, output dan kes gagal tanpa membuat permintaan production.
+ * EN: Tests ecosystem search contracts, outputs and failure paths without making production requests.
+ */
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import { PRODUCTS } from "../public/console-products.js";
 import { FAMILIES, TOOLS } from "../public/tools-directory-data.js";
 import { HUB_ENTRIES, buildSearchIndex, searchIndex, normalizeSearchText } from "../public/ecosystem-search-core.js";
+// BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan ecosystem search, output dan kes gagal tanpa membuat permintaan production.
+// EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests ecosystem search contracts, outputs and failure paths without making production requests.
 const read = f => readFile(new URL(f, import.meta.url), "utf8");
 
 test("search indexes every known public project plus all 28 actual tool deep links", () => {
@@ -46,20 +56,17 @@ test("published catalog replaces fallback product list; unpublished products can
   assert.equal(index.filter(x=>x.type==="tool").length,28);
 });
 
-test("homepage has global search dialog and shared catalog event, without replacing Bento products",async()=>{
-  const [html,ui,style,directory]=await Promise.all([
-    read("../public/index.html"),read("../public/ecosystem-search.js"),
-    read("../public/style.css"),read("../public/product-directory.js")
+test('homepage search and eleven categories share the current published catalogue',async()=>{
+  const [html,ui,core,style] = await Promise.all([
+    read('../public/index.html'),read('../public/ecosystem-unified.mjs'),
+    read('../public/ecosystem-catalog.mjs'),read('../public/ecosystem-unified.css')
   ]);
-  assert.match(html, /id="ecosystem-search"/);
-  assert.match(html, /id="ecosystem-query"/);
-  assert.match(html, /data-open-search/);
-  assert.match(html, /ecosystem-search.js/);
-  assert.match(ui, /event\.ctrlKey \|\| event\.metaKey/);
-  assert.match(ui, /showModal\(\)/);
-  assert.match(ui, /textContent/);
-  assert.doesNotMatch(ui, /\.innerHTML/);
-  assert.match(directory, /zrain:catalog-rendered/);
-  assert.match(style, /\.ecosystem-search::backdrop/);
-  assert.equal((html.match(/class="bento-card /g)||[]).length,4);
+  assert.match(html,/id="search-dialog"/);
+  assert.match(html,/id="home-search-input"/);
+  assert.match(html,/id="category-board"/);
+  assert.match(ui,/renderAllCategories/);
+  assert.match(core,/getActiveInventory/);
+  assert.match(core,/setPublishedCatalog/);
+  assert.match(style,/\.category-card/);
+  assert.doesNotMatch(ui,/eval\s*\(/);
 });

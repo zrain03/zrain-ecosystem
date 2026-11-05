@@ -1,0 +1,116 @@
+/*
+ * Fail / File: public/ecosystem-console.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menggayakan pratonton inline Console yang terhad kepada ruang produk.
+ * EN: Styles the inline Console preview constrained to product space.
+ */
+:root {color-scheme:light;--ink:#172433;--terra:#b95136;--edge:#ead9cc;--muted:#667180;--bg:#fffaf6}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {margin:0;min-width:320px;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}
+a,button,input {font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible {outline:3px solid #db9f84;outline-offset:3px}
+.skip-link {position:absolute;top:-65px;left:10px;padding:10px;background:white;z-index:100}
+.skip-link:focus{top:10px}
+.zrain-header .zrain-header__inner{width:min(1520px,calc(100% - 40px))}
+.zrain-header .main-nav{display:flex;gap:24px;margin-left:auto}
+.zrain-header .main-nav a{text-decoration:none;color:#45505d}
+.zrain-header .main-nav a[aria-current="page"]{color:var(--terra)}
+.console-page{width:min(1520px,calc(100% - 36px));margin:28px auto 60px}
+.console-intro{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:26px 33px;border:1px solid var(--edge);background:linear-gradient(105deg,#fff3e9,#fffaf6 57%,#edf6ef);border-radius:23px}
+.console-intro h1{font-size:clamp(29px,3.4vw,48px);letter-spacing:-.065em;margin:4px 0 0}
+.console-kicker{font-size:10px;letter-spacing:.105em;color:#a3513b;font-weight:850;margin:0 0 3px}
+.console-period{color:var(--terra)}
+.console-tagline{font-size:14px!important;font-weight:850!important;color:#81462e!important;margin:11px 0!important}
+.console-intro p:not(.console-kicker){max-width:740px;color:#66717b;font-size:12px;line-height:1.75}
+.console-back,.console-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #e4b9a6;background:#fff;text-decoration:none;color:#93442e;border-radius:11px;padding:10px 14px;font-size:12px;font-weight:800;white-space:nowrap}
+.console-back:hover,.console-action:hover{background:#fff0e6;box-shadow:0 5px 20px #a55a351a;transform:translateY(-1px)}
+.console-layout{display:grid;grid-template-columns:minmax(250px,305px) minmax(0,1fr);gap:15px;align-items:stretch;margin-top:18px}
+.console-sidebar,.console-workspace{border:1px solid var(--edge);background:#fff;border-radius:22px;box-shadow:0 12px 35px #7855440d;min-width:0}
+.console-sidebar{display:flex;flex-direction:column;padding:18px;gap:11px;max-height:850px}
+.console-sidebar-heading{display:flex;align-items:center;justify-content:space-between;gap:9px}
+.console-sidebar-heading h2{font-size:15px;margin:0}
+.console-sidebar-heading span{font-size:10px;color:var(--muted);white-space:nowrap}
+.console-sidebar label{font-size:11px;font-weight:800;color:#54606a}
+#console-search{width:100%;border:1px solid #ddcabc;border-radius:12px;background:#fffdfb;padding:12px;font-size:12px;min-height:43px}
+.console-categories{display:flex;flex-wrap:wrap;gap:5px}
+.console-category{min-height:31px;padding:6px 9px;border:1px solid #e8ddd4;background:white;border-radius:999px;font-size:10px;color:#58636d;font-weight:750;cursor:pointer}
+.console-category[aria-pressed="true"]{background:#aa5039;color:white;border-color:#aa5039}
+.console-apps{display:flex;flex-direction:column;gap:5px;min-height:130px;overflow-y:auto;scrollbar-width:thin;padding-right:5px;flex:1}
+.console-list-item{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid transparent;background:white;text-align:left;border-radius:12px;cursor:pointer;color:inherit;transition:background .2s,border-color .2s,box-shadow .2s}
+.console-list-item:hover,.console-list-item[aria-pressed="true"]{background:#fff2e9;border-color:#ebc3af;box-shadow:0 3px 14px #b9513610}
+.console-item-logo{flex-shrink:0;width:36px;height:36px;object-fit:contain;border-radius:9px;background:#fff7f1}
+.console-list-copy{min-width:0;display:flex;flex-direction:column;gap:4px}
+.console-list-copy strong{font-size:11px;line-height:1.35}
+.console-list-copy small{font-size:10px;color:#7c858d}
+.console-empty{font-size:11px;color:var(--muted)}
+.console-sidebar-help{font-size:10px;line-height:1.55;color:#8b7b70;margin:0;padding-top:10px;border-top:1px solid #eee2da}
+.console-workspace{display:flex;flex-direction:column;min-height:675px;padding:0;overflow:hidden}
+.console-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 16px 11px;border-bottom:1px solid #efe3da}
+.console-selected-heading{display:flex;align-items:center;gap:11px;min-width:0}
+.console-selected-heading .console-item-logo{width:40px;height:40px}
+.console-selected-heading h2{font-size:17px;letter-spacing:-.035em;margin:3px 0 0;overflow-wrap:anywhere}
+.console-controls{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.console-controls button{min-height:37px;border-radius:10px;cursor:pointer;font-size:11px;font-weight:750}
+.console-switch{display:inline-flex;gap:2px;background:#f7efea;border:1px solid #ebd8cc;border-radius:10px;padding:3px}
+.console-switch button{border:0;background:transparent;padding:7px 11px;color:#786b63}
+.console-switch button[aria-pressed="true"]{background:#fff;color:#97442d;box-shadow:0 2px 7px #b9513620}
+.console-tool{border:1px solid #e8d5c9;background:#fff;color:#87503c;padding:8px 10px}
+.console-tool:hover{background:#fff4ec}
+.console-description{padding:13px 18px 5px;margin:0;color:#5b6571;font-size:12px;line-height:1.65}
+.console-links{display:flex;flex-wrap:wrap;gap:8px;padding:7px 18px 13px}
+.console-action{font-size:11px;min-height:35px;padding:8px 12px}
+.console-primary{background:#b95136;color:#fff;border-color:#b95136}
+.console-primary:hover{background:#913d28;color:white}
+.console-github{border-color:#d7d7d7;color:#49535d}
+.console-play{color:#8a3a24}
+.console-stage{height:clamp(360px,55vh,690px);min-height:350px;background:#f5f2ef;display:grid;place-items:center;position:relative;overflow:hidden;padding:8px}
+.console-viewer{position:relative;overflow:hidden;border:1px solid #dfdbd6;background:white;border-radius:15px;box-shadow:0 12px 30px #26303a1c;transition:width .22s ease,height .22s ease}
+.console-viewer iframe{position:absolute;left:0;top:0;transform-origin:0 0;border:0;background:white}
+.console-stage[data-self="true"] .console-viewer{display:none}
+.console-self-hint{display:none;text-align:center;max-width:330px;padding:25px;font-size:14px;line-height:1.65;color:#68717a}
+.console-stage[data-self="true"] .console-self-hint{display:block}
+.console-notice{font-size:11px;line-height:1.6;color:#816757;padding:11px 18px;margin:0;background:#fff6ee;border-top:1px solid #efe4da}
+.console-guidance{margin-top:25px;border:1px solid var(--edge);border-radius:23px;background:#fff;padding:25px 30px}
+.console-guidance h2{font-size:22px;letter-spacing:-.04em;margin:7px 0 18px}
+.console-guidance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.console-guidance-grid article{padding:16px 17px;background:#fffaf6;border:1px solid #f0e5de;border-radius:14px}
+.console-guidance-grid strong{color:#9c4b35;font-size:12px}
+.console-guidance-grid p,.console-guidance-note{color:#67717a;font-size:11px;line-height:1.7;margin:9px 0 0}
+#console-shell:fullscreen{background:#fffaf6;border-radius:0}
+#console-shell:fullscreen .console-stage{flex:1;height:auto}
+@media(max-width:1100px){.console-layout{grid-template-columns:250px minmax(0,1fr)}.console-controls .console-tool span{display:none}}
+@media(max-width:760px){.zrain-header .main-nav{gap:10px}.console-intro{padding:20px;align-items:start;flex-direction:column}.console-layout{grid-template-columns:1fr}.console-sidebar{max-height:330px}.console-apps{min-height:120px}.console-workspace{min-height:550px}.console-stage{height:400px}.console-guidance-grid{grid-template-columns:1fr}.console-toolbar{align-items:start}}
+@media(max-width:520px){.zrain-header .main-nav{display:none}.console-page{width:calc(100% - 22px);margin-top:14px}.console-sidebar{padding:12px;max-height:300px}.console-toolbar{padding:12px}.console-controls{width:100%}.console-controls .console-tool span{display:none}.console-links{padding:10px 12px}.console-description{padding:10px 12px 3px}.console-stage{height:390px}.console-guidance{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+[hidden]{display:none!important}
+
+.console-play {background:transparent;border:0;padding:0;min-height:0}
+.console-play img {display:block;max-width:147px;height:auto}
+.console-play:hover {background:transparent}
+
+/* v8: provide a near full-height standalone viewing stage without altering its controls. */
+.console-stage {height:max(700px,calc(100dvh - 240px));min-height:700px}
+.console-sidebar {max-height:none}
+@media(max-width:760px){.console-stage{height:max(610px,calc(100dvh - 240px));min-height:610px}.console-sidebar{max-height:330px}}
+@media(max-width:520px){.console-stage{height:max(550px,calc(100dvh - 210px));min-height:550px}.console-sidebar{max-height:300px}}
+
+/* v9: maximize the embedded app while preserving original Console controls. */
+.console-intro{padding:16px 22px}
+.console-intro h1{font-size:clamp(26px,2.9vw,40px)}
+.console-intro p:not(.console-kicker){margin:5px 0;line-height:1.5}
+.console-page{margin-top:13px}
+.console-layout{margin-top:10px}
+.console-toolbar{padding:8px 12px;gap:6px}
+.console-selected-heading .console-item-logo{width:32px;height:32px}
+.console-selected-heading h2{font-size:15px}
+.console-description{font-size:11px;line-height:1.45;padding:6px 12px 0}
+.console-links{gap:6px;padding:5px 12px 7px}
+.console-links a{font-size:10px;min-height:30px;padding:5px 9px}
+.console-stage{height:max(740px,calc(100dvh - 135px));min-height:740px;padding:4px}
+.console-notice{padding:6px 12px;font-size:10px}
+@media(max-width:760px){.console-stage{height:max(660px,calc(100dvh - 160px));min-height:660px}}
+@media(max-width:520px){.console-stage{height:max(570px,calc(100dvh - 185px));min-height:570px}}

@@ -1,3 +1,9 @@
+# Fail / File: backend/src/test/resources/application-test.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menetapkan database dan kunci dummy khusus untuk ujian backend.
+# EN: Configures an isolated database and dummy keys for backend tests.
 spring:
   datasource:
     url: jdbc:h2:mem:zrain-ecosystem-test;DB_CLOSE_DELAY=-1

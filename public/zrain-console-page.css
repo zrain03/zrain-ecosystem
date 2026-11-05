@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/zrain-console-page.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menggayakan halaman penerangan Console awam serta kad demo responsif.
+ * EN: Styles the public Console landing page and responsive demo cards.
+ */
 :root{color-scheme:light;--zc-bg:#fffaf6;--zc-ink:#172433;--zc-mute:#687483;--zc-accent:#b95136;--zc-edge:#e9d9cd}
 *{box-sizing:border-box}
 body{margin:0;background:var(--zc-bg);color:var(--zc-ink);font-family:Inter,Segoe UI,sans-serif}

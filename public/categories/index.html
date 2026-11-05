@@ -1,0 +1,50 @@
+<!doctype html>
+<!--
+Fail / File: public/categories/index.html
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menyediakan struktur HTML halaman Categories dengan pautan dan panel interaktif yang boleh dicapai.
+EN: Provides accessible Categories page structure with navigation and interactive panels.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf7">
+  <meta name="description" content="Browse the Zrain portfolio in 11 clear categories, including apps and functional tools.">
+  <link rel="icon" type="image/webp" href="/zrain-logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brand.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+  <title>Browse Categories | Zrain</title>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header">
+    <div class="shell head-inner">
+      <a class="brand" href="https://zrain.web.app/"><img src="/zrain-logo.webp" alt="" width="42" height="42"><span>Zrain</span><span class="brand-divider">/</span><span>Categories</span></a>
+      <nav aria-label="Main navigation"><a href="/">Home</a><a href="/zrain-console.html">Console</a><a href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+    </div>
+  </header>
+  <main class="shell" id="main">
+    <section class="hero">
+      <div class="eyebrow">EXPLORE THE COLLECTION</div>
+      <h1>Find your next useful tool<span>.</span></h1>
+      <p>Explore Zrain projects and tools across 11 meaningful categories. Every product belongs to exactly one category.</p>
+      <div class="stats" aria-label="Portfolio summary"><div><strong>11</strong><span>Categories</span></div><div><strong>58</strong><span>Projects & tools</span></div><div><strong>0</strong><span>Duplicates</span></div></div>
+    </section>
+    <section class="browser" aria-label="Browse Zrain categories">
+      <label for="search">Search all categories and products</label>
+      <input type="search" id="search" placeholder="Search PDF, Zrain Links, QR, developer tools..." autocomplete="off">
+      <div class="browser-summary"><span id="result-count">58 of 58 products and tools</span><span id="source-status" aria-live="polite">Loading available links from local project registry...</span></div>
+      <nav class="filters" id="category-filter" aria-label="Filter by category"></nav>
+      <div id="category-content"></div>
+    </section>
+  </main>
+  <footer class="footer"><div class="shell footer-inner"><a class="footer-brand" href="https://zrain.web.app/"><img src="/zrain-logo.webp" alt="" width="35" height="35"><span><strong>Developed by Zrain</strong><small>Made for people. Built with purpose.</small></span></a><a href="/">Explore the Zrain Ecosystem.</a></div></footer>
+</body>
+</html>

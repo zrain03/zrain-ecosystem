@@ -1,3 +1,12 @@
+<!--
+Fail / File: docs/EXISTING_PRODUCTS_GUIDE.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menyediakan rujukan Zrain Admin — Panduan Isi Produk & Migrasi Enam Produk untuk penyelenggaraan serta keputusan release yang boleh diaudit.
+EN: Provides Zrain Admin — Panduan Isi Produk & Migrasi Enam Produk reference for maintenance and auditable release decisions.
+-->
+
 # Zrain Admin — Panduan Isi Produk & Migrasi Enam Produk
 
 Semua pembinaan ada di **folder/repository zrain-ecosystem yang sama**.

@@ -1,3 +1,9 @@
+# Fail / File: catalog-worker/.gitignore
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (rekod sejarah asal belum dipastikan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menghalang hasil runtime atau fail rahsia Worker daripada masuk repository.
+# EN: Keeps Worker runtime outputs and secrets out of source control.
 node_modules/
 .wrangler/
 .dev.vars

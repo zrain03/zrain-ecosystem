@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/game-data.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menghimpunkan metadata permainan dan pautan Google Play yang rasmi.
+ * EN: Collects game metadata and official Google Play destinations.
+ */
 /** Source URLs are the named Firebase Hosting web targets of Zrain's two Flutter games. */
 export const GAMES = Object.freeze({
   "guess-the-flag": Object.freeze({

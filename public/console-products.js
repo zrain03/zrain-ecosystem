@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/console-products.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyimpan destinasi produk Console yang diketahui dan tidak menerima URL rawak daripada pengguna.
+ * EN: Stores known Console product destinations without accepting arbitrary user URLs.
+ */
 /**
  * All preview destinations are explicit Zrain websites. External websites are
  * never accepted from query strings, URL fragments or user-provided input.

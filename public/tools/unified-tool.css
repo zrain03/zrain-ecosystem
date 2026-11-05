@@ -1,0 +1,25 @@
+/*
+ * Fail / File: public/unified-tool.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menggayakan pratonton tool yang digabungkan tanpa mencampuri tema aplikasi lain.
+ * EN: Styles embedded unified tools without interfering with other app themes.
+ */
+/* A tool is a Zrain Ecosystem page, not an independent product microsite. */
+:root{--zr-bg:#f9fbf7;--zr-terra:#b6533d}
+body{background:#f9fbf7!important}
+header.zrain-header{background:#f9fbf7!important}
+header.zrain-header a{text-decoration:none}
+body[data-view="tool"] .hero{min-height:0;padding:24px 35px;margin:22px auto 25px;border-radius:20px;background:linear-gradient(110deg,#eaf7ee,#fff5ec);grid-template-columns:1fr}
+body[data-view="tool"] .hero h1{font-size:clamp(30px,4vw,44px);margin:12px 0 8px}
+body[data-view="tool"] .hero-decoration{display:none}
+body[data-view="tool"] .hero-copy{max-width:900px}
+body[data-view="tool"] .hero .lead{max-width:850px;font-size:13px}
+body[data-view="tool"] .hero .pills{margin:12px 0 0}
+body[data-view="tool"] .app-shell{border-radius:20px;box-shadow:0 9px 40px #31533f0b}
+body[data-view="tool"] .app-title h2{font-size:clamp(24px,3vw,35px)}
+body[data-view="tool"] .main-nav a{font-weight:750}
+body[data-view="tool"] .back-link{font-weight:800}
+body[data-view="tool"] .tool-switch select{max-width:290px}
+@media(max-width:600px){body[data-view="tool"] .hero{padding:20px 18px}body[data-view="tool"] .hero .pills{flex-wrap:wrap}body[data-view="tool"] .tool-switch select{max-width:230px}}

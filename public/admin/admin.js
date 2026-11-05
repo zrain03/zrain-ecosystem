@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/admin/admin.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+ * EN: Handles administrator forms, memory-only tokens and authorized API calls.
+ */
 import { API_BASE_URL } from "../api-config.js";
 import { safeHttpsUrl, safeLogoUrl } from "../product-catalog-client.js";
 
@@ -45,6 +53,8 @@ let jwt = null; // Signed access token is only held in memory.
 let editing = null;
 let list = [];
 
+// BM: showNotice: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi. Input: element, message.
+// EN: showNotice: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: handles administrator forms, memory-only tokens and authorized API calls. Inputs: element, message.
 function showNotice(element, message) {
   element.textContent = message;
   element.hidden = !message;
@@ -76,6 +86,8 @@ async function request(path, options = {}) {
   }
   return response.json();
 }
+// BM: signOut: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: signOut: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 function signOut() {
   jwt = null;
   editing = null;
@@ -87,6 +99,8 @@ function signOut() {
   byId("password-settings").open = false;
   showNotice(byId("password-notice"), "");
 }
+// BM: Event submit: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: submit event: handle interaction without mutating source data or bypassing module validation.
 byId("signin-form").addEventListener("submit", async event => {
   event.preventDefault();
   const submit = byId("signin-submit");
@@ -119,6 +133,8 @@ byId("signin-form").addEventListener("submit", async event => {
     submit.disabled = false;
   }
 });
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 byId("signout").addEventListener("click", signOut);
 
 byId("password-form").addEventListener("submit", async event => {
@@ -150,6 +166,8 @@ byId("password-form").addEventListener("submit", async event => {
   }
 });
 
+// BM: syncWebsite: Menyelaraskan data dengan mengekalkan identiti, aturan dan keserasian rekod lama. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: syncWebsite: Reconciles data while preserving identity, ordering and legacy compatibility. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 async function syncWebsite() {
   if (IS_LOCAL) return "Saved in the local database. The live website is unchanged.";
   try {
@@ -161,6 +179,8 @@ async function syncWebsite() {
   }
 }
 
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 byId("sync-catalog").addEventListener("click", async () => {
   const button = byId("sync-catalog");
   button.disabled = true;
@@ -170,18 +190,24 @@ byId("sync-catalog").addEventListener("click", async () => {
 });
 
 
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 byId("new-product").addEventListener("click", () => {
   resetForm();
   byId("product-name").focus();
 });
 byId("reset-product").addEventListener("click", resetForm);
 
+// BM: slugify: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi. Input: name.
+// EN: slugify: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator forms, memory-only tokens and authorized API calls. Inputs: name.
 export function slugify(name) {
   return String(name || "")
     .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
     .toLowerCase().replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "").slice(0, 80).replace(/-$/g, "");
 }
+// BM: createUniqueSlug: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi. Input: name.
+// EN: createUniqueSlug: Mutates relevant state only after input and access conditions are verified. Module purpose: handles administrator forms, memory-only tokens and authorized API calls. Inputs: name.
 function createUniqueSlug(name) {
   const base = slugify(name);
   if (!base) return "";
@@ -193,6 +219,8 @@ function createUniqueSlug(name) {
   }
   return candidate;
 }
+// BM: logoValue: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: logoValue: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 function logoValue() {
   return inputs.logoChoice.value === "custom" ? inputs.customLogo.value.trim() : inputs.logoChoice.value;
 }
@@ -207,12 +235,16 @@ function chooseLogo(path) {
   }
   syncLogo();
 }
+// BM: syncLogo: Menyelaraskan data dengan mengekalkan identiti, aturan dan keserasian rekod lama. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: syncLogo: Reconciles data while preserving identity, ordering and legacy compatibility. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 function syncLogo() {
   byId("custom-logo-wrap").hidden = inputs.logoChoice.value !== "custom";
   const logo = safeLogoUrl(logoValue()) || "/zrain-logo.webp";
   byId("logo-preview").src = logo;
   byId("card-preview-logo").src = logo;
 }
+// BM: syncSecondary: Menyelaraskan data dengan mengekalkan identiti, aturan dan keserasian rekod lama. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: syncSecondary: Reconciles data while preserving identity, ordering and legacy compatibility. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 function syncSecondary() {
   byId("secondary-url-wrap").hidden = inputs.secondaryType.value === "NONE";
   if (inputs.secondaryType.value === "NONE") inputs.secondaryUrl.value = "";
@@ -226,6 +258,8 @@ function syncPreview() {
   byId("preview-button").textContent = label + " ↗";
   syncLogo();
 }
+// BM: resetForm: Memproses interaksi yang ditentukan dan mengemas kini state yang relevan dengan selamat. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: resetForm: Handles the specified interaction and updates relevant state safely. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 function resetForm() {
   editing = null;
   form.reset();
@@ -238,6 +272,8 @@ function resetForm() {
   byId("save-product").textContent = "Save as Draft";
   syncPreview();
 }
+// BM: editProduct: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi. Input: product.
+// EN: editProduct: Mutates relevant state only after input and access conditions are verified. Module purpose: handles administrator forms, memory-only tokens and authorized API calls. Inputs: product.
 function editProduct(product) {
   editing = product.id;
   inputs.name.value = product.name;
@@ -263,18 +299,24 @@ function editProduct(product) {
   form.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 for (const key of ["name", "description", "category"]) {
+  // BM: Event input: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+  // EN: input event: handle interaction without mutating source data or bypassing module validation.
   inputs[key].addEventListener("input", syncPreview);
 }
 inputs.logoChoice.addEventListener("change", syncPreview);
 inputs.customLogo.addEventListener("input", syncPreview);
 inputs.secondaryType.addEventListener("change", syncSecondary);
 inputs.primaryAction.addEventListener("change", syncPreview);
+// BM: button: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi. Input: label, action, actionName.
+// EN: button: Isolates one operation so it can be reviewed and tested. Module purpose: handles administrator forms, memory-only tokens and authorized API calls. Inputs: label, action, actionName.
 function button(label, action, actionName) {
   const node = document.createElement("button");
   node.type = "button";
   node.className = "secondary";
   node.textContent = label;
   node.setAttribute("aria-label", actionName);
+  // BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+  // EN: click event: handle interaction without mutating source data or bypassing module validation.
   node.addEventListener("click", action);
   return node;
 }
@@ -335,6 +377,8 @@ function displayProducts(products) {
     root.append(row);
   }
 }
+// BM: refresh: Menyelaraskan data dengan mengekalkan identiti, aturan dan keserasian rekod lama. Tujuan modul: mengendalikan borang admin, token dalam memori dan operasi API berautorisasi.
+// EN: refresh: Reconciles data while preserving identity, ordering and legacy compatibility. Module purpose: handles administrator forms, memory-only tokens and authorized API calls.
 async function refresh() {
   list = await request("/api/admin/products");
   displayProducts(list);
@@ -351,6 +395,8 @@ async function changeStatus(id, action) {
     showNotice(byId("dashboard-notice"), error.message);
   }
 }
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 byId("publish-verified-tools").addEventListener("click", async () => {
   if (!window.confirm("Publish the five independently hosted Zrain Tools in your public Ecosystem? Existing products and drafts will not be overwritten.")) return;
   const button = byId("publish-verified-tools");
@@ -369,6 +415,8 @@ byId("publish-verified-tools").addEventListener("click", async () => {
   }
 });
 
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 byId("import-existing").addEventListener("click", async () => {
   const button = byId("import-existing");
   if (!window.confirm("Import all 6 existing Zrain products as Drafts? Existing records will not be overwritten.")) return;
@@ -384,6 +432,8 @@ byId("import-existing").addEventListener("click", async () => {
     button.disabled = false;
   }
 });
+// BM: Event submit: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: submit event: handle interaction without mutating source data or bypassing module validation.
 form.addEventListener("submit", async event => {
   event.preventDefault();
   const logoUrl = logoValue();

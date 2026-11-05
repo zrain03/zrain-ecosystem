@@ -1,3 +1,11 @@
+/*
+ * Fail / File: catalog-worker/src/index.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi.
+ * EN: Routes Worker requests to health, public catalogue and authorized administrator endpoints.
+ */
 // Zrain Ecosystem Admin API and public catalog.
 // Production target: Cloudflare Workers Free + Workers KV Free ONLY.
 // No Render, R2, third-party paid database, payments or automatic upgrades.
@@ -6,10 +14,134 @@ import { KEYS, EXISTING, VERIFIED_TOOLS, validateProduct, loadProducts, saveProd
 import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey,
   readPasswordOverride, savePasswordOverride } from "./auth.js";
 
+const OFFICIAL_PROJECTS = [
+  {
+    "slug": "guess-the-flag",
+    "name": "Guess The Flag",
+    "description": "Learn countries and flags with 190 flags and practice modes.",
+    "category": "GAMES",
+    "logoUrl": "/icons/guess-the-flag.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Play Now",
+    "primaryUrl": "https://guesstheflag-zrain.web.app/",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/guess-the-flag"
+  },
+  {
+    "slug": "memory-rush",
+    "name": "Memory Rush",
+    "description": "Grid, Number and Pattern Recall memory games.",
+    "category": "GAMES",
+    "logoUrl": "/icons/memory-rush.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Play Now",
+    "primaryUrl": "https://memoryrush-zrain.web.app/",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/memory-rush"
+  },
+  {
+    "slug": "zrain-auth-starter",
+    "name": "Zrain Auth Starter",
+    "description": "Java Spring Boot JWT authentication developer demo and template.",
+    "category": "INFRASTRUCTURE",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain03.github.io/zrain-auth-starter/",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/zrain-auth-starter"
+  },
+  {
+    "slug": "zrain-ui",
+    "name": "Zrain UI",
+    "description": "Shared design system and component showcase.",
+    "category": "INFRASTRUCTURE",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain.web.app/zrain-ui-showcase.html",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/zrain-ui"
+  },
+  {
+    "slug": "zrain-console",
+    "name": "Zrain Console",
+    "description": "Open Zrain applications in a unified workspace.",
+    "category": "OPERATIONS",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain.web.app/zrain-console.html",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/zrain-console"
+  },
+  {
+    "slug": "zrain-links",
+    "name": "Zrain Links",
+    "description": "Create short links, QR previews and visits links.",
+    "category": "PRESENCE",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-links.web.app/",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/zrain-links"
+  },
+  {
+    "slug": "zrain-monitor",
+    "name": "Zrain Monitor",
+    "description": "Monitor uptime and public HTTPS services.",
+    "category": "OPERATIONS",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-monitor.web.app/",
+    "secondaryLabel": "View on GitHub",
+    "secondaryUrl": "https://github.com/zrain03/zrain-monitor"
+  },
+  {
+    "slug": "zrain-ai",
+    "name": "Zrain AI",
+    "description": "Multilingual AI assistant with chat, research and tools.",
+    "category": "AI",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-ai.web.app/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-gifts",
+    "name": "Zrain Gifts",
+    "description": "Public creator pages, project links and ways to support creators.",
+    "category": "PRESENCE",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-gifts.web.app/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  },
+  {
+    "slug": "zrain-community",
+    "name": "Zrain Community",
+    "description": "Public comments, feedback and independent product communities with reusable integration.",
+    "category": "INFRASTRUCTURE",
+    "logoUrl": "/zrain-logo.webp",
+    "primaryAction": "CONSOLE",
+    "primaryLabel": "Open Web App",
+    "primaryUrl": "https://zrain-community.web.app/",
+    "secondaryLabel": null,
+    "secondaryUrl": null
+  }
+];
 const MAX_REQUEST_BYTES=250_000;
 const JSON_HEADERS={"Content-Type":"application/json; charset=utf-8",
   "X-Content-Type-Options":"nosniff","Cache-Control":"no-store"};
 const ALLOW_METHODS="GET, POST, PUT, OPTIONS";
+// BM: ErrorResponse: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi.
+// EN: ErrorResponse: Isolates one operation so it can be reviewed and tested. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints.
 class ErrorResponse extends Error {
   constructor(status,message){super(message);this.status=status;}
 }
@@ -22,6 +154,8 @@ function trustedOrigin(request,env) {
     return origin;
   return null;
 }
+// BM: reply: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,env,body,status=200,publicRead=false,extra={}.
+// EN: reply: Isolates one operation so it can be reviewed and tested. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,env,body,status=200,publicRead=false,extra={}.
 function reply(request,env,body,status=200,publicRead=false,extra={}) {
   const origin=trustedOrigin(request,env);
   const headers={...JSON_HEADERS,...extra};
@@ -32,6 +166,8 @@ function reply(request,env,body,status=200,publicRead=false,extra={}) {
   }
   return new Response(JSON.stringify(body),{status,headers});
 }
+// BM: readJSON: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,limit=MAX_REQUEST_BYTES.
+// EN: readJSON: Reads relevant records and returns a bounded result to the caller. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,limit=MAX_REQUEST_BYTES.
 async function readJSON(request,limit=MAX_REQUEST_BYTES) {
   if(!request.headers.get("Content-Type")?.toLowerCase().includes("application/json"))
     throw new ErrorResponse(415,"JSON required");
@@ -42,6 +178,8 @@ async function readJSON(request,limit=MAX_REQUEST_BYTES) {
   try{return JSON.parse(new TextDecoder().decode(bytes));}
   catch {throw new ErrorResponse(400,"Invalid JSON");}
 }
+// BM: readLimited: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,limit.
+// EN: readLimited: Reads relevant records and returns a bounded result to the caller. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,limit.
 async function readLimited(request,limit) {
   if(!request.body)return new Uint8Array();
   const reader=request.body.getReader();
@@ -60,12 +198,16 @@ async function readLimited(request,limit) {
   for(const part of parts){bytes.set(part,offset);offset+=part.byteLength;}
   return bytes;
 }
+// BM: readPublic: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: env.
+// EN: readPublic: Reads relevant records and returns a bounded result to the caller. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: env.
 async function readPublic(env) {
   // Always derive the public catalog from the latest product statuses.
   // This removes manual sync and uses only one Free KV read per page load.
   const products=await loadProducts(env.ZRAIN_CATALOG);
   return products.length ? JSON.stringify(publicProducts(products)) : null;
 }
+// BM: login: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,env.
+// EN: login: Isolates one operation so it can be reviewed and tested. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,env.
 async function login(request,env) {
   if(!authConfigured(env))throw new ErrorResponse(503,"Admin is not configured");
   const body=await readJSON(request,4096);
@@ -91,6 +233,8 @@ async function login(request,env) {
   return {accessToken:await issueJWT(env.ZRAIN_ADMIN_EMAIL,env,
     credential?.version||"bootstrap"),expiresIn:900,tokenType:"Bearer"};
 }
+// BM: authenticated: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,env.
+// EN: authenticated: Isolates one operation so it can be reviewed and tested. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,env.
 async function authenticated(request,env) {
   const header=request.headers.get("Authorization");
   if(!header?.startsWith("Bearer "))return null;
@@ -99,6 +243,8 @@ async function authenticated(request,env) {
   const credential=await readPasswordOverride(env.ZRAIN_CATALOG);
   return claims.passwordVersion===(credential?.version||"bootstrap")?claims:null;
 }
+// BM: validateUniqueness: Mengesahkan prasyarat atau syarat keselamatan sebelum meneruskan aliran. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: rows,slug,excluding=null.
+// EN: validateUniqueness: Checks a precondition or safety invariant before allowing the flow to continue. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: rows,slug,excluding=null.
 function validateUniqueness(rows,slug,excluding=null) {
   if(rows.some(p=>p.slug===slug && p.id!==excluding))
     throw new ErrorResponse(409,"The product ID is already used.");
@@ -107,6 +253,8 @@ async function saveAndRespond(env,rows,value) {
   await saveProducts(env.ZRAIN_CATALOG,rows);
   return value;
 }
+// BM: routeAdmin: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghala permintaan Worker kepada kesihatan, katalog awam dan route admin berautorisasi. Input: request,env,path.
+// EN: routeAdmin: Isolates one operation so it can be reviewed and tested. Module purpose: routes Worker requests to health, public catalogue and authorized administrator endpoints. Inputs: request,env,path.
 async function routeAdmin(request,env,path) {
   if(path==="/api/admin/auth/login" && request.method==="POST")
     return login(request,env);
@@ -162,6 +310,29 @@ async function routeAdmin(request,env,path) {
     }
     if(added)await saveProducts(env.ZRAIN_CATALOG,rows);
     return {added,skipped:EXISTING.length-added,totalAvailable:EXISTING.length};
+  }
+  // ZRAIN OFFICIAL 11 CATEGORY SYNC: authenticated, idempotent, KV Free only.
+  if(path==="/api/admin/products/sync-official" && request.method==="POST") {
+    const rows=await loadProducts(env.ZRAIN_CATALOG);
+    let added=0,skipped=0,aligned=0;
+    for(const entry of OFFICIAL_PROJECTS) {
+      const record=rows.find(p=>p.slug===entry.slug);
+      if(record){
+        skipped++;
+        // Never publish a Draft or Archived entry without explicit admin action.
+        if(record.status==='PUBLISHED' && record.category!==entry.category){
+          record.category=entry.category;record.updatedAt=new Date().toISOString();aligned++;
+        }
+        continue;
+      }
+      if(rows.length>=300)throw new ErrorResponse(400,'Product limit reached');
+      const valid=validateProduct(entry);
+      if(!valid)throw new ErrorResponse(500,'Official product metadata invalid');
+      rows.push({...newProduct(valid,nextOrder(rows,valid.category)),status:'PUBLISHED'});
+      added++;
+    }
+    if(added||aligned)await saveProducts(env.ZRAIN_CATALOG,rows);
+    return {added,skipped,aligned,totalOfficial:OFFICIAL_PROJECTS.length};
   }
   if(path==="/api/admin/products" && request.method==="POST") {
     const input=validateProduct(await readJSON(request));

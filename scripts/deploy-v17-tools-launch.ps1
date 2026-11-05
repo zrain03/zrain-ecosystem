@@ -1,3 +1,11 @@
+<#
+Fail / File: scripts/deploy-v17-tools-launch.ps1
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Mengawal deployment Tools dan Worker dengan pemeriksaan branch serta asal remote.
+EN: Guards Tools and Worker deployment with branch and origin-remote checks.
+#>
 # Release only the existing Zrain Catalog Worker and Firebase Hosting site.
 # Run from a detached Git worktree fetched from origin/main.
 # No paid services, Worker, KV namespace, Firebase project or account is created.

@@ -1,3 +1,11 @@
+<#
+Fail / File: scripts/publish-zrain-console-repo.ps1
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Mengekstrak snapshot Console yang diketahui tanpa menimpa repository lain.
+EN: Exports a known Console snapshot without overwriting other repositories.
+#>
 param(
     [switch]$PrepareOnly
 )

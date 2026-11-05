@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/api-config.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Memisahkan endpoint katalog awam daripada endpoint admin yang memerlukan identiti.
+ * EN: Separates public catalogue endpoints from administrator APIs requiring identity.
+ */
 // Strict zero-billing deployment: both HTTPS endpoints use the same Workers Free origin.
 // Production intentionally fails closed while these URLs are blank.
 const LOCAL = typeof location !== "undefined" &&

@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/ecosystem-search-core.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menormalisasi teks carian dan membina indeks produk dengan penapisan destinasi selamat.
+ * EN: Normalizes search text and builds a product index with safe destination filtering.
+ */
 // Search data shared by the browser and Node tests. No DOM, no backend and no user data stored.
 const CATEGORY_NAMES = Object.freeze({
   GAMES: "Games", DEVELOPER_TOOLS: "Developer Tools",
@@ -9,6 +17,8 @@ export const HUB_ENTRIES = Object.freeze([
   {slug: "zrain-console", name: "Zrain Console", description: "Explore Zrain web applications and open their full websites.", webUrl: "https://zrain.web.app/zrain-console.html", category: "DEVELOPER_TOOLS"}
 ]);
 
+// BM: normalizeSearchText: Menukar atau mengesahkan input tanpa melangkau sempadan data yang selamat. Tujuan modul: menormalisasi teks carian dan membina indeks produk dengan penapisan destinasi selamat. Input: value.
+// EN: normalizeSearchText: Transforms or validates input without bypassing safe data boundaries. Module purpose: normalizes search text and builds a product index with safe destination filtering. Inputs: value.
 export function normalizeSearchText(value) {
   return String(value ?? "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
@@ -20,6 +30,8 @@ function safeUrl(input) {
   } catch { return null; }
 }
 
+// BM: projectEntry: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menormalisasi teks carian dan membina indeks produk dengan penapisan destinasi selamat. Input: slug, item, source.
+// EN: projectEntry: Isolates one operation so it can be reviewed and tested. Module purpose: normalizes search text and builds a product index with safe destination filtering. Inputs: slug, item, source.
 function projectEntry(slug, item, source) {
   const url = safeUrl(item.primaryUrl || item.webUrl);
   if (!url || !item.name || !slug) return null;
@@ -33,6 +45,8 @@ function projectEntry(slug, item, source) {
 // Use the public catalog after it has loaded; unpublished projects do not leak
 // into search through the fallback preview list. The two hub navigation entries
 // are always public routes and are not admin-managed products.
+// BM: buildSearchIndex: Menghasilkan representasi yang diperlukan tanpa mengubah input asal secara tidak sengaja. Tujuan modul: menormalisasi teks carian dan membina indeks produk dengan penapisan destinasi selamat. Input: {fallbackProducts = {}, publishedProducts = null, families = [], tools = []} = {}.
+// EN: buildSearchIndex: Produces the required representation without unintentionally mutating the input. Module purpose: normalizes search text and builds a product index with safe destination filtering. Inputs: {fallbackProducts = {}, publishedProducts = null, families = [], tools = []} = {}.
 export function buildSearchIndex({fallbackProducts = {}, publishedProducts = null, families = [], tools = []} = {}) {
   const entries = [...HUB_ENTRIES.map(item => projectEntry(item.slug, item, "hub"))];
   if (Array.isArray(publishedProducts)) {
@@ -62,6 +76,8 @@ export function buildSearchIndex({fallbackProducts = {}, publishedProducts = nul
   return [...new Map(entries.filter(Boolean).map(item => [item.id, item])).values()];
 }
 
+// BM: searchIndex: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menormalisasi teks carian dan membina indeks produk dengan penapisan destinasi selamat. Input: entries, query = "", {type = "all", limit = 12} = {}.
+// EN: searchIndex: Isolates one operation so it can be reviewed and tested. Module purpose: normalizes search text and builds a product index with safe destination filtering. Inputs: entries, query = "", {type = "all", limit = 12} = {}.
 export function searchIndex(entries, query = "", {type = "all", limit = 12} = {}) {
   const q = normalizeSearchText(query);
   const terms = q.split(/\s+/).filter(Boolean);

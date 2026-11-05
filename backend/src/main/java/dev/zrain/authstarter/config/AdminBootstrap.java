@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/config/AdminBootstrap.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menyediakan bootstrap pentadbir terkawal bagi persekitaran yang telah dikonfigurasi.
+ * EN: Performs controlled administrator bootstrap in properly configured environments.
+ */
 package dev.zrain.authstarter.config;
 
 import dev.zrain.authstarter.user.AppUser;
@@ -11,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+// BM: AdminBootstrap: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan bootstrap pentadbir terkawal bagi persekitaran yang telah dikonfigurasi.
+// EN: AdminBootstrap: Isolates one operation so it can be reviewed and tested. Module purpose: performs controlled administrator bootstrap in properly configured environments.
 public class AdminBootstrap {
     @Bean
     ApplicationRunner provisionAdmin(UserRepository users, PasswordEncoder encoder,

@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/admin/admin.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menggayakan paparan login dan editor katalog admin tanpa mempengaruhi laman awam.
+ * EN: Styles administrator login and catalogue editor without affecting public pages.
+ */
 :root{color-scheme:light;--bg:#fffaf6;--panel:#fff;--ink:#182637;--muted:#697583;--terra:#b95136;--terra-deep:#963d28;--line:#e8ddd4}
 *{box-sizing:border-box} [hidden]{display:none!important}
 body{margin:0;min-width:320px;background:var(--bg);font-family:Inter,Segoe UI,sans-serif;color:var(--ink);line-height:1.5}

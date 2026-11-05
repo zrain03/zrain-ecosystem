@@ -1,4 +1,12 @@
 <!doctype html>
+<!--
+Fail / File: public/zrain-ui-showcase.html
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Memperlihatkan komponen dan palet Zrain UI menggunakan sumber library rasmi.
+EN: Showcases shared Zrain UI components and palette using the official library.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -62,12 +70,15 @@
       </div></section>
     </div>
     <p class="small">This page demonstrates the current Zrain UI branding. For source code, installation and maintenance, use the official GitHub repository.</p>
-  </main>
+    <section id="zrain-feedback" aria-label="Zrain Community feedback"></section>
+  <script src="https://zrain-community.web.app/embed.js" data-product="zrain-ui" data-target="#zrain-feedback" defer></script>
+</main>
   <footer class="zrain-footer"><div class="zrain-footer__inner"><div class="zrain-footer__identity"></div></div></footer>
   <script type="module">
     import { mountZrainUI } from "/zrain-ui.js?v=brand-20261029-footeronly";
     mountZrainUI({ product: "UI", logoSrc: "/zrain-logo.webp", productHref: "https://github.com/zrain03/zrain-ui" });
   </script>
-  <script defer src="/feedback-embed.js" data-product="zrain-ui"></script>
+
+
 </body>
 </html>

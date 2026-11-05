@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/product-directory.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Memaparkan kad produk yang diterbitkan dengan aksi Console dan pautan sumber yang sesuai.
+ * EN: Renders Published product cards with Console actions and appropriate source links.
+ */
 import { ENABLE_DYNAMIC_CATALOG, LOCAL_PREVIEW } from "./api-config.js";
 import { fetchPublicCatalog } from "./product-catalog-client.js";
 import { registerPublishedProducts } from "./zrain-console.js";
@@ -8,6 +16,8 @@ const roots = {
   ONLINE_SERVICES: document.querySelector("#services-products")
 };
 
+// BM: actionLink: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memaparkan kad produk yang diterbitkan dengan aksi Console dan pautan sumber yang sesuai. Input: product, secondary = false.
+// EN: actionLink: Isolates one operation so it can be reviewed and tested. Module purpose: renders Published product cards with Console actions and appropriate source links. Inputs: product, secondary = false.
 function actionLink(product, secondary = false) {
   const repoSecondary = secondary && product.primaryAction === "GITHUB" &&
     product.primaryUrl.startsWith("https://github.com/");
@@ -37,6 +47,8 @@ function actionLink(product, secondary = false) {
   return action;
 }
 
+// BM: makeCard: Menghasilkan representasi yang diperlukan tanpa mengubah input asal secara tidak sengaja. Tujuan modul: memaparkan kad produk yang diterbitkan dengan aksi Console dan pautan sumber yang sesuai. Input: product.
+// EN: makeCard: Produces the required representation without unintentionally mutating the input. Module purpose: renders Published product cards with Console actions and appropriate source links. Inputs: product.
 export function makeCard(product) {
   const card = document.createElement("article");
   card.className = "product-entry";
@@ -64,6 +76,8 @@ export function makeCard(product) {
   return card;
 }
 
+// BM: renderCatalog: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: memaparkan kad produk yang diterbitkan dengan aksi Console dan pautan sumber yang sesuai. Input: products.
+// EN: renderCatalog: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: renders Published product cards with Console actions and appropriate source links. Inputs: products.
 export function renderCatalog(products) {
   // Web Utilities is a legacy internal category, not a separate visual section.
   const groups = { GAMES: [], DEVELOPER_TOOLS: [], ONLINE_SERVICES: [] };

@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/zrain-console.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat.
+ * EN: Manages the Console dialog, iframe and viewer actions with safe focus restoration.
+ */
 import { PRODUCTS } from "./console-products.js?v=4.1.6";
 
 const published = new Map();
@@ -44,12 +52,16 @@ let opener = null;
 let viewMode = "mobile";
 let frameVersion = 0;
 
+// BM: clearFrame: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat.
+// EN: clearFrame: Isolates one operation so it can be reviewed and tested. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration.
 function clearFrame() {
   frameVersion++;
   frame.removeAttribute("src");
   frame.removeAttribute("srcdoc");
 }
 
+// BM: fitPortrait: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat. Input: bounds, logical = PHONE.
+// EN: fitPortrait: Isolates one operation so it can be reviewed and tested. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration. Inputs: bounds, logical = PHONE.
 export function fitPortrait(bounds, logical = PHONE) {
   const w = Math.max(1, Number(bounds.width) || 1);
   const h = Math.max(1, Number(bounds.height) || 1);
@@ -61,6 +73,8 @@ export function fitPortrait(bounds, logical = PHONE) {
   };
 }
 
+// BM: layoutFrame: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat.
+// EN: layoutFrame: Isolates one operation so it can be reviewed and tested. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration.
 function layoutFrame() {
   if (!current) return;
   if (viewMode === "desktop") {
@@ -87,6 +101,8 @@ function layoutFrame() {
   frame.style.transform = `scale(${fitted.scale})`;
 }
 
+// BM: setView: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat. Input: mode.
+// EN: setView: Isolates one operation so it can be reviewed and tested. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration. Inputs: mode.
 function setView(mode) {
   if (mode !== "mobile" && mode !== "desktop") return;
   viewMode = mode;
@@ -98,6 +114,8 @@ function setView(mode) {
   // Resize the same iframe: do not reset a user's game or account session.
 }
 
+// BM: loadCurrent: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat.
+// EN: loadCurrent: Reads relevant records and returns a bounded result to the caller. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration.
 async function loadCurrent() {
   if (!current) return;
   // Reset the document and invalidate any earlier asynchronous preview load.
@@ -123,6 +141,8 @@ async function loadCurrent() {
   frame.src = current.webUrl;
 }
 
+// BM: openConsole: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat. Input: id, trigger.
+// EN: openConsole: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration. Inputs: id, trigger.
 function openConsole(id, trigger) {
   const product = published.get(id) || PRODUCTS[id];
   if (!product || dialog.open) return;
@@ -146,6 +166,8 @@ function openConsole(id, trigger) {
   close.focus();
 }
 
+// BM: closeConsole: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: mengurus dialog Console, iframe dan tindakan viewer dengan pemulihan fokus selamat.
+// EN: closeConsole: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: manages the Console dialog, iframe and viewer actions with safe focus restoration.
 function closeConsole() {
   if (document.fullscreenElement === shell) {
     document.exitFullscreen?.().catch(() => {});
@@ -157,6 +179,8 @@ function closeConsole() {
 // This prevents duplicate open events when the original buttons are clicked.
 const staticControls = new Set(document.querySelectorAll("[data-console]"));
 for (const control of staticControls) {
+  // BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+  // EN: click event: handle interaction without mutating source data or bypassing module validation.
   control.addEventListener("click", () => openConsole(control.dataset.console, control));
 }
 document.addEventListener("click", event => {
@@ -164,6 +188,8 @@ document.addEventListener("click", event => {
   if (trigger && !staticControls.has(trigger)) openConsole(trigger.dataset.console, trigger);
 });
 
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 mobileButton.addEventListener("click", () => setView("mobile"));
 desktopButton.addEventListener("click", () => setView("desktop"));
 reload.addEventListener("click", loadCurrent);
@@ -180,6 +206,8 @@ dialog.addEventListener("close", () => {
   opener = null;
 });
 
+// BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: click event: handle interaction without mutating source data or bypassing module validation.
 dialog.addEventListener("click", event => {
   if (event.target === dialog) closeConsole();
 });
@@ -191,6 +219,8 @@ if (typeof ResizeObserver !== "undefined") {
   resize.observe(stage);
 }
 document.addEventListener("fullscreenchange", layoutFrame);
+// BM: Event resize: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+// EN: resize event: handle interaction without mutating source data or bypassing module validation.
 window.addEventListener("resize", layoutFrame);
 
 // The public project page links into the REAL production Console.

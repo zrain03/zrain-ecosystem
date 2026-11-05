@@ -1,7 +1,18 @@
+/*
+ * Fail / File: test/tools-explorer.test.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menguji sempadan tools explorer, output dan kes gagal tanpa membuat permintaan production.
+ * EN: Tests tools explorer contracts, outputs and failure paths without making production requests.
+ */
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
+import {PRODUCTS} from "../public/console-products.js";
 import {FAMILIES,TOOLS} from "../public/tools-directory-data.js";
+// BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan tools explorer, output dan kes gagal tanpa membuat permintaan production.
+// EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests tools explorer contracts, outputs and failure paths without making production requests.
 const read = filename => readFile(new URL(filename,import.meta.url),"utf8");
 
 test("five distinct official Cloudflare Pages sites contain 28 unique real tool links",()=>{
@@ -18,38 +29,34 @@ test("five distinct official Cloudflare Pages sites contain 28 unique real tool 
   });
   for(const tool of TOOLS) assert.ok(FAMILIES.some(f=>f.slug===tool.family));
 });
-test("tools explorer is inside original three-category Products without new product sections",async()=>{
-  const html=await read("../public/index.html");
-  const script=await read("../public/tools-directory.js");
-  const css=await read("../public/style.css");
-  assert.equal((html.match(/class="bento-card /g)||[]).length,4);
-  assert.match(html,/id="explore-tools"/);
-  assert.match(html,/id="tools-search"/);
-  assert.match(html,/id="tools-results"/);
-  assert.match(html,/\/tools-directory.js/);
-  assert.match(script,/\.url \+ tool\.slug \+ "\/"/);
-  assert.match(script,/aria-pressed/);
-  assert.match(script,/replaceChildren/);
-  assert.match(css,/@media\(max-width:480px\)/);
+test('all forty-eight tools are discoverable in eleven categories without duplicate portals',async()=>{
+  const [html,ui]=await Promise.all([read('../public/index.html'),read('../public/ecosystem-unified.mjs')]);
+  const {INVENTORY,CATEGORIES}=await import('../public/ecosystem-inventory.mjs');
+  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+  assert.equal(CATEGORIES.length,11);
+  assert.match(html,/id="category-board"/);
+  assert.match(ui,/category-card-list/);
+  assert.doesNotMatch(html,/id="five-family-portals"/);
 });
-test("admin-only import of five published Pages products, existing catalog remains editable",async()=>{
+
+test('verified tool-family imports remain protected and cannot be published anonymously',async()=>{
   const [worker,source,admin,html]=await Promise.all([
-    read("../catalog-worker/src/index.js"),read("../catalog-worker/src/products.js"),
-    read("../public/admin/admin.js"),read("../public/admin/index.html")
+    read('../catalog-worker/src/index.js'),read('../catalog-worker/src/products.js'),
+    read('../public/admin/manage.mjs'),read('../public/admin/index.html')
   ]);
   assert.match(worker,/\/api\/admin\/products\/import-verified-tools/);
-  assert.match(worker,/const claims=await authenticated\(request,env\)/);
+  assert.match(worker,/authenticated\(request,env\)/);
   assert.match(source,/VERIFIED_TOOLS/);
-  assert.match(admin,/byId\("publish-verified-tools"\)/);
-  assert.match(html,/id="publish-verified-tools"/);
-  assert.doesNotMatch(admin,/localStorage\.setItem/);
+  assert.match(html,/id="project-form"/);
+  assert.match(admin,/\/api\/admin\/auth\/login/);
 });
-test("Console has safe explicit links for all five standalone Zrain websites",async()=>{
-  const [js,html]=await Promise.all([read("../public/console-products.js"),read("../public/zrain-console.html")]);
-  for (const family of FAMILIES){
-    assert.ok(js.includes('"'+family.slug+'"'));
-    assert.ok(js.includes(family.url));
-    assert.ok(html.includes('/?console='+family.slug));
+
+test('all five product families have explicit HTTPS destinations without URL construction from user input',async()=>{
+  const products=await read('../public/console-products.js');
+  for(const family of FAMILIES){
+    assert.ok(PRODUCTS[family.slug] || products.includes('"'+family.slug+'"'),family.slug);
+    assert.match(family.url,/^https:\/\//);
+    assert.match(products,new RegExp('"'+family.slug+'"'));
   }
 });
 

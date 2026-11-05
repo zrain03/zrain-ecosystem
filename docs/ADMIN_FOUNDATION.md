@@ -1,3 +1,12 @@
+<!--
+Fail / File: docs/ADMIN_FOUNDATION.md
+Pembangun / Developer: Zrain
+Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+Dikemas kini / Last updated: 2026-11-05
+BM: Menyediakan rujukan Zrain Ecosystem Admin: development foundation untuk penyelenggaraan serta keputusan release yang boleh diaudit.
+EN: Provides Zrain Ecosystem Admin: development foundation reference for maintenance and auditable release decisions.
+-->
+
 # Zrain Ecosystem Admin: development foundation
 
 All implementation is in the existing **zrain-ecosystem** repository. No independent repositories or project folders are required.

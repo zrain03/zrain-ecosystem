@@ -1,3 +1,9 @@
+# Fail / File: .github/workflows/backend.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Menguji backend Java 21 dan PostgreSQL dalam CI tanpa menulis kepada database production.
+# EN: Tests the Java 21 backend and PostgreSQL in CI without writing to production databases.
 name: Verify Zrain Ecosystem API
 on:
   push:

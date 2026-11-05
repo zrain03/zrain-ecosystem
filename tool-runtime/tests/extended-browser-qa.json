@@ -1,0 +1,30 @@
+[
+  {
+    "tool": "image-compare",
+    "status": "PASS"
+  },
+  {
+    "tool": "collage-maker",
+    "status": "PASS"
+  },
+  {
+    "tool": "csv-cleaner",
+    "status": "PASS"
+  },
+  {
+    "tool": "file-converter",
+    "status": "PASS"
+  },
+  {
+    "tool": "icon-maker",
+    "status": "PASS"
+  },
+  {
+    "tool": "pdf-editor",
+    "status": "PASS"
+  },
+  {
+    "tool": "background-remover",
+    "status": "PASS"
+  }
+]

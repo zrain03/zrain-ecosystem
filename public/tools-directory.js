@@ -1,3 +1,11 @@
+/*
+ * Fail / File: public/tools-directory.js
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Menapis dan memaparkan senarai Tools serta pautan halaman sebenar.
+ * EN: Filters and renders tool listings with real page destinations.
+ */
 import { FAMILIES, TOOLS } from "./tools-directory-data.js";
 
 const field = document.getElementById("tools-search");
@@ -10,12 +18,16 @@ if (field && tabs && familiesRoot && list && status && showMore) {
   const bySlug = new Map(FAMILIES.map(f => [f.slug, f]));
   let active = "all";
   let expanded = false;
+  // BM: element: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menapis dan memaparkan senarai Tools serta pautan halaman sebenar. Input: tag, className, label.
+  // EN: element: Isolates one operation so it can be reviewed and tested. Module purpose: filters and renders tool listings with real page destinations. Inputs: tag, className, label.
   function element(tag, className, label) {
     const el = document.createElement(tag);
     if (className) el.className = className;
     if (label !== undefined) el.textContent = label;
     return el;
   }
+  // BM: external: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menapis dan memaparkan senarai Tools serta pautan halaman sebenar. Input: label, href, className.
+  // EN: external: Isolates one operation so it can be reviewed and tested. Module purpose: filters and renders tool listings with real page destinations. Inputs: label, href, className.
   function external(label, href, className) {
     const a = element("a", className, label);
     a.href = href;
@@ -37,6 +49,8 @@ if (field && tabs && familiesRoot && list && status && showMore) {
     b.type = "button";
     b.dataset.family = f.slug;
     b.setAttribute("aria-pressed", String(f.slug === active));
+    // BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+    // EN: click event: handle interaction without mutating source data or bypassing module validation.
     b.addEventListener("click", () => {
       active = f.slug;
       expanded = false;
@@ -44,6 +58,8 @@ if (field && tabs && familiesRoot && list && status && showMore) {
     });
     tabs.append(b);
   }
+  // BM: render: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: menapis dan memaparkan senarai Tools serta pautan halaman sebenar.
+  // EN: render: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: filters and renders tool listings with real page destinations.
   function render() {
     const query = field.value.toLowerCase().normalize("NFKD").trim();
     for (const button of tabs.querySelectorAll("button[data-family]")) {
@@ -73,6 +89,8 @@ if (field && tabs && familiesRoot && list && status && showMore) {
       (visible.length < matched.length ? " · showing " + visible.length : "");
     showMore.hidden = Boolean(query) || visible.length === matched.length;
   }
+  // BM: Event input: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
+  // EN: input event: handle interaction without mutating source data or bypassing module validation.
   field.addEventListener("input", () => {expanded = false;render()});
   showMore.addEventListener("click", () => {expanded = true;render()});
   render();

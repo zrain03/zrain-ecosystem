@@ -1,3 +1,11 @@
+/*
+ * Fail / File: backend/src/main/java/dev/zrain/authstarter/products/Product.java
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan.
+ * EN: Models persisted products, categories, actions and Published/Draft state.
+ */
 package dev.zrain.authstarter.products;
 
 import jakarta.persistence.*;
@@ -6,6 +14,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "products")
+// BM: Product: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan.
+// EN: Product: Isolates one operation so it can be reviewed and tested. Module purpose: models persisted products, categories, actions and Published/Draft state.
 public class Product {
     public enum Category { GAMES, DEVELOPER_TOOLS, ONLINE_SERVICES, WEB_UTILITIES }
     public enum Action { CONSOLE, WEBSITE, GITHUB, PLAY_STORE, DOCUMENTATION, SHOWCASE }
@@ -42,6 +52,8 @@ public class Product {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    // BM: Product: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan.
+    // EN: Product: Isolates one operation so it can be reviewed and tested. Module purpose: models persisted products, categories, actions and Published/Draft state.
     protected Product() {}
     public Product(ProductInput input) {
         status = Status.DRAFT;
@@ -49,6 +61,8 @@ public class Product {
         update(input);
         this.sortOrder = input.sortOrder() == null ? 0 : input.sortOrder();
     }
+    // BM: update: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan. Input: ProductInput input.
+    // EN: update: Mutates relevant state only after input and access conditions are verified. Module purpose: models persisted products, categories, actions and Published/Draft state. Inputs: ProductInput input.
     public void update(ProductInput input) {
         this.slug = input.slug().strip();
         this.name = input.name().strip();
@@ -63,18 +77,24 @@ public class Product {
         if ((secondaryLabel == null) != (secondaryUrl == null)) throw new IllegalArgumentException("Secondary label and URL must both be supplied.");
         this.updatedAt = Instant.now();
     }
+    // BM: getId: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan.
+    // EN: getId: Reads relevant records and returns a bounded result to the caller. Module purpose: models persisted products, categories, actions and Published/Draft state.
     public UUID getId() { return id; }
     public String getSlug() { return slug; }
     public String getName() { return name; }
     public String getDescription() { return description; }
     public Category getCategory() { return category; }
     public String getLogoUrl() { return logoUrl; }
+    // BM: getPrimaryAction: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan.
+    // EN: getPrimaryAction: Reads relevant records and returns a bounded result to the caller. Module purpose: models persisted products, categories, actions and Published/Draft state.
     public Action getPrimaryAction() { return primaryAction; }
     public String getPrimaryLabel() { return primaryLabel; }
     public String getPrimaryUrl() { return primaryUrl; }
     public String getSecondaryLabel() { return secondaryLabel; }
     public String getSecondaryUrl() { return secondaryUrl; }
     public int getSortOrder() { return sortOrder; }
+    // BM: setSortOrder: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: mewakili produk, kategori, aksi dan status Published/Draft sebagai entiti tersimpan. Input: int order.
+    // EN: setSortOrder: Isolates one operation so it can be reviewed and tested. Module purpose: models persisted products, categories, actions and Published/Draft state. Inputs: int order.
     public void setSortOrder(int order) { this.sortOrder = order; this.updatedAt = Instant.now(); }
     public Status getStatus() { return status; }
     public void setStatus(Status value) { status = value; updatedAt = Instant.now(); }

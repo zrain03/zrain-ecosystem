@@ -1,3 +1,9 @@
+# Fail / File: backend/src/main/resources/application-local.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+# Dikemas kini / Last updated: 2026-11-05
+# BM: Mengasingkan konfigurasi pembangunan daripada keadaan production.
+# EN: Isolates development configuration from production settings.
 spring:
   config:
     activate:
