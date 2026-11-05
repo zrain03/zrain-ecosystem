@@ -13,6 +13,9 @@ import {INVENTORY,CATEGORIES} from '../public/ecosystem-inventory.mjs';
 import {CATEGORIES as OFFICIAL,validateTaxonomy,slugify} from '../public/categories/category-data.mjs';
 import {categoryFromWorker,categoryToWorker} from '../public/admin/manage-core.mjs';
 const read=p=>readFile(new URL(p,import.meta.url),'utf8');
+// BM: Abaikan hanya perbezaan hujung baris Git, bukan perbezaan kandungan kod.
+// EN: Ignore only Git line-ending differences, never actual source changes.
+const textWithLf=buffer=>buffer.toString('utf8').replace(/\r\n/g,'\n');
 test('58 unique entries are distributed under the canonical 11 categories',()=>{
  assert.equal(validateTaxonomy(),true);
  assert.equal(INVENTORY.length,58);
@@ -43,15 +46,23 @@ test('homepage generates category jumps and caps each list after five visible ro
  assert.match(html,/id="category-jumps"/);
 });
 
-// BM: Dua komponen shared UI pada Tools mesti sama byte demi byte dengan root Golden Reference.
-// EN: Tool shared UI copies must be byte-for-byte equal to the root Golden Reference assets.
+// BM: Kandungan teks shared UI mesti sama tanpa mengira CRLF/LF; logo kekal identik secara binari.
+// EN: Shared UI text must match across CRLF/LF; the logo stays byte-identical.
 test('all five Tools families use the same Golden Reference source components',async()=>{
  const readBinary=p=>readFile(new URL(p,import.meta.url));
  for(const file of ['brand.css','zrain-ui.js','zrain-logo.webp']){
   const root=await readBinary('../public/'+file);
   const tool=await readBinary('../tool-runtime/src/'+file);
-  assert.deepEqual(tool,root,'Tool source copy diverged: '+file);
+  if(file.endsWith('.webp'))assert.deepEqual(tool,root,'Tool source copy diverged: '+file);
+  else assert.equal(textWithLf(tool),textWithLf(root),'Tool source copy diverged: '+file);
  }
  const packageJson=JSON.parse(await read('../package.json'));
  assert.match(packageJson.dependencies['@zrain/ui'],/a109401fa591afa9f66479fa8d86f1ed1679d70b/);
+});
+
+// BM: Lindungi pembetulan Windows dan kekalkan pengesanan perubahan kod yang sebenar.
+// EN: Protect Windows line endings while still detecting real source changes.
+test('Golden Reference text equality tolerates only CRLF/LF differences',()=>{
+ assert.equal(textWithLf(Buffer.from('same\r\ntext\r\n')),textWithLf(Buffer.from('same\ntext\n')));
+ assert.notEqual(textWithLf(Buffer.from('different\r\ntext')),textWithLf(Buffer.from('same\ntext')));
 });
