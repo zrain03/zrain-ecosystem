@@ -1,0 +1,45 @@
+# Fail / File: .github/workflows/ai-search-real-model-benchmark.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: 2026-11-06
+# Dikemas kini / Last updated: 2026-11-06
+# BM: Penanda aras model sebenar pada branch ujian sahaja, tanpa deploy.
+# EN: Actual model benchmark on isolated test branch only, without deployment.
+name: AI Search actual model benchmark
+
+on:
+  push:
+    branches:
+      - fix/ai-search-benchmark-20261106
+    paths:
+      - 'scripts/benchmark-real-models.mjs'
+      - '.github/workflows/ai-search-real-model-benchmark.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked project dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Install official Transformers.js for benchmark
+        run: npm install --no-save --no-package-lock @huggingface/transformers@3.8.1
+      - name: Check dataset and ranking logic
+        run: node scripts/benchmark-real-models.mjs --self-test
+      - name: Compare MiniLM baseline, MiniLM v4 and multilingual E5 using actual ONNX
+        run: node scripts/benchmark-real-models.mjs
+      - name: Preserve measured results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zrain-ai-real-model-results
+          path: zrain-ai-benchmark-results.json
+          if-no-files-found: ignore
+          retention-days: 3
