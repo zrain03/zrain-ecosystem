@@ -1,28 +1,42 @@
 /*
  * Fail / File: tool-runtime/src/workflow-guide.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menyediakan panduan tiga langkah dan hasil yang dijangka bagi setiap tool awam.
- * EN: Provides three-step guidance and expected results for every public tool.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 /** Practical, non-technical instructions shown above every Zrain utility. */
 export const workflows = {
+ 'image-to-ascii-art':{
+   why:'Convert an uploaded image into artistic character patterns with adjustable detail.',
+   steps:['Choose an image from your device; the original will be shown immediately.', 'Change the Detail control and review the actual rendered ASCII artwork.', 'After checking the result, select Download PNG, PDF or optional TXT.'],
+   output:'A real text-character artwork preview with user-selected downloads.',
+   note:'The appearance of TXT art depends on the font used by the receiving device.'},
+ 'image-to-binary-art':{
+   why:'Turn image brightness into artwork made entirely from zeroes and ones.',
+   steps:['Choose your image and review the original preview before making changes.', 'Adjust the Detail setting and inspect the resulting binary art preview.', 'Download your completed design as PNG, PDF or optional text when ready.'],
+   output:'A live preview showing actual binary 0/1 artwork.',
+   note:'Binary artwork represents tonal patterns; it does not encode the original picture file.'},
+ 'image-to-block-art':{
+   why:'Transform an image into shaded character-block artwork with instant visual feedback.',
+   steps:['Upload the original photo or graphic and confirm its thumbnail appears.', 'Move Detail to refine the arrangement of the generated character blocks.', 'Inspect the complete art preview before selecting PNG, PDF or optional TXT.'],
+   output:'Previewable shading art made with block-like text characters.',
+   note:'Very fine details can disappear when sampled into character cells.'},
  'base64-tool':{why:"Turn Unicode text into portable Base64 data or read Base64 back as normal text.",steps:["Paste text for encoding or paste an encoded Base64 string for decoding.","Choose Encode or Decode and optionally select the URL-safe alphabet.","Convert and copy the visible result into your application."],output:"A UTF-8 text string encoded or decoded entirely in the browser.",note:"Base64 does not hide secrets, encrypt text or authenticate messages."},
  'jwt-decoder':{why:"Understand the claims and timestamps inside a JWT you already possess.",steps:["Paste the three-segment JWT token into the provided textarea.","Choose Decode token to inspect header and payload JSON.","Read the clearly labelled unverified result; never assume the signature is valid."],output:"A formatted local header-and-payload JSON view.",note:"Decoding is NOT signature verification and is unsafe as an authorization check."},
- 'word-counter':{why:"Check the length of an essay, article, statement or other text.",steps:["Paste or type your text into the editable input area.","Review the live counts of words, characters, paragraphs and sentences.","Copy statistics when they match your intended text."],output:"Visible statistics and a basic estimated reading time.",note:"Sentence boundaries and reading time are approximate for different languages."},
+ 'text-counter':{why:"Check the length of an essay, article, statement or other text.",steps:["Paste or type your text into the editable input area.","Review the live counts of words, characters, paragraphs and sentences.","Copy statistics when they match your intended text."],output:"Visible statistics and a basic estimated reading time.",note:"Sentence boundaries and reading time are approximate for different languages."},
  'hash-generator':{why:"Create a checksum of a text string for comparing or checking changes.",steps:["Paste the text whose bytes should be hashed into the input box.","Choose the SHA-256, SHA-384 or SHA-512 algorithm.","Calculate and copy the resulting hexadecimal fingerprint."],output:"A cryptographic text checksum computed with Web Crypto.",note:"A hash is not encryption and this tool does not hash uploaded files."},
  'uuid-generator':{why:"Generate identifiers for tests, records and developer prototypes.",steps:["Choose random UUID v4 or time-sortable UUID v7.","Select the number of IDs to generate, up to 500 per batch.","Generate and copy the lines into your project or test data."],output:"Securely generated UUID strings, one per line.",note:"UUIDs are not passwords and v7 embeds the creation timestamp."},
  'css-shadow-generator':{why:"Design CSS box shadows by previewing the effect before copying code.",steps:["Choose the horizontal and vertical offsets along with blur and spread.","Adjust opacity and color, then preview the shadow on a sample card.","Copy the resulting box-shadow declaration into your stylesheet."],output:"A valid CSS box-shadow declaration with a live visual preview.",note:"Shadows may vary slightly between browser rendering engines."},
  'image-resizer':{why:"Fit a photo into a target maximum width and height without distorting it.",steps:["Select an image and review the uploaded preview and pixel dimensions.","Enter maximum width and height; the aspect ratio remains unchanged.","Resize and download the PNG, checking text and small details."],output:"A new correctly sized PNG with preserved aspect ratio.",note:"Upscaling increases pixels, not genuine visual detail or camera sharpness."},
  'image-rotator':{why:"Correct picture orientation or mirror an image for presentation.",steps:["Choose a JPG or PNG image and check its initial preview.","Select a quarter turn, half turn or horizontal or vertical flip.","Apply the transformation and download the resulting PNG."],output:"A rotated or mirrored copy without modifying the original file.",note:"The export is a PNG and original EXIF metadata may not be preserved."},
- 'image-compressor':{why:"Adjust image encoding to try reducing file size or converting formats.",steps:["Choose an image and check its dimensions and source file size.","Select JPG, WebP or PNG and adjust quality for lossy formats.","Download, compare the new size and inspect fine details at full zoom."],output:"A newly encoded image with its actual before-and-after sizes.",note:"PNG is lossless and may be larger; there is no guaranteed target-size mode yet."},
+ 'image-compressor':{why:"Adjust image encoding to try reducing file size or converting formats.",steps:["Choose an image and check its dimensions and source file size.","Select JPG, WebP or PNG and adjust quality for lossy formats.","Download, compare the new size and inspect fine details at full zoom."],output:"A newly encoded image with its actual before-and-after sizes.",note:"An output is offered only when it is actually smaller than the uploaded image."},
  'merge-pdf':{why:"Combine multiple PDF documents into one page-preserving file.",steps:["Choose two to twelve PDFs and review the file names in upload order.","Keep files in the desired sequence; the current tool does not drag-reorder.","Merge and inspect the resulting pages in a PDF reader."],output:"One merged PDF with source pages copied without rasterizing.",note:"Password-protected documents must first be unlocked with permission."},
  'split-pdf':{why:"Save selected PDF pages as separate documents inside a ZIP file.",steps:["Upload the source PDF and inspect its page count in your reader.","Leave pages blank for every page, or enter a comma-separated page range.","Split and extract the ZIP to access each individual page PDF."],output:"A ZIP of individual PDF page files up to 200 pages.",note:"Individual files preserve page data but do not retain complex inter-page links."},
  'rotate-pdf':{why:"Turn sideways or upside-down PDF pages without blurring their content.",steps:["Upload a PDF document that does not require a password.","Choose a 90°, 180° or 270° rotation and the pages to affect.","Rotate and check the output orientation in a PDF viewer."],output:"A new PDF with updated page rotations, not image re-rendering.",note:"Only quarter turns are supported; arbitrary tilt correction is not included."},
  'crop-pdf':{why:"Reduce the visible margins of a PDF without changing the underlying text.",steps:["Upload a PDF and identify which edge needs less visible white space.","Enter the millimetres to hide at the top, bottom, left and right.","Crop and inspect each intended page in a viewer after export."],output:"A PDF with adjusted CropBox metadata on selected pages.",note:"Cropping only HIDES content; never use it to remove confidential information."},
  'remove-pdf-pages':{why:"Remove unwanted PDF pages while preserving the remaining pages.",steps:["Upload the PDF and note the numbered pages that should be removed.","Enter the pages such as 1, 3-5 without selecting every page.","Remove and verify the resulting page count and sequence."],output:"One updated PDF containing the pages you chose to keep.",note:"At least one page must remain and password-protected inputs are unsupported."},
- 'extract-pdf-pages':{why:"Create a new PDF containing only the selected page numbers.",steps:["Upload a PDF and identify the pages to keep in the new file.","Enter the desired order such as 5, 1-3 in the page field.","Extract and check the saved PDF page order and quality."],output:"One new PDF of copied source pages in the specified order.",note:"The same page listed twice appears only once in the new document."},
  'pdf-to-text':{why:"Read the selectable text layer from a PDF into a plain text file.",steps:["Choose a PDF that contains ordinary selectable text instead of scans.","Run Extract and download text to read all available text items.","Open the downloaded TXT and check the order of extracted paragraphs."],output:"A local UTF-8 text file plus a visible extraction preview.",note:"Text layout and columns can be reordered; scanned documents require OCR."},
  'pdf-to-image':{why:"Turn PDF pages into portable JPEG or PNG pictures.",steps:["Upload a PDF and choose a suitable resolution for screen or print.","Choose JPG for photos or PNG for sharp interface graphics.","Render and extract the resulting ZIP of image files."],output:"One image per page bundled into a ZIP on your device.",note:"Rendered pages become pictures and no longer contain selectable text."},
  'jpg-to-pdf':{why:"Combine a group of picture files into a PDF for sharing or printing.",steps:["Choose one to thirty JPG or PNG images and confirm their order.","Choose A4 portrait or an individual page size that fits each image.","Create the PDF and confirm all pictures are included."],output:"A PDF with one visual page per selected image.",note:"Images are not editable PDF text and PNG embedding can increase size."},
@@ -58,16 +72,6 @@ export const workflows = {
   steps:['Upload and note the original image dimensions.','Enter the crop starting point X/Y and width/height in pixels, counting from the upper-left corner.','Crop and download the new PNG; if the area is wrong, adjust the values and run it again.'],
   output:'A PNG showing only the selected rectangular part.',
   note:'This is coordinate-based cropping, not a freehand drag selection.'},
- 'icon-maker':{
-  why:'Prepare the same logo at several sizes for browser, website or design tasks.',
-  steps:['Upload a logo or square artwork, preferably with a transparent background.','Select Generate icon ZIP. The tool resizes the original into the listed PNG sizes.','Extract the ZIP and select the sizes required by your target platform.'],
-  output:'A ZIP containing eight resized PNG images.',
-  note:'This does not automatically create Android adaptive icons, iOS asset catalogs or a complete favicon manifest.'},
- 'image-to-ascii':{
-  why:'Produce text-based artwork from an image, useful for creative experiments.',
-  steps:['Upload your picture and check the original preview to understand its shape and brightness.','Choose how many characters appear in each line and the character palette.','Generate, review the text artwork, and save the output.'],
-  output:'Editable plain-text ASCII-style artwork.',
-  note:'Results are visual interpretations, and may look different depending on the font used to view them.'},
  'background-remover':{
   why:'Make a simple plain-color background transparent, such as a logo on a white backdrop.',
   steps:['Choose an image with a fairly uniform background, then preview it.','Pick the background color. Increase Color tolerance only enough to remove similar shades; Edge softness fades the boundary gradually.','Select Remove background and inspect the transparent PNG, especially around hair, fine edges and similarly colored objects.'],
@@ -98,11 +102,6 @@ export const workflows = {
   steps:['Upload a PDF, DOCX or image with the type required by the selected mode.','Read the conversion description carefully: Word with PDF page pictures keeps appearance but cannot edit words; extracted text is editable but loses layout.','Convert or open the printable preview, then compare the result with the original before using it.'],
   output:'A format-specific download, or a print-to-PDF preview for the DOCX print mode.',
   note:'Not a high-fidelity universal Office converter. Scanned PDFs need OCR and PDF-to-Excel is only an approximation.'},
- 'compare':{
-  why:'Review a draft against its previous version to see what changed, including accidental-looking number edits.',
-  steps:['Choose original and updated text files or paste their contents into the two boxes.','Select Find differences to compare the extracted text line by line.','Read the added/removed lines and conclusion; double-check dates, amounts, names and IDs in the source files.'],
-  output:'A side-by-side text comparison with cautious summary, not automatic verification of correctness.',
-  note:'For Word/PDF it compares extracted text, not fonts, spacing, embedded pictures or exact page layout.'},
  'csv-cleaner':{
   why:'Remove redundant rows and extra whitespace from a CSV spreadsheet.',
   steps:['Upload a CSV and inspect the excerpt.','Choose whether to trim the outer spaces in cells and remove duplicate data rows.','Clean, inspect the summary, and download a new CSV while keeping the original.'],
@@ -163,11 +162,6 @@ export const workflows = {
   steps:['Paste your text into the input area.','Select uppercase, lowercase, trimming, deduplication, sorting or counting.','Process the text, then review and download the result.'],
   output:'Processed plain text, or counts of words, characters and lines.',
   note:'Some options intentionally alter content or order; always compare before replacing the source.'},
- 'focus-timer':{
-  why:'Break work or study into timed focus and rest sessions.',
-  steps:['Choose a focus length and break length in minutes.','Start the timer; pause, resume, reset or switch modes when needed.','After a focus session ends, check the completed count stored in this browser.'],
-  output:'A visual timer with basic local progress and completed-session count.',
-  note:'This is not a guaranteed background alarm; if the device sleeps, return to the tab to refresh the display.'}
 };
 
 export const modeExplanations={
@@ -175,8 +169,8 @@ export const modeExplanations={
   'pdf-appearance':'Keeps the visual appearance by embedding full PDF pages as pictures inside Word. You cannot edit the original words.',
   'pdf-docx':'Extracts selectable words into an editable Word document. Fonts, columns, images and page positioning are not preserved.',
   'pdf-xlsx':'Attempts to split extracted PDF text into rows and cells. Not a reliable table recovery tool; check every cell.',
-  'docx-print':'Opens a printable preview; manually choose Print → Save as PDF. Review page breaks, images and tables.',
-  'docx-pdf':'Converts extracted Word text into a very plain PDF. Complex formatting will not survive.',
+  'docx-print':'Opens a printable preview preserving basic Word fonts, colors, spacing and tables. Choose Print → Save as PDF, then compare with the original.',
+  'docx-pdf':'Opens a local styled Word preview for printing to PDF. Basic font colors and table structure are retained where supported, but complex Office layout can still differ.',
   'image-pdf':'Places the selected picture on one PDF page without turning it into editable text.',
   'pdf-png':'Renders the selected PDF page to a PNG picture. Use Page number to select which page.'},
  'image-enhancer':{

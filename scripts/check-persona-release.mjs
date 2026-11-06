@@ -21,8 +21,8 @@ const ownedFields=['Pembangun / Developer: Zrain','Dicipta / Created:','Dikemas 
 async function collect(dir){
   const files=[];
   for(const entry of await readdir(dir,{withFileTypes:true})){
-    // BM: .git ialah folder biasa atau fail pointer Git worktree, bukan source.
-    // EN: .git can be a directory or a worktree pointer file; neither is source.
+    // BM: Git worktree menyimpan .git sebagai fail pointer; ia bukan source.
+    // EN: Git worktree stores .git as a pointer file, not source.
     if(entry.name==='.git')continue;
     if(entry.isDirectory()){
       if(!ignored.has(entry.name))files.push(...await collect(join(dir,entry.name)));

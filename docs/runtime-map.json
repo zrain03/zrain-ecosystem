@@ -1,37 +1,7 @@
 [
   {
-    "slug": "image-converter",
-    "name": "Image Converter",
-    "family": "zrain-image-tools"
-  },
-  {
-    "slug": "file-converter",
-    "name": "File Converter",
-    "family": "zrain-document-tools"
-  },
-  {
-    "slug": "image-enhancer",
-    "name": "Image Enhancer",
-    "family": "zrain-image-tools"
-  },
-  {
-    "slug": "pdf-editor",
-    "name": "PDF Editor",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "color-inspector",
-    "name": "Color Inspector",
-    "family": "zrain-image-tools"
-  },
-  {
-    "slug": "compare",
-    "name": "Compare",
-    "family": "zrain-document-tools"
-  },
-  {
-    "slug": "emoji-art",
-    "name": "Emoji Art",
+    "slug": "watermark",
+    "name": "Add Image Watermark",
     "family": "zrain-image-tools"
   },
   {
@@ -45,28 +15,28 @@
     "family": "zrain-image-tools"
   },
   {
-    "slug": "image-inspector",
-    "name": "Image Inspector",
+    "slug": "color-inspector",
+    "name": "Color Picker & Inspector",
     "family": "zrain-image-tools"
-  },
-  {
-    "slug": "pixel-art",
-    "name": "Pixel Art",
-    "family": "zrain-image-tools"
-  },
-  {
-    "slug": "pdf-organizer",
-    "name": "PDF Organizer",
-    "family": "zrain-pdf-tools"
   },
   {
     "slug": "image-compare",
-    "name": "Image Compare",
+    "name": "Compare Images",
     "family": "zrain-image-tools"
   },
   {
-    "slug": "watermark",
-    "name": "Watermark",
+    "slug": "image-compressor",
+    "name": "Compress Image",
+    "family": "zrain-image-tools"
+  },
+  {
+    "slug": "text-extractor",
+    "name": "Extract Text from Image",
+    "family": "zrain-image-tools"
+  },
+  {
+    "slug": "image-converter",
+    "name": "Image Converter",
     "family": "zrain-image-tools"
   },
   {
@@ -75,99 +45,39 @@
     "family": "zrain-image-tools"
   },
   {
-    "slug": "icon-maker",
-    "name": "Icon Maker",
+    "slug": "image-enhancer",
+    "name": "Image Enhancer",
     "family": "zrain-image-tools"
   },
   {
-    "slug": "pdf-watermark",
-    "name": "PDF Watermark",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "text-extractor",
-    "name": "Text Extractor",
-    "family": "zrain-document-tools"
-  },
-  {
-    "slug": "image-to-ascii",
-    "name": "Image to ASCII",
+    "slug": "image-inspector",
+    "name": "Image Metadata Viewer",
     "family": "zrain-image-tools"
   },
   {
-    "slug": "json-studio",
-    "name": "JSON Studio",
-    "family": "zrain-developer-tools"
+    "slug": "image-to-ascii-art",
+    "name": "Image to ASCII Art",
+    "family": "zrain-image-tools"
   },
   {
-    "slug": "csv-cleaner",
-    "name": "CSV Cleaner",
-    "family": "zrain-document-tools"
+    "slug": "image-to-binary-art",
+    "name": "Image to Binary Art",
+    "family": "zrain-image-tools"
   },
   {
-    "slug": "invoice-generator",
-    "name": "Invoice Generator",
-    "family": "zrain-productivity-tools"
+    "slug": "image-to-block-art",
+    "name": "Image to Block Art",
+    "family": "zrain-image-tools"
   },
   {
-    "slug": "markdown-editor",
-    "name": "Markdown Editor",
-    "family": "zrain-developer-tools"
+    "slug": "emoji-art",
+    "name": "Image to Emoji Art",
+    "family": "zrain-image-tools"
   },
   {
-    "slug": "qr-generator",
-    "name": "QR Generator",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "text-tools",
-    "name": "Text Tools",
-    "family": "zrain-productivity-tools"
-  },
-  {
-    "slug": "focus-timer",
-    "name": "Focus Timer",
-    "family": "zrain-productivity-tools"
-  },
-  {
-    "slug": "password-generator",
-    "name": "Password Generator",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "utm-builder",
-    "name": "UTM Builder",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "base64-tool",
-    "name": "Base64 Converter",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "jwt-decoder",
-    "name": "JWT Decoder",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "word-counter",
-    "name": "Word Counter",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "hash-generator",
-    "name": "SHA Hash Generator",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "uuid-generator",
-    "name": "UUID Generator",
-    "family": "zrain-developer-tools"
-  },
-  {
-    "slug": "css-shadow-generator",
-    "name": "CSS Shadow Generator",
-    "family": "zrain-developer-tools"
+    "slug": "pixel-art",
+    "name": "Image to Pixel Art",
+    "family": "zrain-image-tools"
   },
   {
     "slug": "image-resizer",
@@ -180,23 +90,8 @@
     "family": "zrain-image-tools"
   },
   {
-    "slug": "image-compressor",
-    "name": "Compress Image",
-    "family": "zrain-image-tools"
-  },
-  {
-    "slug": "merge-pdf",
-    "name": "Merge PDF",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "split-pdf",
-    "name": "Split PDF",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "rotate-pdf",
-    "name": "Rotate PDF",
+    "slug": "pdf-editor",
+    "name": "Add Text to PDF",
     "family": "zrain-pdf-tools"
   },
   {
@@ -205,28 +100,13 @@
     "family": "zrain-pdf-tools"
   },
   {
-    "slug": "remove-pdf-pages",
-    "name": "Remove PDF Pages",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "extract-pdf-pages",
-    "name": "Extract PDF Pages",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "pdf-to-text",
-    "name": "PDF to Text",
-    "family": "zrain-pdf-tools"
-  },
-  {
-    "slug": "pdf-to-image",
-    "name": "PDF to Images",
-    "family": "zrain-pdf-tools"
-  },
-  {
     "slug": "jpg-to-pdf",
     "name": "JPG & PNG to PDF",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "merge-pdf",
+    "name": "Merge PDF",
     "family": "zrain-pdf-tools"
   },
   {
@@ -235,8 +115,118 @@
     "family": "zrain-pdf-tools"
   },
   {
+    "slug": "pdf-to-image",
+    "name": "PDF to Images",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "pdf-to-text",
+    "name": "PDF to Text",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "pdf-watermark",
+    "name": "PDF Watermark",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "pdf-organizer",
+    "name": "Rearrange PDF Pages",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "remove-pdf-pages",
+    "name": "Remove PDF Pages",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "rotate-pdf",
+    "name": "Rotate PDF",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "split-pdf",
+    "name": "Split PDF",
+    "family": "zrain-pdf-tools"
+  },
+  {
+    "slug": "csv-cleaner",
+    "name": "CSV Cleaner",
+    "family": "zrain-document-tools"
+  },
+  {
+    "slug": "file-converter",
+    "name": "File Converter",
+    "family": "zrain-document-tools"
+  },
+  {
+    "slug": "base64-tool",
+    "name": "Base64 Converter",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "css-shadow-generator",
+    "name": "CSS Shadow Generator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "json-studio",
+    "name": "JSON Formatter & Validator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "jwt-decoder",
+    "name": "JWT Decoder",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "markdown-editor",
+    "name": "Markdown Editor",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "password-generator",
+    "name": "Password Generator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "qr-generator",
+    "name": "QR Generator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "hash-generator",
+    "name": "SHA Hash Generator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "text-counter",
+    "name": "Text Counter",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "utm-builder",
+    "name": "UTM Builder",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "uuid-generator",
+    "name": "UUID Generator",
+    "family": "zrain-developer-tools"
+  },
+  {
+    "slug": "invoice-generator",
+    "name": "Invoice Generator",
+    "family": "zrain-productivity-tools"
+  },
+  {
     "slug": "teleprompter",
     "name": "Teleprompter",
+    "family": "zrain-productivity-tools"
+  },
+  {
+    "slug": "text-tools",
+    "name": "Text Tools",
     "family": "zrain-productivity-tools"
   }
 ]

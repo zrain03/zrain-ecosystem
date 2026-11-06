@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/src/serve.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menyediakan pelayan pembangunan HTTP setempat untuk pratonton Tools sahaja.
- * EN: Provides a local development HTTP server for Tools previews only.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 import http from 'node:http';
 import {readFile,stat} from 'node:fs/promises';

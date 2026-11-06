@@ -1,21 +1,21 @@
 /*
  * Fail / File: tool-runtime/tests/core.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan core, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests core contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {rgbToHex,hexToRgb,rgbToHsl,rgbToCmyk,contrast,lineDiff,diffSummary,xmlEscape,bytes,safeStem} from '../src/core.mjs';
 import {catalog,groups,findGroup} from '../src/catalog.mjs';
-test('five product families contain all 48 tools exactly once',()=>{
- assert.equal(catalog.length,48);assert.equal(groups.length,5);
- assert.equal(new Set(catalog.map(c=>c[0])).size,48);
+test('five product families contain all 46 tools exactly once',()=>{
+ assert.equal(catalog.length,46);assert.equal(groups.length,5);
+ assert.equal(new Set(catalog.map(c=>c[0])).size,46);
  const inGroups=groups.flatMap(g=>g.sections.flatMap(s=>s.tools));
- assert.equal(inGroups.length,48);
- assert.equal(new Set(inGroups).size,48);
+ assert.equal(inGroups.length,46);
+ assert.equal(new Set(inGroups).size,46);
  assert.deepEqual([...inGroups].sort(),catalog.map(c=>c[0]).sort());
  for(const [slug,title,description] of catalog){assert.match(slug,/^[a-z0-9-]+$/);assert.ok(title&&description&&findGroup(slug))}
 });

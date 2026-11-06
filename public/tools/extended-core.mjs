@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/src/extended-core.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM.
- * EN: Provides additional testable browser algorithms independent of network and DOM.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 /** Small, testable algorithms for the Zrain Tools v2 extension. No network or DOM. */
 export function base64Encode(value, urlSafe = false) {
@@ -14,16 +14,12 @@ export function base64Encode(value, urlSafe = false) {
   let encoded = btoa(binary);
   return urlSafe ? encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '') : encoded;
 }
-// BM: base64Decode: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: value.
-// EN: base64Decode: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: value.
 export function base64Decode(value) {
   const clean = String(value).replace(/\s/g, '').replace(/-/g, '+').replace(/_/g, '/');
   if (!/^[A-Za-z0-9+/]*={0,2}$/.test(clean) || clean.length % 4 === 1) throw new Error('Invalid Base64 characters or length.');
   const raw = atob(clean.padEnd(Math.ceil(clean.length / 4) * 4, '='));
   return new TextDecoder('utf-8', {fatal: true}).decode(Uint8Array.from(raw, char => char.charCodeAt(0)));
 }
-// BM: decodeJwt: Menukar atau mengesahkan input tanpa melangkau sempadan data yang selamat. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: token.
-// EN: decodeJwt: Transforms or validates input without bypassing safe data boundaries. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: token.
 export function decodeJwt(token) {
   const pieces = String(token).trim().split('.');
   if (pieces.length !== 3 || pieces.some(part => !part)) throw new Error('JWT must have three non-empty segments.');
@@ -36,8 +32,6 @@ export function decodeJwt(token) {
   };
   return {header: parse(pieces[0]), payload: parse(pieces[1]), signaturePresent: pieces[2].length > 0};
 }
-// BM: textStatistics: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: value.
-// EN: textStatistics: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: value.
 export function textStatistics(value) {
   const text = String(value);
   const trimmed = text.trim();
@@ -51,16 +45,12 @@ export function textStatistics(value) {
     readingMinutes: words ? Math.max(1, Math.ceil(words / 200)) : 0
   };
 }
-// BM: hashText: Mengesahkan prasyarat atau syarat keselamatan sebelum meneruskan aliran. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: text, algorithm = 'SHA-256'.
-// EN: hashText: Checks a precondition or safety invariant before allowing the flow to continue. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: text, algorithm = 'SHA-256'.
 export async function hashText(text, algorithm = 'SHA-256') {
   if (!['SHA-256', 'SHA-384', 'SHA-512'].includes(algorithm)) throw new Error('Unsupported hash algorithm.');
   if (!globalThis.crypto?.subtle) throw new Error('Hashing requires HTTPS or localhost.');
   const raw = await crypto.subtle.digest(algorithm, new TextEncoder().encode(String(text)));
   return [...new Uint8Array(raw)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
-// BM: uuidv7: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: now = Date.now(.
-// EN: uuidv7: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: now = Date.now(.
 export function uuidv7(now = Date.now()) {
   if (!Number.isSafeInteger(now) || now < 0 || now >= 2 ** 48) throw new Error('Timestamp is outside the UUID v7 range.');
   const b = crypto.getRandomValues(new Uint8Array(16));
@@ -71,16 +61,12 @@ export function uuidv7(now = Date.now()) {
   const h = [...b].map(byte => byte.toString(16).padStart(2, '0')).join('');
   return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
 }
-// BM: createUuids: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: count, version = '4'.
-// EN: createUuids: Mutates relevant state only after input and access conditions are verified. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: count, version = '4'.
 export function createUuids(count, version = '4') {
   const n = Number(count);
   if (!Number.isInteger(n) || n < 1 || n > 500) throw new Error('Choose 1 to 500 UUIDs.');
   if (!['4', '7'].includes(String(version))) throw new Error('Choose UUID version 4 or 7.');
   return Array.from({length:n}, () => version === '7' ? uuidv7() : crypto.randomUUID());
 }
-// BM: cssShadow: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: {x=0,y=8,blur=24,spread=-6,opacity=18,color='#131316',inset=false} = {}.
-// EN: cssShadow: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: {x=0,y=8,blur=24,spread=-6,opacity=18,color='#131316',inset=false} = {}.
 export function cssShadow({x=0,y=8,blur=24,spread=-6,opacity=18,color='#131316',inset=false} = {}) {
   const nums = [x,y,blur,spread,opacity].map(Number);
   if (nums.some(n=>!Number.isFinite(n)) || nums[2] < 0 || nums[4] < 0 || nums[4] > 100) throw new Error('Invalid shadow values.');
@@ -88,8 +74,6 @@ export function cssShadow({x=0,y=8,blur=24,spread=-6,opacity=18,color='#131316',
   const rgb = [1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
   return (inset ? 'inset ' : '') + nums[0] + 'px ' + nums[1] + 'px ' + nums[2] + 'px ' + nums[3] + 'px rgba(' + rgb.join(', ') + ', ' + (nums[4]/100).toFixed(2) + ')';
 }
-// BM: pdfPageSelection: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: value, count, defaultAll = true.
-// EN: pdfPageSelection: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: value, count, defaultAll = true.
 export function pdfPageSelection(value, count, defaultAll = true) {
   if (!Number.isInteger(count) || count < 1) throw new Error('PDF has no pages.');
   const input = String(value || '').trim();
@@ -106,8 +90,6 @@ export function pdfPageSelection(value, count, defaultAll = true) {
   }
   return picked;
 }
-// BM: targetDimensions: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menyediakan algoritma browser tambahan yang boleh diuji tanpa rangkaian atau DOM. Input: width, height, requestedWidth, requestedHeight, preserve=true.
-// EN: targetDimensions: Isolates one operation so it can be reviewed and tested. Module purpose: provides additional testable browser algorithms independent of network and DOM. Inputs: width, height, requestedWidth, requestedHeight, preserve=true.
 export function targetDimensions(width, height, requestedWidth, requestedHeight, preserve=true) {
   if (![width,height,requestedWidth,requestedHeight].every(Number.isFinite) || width<=0||height<=0) throw new Error('Invalid image dimensions.');
   let w = Math.round(requestedWidth), h = Math.round(requestedHeight);

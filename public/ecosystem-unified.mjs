@@ -3,8 +3,8 @@
  * Pembangun / Developer: Zrain
  * Dicipta / Created: Unverified (rekod penciptaan asal belum disahkan)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Memaparkan 11 kad kategori, carian dan senarai berukuran lima baris yang boleh ditatal.
- * EN: Renders 11 category cards, search and five-row scrollable lists.
+ * BM: Memaparkan accordion responsif dan kad ringkas dengan satu scroll halaman pada mobile.
+ * EN: Renders responsive accordion categories with compact cards and one mobile page scroller.
  */
 import { CATEGORIES } from './ecosystem-inventory.mjs';
 import {getActiveInventory,inventoryStats,subscribeCatalog,connectCatalogRefresh} from './ecosystem-catalog.mjs';
@@ -87,81 +87,99 @@ function resultRow(item, className='category-item') {
   row.append(imageFor(item),body);
   return row;
 }
+// BM: Simpan status kategori walaupun senarai Published berubah semasa pengguna melayari halaman.
+// EN: Preserve category open/expanded state across Published catalog refreshes.
+const categoryStates = new Map();
 function renderCategory(category) {
   const records = sortedByName(getActiveInventory().filter(item => item.category === category.id));
+  const mobile = window.matchMedia('(max-width: 580px)').matches;
+  const state = categoryStates.get(category.id) || {open:!mobile,all:mobile};
+  categoryStates.set(category.id,state);
   const article = el('section','category-card');
   article.id='category-'+category.id;
   article.dataset.category=category.id;
   article.setAttribute('aria-label',category.title+' category');
   const heading=el('div','category-card-top');
+  const toggle=el('button','category-toggle');
+  toggle.type='button';
+  toggle.setAttribute('aria-controls','category-content-'+category.id);
   const icon=el('span','category-card-icon',category.icon);
   icon.setAttribute('aria-hidden','true');
-  const row=el('div','category-card-title-row');
-  row.append(el('h3','',category.title),el('span','category-card-count',records.length+' choices'));
-  heading.append(icon,row,el('p','',category.blurb));
+  const titleBlock=el('span','category-toggle-copy');
+  titleBlock.append(el('span','category-toggle-title',category.title),el('span','category-card-count',records.length+' choices'));
+  const chevron=el('span','category-toggle-chevron','⌄');
+  chevron.setAttribute('aria-hidden','true');
+  toggle.append(icon,titleBlock,chevron);
+  heading.append(toggle,el('p','category-card-description',category.blurb));
+  const body=el('div','category-content');
+  body.id='category-content-'+category.id;
   const form=el('form','category-search-form');
   form.setAttribute('role','search');
   const label=el('label','visually-hidden','Search within '+category.title);
   const search=el('input','category-search');
-  search.type='search'; search.placeholder='✧ Ask Zrain AI in '+category.title+'...';
+  search.type='search';
+  search.placeholder='Find in '+category.title+'...';
   search.setAttribute('aria-label','Find a task in '+category.title);
   search.autocomplete='off';
   const list=el('div','category-card-list');
   list.setAttribute('aria-live','polite');
-  // BM: Tinggi lima item sebenar diukur; pengguna boleh scroll tanpa label tambahan.
-  // EN: Measure five real item heights; users can scroll without extra labels.
-  function capAtFive() {
-    const items=[...list.querySelectorAll('.category-item')];
-    if(items.length<=5) {list.style.maxHeight='none';list.style.overflowY='visible';return;}
-    const first=items[0].getBoundingClientRect();
-    const fifth=items[4].getBoundingClientRect();
-    const style=getComputedStyle(list);
-    const padding=parseFloat(style.paddingTop||0)+parseFloat(style.paddingBottom||0);
-    const height=Math.max(0,fifth.bottom-first.top+padding);
-    if(height>0){list.style.maxHeight=height+'px';list.style.overflowY='auto';}
+  const more=el('button','category-reveal');
+  more.type='button';
+  function setExpanded(open){
+    state.open=open;
+    article.dataset.expanded=String(open);
+    toggle.setAttribute('aria-expanded',String(open));
+    body.hidden=!open;
   }
-  window.addEventListener('resize',()=>requestAnimationFrame(capAtFive),{passive:true});
+  // BM: Mobile tidak mempunyai scroll menegak bersarang. Membuka kategori mengembangkan halaman.
+  // EN: Mobile has no nested vertical scroll. Expanding a category grows the page naturally.
   function draw(query='') {
-    const matching = query.trim() ?
+    const matching=query.trim() ?
       searchCatalog(query,{limit:getActiveInventory().length}).filter(item=>item.category===category.id) : records;
-    const semantic = categoryAi.get(category.id);
-    let ranked = matching;
-    if (query.trim() && semantic?.query === query.trim()) {
-      const ids = new Map(records.map(item => [item.id,item]));
-      const aiMatches = semantic.ranked.filter(v => v.score > 0.35 && ids.has(v.id))
-        .map(v => ids.get(v.id));
-      ranked = [...new Map([...matching.slice(0,2),...aiMatches,...matching].map(item=>[item.id,item])).values()];
+    const semantic=categoryAi.get(category.id);
+    let ranked=matching;
+    if(query.trim() && semantic?.query===query.trim()){
+      const ids=new Map(records.map(item=>[item.id,item]));
+      const aiMatches=semantic.ranked.filter(v=>v.score>0.35&&ids.has(v.id)).map(v=>ids.get(v.id));
+      ranked=[...new Map([...matching.slice(0,2),...aiMatches,...matching].map(item=>[item.id,item])).values()];
     }
-    list.replaceChildren(...ranked.map(item=>resultRow(item)));
-    requestAnimationFrame(capAtFive);
-    if (!ranked.length) {
+    const allVisible=mobile||state.all||Boolean(query.trim());
+    const shown=allVisible ? ranked : ranked.slice(0,5);
+    list.replaceChildren(...shown.map(item=>resultRow(item)));
+    if(!ranked.length){
       const empty=el('div','category-empty','No exact match here. Try the global Zrain AI Search.');
       const button=el('button','category-search-global','Search all categories ↗');
       button.type='button';
       button.addEventListener('click',()=>openDialog(query));
       empty.append(button);list.append(empty);
     }
+    more.hidden=mobile || Boolean(query.trim()) || ranked.length<=5;
+    more.textContent=state.all?'Show fewer':'Show all '+ranked.length;
+    more.setAttribute('aria-expanded',String(state.all));
   }
+  toggle.addEventListener('click',()=>setExpanded(!state.open));
+  more.addEventListener('click',()=>{state.all=!state.all;draw(search.value);});
   let categoryTimer;
   search.addEventListener('input',()=>{
     categoryAi.delete(category.id);
     draw(search.value);
-    if (aiReady && search.value.trim()) {
+    if(aiReady&&search.value.trim()){
       clearTimeout(categoryTimer);
-      categoryTimer = setTimeout(()=>requestAi(search.value.trim(),category.id),450);
+      categoryTimer=setTimeout(()=>requestAi(search.value.trim(),category.id),450);
     }
   });
   form.addEventListener('submit',event=>{
     event.preventDefault();
     const top=searchCatalog(search.value,{category:category.id,limit:1})[0];
-    if(search.value.trim() && top) document.dispatchEvent(new CustomEvent('zrain:open-preview',{detail:{id:top.id,trigger:search}}));
+    if(search.value.trim()&&top)document.dispatchEvent(new CustomEvent('zrain:open-preview',{detail:{id:top.id,trigger:search}}));
     else draw(search.value);
   });
   form.append(label,search);
-  heading.append(form);
-  article.append(heading,list);
+  body.append(form,list,more);
+  article.append(heading,body);
+  setExpanded(state.open);
   draw();
-  categoryContainers.set(category.id,{article,draw,search});
+  categoryContainers.set(category.id,{article,draw,search,setExpanded});
   return article;
 }
 function renderAllCategories() {
@@ -171,6 +189,7 @@ function renderAllCategories() {
   if(jumpNav)jumpNav.replaceChildren(...CATEGORIES.map(category=>{
     const link=el('a','',category.title);
     link.href='#category-'+category.id;
+    link.addEventListener('click',()=>categoryContainers.get(category.id)?.setExpanded(true));
     return link;
   }));
   categoryContainers.clear();

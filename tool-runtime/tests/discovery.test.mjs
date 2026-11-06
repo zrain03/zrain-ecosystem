@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/tests/discovery.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan discovery, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests discovery contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,8 +12,6 @@ import {readFile,stat} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {groups,catalog} from '../src/catalog.mjs';
 import {searchTools,groupTools,getFavourites,setFavourite,recordTool,recentTools,storageKey,toolHref,popularSlugs} from '../src/discovery.mjs';
-// BM: store: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan discovery, output dan kes gagal tanpa membuat permintaan production.
-// EN: store: Isolates one operation so it can be reviewed and tested. Module purpose: tests discovery contracts, outputs and failure paths without making production requests.
 const store=()=>{const m=new Map();return {getItem(k){return m.get(k)??null},setItem(k,v){m.set(k,v)},raw:m}};
 const root=resolve(import.meta.dirname,'../dist');
 test('English and Malay natural-language queries find relevant utilities',()=>{
@@ -22,17 +20,17 @@ test('English and Malay natural-language queries find relevant utilities',()=>{
  assert.ok(searchTools('resume pdf word').some(([id])=>id==='file-converter'));
  assert.ok(searchTools('metadata osint').some(([id])=>id==='image-inspector'));
  assert.ok(searchTools('invois').some(([id])=>id==='invoice-generator'));
- assert.ok(searchTools('banding dokumen').some(([id])=>id==='compare'));
+ assert.ok(searchTools('extract text').some(([id])=>id==='text-extractor'));
 });
 test('search is scoped to independent website products',()=>{
  assert.equal(searchTools('invois','zrain-pdf-tools').length,0);
  assert.ok(['pdf-editor','pdf-organizer','pdf-watermark','merge-pdf','split-pdf'].every(x=>groupTools('zrain-pdf-tools').includes(x)));
- assert.equal(searchTools('', 'zrain-image-tools').length,16);
+ assert.equal(searchTools('', 'zrain-image-tools').length,18);
  for(const g of groups){
   const found=searchTools('',g.slug);assert.equal(found.length,g.sections.flatMap(s=>s.tools).length);
  }
 });
-test('all 48 tools remain discoverable and none appear in two products',()=>{
+test('all 46 tools remain discoverable and none appear in two products',()=>{
  assert.equal(searchTools('').length,catalog.length);
  const all=groups.flatMap(g=>groupTools(g.slug));assert.equal(new Set(all).size,catalog.length);
  assert.ok(popularSlugs.every(id=>all.includes(id)));

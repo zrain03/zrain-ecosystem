@@ -16,7 +16,7 @@ import {previewLinkHref,consoleHref,getInventoryItem} from '../public/ecosystem-
 // EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests v8 inline preview contracts, outputs and failure paths without making production requests.
 const read=path=>readFile(new URL(path,import.meta.url),'utf8');
 
-test('all 58 official Web App actions point at an inline preview entry, not the full Console page',()=>{
+test('all 56 official Web App actions point at an inline preview entry, not the full Console page',()=>{
  for(const item of INVENTORY){
   assert.equal(previewLinkHref(item),' /#app='.trimStart()+encodeURIComponent(item.id));
   assert.equal(consoleHref(item),'/zrain-console.html?app='+encodeURIComponent(item.id));
@@ -36,9 +36,7 @@ test('homepage keeps Console as an independent project, without a top navigation
  assert.match(html,/id="zrain-preview-stage"/);
  for(const id of ['zrain-preview-mobile','zrain-preview-desktop','zrain-preview-reload','zrain-preview-fullscreen','zrain-preview-store','zrain-preview-close']) assert.match(html,new RegExp(`id="${id}"`));
  assert.doesNotMatch(html,/<nav class="main-nav"[^>]*>[^<]*<a[^>]+href="\/zrain-console\.html"/);
- assert.ok(html.includes('id="zrain-feedback" aria-label="Zrain Community feedback"'));
- assert.ok(html.includes('src="https://zrain-community.web.app/embed.js" data-product="zrain-ecosystem"'));
- assert.ok(!html.includes('src="/feedback-embed.js"'));
+ assert.match(html,/id="zrain-feedback" data-zrain-feedback/);
  assert.ok(html.indexOf('id="contact"')<html.indexOf('id="zrain-feedback"'));
  assert.ok(html.indexOf('id="zrain-feedback"')<html.indexOf('<footer'));
  assert.match(html,/Made for people\. Built with purpose\./);

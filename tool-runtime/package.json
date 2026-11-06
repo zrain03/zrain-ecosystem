@@ -1,9 +1,9 @@
 {
   "name": "zrain-tools-v2",
   "private": true,
-  "version": "2.0.0-alpha.1",
+  "version": "2.4.0",
   "type": "module",
-  "description": "Zrain Tools V2 working preview: 48 real browser-first tools across five product families",
+  "description": "Zrain Tools: 46 clear mobile-first utilities across five independently deployed product families",
   "scripts": {
     "build": "node src/build.mjs",
     "start": "node src/serve.mjs",

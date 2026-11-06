@@ -1,11 +1,12 @@
 /*
  * Fail / File: tool-runtime/src/extended-tools.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
- * EN: Connects extended utilities to interactive forms without bypassing input validation.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
+import {mountVisualPdfCrop} from './pdf-visual.mjs';
 import {base64Encode,base64Decode,decodeJwt,textStatistics,hashText,createUuids,cssShadow,pdfPageSelection,targetDimensions} from './extended-core.mjs';
 
 /**
@@ -14,15 +15,13 @@ import {base64Encode,base64Decode,decodeJwt,textStatistics,hashText,createUuids,
  * Heavy PDF engines are loaded only by the PDF actions that need them.
  */
 export const EXTRA_TOOL_SLUGS = Object.freeze([
-  'base64-tool','jwt-decoder','word-counter','hash-generator','uuid-generator','css-shadow-generator',
+  'base64-tool','jwt-decoder','text-counter','hash-generator','uuid-generator','css-shadow-generator',
   'image-resizer','image-rotator','image-compressor',
-  'merge-pdf','split-pdf','rotate-pdf','crop-pdf','remove-pdf-pages','extract-pdf-pages',
+  'merge-pdf','split-pdf','rotate-pdf','crop-pdf','remove-pdf-pages',
   'pdf-to-text','pdf-to-image','jpg-to-pdf','pdf-page-numbers',
   'teleprompter'
 ]);
 
-// BM: mountExtendedTool: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input. Input: slug, h.
-// EN: mountExtendedTool: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: connects extended utilities to interactive forms without bypassing input validation. Inputs: slug, h.
 export function mountExtendedTool(slug, h) {
   if(!EXTRA_TOOL_SLUGS.includes(slug))return false;
   const {set,file,number,select,input,textarea,buttons,preview,result,onRun,chosen,v,n,text,download,downloadText,
@@ -32,10 +31,8 @@ export function mountExtendedTool(slug, h) {
     const output = await document.save();
     const blob = new Blob([output],{type:'application/pdf'});
     download(blob,name);
-    text('Saved '+name+' ('+bytes(blob.size)+').');
+    text('Prepared '+name+' ('+bytes(blob.size)+').');
   };
-  // BM: requirePdf: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
-  // EN: requirePdf: Isolates one operation so it can be reviewed and tested. Module purpose: connects extended utilities to interactive forms without bypassing input validation.
   const requirePdf = () => {
     const f=chosen();
     if(!/\.pdf$/i.test(f.name))throw new Error('Choose a PDF file first.');
@@ -55,12 +52,16 @@ export function mountExtendedTool(slug, h) {
       textarea('Decoded header and payload','output'));
     onRun(()=>{const d=decodeJwt(v('source'));const out=JSON.stringify({header:d.header,payload:d.payload},null,2);$('output').value=out;text('Decoded locally. Signature NOT verified. Never treat this as authentication.');});
   }
-  else if(slug==='word-counter'){
-    set(textarea('Text','source','Paste an essay, note or document text…')+action('Count words')+textarea('Statistics','output'));
-    // BM: update: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
-    // EN: update: Mutates relevant state only after input and access conditions are verified. Module purpose: connects extended utilities to interactive forms without bypassing input validation.
-    const update=()=>{const s=textStatistics(v('source'));$('output').value=Object.entries(s).map(([k,x])=>k+': '+x).join('\n');text(s.words+' words · '+s.characters+' characters.');};
-    $('source').addEventListener('input',update);onRun(update);update();
+  else if(slug==='text-counter'){
+    set(textarea('Enter or paste text','source','Start typing or paste your text…')+
+      '<div class="counter-grid" id="counter-grid" aria-live="polite"></div>'+result());
+    const update=()=>{const stats=textStatistics(v('source'));
+      $('counter-grid').innerHTML=Object.entries(stats).map(([key,value])=>
+        '<div class="counter-stat"><strong>'+value+'</strong><span>'+key.replace(/([A-Z])/g,' $1').toLowerCase()+'</span></div>'
+      ).join('');
+      text(stats.words+' words · '+stats.characters+' characters.');
+    };
+    $('source').addEventListener('input',update);update();
   }
   else if(slug==='hash-generator'){
     set(textarea('Input text','source','Paste text for a cryptographic checksum…')+
@@ -77,24 +78,42 @@ export function mountExtendedTool(slug, h) {
       number('Spread (px)','spread',-6,-100,100)+number('Opacity (%)','opacity',18,0,100)+input('Color','color','#131316','color')+
       select('Shadow type','inset',[['no','Outer shadow'],['yes','Inset shadow']])+action('Generate CSS')+
       '<div class="preview"><div id="shadow-swatch" style="width:160px;min-height:110px;margin:30px auto;background:white;border-radius:18px;border:1px solid #ead6ce"></div></div>'+textarea('CSS declaration','output'));
-    // BM: update: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
-    // EN: update: Mutates relevant state only after input and access conditions are verified. Module purpose: connects extended utilities to interactive forms without bypassing input validation.
     const update=()=>{const value=cssShadow({x:n('x'),y:n('y'),blur:n('blur'),spread:n('spread'),opacity:n('opacity'),color:v('color'),inset:v('inset')==='yes'});$('shadow-swatch').style.boxShadow=value;$('output').value='box-shadow: '+value+';';text('Copy CSS into your stylesheet.');};
     for(const id of ['x','y','blur','spread','opacity','color','inset'])$(id).addEventListener('input',()=>{try{update()}catch{}});
     onRun(update);try{update()}catch{/* Controls are populated by the browser; isolated test doubles may omit values. */}
   }
   else if(['image-resizer','image-rotator','image-compressor'].includes(slug)){
-    const controls=slug==='image-resizer'?number('Maximum width (px)','width',1280,1,8000)+number('Maximum height (px)','height',1280,1,8000):
+    const controls=slug==='image-resizer'?select('Size preset','preset',[['custom','Custom size'],['profile','Profile picture (512 × 512)'],['icons','App icon sizes (ZIP)']])+number('Maximum width (px)','width',1280,1,8000)+number('Maximum height (px)','height',1280,1,8000):
       slug==='image-rotator'?select('Action','angle',[['90','Rotate 90° clockwise'],['180','Rotate 180°'],['270','Rotate 90° counter-clockwise'],['flip-h','Flip horizontally'],['flip-v','Flip vertically']]):
-      number('Quality (JPG / WebP %)','quality',78,1,100)+select('Output','format',[['image/jpeg','JPG'],['image/webp','WebP'],['image/png','PNG (lossless)']]);
-    set(file('Choose an image','file','image/*')+controls+action(slug==='image-resizer'?'Resize and download':slug==='image-rotator'?'Rotate / flip and download':'Compress and download')+preview());
+      select('Compression','quality',[['balanced','Balanced'],['small','Smaller file'],['strong','Strong']])+select('Output','format',[['auto','Automatic (recommended)'],['image/webp','WebP'],['image/jpeg','JPG'],['image/png','PNG (lossless)']]);
+    set(file('Choose an image','file','image/*')+controls+action(slug==='image-resizer'?'Preview resized image':slug==='image-rotator'?'Preview rotated image':'Preview compressed image')+preview());
     onRun(async()=>{
       const {file:f,image}=await imgFile();
       const w=image.naturalWidth,h=image.naturalHeight;
       let c,format='image/png',extension='png';
       if(slug==='image-resizer'){
-        const size=targetDimensions(w,h,n('width'),n('height'),true);
-        c=canvas(size.width,size.height);c.getContext('2d').drawImage(image,0,0,size.width,size.height);
+        const preset=v('preset');
+        if(preset==='icons'){
+          const JSZip=await zipLib(),zip=new JSZip(),sizes=[16,32,48,64,128,192,256,512];
+          for(const size of sizes){
+            const square=canvas(size,size),sx=square.getContext('2d');
+            const ratio=Math.min(size/w,size/h),dw=w*ratio,dh=h*ratio;
+            sx.drawImage(image,(size-dw)/2,(size-dh)/2,dw,dh);
+            zip.file('icon-'+size+'.png',await blobOf(square));
+            if(size===192)renderImage(square);
+          }
+          const archive=await zip.generateAsync({type:'blob'});
+          download(archive,cleanName(f)+'-app-icons.zip');
+          text('Eight transparent PNG icon sizes are prepared in a ZIP. Download when ready.');
+          return;
+        }
+        if(preset==='profile'){
+          c=canvas(512,512);const ratio=Math.min(512/w,512/h),dw=w*ratio,dh=h*ratio;
+          c.getContext('2d').drawImage(image,(512-dw)/2,(512-dh)/2,dw,dh);
+        }else{
+          const size=targetDimensions(w,h,n('width'),n('height'),true);
+          c=canvas(size.width,size.height);c.getContext('2d').drawImage(image,0,0,size.width,size.height);
+        }
       }else if(slug==='image-rotator'){
         const angle=v('angle');c=canvas(['90','270'].includes(angle)?h:w,['90','270'].includes(angle)?w:h);
         const ctx=c.getContext('2d');ctx.translate(c.width/2,c.height/2);
@@ -102,13 +121,33 @@ export function mountExtendedTool(slug, h) {
         else ctx.rotate(Number(angle)*Math.PI/180);
         ctx.drawImage(image,-w/2,-h/2);
       }else{
-        c=canvas(w,h);format=v('format');extension=format.slice(6)==='jpeg'?'jpg':format.slice(6);
-        const ctx=c.getContext('2d');if(format==='image/jpeg'){ctx.fillStyle='white';ctx.fillRect(0,0,w,h)}ctx.drawImage(image,0,0);
+        // BM: Compression menjamin fail disimpan hanya jika ia benar-benar lebih kecil.
+        // EN: The compressor offers a download only when its output really is smaller.
+        const mode=v('quality'),preferred=v('format'),alpha=(()=>{const test=canvas(2,2),ctx=test.getContext('2d');ctx.drawImage(image,0,0,2,2);return [...ctx.getImageData(0,0,2,2).data].some((z,i)=>i%4===3&&z<255)||/png|webp/.test(f.type);})();
+        const formats=preferred==='auto'?(alpha?['image/webp','image/png']:['image/webp','image/jpeg']):[preferred];
+        const qualitySteps=mode==='strong'?[.62,.5,.4,.3]:mode==='small'?[.77,.66,.55,.45]:[.88,.82,.72,.6];
+        const reductions=mode==='strong'?[1,.85,.72,.6]:mode==='small'?[1,.9,.8]:[1,.92,.84];
+        let best=null;
+        const goal=f.size*(mode==='strong'?.55:mode==='small'?.72:.88);
+        outer:for(const ratio of reductions){
+          const width=Math.max(1,Math.round(w*ratio)),height=Math.max(1,Math.round(h*ratio)),candidate=canvas(width,height),ctx=candidate.getContext('2d');ctx.imageSmoothingQuality='high';
+          for(const mime of formats){
+            ctx.clearRect(0,0,width,height);if(mime==='image/jpeg'){ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height)}ctx.drawImage(image,0,0,width,height);
+            for(const q of mime==='image/png'?[1]:qualitySteps){const blob=await blobOf(candidate,mime,q);if(blob.type!==mime)continue;
+              if(blob.size<f.size&&(!best||blob.size<best.blob.size))best={blob,canvas:candidate,mime};
+              if(blob.size<=goal){best={blob,canvas:candidate,mime};break outer;}
+            }
+          }
+        }
+        if(!best){text('This image is already efficiently compressed. No larger replacement was created. Try an image with more detail.');return;}
+        c=best.canvas;format=best.mime;extension=format==='image/jpeg'?'jpg':format==='image/webp'?'webp':'png';renderImage(c);
+        download(best.blob,cleanName(f)+'-compressed.'+extension);
+        text('Reduced from '+bytes(f.size)+' to '+bytes(best.blob.size)+' ('+Math.round((1-best.blob.size/f.size)*100)+'% smaller). Output '+c.width+' × '+c.height+'.');return;
       }
       renderImage(c);
-      const blob=await blobOf(c,format,n('quality')/100 || .82);
-      download(blob,cleanName(f)+'-'+(slug==='image-compressor'?'compressed':slug==='image-resizer'?'resized':'transformed')+'.'+extension);
-      text('Saved '+c.width+' × '+c.height+' '+extension.toUpperCase()+'. '+bytes(f.size)+' → '+bytes(blob.size)+'. Compression does not guarantee a smaller file.');
+      const blob=await blobOf(c,format,.9);
+      download(blob,cleanName(f)+'-'+(slug==='image-resizer'?'resized':'transformed')+'.'+extension);
+      text('Prepared '+c.width+' × '+c.height+' '+extension.toUpperCase()+'.');
     });
   }
   else if(slug==='merge-pdf'){
@@ -118,42 +157,34 @@ export function mountExtendedTool(slug, h) {
       for(const f of files){if(!/\.pdf$/i.test(f.name))throw Error('PDF files only.');const doc=await PDFDocument.load(await f.arrayBuffer());const copied=await out.copyPages(doc,doc.getPageIndices());for(const p of copied)out.addPage(p);pages+=copied.length;}
       await savePdf(out,'zrain-merged.pdf');text('Merged '+files.length+' documents / '+pages+' pages without rasterizing.');});
   }
-  else if(['split-pdf','extract-pdf-pages','remove-pdf-pages'].includes(slug)){
+  else if(['split-pdf','remove-pdf-pages'].includes(slug)){
     set(file('Choose a PDF','file','application/pdf,.pdf')+
-      input(slug==='split-pdf'?'Pages (blank = all)':'Page numbers e.g. 1, 3-5','pages',slug==='split-pdf'?'':'1')+
-      action(slug==='split-pdf'?'Split into ZIP':slug==='extract-pdf-pages'?'Extract pages into PDF':'Remove pages from PDF'));
+      input('Pages','pages',slug==='split-pdf'?'':'1')+
+      (slug==='split-pdf'?select('Output type','splitmode',[['zip','Separate PDF pages (ZIP)'],['pdf','Selected pages (one PDF)']]):'')+
+      action(slug==='split-pdf'?'Preview split result':'Remove pages from PDF'));
     onRun(async()=>{const f=requirePdf();const {PDFDocument}=await pdfLib(),doc=await PDFDocument.load(await f.arrayBuffer()),ids=pdfPageSelection(v('pages'),doc.getPageCount(),slug==='split-pdf');
       if(!ids.length)throw Error('Select at least one page.');
       if(slug==='remove-pdf-pages'){
         const remove=new Set(ids),keep=doc.getPageIndices().filter(i=>!remove.has(i));if(!keep.length)throw Error('At least one page must remain.');
         const out=await PDFDocument.create();for(const p of await out.copyPages(doc,keep))out.addPage(p);await savePdf(out,cleanName(f)+'-pages-removed.pdf');
-      }else if(slug==='extract-pdf-pages'){
-        const out=await PDFDocument.create();for(const p of await out.copyPages(doc,ids))out.addPage(p);await savePdf(out,cleanName(f)+'-extracted.pdf');
+      }else if(v('splitmode')==='pdf'){
+        const out=await PDFDocument.create();for(const p of await out.copyPages(doc,ids))out.addPage(p);
+        await savePdf(out,cleanName(f)+'-selected-pages.pdf');
       }else{
         if(ids.length>200)throw Error('Split supports up to 200 pages per run.');const JSZip=await zipLib(),zip=new JSZip();
         for(const [pos,i] of ids.entries()){const out=await PDFDocument.create();out.addPage((await out.copyPages(doc,[i]))[0]);zip.file('page-'+String(pos+1).padStart(3,'0')+'-original-'+(i+1)+'.pdf',await out.save());}
-        const blob=await zip.generateAsync({type:'blob'});download(blob,cleanName(f)+'-split.zip');text('Saved '+ids.length+' separate PDF pages in a ZIP.');
+        const blob=await zip.generateAsync({type:'blob'});download(blob,cleanName(f)+'-split.zip');text('Prepared '+ids.length+' separate PDF pages in a ZIP.');
       }});
   }
   else if(slug==='rotate-pdf'){
     set(file('Choose a PDF','file','application/pdf,.pdf')+
-      select('Angle','angle',[['90','90° clockwise'],['180','180°'],['270','90° counter-clockwise']])+input('Pages (blank = all)','pages','')+
+      select('Angle','angle',[['90','90° clockwise'],['180','180°'],['270','90° counter-clockwise']])+input('Pages','pages','')+
       action('Rotate PDF pages'));
     onRun(async()=>{const f=requirePdf(),lib=await pdfLib(),doc=await lib.PDFDocument.load(await f.arrayBuffer());const ids=pdfPageSelection(v('pages'),doc.getPageCount());
       for(const i of ids){const p=doc.getPage(i);p.setRotation(lib.degrees((p.getRotation().angle+n('angle'))%360));}
       await savePdf(doc,cleanName(f)+'-rotated.pdf');text('Rotated '+ids.length+' page(s) without re-encoding content.');});
   }
-  else if(slug==='crop-pdf'){
-    set(file('Choose a PDF','file','application/pdf,.pdf')+number('Top margin (mm)','top',10,0,150)+number('Bottom margin (mm)','bottom',10,0,150)+
-      number('Left margin (mm)','left',10,0,150)+number('Right margin (mm)','right',10,0,150)+input('Pages (blank = all)','pages','')+
-      action('Crop visible PDF area'));
-    onRun(async()=>{const f=requirePdf(),lib=await pdfLib(),doc=await lib.PDFDocument.load(await f.arrayBuffer());const ids=pdfPageSelection(v('pages'),doc.getPageCount());
-      const mm=2.8346456693,left=n('left')*mm,right=n('right')*mm,top=n('top')*mm,bottom=n('bottom')*mm;
-      if([left,right,top,bottom].some(x=>!Number.isFinite(x)||x<0))throw Error('Margins must be nonnegative.');
-      for(const i of ids){const p=doc.getPage(i),size=p.getSize();if(size.width-left-right<10||size.height-top-bottom<10)throw Error('Margins exceed page '+(i+1)+'.');
-        p.setCropBox(left,bottom,size.width-left-right,size.height-top-bottom);}
-      await savePdf(doc,cleanName(f)+'-cropped.pdf');text('Visible margins changed. Hidden content remains in the PDF; do not use this to redact private information.');});
-  }
+  else if(slug==='crop-pdf'){mountVisualPdfCrop({...h});}
   else if(slug==='pdf-page-numbers'){
     set(file('Choose a PDF','file','application/pdf,.pdf')+
       select('Position','position',[['bottom-right','Bottom right'],['bottom-center','Bottom center'],['bottom-left','Bottom left'],['top-right','Top right']])+number('Start numbering at','start',1,1,10000)+
@@ -171,12 +202,21 @@ export function mountExtendedTool(slug, h) {
       $('output').value=out;downloadText(out,cleanName(f)+'.txt');text('Text extracted from '+doc.numPages+' page(s). Scans without a text layer require OCR.');});
   }
   else if(slug==='pdf-to-image'){
-    set(file('Choose a PDF','file','application/pdf,.pdf')+select('Resolution','scale',[['1','72 dpi (screen)'],['2','144 dpi'],['3','216 dpi']])+
-      select('Format','format',[['image/png','PNG'],['image/jpeg','JPG']])+action('Render PDF pages and download'));
-    onRun(async()=>{const f=requirePdf(),doc=await openPdf(f);if(doc.numPages>40)throw Error('Render up to 40 pages per run to protect memory.');const JSZip=await zipLib(),zip=new JSZip();
-      for(let i=1;i<=doc.numPages;i++){const page=await doc.getPage(i),viewport=page.getViewport({scale:n('scale')});const c=canvas(viewport.width,viewport.height),ctx=c.getContext('2d');
-        await page.render({canvasContext:ctx,viewport}).promise;const mime=v('format');zip.file('page-'+i+(mime==='image/png'?'.png':'.jpg'),await blobOf(c,mime,.9));}
-      const archive=await zip.generateAsync({type:'blob'});download(archive,cleanName(f)+'-pages.zip');text('Rendered '+doc.numPages+' page(s) to '+v('format')+' and bundled as ZIP.');});
+    set(file('Choose a PDF','file','application/pdf,.pdf')+select('Image quality','scale',[['1.5','Normal'],['2','High quality'],['3','Extra sharp']])+action('Show PDF pages')+ '<div class="pdf-thumb-grid" id="image-pages"></div>');
+    let prepared=[];
+    async function drawPages(){const f=requirePdf(),doc=await openPdf(f);if(doc.numPages>40)throw Error('Preview up to 40 PDF pages.');const region=$('image-pages');region.replaceChildren();prepared=[];
+      for(let i=1;i<=doc.numPages;i++){const pg=await doc.getPage(i),small=pg.getViewport({scale:.45}),thumb=canvas(small.width,small.height);await pg.render({canvasContext:thumb.getContext('2d'),viewport:small}).promise;
+       const article=document.createElement('article');article.className='pdf-thumb-card';const image=document.createElement('img');image.src=thumb.toDataURL('image/png');image.alt='Preview of PDF page '+i;
+       const title=document.createElement('div');title.className='pdf-thumb-label';title.textContent='Page '+i;const btn=document.createElement('button');btn.className='btn secondary';btn.textContent='Download PNG';btn.type='button';
+       btn.addEventListener('click',async()=>{btn.disabled=true;try{const page=await doc.getPage(i),vp=page.getViewport({scale:Number(v('scale'))}),full=canvas(vp.width,vp.height);await page.render({canvasContext:full.getContext('2d'),viewport:vp}).promise;download(await blobOf(full,'image/png'),cleanName(f)+'-page-'+i+'.png');text('PNG prepared for page '+i+'.')}catch(e){text('Error: '+e.message)}finally{btn.disabled=false}});
+       article.append(image,title,btn);region.append(article);prepared.push(i);
+      }
+      text('Showing '+prepared.length+' PDF pages. Choose a page to download as PNG.');
+    }
+    $('file').addEventListener('change',()=>{if($('file').files.length)drawPages().catch(e=>text('Error: '+e.message))});
+    onRun(async()=>{const f=requirePdf(),doc=await openPdf(f);if(!prepared.length)await drawPages();const zip=await zipLib(),archive=new zip();
+      for(let i=1;i<=doc.numPages;i++){const pg=await doc.getPage(i),vp=pg.getViewport({scale:Number(v('scale'))}),c=canvas(vp.width,vp.height);await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;archive.file('page-'+i+'.png',await blobOf(c,'image/png'));}
+      download(await archive.generateAsync({type:'blob'}),cleanName(f)+'-pages-png.zip');text('All '+doc.numPages+' pages prepared as PNG files in ZIP.');});
   }
   else if(slug==='jpg-to-pdf'){
     set(file('Choose JPG or PNG images','file','image/jpeg,image/png',true)+
@@ -195,8 +235,6 @@ export function mountExtendedTool(slug, h) {
       '<div class="teleprompter-window" id="prompter-window" tabindex="0" aria-label="Scrolling script preview" style="max-height:400px;min-height:250px;overflow:auto;background:#111827;color:#fff;border-radius:14px;padding:22px;"><div id="prompter-text" style="white-space:pre-wrap;line-height:1.7"></div></div>');
     let last=0,frame=0,running=false;
     const area=$('prompter-window'),pane=$('prompter-text');
-    // BM: sync: Menyelaraskan data dengan mengekalkan identiti, aturan dan keserasian rekod lama. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
-    // EN: sync: Reconciles data while preserving identity, ordering and legacy compatibility. Module purpose: connects extended utilities to interactive forms without bypassing input validation.
     const sync=()=>{pane.textContent=v('source');pane.style.fontSize=n('size')+'px';pane.style.transform=v('mirror')==='yes'?'scaleX(-1)':'';};
     const step=time=>{if(!running)return;const dt=Math.min(100,(time-last)||0)/1000;last=time;
       // Approximate 5 chars per word, continuous movement for predictable pacing.
@@ -204,8 +242,6 @@ export function mountExtendedTool(slug, h) {
       area.scrollTop+=Math.max(0,pxPerSecond*dt);
       if(area.scrollTop>=area.scrollHeight-area.clientHeight-1){running=false;text('Reached the end of the script.');return;}
       frame=requestAnimationFrame(step);};
-    // BM: pause: Memproses interaksi yang ditentukan dan mengemas kini state yang relevan dengan selamat. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input.
-    // EN: pause: Handles the specified interaction and updates relevant state safely. Module purpose: connects extended utilities to interactive forms without bypassing input validation.
     const pause=()=>{running=false;cancelAnimationFrame(frame);text('Paused.');};
     const begin=()=>{sync();if(!pane.textContent.trim())throw Error('Add a script first.');if(running)return;running=true;last=performance.now();frame=requestAnimationFrame(step);text('Teleprompter running locally.');};
     onRun(begin);$('secondary').addEventListener('click',pause);$('reset-prompter').addEventListener('click',()=>{pause();area.scrollTop=0;text('Returned to start.');});
@@ -215,6 +251,4 @@ export function mountExtendedTool(slug, h) {
   return true;
 }
 
-// BM: notice: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menghubungkan utiliti lanjutan kepada borang interaktif tanpa memintas validasi input. Input: message.
-// EN: notice: Isolates one operation so it can be reviewed and tested. Module purpose: connects extended utilities to interactive forms without bypassing input validation. Inputs: message.
 function notice(message){return '<p class="box-message">'+String(message).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])+'</p>';}

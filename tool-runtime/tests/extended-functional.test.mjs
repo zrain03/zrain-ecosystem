@@ -1,24 +1,22 @@
 /*
  * Fail / File: tool-runtime/tests/extended-functional.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan extended functional, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests extended functional contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mountExtendedTool} from '../src/extended-tools.mjs';
 
-// BM: fixture: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan extended functional, output dan kes gagal tanpa membuat permintaan production. Input: slug,seed={}.
-// EN: fixture: Isolates one operation so it can be reviewed and tested. Module purpose: tests extended functional contracts, outputs and failure paths without making production requests. Inputs: slug,seed={}.
 function fixture(slug,seed={}){
   const inputs=new Map();
   const values=new Map(Object.entries(seed));
   const $=id=>{
     if(!inputs.has(id))inputs.set(id,{
       id,value:values.get(id)??'',style:{},files:[],textContent:'',innerHTML:'',
-      listeners:{},addEventListener(type,fn){(this.listeners[type]??=[]).push(fn)},
+      listeners:{},closest(){return {hidden:false}},addEventListener(type,fn){(this.listeners[type]??=[]).push(fn)},
       dispatch(type){for(const f of this.listeners[type]||[])f()},
       replaceChildren(...children){this.children=children}
     });
@@ -44,7 +42,7 @@ function fixture(slug,seed={}){
 }
 
 test('every real extension form registers without running remote code',()=>{
-  for(const slug of ['base64-tool','jwt-decoder','word-counter','hash-generator','uuid-generator','css-shadow-generator','merge-pdf','split-pdf','rotate-pdf','crop-pdf','remove-pdf-pages','extract-pdf-pages','pdf-to-text','pdf-to-image','jpg-to-pdf','pdf-page-numbers','image-resizer','image-rotator','image-compressor']){
+  for(const slug of ['base64-tool','jwt-decoder','text-counter','hash-generator','uuid-generator','css-shadow-generator','merge-pdf','split-pdf','rotate-pdf','crop-pdf','remove-pdf-pages','pdf-to-text','pdf-to-image','jpg-to-pdf','pdf-page-numbers','image-resizer','image-rotator','image-compressor']){
     const app=fixture(slug,{color:'#131316',version:'4'});
     assert.equal(app.found,true,slug);assert.ok(app.output.length>10,slug);
   }
@@ -62,11 +60,11 @@ test('JWT tool never verifies signature and fails invalid tokens',async()=>{
   assert.match(app.$('output').value,/"sub": "123"/);assert.match(app.message,/NOT verified/);
   app.$('source').value='not.a.jwt';await assert.rejects(app.run());
 });
-test('Word Count updates on input and renders text statistics',async()=>{
-  const app=fixture('word-counter',{source:'One two three'});
-  await app.run();assert.match(app.$('output').value,/words: 3/);
+test('Text Counter updates on input and renders text statistics',async()=>{
+  const app=fixture('text-counter',{source:'One two three'});
+  assert.match(app.$('counter-grid').innerHTML,/>3<\/strong>/);
   app.$('source').value='Satu dua';app.$('source').dispatch('input');
-  assert.match(app.$('output').value,/words: 2/);
+  assert.match(app.$('counter-grid').innerHTML,/>2<\/strong>/);
 });
 test('SHA and UUID tools call real Web Crypto and produce expected output',async()=>{
   const hash=fixture('hash-generator',{source:'abc',algo:'SHA-256'});await hash.run();

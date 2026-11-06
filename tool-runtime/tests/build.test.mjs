@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/tests/build.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan build, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests build contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,10 +12,8 @@ import { readFile, stat } from 'node:fs/promises';
 import { join,resolve } from 'node:path';
 import { catalog,groups } from '../src/catalog.mjs';
 const dist=resolve(import.meta.dirname,'../dist');
-// BM: must: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan build, output dan kes gagal tanpa membuat permintaan production.
-// EN: must: Isolates one operation so it can be reviewed and tested. Module purpose: tests build contracts, outputs and failure paths without making production requests.
 const must=async file=>assert.ok((await stat(file)).size>0,`Missing ${file}`);
-test('five independently deployable Zrain websites contain all 48 tools',async()=>{
+test('five independently deployable Zrain websites contain all 46 tools',async()=>{
  assert.equal(groups.length,5);
  for(const group of groups){
   const dir=join(dist,group.slug);
@@ -32,7 +30,9 @@ test('five independently deployable Zrain websites contain all 48 tools',async()
    assert.ok(text.includes('Zrain '+item[1].replaceAll('&','&amp;')),slug);
    assert.ok(text.includes('../zrain-logo.webp'),slug);
    assert.ok(text.includes('../app.js'),slug);
-   assert.ok(text.includes('No login needed'),slug);
+   assert.ok(text.includes('class="app-shell"'),slug);
+   assert.ok(text.includes('class="tool-description"'),slug);
+   assert.ok(!text.includes('class="hero"'),slug);
   }
  }
 });

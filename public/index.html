@@ -21,6 +21,7 @@ EN: Contains the official homepage with dynamic totals and category links.
   <link rel="icon" type="image/webp" href="/zrain-logo.webp">
   <link rel="stylesheet" href="/brand.css">
   <link rel="stylesheet" href="/ecosystem-unified.css">
+  <link rel="stylesheet" href="/category-responsive.css">
   <link rel="stylesheet" href="/ecosystem-quick-console.css">
   <link rel="stylesheet" href="/feedback.css">
   <script type="module" src="/ecosystem-unified.mjs"></script>
@@ -47,7 +48,7 @@ EN: Contains the official homepage with dynamic totals and category links.
       <div class="hero-heading"><div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> WELCOME TO THE ZRAIN ECOSYSTEM</div>
         <h1 id="hero-title" aria-label="Made for people. Built with purpose.">Made for people.<br><em>Built with purpose.</em></h1>
         <p class="hero-support"><strong>Explore the Zrain Ecosystem.</strong> Discover games, creative tools, document utilities, developer resources and everyday services in one place.</p>
-        <div class="hero-totals" aria-label="Current collection"><span><strong id="count-projects">10</strong> projects</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-tools">48</strong> browser tools</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-categories">11</strong> categories</span></div>
+        <div class="hero-totals" aria-label="Current collection"><span><strong id="count-projects">10</strong> projects</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-tools">46</strong> browser tools</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-categories">11</strong> categories</span></div>
       </div>
       <div class="search-panel" id="search-panel">
         <div class="search-panel-head"><span class="search-panel-heading">✦ Zrain AI Search. What would you like to do?</span><span class="local-first">✦ Smart discovery</span></div>
@@ -62,7 +63,7 @@ EN: Contains the official homepage with dynamic totals and category links.
 
     <section class="categories-section" id="categories" aria-labelledby="categories-title">
       <div class="section-head"><div><p class="small-eyebrow">THE COLLECTION / 01</p><h2 id="categories-title">Explore the Zrain Ecosystem<span class="accent">.</span></h2><p>Browse all projects and tools. Search inside any category, or use Zrain AI Search to describe a task.</p></div>
-        <button type="button" class="catalog-search-button" id="browse-search">Search all <span id="count-total">58</span> <span aria-hidden="true">⌕</span></button>
+        <button type="button" class="catalog-search-button" id="browse-search">Search all <span id="count-total">56</span> <span aria-hidden="true">⌕</span></button>
       </div>
       <nav class="category-jumps" aria-label="Browse categories" id="category-jumps"></nav>
       <div id="category-board" class="category-board" aria-live="off"></div>
@@ -79,10 +80,9 @@ EN: Contains the official homepage with dynamic totals and category links.
       <a class="journey-console-link" href="/zrain-console.html">Explore Zrain Console <span aria-hidden="true">↗</span></a>
     </section>
 
-    <section class="about-panel" id="about" aria-labelledby="about-title"><div><p class="small-eyebrow">ABOUT THE ECOSYSTEM / 03</p><h2 id="about-title">Explore the Zrain Ecosystem.</h2><p>Games, tools and web applications that make everyday tasks a little easier. Individual apps stay independent; the Ecosystem helps you find them.</p></div><div class="about-stat"><span>One home</span><strong><span id="about-total">58</span> choices<br>to explore.</strong></div></section>
+    <section class="about-panel" id="about" aria-labelledby="about-title"><div><p class="small-eyebrow">ABOUT THE ECOSYSTEM / 03</p><h2 id="about-title">Explore the Zrain Ecosystem.</h2><p>Games, tools and web applications that make everyday tasks a little easier. Individual apps stay independent; the Ecosystem helps you find them.</p></div><div class="about-stat"><span>One home</span><strong><span id="about-total">56</span> choices<br>to explore.</strong></div></section>
     <section class="contact-panel" id="contact" aria-labelledby="contact-title"><div><p class="small-eyebrow">SAY HELLO / 04</p><h2 id="contact-title">Have an idea or feedback?</h2><p>Tell us which experience could be easier or what you would like us to build next.</p></div><a class="contact-button" href="mailto:zrain.dev@gmail.com">Contact Zrain <span aria-hidden="true">↗</span></a></section>
-    <section id="zrain-feedback" aria-label="Zrain Community feedback"></section>
-<script src="https://zrain-community.web.app/embed.js" data-product="zrain-ecosystem" data-target="#zrain-feedback" defer></script>
+    <section id="zrain-feedback" data-zrain-feedback aria-label="Community feedback"></section>
   </main>
 
   <footer class="zrain-footer"><div class="zrain-footer__inner"><div class="zrain-footer__identity"><a class="zrain-footer__home" href="/"><img class="zrain-footer__logo" src="/zrain-logo.webp" alt="" width="38" height="38"><span class="zrain-footer__copy"><strong>Developed by Zrain</strong><small>Made for people. Built with purpose.</small></span></a></div><div class="zrain-footer__links"><a href="#categories">Discover</a><a href="#contact">Contact</a><a href="#zrain-feedback">Community</a><a href="https://github.com/zrain03" target="_blank" rel="noopener noreferrer">GitHub</a></div></div></footer>
@@ -125,6 +125,5 @@ EN: Contains the official homepage with dynamic totals and category links.
     <div class="dialog-filters" role="group" aria-label="Filter result type"><button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="project" aria-pressed="false">Projects</button><button type="button" data-filter="tool" aria-pressed="false">Tools</button></div>
     <div class="ai-tools"><button type="button" id="ai-enable" class="ai-enable">✧ Enable multilingual AI (beta)</button><span id="ai-status" role="status" aria-live="polite">Optional on-device model download; regular search works without it.</span></div>
     <p id="dialog-count" class="dialog-count" aria-live="polite"></p><div class="dialog-results" id="dialog-results" tabindex="-1"></div><div class="dialog-foot">Ctrl K to open · ↑ ↓ to navigate · Esc to close</div></div></dialog>
-
-
+<script defer src="/feedback-embed.js" data-product="zrain-ecosystem"></script>
 </body></html>

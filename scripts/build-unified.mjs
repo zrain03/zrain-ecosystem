@@ -24,13 +24,16 @@ if(process.argv.includes('--rebuild-runtime')){
   // Windows Node 24 spawnSync npm.cmd EINVAL and does not require a shell.
   execFileSync(process.execPath,[join(runtime,'src','build.mjs')],{cwd:runtime,stdio:'inherit'});
 }
-if(manifest.length!==48||new Set(manifest.map(x=>x.slug)).size!==48)throw Error('Manifest requires 48 unique real tools.');
+if(manifest.length!==46||new Set(manifest.map(x=>x.slug)).size!==46)throw Error('Manifest requires 46 unique real tools.');
 await rm(destination,{recursive:true,force:true});
 await mkdir(destination,{recursive:true});
 // Original JS and CSS runtime depend on relative imports and filenames; preserve them.
-const shared=['style.css','feedback.css','brand.css','feedback-embed.js','zrain-ui.js','app.js','catalog.mjs','core.mjs',
+// BM: Ambil asset terkini terus daripada source v2.4, bukannya senarai 48 alat lama.
+// EN: Include all approved v2.4 modules without falling back to the old 48-tool bundle.
+const shared=['form-copy.mjs','style.css','brand.css','zrain-ui.js','app.js','catalog.mjs','core.mjs',
 'image-metadata.mjs','qr-local.mjs','jszip.min.js','discovery.mjs','discovery-ui.mjs','ux-help.mjs','workflow-guide.mjs',
-'extended-core.mjs','extended-tools.mjs','zrain-logo.webp'];
+'extended-core.mjs','extended-tools.mjs','art-core.mjs','art-tools.mjs','visual-editors.mjs',
+'pdf-visual.mjs','docx-layout.mjs','pdf-reorder.mjs','ai-background.mjs','zrain-logo.webp'];
 for(const name of shared)await copyFile(join(source,name),join(destination,name));
 await cp(join(source,'licenses'),join(destination,'licenses'),{recursive:true});
 let app=await readFile(join(destination,'app.js'),'utf8');
@@ -61,6 +64,22 @@ for(const {slug,family,name} of manifest){
   html=html.replace(/aria-label="Choose another [^"]* tool"/,'aria-label="Switch to another Zrain function"');
   const target=join(destination,slug);await mkdir(target,{recursive:true});
   await writeFile(join(target,'index.html'),html);
+}
+// BM: Pautan lama kekal boleh dibuka tetapi tidak dikira atau diiklankan sebagai Tools aktif.
+// EN: Retired bookmarks remain usable without inflating the 46-tool public catalog.
+const renamedPaths={
+ 'word-counter':'/tools/text-counter/',
+ 'extract-pdf-pages':'/tools/split-pdf/',
+ 'image-to-ascii':'/tools/image-to-ascii-art/',
+ 'icon-maker':'/tools/image-resizer/',
+ 'compare':'/',
+ 'focus-timer':'/'
+};
+for(const [slug,target] of Object.entries(renamedPaths)){
+ if(manifest.some(item=>item.slug===slug))throw Error('Active tool cannot be redirected: '+slug);
+ const folder=join(destination,slug);
+ await mkdir(folder,{recursive:true});
+ await writeFile(join(folder,'index.html'),`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=${target}"><link rel="canonical" href="${target}"><title>Zrain Tools: Updated Location</title><p>This older tool address has moved or retired. <a href="${target}">Continue to Zrain</a>.</p></html>`);
 }
 // The old /tools/ directory is not a sixth product. It returns to the hub.
 await writeFile(join(destination,'index.html'),`<!doctype html><html lang="en"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/"><link rel="canonical" href="/"><title>Zrain Ecosystem</title><p>Browse all tools at <a href="/">Zrain Ecosystem</a>.</p></html>`);

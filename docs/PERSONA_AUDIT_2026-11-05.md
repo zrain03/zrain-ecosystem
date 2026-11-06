@@ -34,7 +34,7 @@ EN: Separate passing automated tests from unverified Persona, browser and deploy
 - Existing Cloudflare Published-only semantics preserved; Draft/Archived entries are not displayed after a successful API refresh.
 - Admin worker compatibility: 11 code round-trips, plus reading older category codes.
 - Shared UI: `@zrain/ui` pin `a109401fa591afa9f66479fa8d86f1ed1679d70b`, identical copied assets for both the main website and all five Tools families.
-- Tests: 47 Ecosystem, 59 tools runtime and 17 catalog Worker tests passed, total 123 automated checks. 48 tools build passed.
+- Tests: 47 Ecosystem, 59 tools runtime and 17 catalog Worker tests passed, total 123 automated checks. 46 tools build passed.
 
 ## Not verified yet
 

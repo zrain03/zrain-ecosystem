@@ -13,16 +13,16 @@ import {resolveToolNavigation,toolNavigatedInsideFrame} from '../public/ecosyste
 import {getInventoryItem} from '../public/ecosystem-links.mjs';
 const origin='http://127.0.0.1:8769';
 
-test('switching from Teleprompter to Extract PDF Pages resolves actual iframe page',()=>{
-  const item=resolveToolNavigation(origin+'/tools/extract-pdf-pages/index.html',origin,getInventoryItem);
-  assert.equal(item?.id,'extract-pdf-pages');
-  assert.equal(item?.name,'Extract PDF Pages');
+test('switching from Teleprompter to Split PDF resolves actual iframe page',()=>{
+  const item=resolveToolNavigation(origin+'/tools/split-pdf/index.html',origin,getInventoryItem);
+  assert.equal(item?.id,'split-pdf');
+  assert.equal(item?.name,'Split PDF');
   assert.equal(resolveToolNavigation('/tools/teleprompter/',origin,getInventoryItem)?.name,'Teleprompter');
 });
 test('the embedded tool must match an official allowed same-origin route',()=>{
   for (const path of [
-    '/tools/fake-tool/', '/tools/memory-rush/', '/tools/extract-pdf-pages/other.html',
-    'https://example.com/tools/extract-pdf-pages/',
+    '/tools/fake-tool/', '/tools/memory-rush/', '/tools/split-pdf/other.html',
+    'https://example.com/tools/split-pdf/',
     'javascript:alert(1)', '/tools/../admin/'
   ]) assert.equal(resolveToolNavigation(path,origin,getInventoryItem),null,path);
   assert.equal(resolveToolNavigation('/tools/merge-pdf/?foo=bar',origin,getInventoryItem)?.id,'merge-pdf');

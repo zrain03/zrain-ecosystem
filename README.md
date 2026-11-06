@@ -23,7 +23,7 @@ EN: Product and release guidance separating local source from production.
 ## Zrain Ecosystem 58/11 Golden Reference release candidate (2026-11-05)
 
 - **BM:** Source kini mempunyai 58 entri (10 projek, 48 browser tools), disusun mengikut 11 kategori rasmi daripada `public/categories/category-data.mjs`.
-- **EN:** Source now contains 58 entries (10 projects, 48 browser tools), grouped under the 11 canonical categories in `public/categories/category-data.mjs`.
+- **EN:** Source now contains 56 entries (10 projects, 48 browser tools), grouped under the 11 canonical categories in `public/categories/category-data.mjs`.
 - **BM:** Senarai panjang memaparkan lima baris sebelum scroll tanpa label atau butang tambahan. Data Worker Published masih berautoriti selepas refresh berjaya.
 - **EN:** Long lists display five rows before scrolling without additional labels or buttons. Published Worker data remains authoritative after a successful refresh.
 - **BM:** Shared UI menggunakan pin `a109401fa591afa9f66479fa8d86f1ed1679d70b` dan salinan byte-for-byte.

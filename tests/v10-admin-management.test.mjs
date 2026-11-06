@@ -30,7 +30,7 @@ test('a new published application appears in its chosen official category',()=>{
  for(const [category,expected] of Object.entries({GAMES:'games',AI:'ai',PRESENCE:'links',IMAGES:'image',DOCUMENTS:'document',DEVELOPER:'developer'})){
   const result=reconcilePublishedCatalog([{slug:'new-project',name:'New project',description:'Real web app',category,status:'PUBLISHED',primaryAction:'WEBSITE',primaryUrl:'https://example.com/app'}]);
   assert.equal(result.find(p=>p.id==='new-project')?.category,expected);
-  assert.equal(inventoryStats(result).total,50);
+  assert.equal(inventoryStats(result).total,48);
  }
 });
 test('admin changes to an explicit new category are preserved',()=>{
@@ -61,8 +61,8 @@ test('new admin is a real protected editor, demo is visibly marked as non-persis
   assert.match(styles,/\.admin-columns/);
   for(const c of ['GAMES','AI','INFRASTRUCTURE','PRESENCE','OPERATIONS','PDF','IMAGES','DOCUMENTS','CREATIVE','DEVELOPER','PRODUCTIVITY'])assert.ok(live.includes(`value="${c}"`));
 });
-test('all existing 48 tools still exist and are never editable via old project CRUD',async()=>{
-  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+test('all existing 46 tools still exist and are never editable via old project CRUD',async()=>{
+  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,46);
   const admin=await read('../public/admin/manage.mjs');
   assert.match(admin,/item\.kind === 'project'/);
   assert.match(admin,/Source-managed/);

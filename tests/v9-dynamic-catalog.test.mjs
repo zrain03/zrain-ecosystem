@@ -26,13 +26,13 @@ const added={slug:'zrain-new-service',name:'Zrain New Service',description:'Disc
 
 test('initial alpha snapshot counts are computed, not hardcoded in the counting module',()=>{
  const v=inventoryStats(INVENTORY);
- assert.equal(v.projects,10);assert.equal(v.tools,48);assert.equal(v.total,58);
- assert.deepEqual(v.byCategory,{games:2,ai:1,infrastructure:3,links:4,monitoring:2,pdf:13,image:11,document:7,art:5,developer:7,productivity:3});
+ assert.equal(v.projects,10);assert.equal(v.tools,46);assert.equal(v.total,56);
+ assert.deepEqual(v.byCategory,{games:2,ai:1,infrastructure:3,links:4,monitoring:2,pdf:12,image:12,document:2,art:6,developer:9,productivity:3});
 });
 test('admin adds a Published project: totals and category choices change everywhere',()=>{
  const list=reconcilePublishedCatalog([...published,added]);
  const s=inventoryStats(list);
- assert.equal(s.projects,11);assert.equal(s.tools,48);assert.equal(s.total,59);
+ assert.equal(s.projects,11);assert.equal(s.tools,46);assert.equal(s.total,57);
  assert.equal(s.byCategory.productivity,4);
  assert.ok(list.some(x=>x.id==='zrain-new-service'));
 });
@@ -41,7 +41,7 @@ test('unpublishing, archiving or deleting a product removes it from public count
  rows.push({...added,status:'DRAFT'});
  const list=reconcilePublishedCatalog(rows);
  const s=inventoryStats(list);
- assert.equal(s.projects,9);assert.equal(s.total,57);assert.equal(s.byCategory.games,1);
+ assert.equal(s.projects,9);assert.equal(s.total,55);assert.equal(s.byCategory.games,1);
  assert.ok(!list.some(x=>x.id==='zrain-new-service'));
  assert.ok(!list.some(x=>x.id==='memory-rush'));
 });
@@ -54,7 +54,7 @@ test('legacy tool family products, invalid destinations and duplicate slugs cann
   {...added,slug:'merge-pdf',primaryUrl:'https://example.com/malicious'},
  ];
  const list=reconcilePublishedCatalog(rows);
- assert.equal(inventoryStats(list).total,58);
+ assert.equal(inventoryStats(list).total,56);
  assert.equal(list.filter(x=>x.id==='merge-pdf').length,1);
  assert.throws(()=>reconcilePublishedCatalog({products:rows}),/array/);
 });
@@ -62,7 +62,7 @@ test('published catalogue changes canonical preview allowlist and global search 
  const changes=[];const stop=subscribeCatalog((rows,stats)=>changes.push(stats.total));
  try {
    setPublishedCatalog([...published,added]);
-   assert.equal(getActiveInventory().length,59);
+   assert.equal(getActiveInventory().length,57);
    assert.equal(searchCatalog('new service')[0].id,'zrain-new-service');
    const gift=getInventoryItem('zrain-new-service');
    assert.ok(gift);
@@ -70,8 +70,8 @@ test('published catalogue changes canonical preview allowlist and global search 
    assert.equal(previewHref(gift),'https://example.com/new-service/');
    setPublishedCatalog(published.filter(x=>x.slug!=='memory-rush'));
    assert.equal(getInventoryItem('memory-rush'),null);
-   assert.equal(inventoryStats().total,57);
-   assert.deepEqual(changes,[59,57]);
+   assert.equal(inventoryStats().total,55);
+   assert.deepEqual(changes,[57,55]);
  } finally {stop();setPublishedCatalog(published);}
 });
 test('a successful public API fetch updates the catalogue without requiring private credentials',async()=>{
@@ -85,7 +85,7 @@ test('a successful public API fetch updates the catalogue without requiring priv
    return {ok:true,json:async()=>[...published,added]};
  };
  const result=await refreshPublicCatalog(fake,{minAge:0});
- assert.equal(result.total,59);
+ assert.equal(result.total,57);
  setPublishedCatalog(published);
 });
 test('real homepage, Console, search and admin use the shared catalogue',async()=>{
