@@ -50,12 +50,18 @@ const cases = [
 const models = [
  {id:'minilm-baseline',model:'Xenova/paraphrase-multilingual-MiniLM-L12-v2',revision:'2c4055b12046f11709e9df2c122e59ffbdc2f900',multi:false,e5:false},
  {id:'minilm-v4',model:'Xenova/paraphrase-multilingual-MiniLM-L12-v2',revision:'2c4055b12046f11709e9df2c122e59ffbdc2f900',multi:true,e5:false},
- {id:'e5-task-views',model:'Xenova/multilingual-e5-small',multi:true,e5:true}
+ {id:'e5-task-views',model:'Xenova/multilingual-e5-small',multi:true,e5:true},
+ {id:'e5-baseline',model:'Xenova/multilingual-e5-small',multi:false,e5:true},
+ {id:'minilm-descriptions',model:'Xenova/paraphrase-multilingual-MiniLM-L12-v2',revision:'2c4055b12046f11709e9df2c122e59ffbdc2f900',multi:'description',e5:false},
+ {id:'minilm-name-description',model:'Xenova/paraphrase-multilingual-MiniLM-L12-v2',revision:'2c4055b12046f11709e9df2c122e59ffbdc2f900',multi:'name-description',e5:false},
+ {id:'e5-descriptions',model:'Xenova/multilingual-e5-small',multi:'description',e5:true}
 ];
 function views(item,multi){
  const name=String(item.name||'').trim();
  const desc=String(item.description||'').trim();
  const keywords=String(item.keywords||'').trim();
+ if(multi==='description')return [desc||name];
+ if(multi==='name-description')return [[name,desc].filter(Boolean).join('. ')];
  if(!multi)return [[name,desc,keywords].filter(Boolean).join('. ')];
  return [desc||name,'I need a tool to '+(desc||name).replace(/[.!]+$/,'').replace(/^([A-Z])/,s=>s.toLowerCase())+'.',[name,desc,keywords].filter(Boolean).join('. ')];
 }
