@@ -1,0 +1,67 @@
+# Fail / File: .github/workflows/local-source-sync-check.yml
+# Pembangun / Developer: Zrain
+# Dicipta / Created: 2026-11-06
+# Dikemas kini / Last updated: 2026-11-06
+# BM: Uji sintaks dan penyelarasan tempatan pada fail ujian sementara sahaja.
+# EN: Validate syntax and backup/swap against a disposable checkout only.
+name: Validate local GitHub sync script
+on:
+  push:
+    branches:
+      - maintenance/validate-local-sync-20261106
+    paths:
+      - scripts/Sync-Zrain-Projects-2026-11-06.ps1
+      - .github/workflows/local-source-sync-check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add git.exe alias for Linux fixture
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/zrain-bin"
+          ln -s "$(command -v git)" "$RUNNER_TEMP/zrain-bin/git.exe"
+          echo "$RUNNER_TEMP/zrain-bin" >> "$GITHUB_PATH"
+      - name: Validate PowerShell syntax and full backup and replace
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $script = Join-Path (Get-Location) 'scripts/Sync-Zrain-Projects-2026-11-06.ps1'
+          $tokens = $null
+          $errorsFound = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile($script,[ref]$tokens,[ref]$errorsFound)
+          if ($errorsFound.Count -gt 0) {
+            $errorsFound | ForEach-Object { Write-Error $_.Message }
+            throw 'PowerShell syntax error'
+          }
+          Write-Host 'PowerShell parser passed.'
+          $env:USERPROFILE = Join-Path $env:RUNNER_TEMP 'zrain-fixture'
+          $base = Join-Path $env:USERPROFILE 'Downloads/Zrain/Projects'
+          New-Item -ItemType Directory -Path $base -Force | Out-Null
+          $official = Join-Path $base 'zrain-ecosystem'
+          & git.exe clone --quiet --depth 1 --branch main https://github.com/zrain03/zrain-ecosystem.git $official
+          if ($LASTEXITCODE -ne 0) { throw 'Fixture clone failed' }
+          $marker = Join-Path $official 'local-uncommitted.txt'
+          Set-Content -LiteralPath $marker -Value 'DO NOT LOSE THIS'
+          & $script -AuditOnly
+          if (!(Test-Path -LiteralPath $marker)) { throw 'Audit changed original folder' }
+          & $script
+          if (!(Test-Path -LiteralPath $official)) { throw 'Official checkout missing after sync' }
+          if (Test-Path -LiteralPath $marker) { throw 'New GitHub checkout contains stale local changes' }
+          $sha=(& git.exe -C $official rev-parse HEAD).Trim()
+          if ($sha -ne '155308b652a4cb9fc675d68bacd56705f078a654') {
+            throw 'Wrong committed version after sync'
+          }
+          $backupRoot = Join-Path $env:USERPROFILE 'Downloads/Zrain/Releases'
+          $backups = @(Get-ChildItem $backupRoot -Recurse -File -Filter 'local-uncommitted.txt')
+          if ($backups.Count -ne 1) { throw 'Uncommitted marker not preserved exactly once' }
+          if ((Get-Content -LiteralPath $backups[0].FullName -Raw).Trim() -ne 'DO NOT LOSE THIS') {
+            throw 'Backup marker corrupted'
+          }
+          Write-Host 'SAFE SYNC PASS: audit unchanged, exact GitHub HEAD, original changes retained in backup.'
