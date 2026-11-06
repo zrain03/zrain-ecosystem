@@ -8,7 +8,7 @@
  */
 import { CATEGORIES } from './ecosystem-inventory.mjs';
 import {getActiveInventory,inventoryStats,subscribeCatalog,connectCatalogRefresh} from './ecosystem-catalog.mjs';
-import { searchCatalog } from './ecosystem-search-engine.mjs';
+import {searchCatalog,rankAiChoices} from './ecosystem-search-engine.mjs';
 import {logoFor,repoHref,previewLinkHref,sortedByName,getInventoryItem} from './ecosystem-links.mjs';
 
 const byId = id => document.getElementById(id);
@@ -33,10 +33,9 @@ const aiResultsByContext = new Map();
 function semanticFor(context,query,items) {
   const current=aiResultsByContext.get(context);
   if(!aiReady||!query.trim()||current?.query!==query.trim())return [];
-  const allowed=new Map(items.map(item=>[item.id,item]));
-  // BM: Skor rendah tidak dipaparkan sebagai padanan pasti; tiada senarai kata kunci manual.
-  // EN: Weak semantic matches are not presented as confident matches; no manual keyword list.
-  return current.ranked.filter(v=>v.score>=0.24&&allowed.has(v.id)).map(v=>allowed.get(v.id));
+  // BM: Semua konteks carian menggunakan pemeringkatan hibrid yang telah diuji.
+  // EN: All search contexts use the same benchmark-tested hybrid ranking.
+  return rankAiChoices(query,current.ranked,items);
 }
 let modelInitTimer;
 
@@ -276,7 +275,7 @@ function renderDialog() {
   const aiOnThisQuery=aiReady && aiResultsByContext.get('dialog')?.query===query.trim();
   const semantic=semanticFor('dialog',query,getActiveInventory().filter(v=>kind==='all'||v.kind===kind));
   const finalRanked=aiOnThisQuery
-    ? [...new Map([...semantic,...ranked].map(v=>[v.id,v])).values()]
+    ? [...new Map([...semantic,...ranked.slice(0,5)].map(v=>[v.id,v])).values()].slice(0,10)
     : ranked;
   const fragment=document.createDocumentFragment();
   for(const item of finalRanked) {
