@@ -162,3 +162,36 @@ body { background: #fffaf6; color: var(--v6-text); }
 .category-card[data-category=developer]{--group:#e9e7fa;--group-ink:#67579d}
 .category-card[data-category=productivity]{--group:#e1f3e8;--group-ink:#427454}
 .category-card-list{overscroll-behavior:contain}
+
+/* ZRAIN ABOUT MINIMAL EDITORIAL 2026-11-06 */
+/* BM: Seluruh panel About kini gaya editorial tanpa kad statistik bersarang.
+   EN: The whole About panel is editorial, with no nested statistic card. */
+.about-panel {
+  display: block;
+  padding: clamp(28px, 4vw, 58px);
+  background: linear-gradient(115deg, #f5f8f2, #edf4ee);
+  border-color: #d9e4d9;
+}
+.about-panel > .about-editorial { max-width: none; }
+.about-editorial-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.about-editorial-heading .small-eyebrow { margin: 0; }
+.about-editorial-mark { color: #98533e; font-size: 20px; line-height: 1; }
+.about-panel h2 { margin: 19px 0 14px; font-size: clamp(28px, 3vw, 41px); }
+.about-panel .about-editorial > p { max-width: 820px; font-size: 13px; line-height: 1.85; }
+.about-editorial-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap; margin-top: 31px;
+  padding-top: 18px; border-top: 1px solid #d1ded1;
+}
+.about-panel .about-editorial-footer .zrain-origin { color: #53715c; font-size: 12px; line-height: 1.6; }
+.about-panel .about-editorial-footer .about-editorial-total {
+  display: flex; align-items: baseline; gap: 7px;
+  margin: 0; color: #34533f; white-space: nowrap;
+}
+.about-editorial-total strong { font-size: 21px; font-weight: 850; letter-spacing: -.035em; }
+.about-editorial-total span { font-size: 12px; font-weight: 750; }
+@media (max-width: 560px) {
+  .about-panel { padding: 25px 20px; }
+  .about-panel h2 { font-size: clamp(26px, 7vw, 34px); }
+  .about-editorial-footer { align-items: flex-start; flex-direction: column; gap: 12px; }
+}
