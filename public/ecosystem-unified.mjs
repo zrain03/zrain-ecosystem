@@ -149,7 +149,7 @@ function renderCategory(category) {
     const shown=allVisible ? ranked : ranked.slice(0,5);
     list.replaceChildren(...shown.map(item=>resultRow(item)));
     if(!ranked.length){
-      const empty=el('div','category-empty','No exact match here. Try the global Zrain AI Search.');
+      const empty=el('div','category-empty','No exact match here. Try the global AI Search.');
       const button=el('button','category-search-global','Search all categories ↗');
       button.type='button';
       button.addEventListener('click',()=>openDialog(query));
@@ -231,7 +231,10 @@ if ('IntersectionObserver' in window) {
 }
 
 function showPreview(query) {
-  const found=searchCatalog(query,{limit:5});
+  const lexical=searchCatalog(query,{limit:5});
+  const active=new Map(getActiveInventory().map(v=>[v.id,v]));
+  const semantic=aiReady&&aiInput===query ? aiResults.filter(v=>v.score>0.35&&active.has(v.id)).map(v=>active.get(v.id)) : [];
+  const found=[...new Map([...lexical.slice(0,2),...semantic,...lexical].map(v=>[v.id,v])).values()].slice(0,5);
   const fragment=document.createDocumentFragment();
   for(const item of found) fragment.append(resultRow(item,'search-mini'));
   if(!found.length)fragment.append(el('p','search-explainer','No matching tools found. Try another description.'));
@@ -243,6 +246,7 @@ function searchHome() {
   const q=homeInput.value.trim();
   if(!q){preview.hidden=true;more.hidden=true;return;}
   showPreview(q);
+  if(aiReady){clearTimeout(modelInitTimer);modelInitTimer=setTimeout(()=>requestAi(q,'home'),400);}
 }
 homeInput.addEventListener('input',searchHome);
 homeInput.addEventListener('keydown',event=>{
@@ -267,11 +271,11 @@ function renderDialog() {
   const aiOnThisQuery=aiReady && aiInput===query && aiResults.length>0 && query.trim().length>0;
   let finalRanked=ranked;
   if(aiOnThisQuery) {
-    const byId=new Map(ranked.map(v=>[v.id,v]));
-    const semantic=aiResults.filter(v=>byId.has(v.id)).map(v=>byId.get(v.id));
-    const top=semantic.filter(v=>aiResults.find(x=>x.id===v.id)?.score>0.35);
-    const primary=ranked.slice(0,3);
-    finalRanked=[...new Map([...primary,...top,...ranked].map(v=>[v.id,v])).values()];
+    // BM: Hasil semantik mesti datang daripada katalog aktif, bukan hanya hasil kata kunci.
+    // EN: Semantic results must use the active catalog, not only keyword matches.
+    const allowed=new Map(getActiveInventory().filter(v=>kind==='all'||v.kind===kind).map(v=>[v.id,v]));
+    const semantic=aiResults.filter(v=>v.score>0.35&&allowed.has(v.id)).map(v=>allowed.get(v.id));
+    finalRanked=[...new Map([...ranked.slice(0,2),...semantic,...ranked].map(v=>[v.id,v])).values()];
   }
   const fragment=document.createDocumentFragment();
   for(const item of finalRanked) {
@@ -335,16 +339,17 @@ function requestAi(query, categoryId = null) {
 aiButton.addEventListener('click',()=>{
   if(modelWorker)return;
   aiButton.disabled=true;
-  aiStatus.textContent='Loading multilingual AI. First use downloads a large model; this may not work on low-memory devices.';
+  aiStatus.textContent='Downloading model and preparing semantic index. This may take time on the first use.';
   try {
     modelWorker=new Worker('/ecosystem-ai-worker.mjs',{type:'module'});
     modelWorker.onmessage=event=>{
       const {type,message,ticket,query,ranked}=event.data||{};
       if(type==='progress'){aiStatus.textContent=message||'Preparing AI...';}
       else if(type==='ready') {
-        aiReady=true;aiButton.textContent='✓ AI model ready';
+        aiReady=true;aiButton.textContent='✓ AI model ready';aiButton.disabled=true;
         aiStatus.textContent='On-device multilingual AI is active for this session.';
-        requestAi(dialogInput.value);
+        if(dialog.open)requestAi(dialogInput.value);
+        if(homeInput.value.trim())requestAi(homeInput.value.trim(),'home');
       }
       else if(type==='results' && ticket===pending) {
         const cat = aiTicketCategory.get(ticket);
@@ -355,6 +360,8 @@ aiButton.addEventListener('click',()=>{
             categoryAi.set(cat,{query,ranked:Array.isArray(ranked)?ranked:[]});
             target.draw(query);
           }
+        } else if (cat==='home' && query===homeInput.value.trim()) {
+          aiInput=query;aiResults=Array.isArray(ranked)?ranked:[];showPreview(query);
         } else if (query === dialogInput.value) {
           aiInput=query;aiResults=Array.isArray(ranked)?ranked:[];renderDialog();
         }
@@ -368,6 +375,6 @@ aiButton.addEventListener('click',()=>{
       aiStatus.textContent='Could not start AI model. Fast multilingual search still works.';
       modelWorker?.terminate();modelWorker=null;aiButton.disabled=false;
     };
-    modelWorker.postMessage({type:'init',items:getActiveInventory().map(({id,name,description,keywords})=>({id,text:[name,description,keywords].join('. ')}))});
+    modelWorker.postMessage({type:'init',items:getActiveInventory().map(({id,name,description,keywords})=>({id,text:[name,description,keywords].filter(Boolean).join('. ')}))});
   }catch(error){modelWorker=null;aiButton.disabled=false;aiStatus.textContent='AI initialization failed. Fast search remains available.';}
 });

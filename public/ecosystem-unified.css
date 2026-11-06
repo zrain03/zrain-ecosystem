@@ -195,3 +195,5 @@ body { background: #fffaf6; color: var(--v6-text); }
   .about-panel h2 { font-size: clamp(26px, 7vw, 34px); }
   .about-editorial-footer { align-items: flex-start; flex-direction: column; gap: 12px; }
 }
+/* BM: Kawalan model terletak di bawah carian utama. EN: Model control sits below the main search. */
+.ai-tools-home{padding:12px 0 0;align-items:flex-start}.ai-tools-home .ai-enable{background:#f7faf6;border:1px solid #d7e5d9;color:#416853;border-radius:10px;padding:10px 13px;cursor:pointer}.ai-tools-home .ai-enable:disabled{opacity:.75;cursor:wait}.ai-tools-home #ai-status{align-self:center;min-width:180px}.ai-tools-home .ai-enable:focus-visible{outline:3px solid #b6533d;outline-offset:2px}

@@ -50,18 +50,19 @@ EN: Contains the official homepage with dynamic totals and category links.
         <div class="hero-totals" aria-label="Current collection"><span><strong id="count-projects">10</strong> projects</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-tools">46</strong> browser tools</span><span class="mini-divider" aria-hidden="true"></span><span><strong id="count-categories">11</strong> categories</span></div>
       </div>
       <div class="search-panel" id="search-panel">
-        <div class="search-panel-head"><span class="search-panel-heading">✦ Zrain AI Search. What would you like to do?</span><span class="local-first">✦ Smart discovery</span></div>
+        <div class="search-panel-head"><span class="search-panel-heading">✦ AI Search. What would you like to do?</span><span class="local-first">✦ Smart discovery</span></div>
         <label class="visually-hidden" for="home-search-input">Describe your task in any language</label>
         <div class="search-field"><span aria-hidden="true">⌕</span><input type="search" id="home-search-input" autocomplete="off" spellcheck="false" placeholder="Ask in any language: gabungkan PDF, buat QR, remove background..."><button type="button" id="search-submit">Find</button></div>
         <div class="search-examples" aria-label="Try an example"><span>Try:</span><button type="button" data-example="gabungkan dua fail PDF">Merge PDFs</button><button type="button" data-example="buat QR untuk laman web saya">Create QR</button><button type="button" data-example="remove background from a photo">Remove background</button></div>
         <p class="search-explainer">Find by the task you describe, not just the tool name. Fast multilingual matching works without an account.</p>
+        <div class="ai-tools ai-tools-home"><button type="button" id="ai-enable" class="ai-enable">↓ Download Multilingual AI Model</button><span id="ai-status" role="status" aria-live="polite">Optional download. AI runs on your device after loading. Fast search works without it.</span></div>
         <div class="search-preview" id="search-preview" hidden aria-live="polite"></div>
         <button type="button" class="search-more" id="search-more" hidden>Explore matching results <span aria-hidden="true">↗</span></button>
       </div>
     </section>
 
     <section class="categories-section" id="categories" aria-labelledby="categories-title">
-      <div class="section-head"><div><p class="small-eyebrow">THE COLLECTION / 01</p><h2 id="categories-title">Explore the Zrain Ecosystem<span class="accent">.</span></h2><p>Browse all projects and tools. Search inside any category, or use Zrain AI Search to describe a task.</p></div>
+      <div class="section-head"><div><p class="small-eyebrow">THE COLLECTION / 01</p><h2 id="categories-title">Explore the Zrain Ecosystem<span class="accent">.</span></h2><p>Browse all projects and tools. Search inside any category, or use AI Search to describe a task.</p></div>
         <button type="button" class="catalog-search-button" id="browse-search">Search all <span id="count-total">56</span> <span aria-hidden="true">⌕</span></button>
       </div>
       <nav class="category-jumps" aria-label="Browse categories" id="category-jumps"></nav>
@@ -135,7 +136,7 @@ EN: Contains the official homepage with dynamic totals and category links.
   <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-dialog-title"><div class="dialog-shell"><div class="dialog-heading"><div><h2 id="search-dialog-title">Search Zrain Ecosystem</h2><p>Describe a task, search projects or choose a category.</p></div><button type="button" class="dialog-close" id="dialog-close" aria-label="Close search">×</button></div>
     <label class="visually-hidden" for="dialog-input">Search projects and tools</label><div class="dialog-search-field"><span aria-hidden="true">⌕</span><input id="dialog-input" type="search" autocomplete="off" placeholder="What can Zrain help with?"></div>
     <div class="dialog-filters" role="group" aria-label="Filter result type"><button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="project" aria-pressed="false">Projects</button><button type="button" data-filter="tool" aria-pressed="false">Tools</button></div>
-    <div class="ai-tools"><button type="button" id="ai-enable" class="ai-enable">✧ Enable multilingual AI (beta)</button><span id="ai-status" role="status" aria-live="polite">Optional on-device model download; regular search works without it.</span></div>
+    
     <p id="dialog-count" class="dialog-count" aria-live="polite"></p><div class="dialog-results" id="dialog-results" tabindex="-1"></div><div class="dialog-foot">Ctrl K to open · ↑ ↓ to navigate · Esc to close</div></div></dialog>
 <script defer src="https://zrain-community.web.app/embed.js" data-product="zrain-ecosystem" data-target="#zrain-feedback"></script>
 </body></html>

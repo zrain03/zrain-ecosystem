@@ -60,12 +60,15 @@ function intentMatches(query) {
   const found = new Map();
   for (const [id,object,raw] of ACTIONS) {
     const hasObject = object === 'any' || OBJECTS[object].test(query);
-    if (!hasObject) continue;
+    // BM: Arahan tunggal boleh memberi cadangan; ayat panjang perlu konteks objek.
+    // EN: A standalone verb can suggest a tool; longer queries need object context.
+    const standalone = query.split(' ').length === 1;
+    if (!hasObject && !standalone) continue;
     const terms = raw.split('|').map(term => normalize(term));
     for (const term of terms) {
-      if (term && query.includes(term)) {
+      if (term && (query === term || (hasObject && query.includes(term)))) {
         const length = term.length;
-        found.set(id, Math.max(found.get(id) || 0, 170 + Math.min(length,30)*2));
+        found.set(id, Math.max(found.get(id) || 0, (hasObject ? 170 : 90) + Math.min(length,30)*2));
       }
     }
   }
