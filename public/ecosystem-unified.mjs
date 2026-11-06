@@ -2,7 +2,7 @@
  * Fail / File: public/ecosystem-unified.mjs
  * Pembangun / Developer: Zrain
  * Dicipta / Created: Unverified (rekod penciptaan asal belum disahkan)
- * Dikemas kini / Last updated: 2026-11-05
+ * Dikemas kini / Last updated: 2026-11-06
  * BM: Memaparkan accordion responsif dan kad ringkas dengan satu scroll halaman pada mobile.
  * EN: Renders responsive accordion categories with compact cards and one mobile page scroller.
  */
@@ -93,7 +93,9 @@ const categoryStates = new Map();
 function renderCategory(category) {
   const records = sortedByName(getActiveInventory().filter(item => item.category === category.id));
   const mobile = window.matchMedia('(max-width: 580px)').matches;
-  const state = categoryStates.get(category.id) || {open:!mobile,all:mobile};
+  // BM: Semua kategori ditutup pada lawatan awal, tanpa mengira saiz skrin.
+  // EN: All categories start collapsed on every screen size; keep user changes on refresh.
+  const state = categoryStates.get(category.id) || {open:false,all:mobile};
   categoryStates.set(category.id,state);
   const article = el('section','category-card');
   article.id='category-'+category.id;
