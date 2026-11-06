@@ -8,6 +8,7 @@
  */
 import { writeFile } from 'node:fs/promises';
 import { INVENTORY } from '../public/ecosystem-inventory.mjs';
+import { searchCatalog } from '../public/ecosystem-search-engine.mjs';
 
 const cases = [
  ['saya nak membuang beberapa halaman pdf','remove-pdf-pages','ms',1],
@@ -94,6 +95,14 @@ function score(rows){
  return {n:rows.length,top1:rows.filter(v=>v.rank===1).length,top3:rows.filter(v=>v.rank<=3).length,criticalTop1:rows.filter(v=>v.critical&&v.rank===1).length,criticalTotal:rows.filter(v=>v.critical).length,ms:sub('ms'),en:sub('en'),mix:sub('mix')};
 }
 if(INVENTORY.length!==56||INVENTORY.filter(x=>x.kind==='tool').length!==46)throw Error('Unexpected catalog');
+const lexical = cases.map(([q,id,lang,critical])=>{
+ const ranked=searchCatalog(q,{limit:56,items:INVENTORY});
+ return {q,id,lang,critical:Boolean(critical),rank:Math.max(1,ranked.findIndex(x=>x.id===id)+1),top3:ranked.slice(0,3).map(x=>({id:x.id,score:x.matchScore}))};
+});
+const lexCorrect=lexical.filter(x=>x.rank===1).length;
+console.log('LEXICAL SCORES',JSON.stringify({top1:lexCorrect,top3:lexical.filter(x=>x.rank<=3).length,criticalTop1:lexical.filter(x=>x.critical&&x.rank===1).length}));
+console.table(lexical.map(x=>({query:x.q,expected:x.id,rank:x.rank,top:x.top3[0]?.id,score:x.top3[0]?.score,second:x.top3[1]?.score})));
+
 for(const [,id] of cases)if(!INVENTORY.some(item=>item.id===id))throw Error('Unknown expected tool: '+id);
 if(process.argv.includes('--self-test')){
  const docs=[{id:'a'},{id:'a'},{id:'b'}];
