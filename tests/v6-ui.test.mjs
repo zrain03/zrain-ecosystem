@@ -13,11 +13,11 @@ import {INVENTORY,CATEGORIES} from '../public/ecosystem-inventory.mjs';
 // BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan v6 ui, output dan kes gagal tanpa membuat permintaan production.
 // EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests v6 ui contracts, outputs and failure paths without making production requests.
 const read = name => readFile(new URL(name,import.meta.url),'utf8');
-test('exactly 58 indexed entries with real deep links',()=>{
- assert.equal(INVENTORY.length,58);
- assert.equal(new Set(INVENTORY.map(x=>x.id)).size,58);
+test('exactly 56 indexed entries with real deep links',()=>{
+ assert.equal(INVENTORY.length,56);
+ assert.equal(new Set(INVENTORY.map(x=>x.id)).size,56);
  assert.equal(INVENTORY.filter(x=>x.kind==='project').length,10);
- assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+ assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,46);
  assert.equal(CATEGORIES.length,11);
  for (const item of INVENTORY) assert.ok(item.url.startsWith('/') || /^https:\/\//.test(item.url),item.id);
 });
@@ -32,12 +32,12 @@ test('the two games retain official game logos, all other entries use Zrain bran
  assert.match(source,/return OFFICIAL_LOGOS\[item\?\.id\] \|\| '\/zrain-logo\.webp'/);
  assert.match(ui,/function imageFor/);
 });
-test('categories have independent intent search, all items render without View all',async()=>{
+test('categories have search and expandable previews without nested vertical scrolling',async()=>{
  const ui=await read('../public/ecosystem-unified.mjs');
  assert.match(ui,/category-search-form/);
  assert.match(ui,/searchCatalog\(query,\{limit:getActiveInventory\(\)\.length\}\)/);
- assert.doesNotMatch(ui,/show-category|View all \+records\.length|expanded\.has/);
- assert.match(ui,/list\.replaceChildren\(\.\.\.ranked\.map\(item=>resultRow\(item\)\)\)/);
+ assert.doesNotMatch(ui,/overscroll-behavior:contain/);
+ assert.match(ui,/list\.replaceChildren\(\.\.\.shown\.map\(item=>resultRow\(item\)\)\)/);
 });
 test('all Web App actions use inline Console while full Console retains its controls',async()=>{
  const [ui,consolePage,script]=await Promise.all([
@@ -75,7 +75,7 @@ test('Admin integration stays under original authenticated dashboard',async()=>{
  assert.match(js,/read-only until the API supports unified entries/);
  assert.match(css,/\.unified-admin-panel/);
 });
-test('all 48 tool pages exist on the preview server', async()=>{
+test('all 46 tool pages exist on the preview server', async()=>{
  for(const item of INVENTORY.filter(x=>x.kind==='tool')){
   const uri=item.url.replace(/^\//,'');
   const target=new URL('../public/'+uri+'index.html',import.meta.url);

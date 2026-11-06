@@ -3,24 +3,146 @@
  * Pembangun / Developer: Zrain
  * Dicipta / Created: 2026-11-03 (berdasarkan header dataset asal)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Taksonomi kanonik bagi 58 item unik dan 11 kategori bersama pemeriksaan pendua.
- * EN: Canonical taxonomy for 58 unique items and 11 categories with duplicate detection.
+ * BM: Taksonomi kanonik bagi 56 item unik dan 11 kategori bersama pemeriksaan pendua.
+ * EN: Canonical taxonomy for 56 unique items and 11 categories with duplicate detection.
  */
-// BM: Taksonomi 3 November 2026 telah diluluskan bagi 58 item dalam 11 kategori.
+// BM: Taksonomi 3 November 2026 telah diluluskan bagi 56 item dalam 11 kategori.
 // EN: The 3 November 2026 taxonomy is approved for 58 items across 11 categories.
-// Exactly 58 distinct items, each in one category. No billing or backend access.
+// Exactly 56 distinct items, each in one category. No billing or backend access.
 export const CATEGORIES = Object.freeze([
-  {id:'games',name:'Games & Interactive Learning',description:'Games and interactive learning experiences.',items:['Guess the Flag','Memory Rush']},
-  {id:'ai',name:'Artificial Intelligence',description:'Useful AI-powered applications.',items:['Zrain AI']},
-  {id:'infrastructure',name:'Developer Infrastructure & SDKs',description:'APIs, libraries, shared UI and developer foundations.',items:['Zrain Community','Zrain UI','Zrain Auth Starter']},
-  {id:'links',name:'Digital Presence & Link Tools',description:'Share links, track campaigns, create QR codes and showcase your work.',items:['Zrain Links','UTM Builder','QR Generator','Zrain Gifts']},
-  {id:'monitoring',name:'Monitoring & Operations',description:'Monitor web services and manage Zrain applications.',items:['Zrain Monitor','Zrain Console']},
-  {id:'pdf',name:'PDF Tools',description:'Edit, combine, organize, split, convert and extract PDF content.',items:['Crop PDF','Extract PDF Pages','Merge PDF','PDF Organizer','Remove PDF Pages','Rotate PDF','Split PDF','PDF Editor','PDF Page Numbers','PDF Watermark','JPG & PNG to PDF','PDF to Images','PDF to Text']},
-  {id:'image',name:'Image Tools',description:'Improve, edit, convert, inspect and compare images.',items:['Background Remover','Compress Image','Image Converter','Image Cropper','Image Enhancer','Resize Image','Rotate & Flip Image','Watermark','Color Inspector','Image Compare','Image Inspector']},
-  {id:'document',name:'Document Tools',description:'Handle documents, text conversion, OCR and structured data.',items:['File Converter','Text Extractor','Compare','CSV Cleaner','Markdown Editor','Text Tools','Word Counter']},
-  {id:'art',name:'Digital Art & Creative Design',description:'Create visual art, collages, icons and image-based artwork.',items:['Collage Maker','Emoji Art','Icon Maker','Image to ASCII','Pixel Art']},
-  {id:'developer',name:'Developer Utilities & Security',description:'Format data, decode tokens and generate developer resources.',items:['Base64 Converter','JSON Studio','JWT Decoder','Password Generator','SHA Hash Generator','UUID Generator','CSS Shadow Generator']},
-  {id:'productivity',name:'Productivity & Business Tools',description:'Focus, present information and make basic business documents.',items:['Focus Timer','Teleprompter','Invoice Generator']}
+  {
+    "id": "games",
+    "name": "Games & Interactive Learning",
+    "description": "Games and interactive learning experiences.",
+    "items": [
+      "Guess The Flag",
+      "Memory Rush"
+    ]
+  },
+  {
+    "id": "ai",
+    "name": "Artificial Intelligence",
+    "description": "Useful AI-powered applications.",
+    "items": [
+      "Zrain AI"
+    ]
+  },
+  {
+    "id": "infrastructure",
+    "name": "Developer Infrastructure & SDKs",
+    "description": "APIs, libraries, shared UI and developer foundations.",
+    "items": [
+      "Zrain Auth Starter",
+      "Zrain Community",
+      "Zrain UI"
+    ]
+  },
+  {
+    "id": "links",
+    "name": "Digital Presence & Link Tools",
+    "description": "Share links, track campaigns, create QR codes and showcase your work.",
+    "items": [
+      "QR Generator",
+      "UTM Builder",
+      "Zrain Gifts",
+      "Zrain Links"
+    ]
+  },
+  {
+    "id": "monitoring",
+    "name": "Monitoring & Operations",
+    "description": "Monitor web services and manage Zrain applications.",
+    "items": [
+      "Zrain Console",
+      "Zrain Monitor"
+    ]
+  },
+  {
+    "id": "pdf",
+    "name": "PDF Tools",
+    "description": "Edit, combine, organize, split, convert and extract PDF content.",
+    "items": [
+      "Add Text to PDF",
+      "Crop PDF",
+      "JPG & PNG to PDF",
+      "Merge PDF",
+      "PDF Page Numbers",
+      "PDF to Images",
+      "PDF to Text",
+      "PDF Watermark",
+      "Rearrange PDF Pages",
+      "Remove PDF Pages",
+      "Rotate PDF",
+      "Split PDF"
+    ]
+  },
+  {
+    "id": "image",
+    "name": "Image Tools",
+    "description": "Improve, edit, convert, inspect and compare images.",
+    "items": [
+      "Add Image Watermark",
+      "Background Remover",
+      "Color Picker & Inspector",
+      "Compare Images",
+      "Compress Image",
+      "Extract Text from Image",
+      "Image Converter",
+      "Image Cropper",
+      "Image Enhancer",
+      "Image Metadata Viewer",
+      "Resize Image",
+      "Rotate & Flip Image"
+    ]
+  },
+  {
+    "id": "document",
+    "name": "Document Tools",
+    "description": "Handle document conversion and structured data.",
+    "items": [
+      "CSV Cleaner",
+      "File Converter"
+    ]
+  },
+  {
+    "id": "art",
+    "name": "Digital Art & Creative Design",
+    "description": "Create visual art, collages, icons and image-based artwork.",
+    "items": [
+      "Collage Maker",
+      "Image to ASCII Art",
+      "Image to Binary Art",
+      "Image to Block Art",
+      "Image to Emoji Art",
+      "Image to Pixel Art"
+    ]
+  },
+  {
+    "id": "developer",
+    "name": "Developer Utilities & Security",
+    "description": "Format data, decode tokens and generate developer resources.",
+    "items": [
+      "Base64 Converter",
+      "CSS Shadow Generator",
+      "JSON Formatter & Validator",
+      "JWT Decoder",
+      "Markdown Editor",
+      "Password Generator",
+      "SHA Hash Generator",
+      "Text Counter",
+      "UUID Generator"
+    ]
+  },
+  {
+    "id": "productivity",
+    "name": "Productivity & Business Tools",
+    "description": "Present information and make basic business documents.",
+    "items": [
+      "Invoice Generator",
+      "Teleprompter",
+      "Text Tools"
+    ]
+  }
 ]);
 
 export const CATEGORY_COUNTS = Object.freeze(CATEGORIES.map(c => ({id:c.id,name:c.name,count:c.items.length})));
@@ -41,8 +163,8 @@ export function validateTaxonomy() {
       names.add(key);
     }
   }
-  if (CATEGORIES.length!==11 || TOTAL_ITEMS!==58 || names.size!==58)
-    throw new Error('Expected exactly 11 categories and 58 unique items');
+  if (CATEGORIES.length!==11 || TOTAL_ITEMS!==56 || names.size!==56)
+    throw new Error('Expected exactly 11 categories and 56 unique items');
   for (const item of ['Zrain Links','UTM Builder','QR Generator','Zrain Gifts'])
     if (!CATEGORIES.find(c=>c.id==='links').items.includes(item)) throw new Error('Digital Presence grouping has changed');
   return true;
@@ -54,6 +176,7 @@ export const KNOWN_PROJECT_URLS = Object.freeze({
   'guess-the-flag':'https://guesstheflag-zrain.web.app/',
   'memory-rush':'https://memoryrush-zrain.web.app/',
   'zrain-ai':'https://zrain-ai.web.app/',
+  'zrain-community':'https://zrain-community.web.app/',
   'zrain-auth-starter':'https://github.com/zrain03/zrain-auth-starter',
   'zrain-ui':'https://github.com/zrain03/zrain-ui',
   'zrain-links':'https://zrain-links.web.app/',

@@ -1,0 +1,54 @@
+/*
+ * Fail / File: public/category-responsive.css
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: 2026-11-05
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Accordion dan kad projek ringkas; pada telefon hanya halaman utama boleh ditatal menegak.
+ * EN: Responsive accordion and compact product cards; mobile scrolls the main page only.
+ */
+.category-board{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;align-items:start}
+.category-card{overflow:visible;transform:none!important;box-shadow:0 9px 24px #4d392b0b;border-radius:20px}
+.category-card:hover,.category-card:focus-within{transform:none!important}
+.category-card-top{padding:14px;background:linear-gradient(145deg,var(--group),#fff);border-radius:19px 19px 0 0;border-bottom:1px solid #ece8e3}
+.category-toggle{display:flex;align-items:center;gap:11px;width:100%;min-height:50px;padding:3px 2px;text-align:left;border:0;background:transparent;color:var(--ink);border-radius:11px;touch-action:pan-y}
+.category-toggle .category-card-icon{flex:0 0 37px;width:37px;height:37px;font-size:18px;margin:0}
+.category-toggle-copy{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.category-toggle-title{font-size:16px;font-weight:850;line-height:1.25;letter-spacing:-.025em}
+.category-card-count{font-size:10px;font-weight:730;letter-spacing:.01em;color:#64746f}
+.category-toggle-chevron{font-size:22px;line-height:1;color:#7a6e68;transition:transform .15s ease}
+.category-toggle[aria-expanded=true] .category-toggle-chevron{transform:rotate(180deg)}
+.category-card-description{font-size:11px;line-height:1.45;padding-left:48px;margin:0 0 3px!important}
+.category-content{padding:0 10px 10px}
+.category-search-form{margin:10px 1px 7px}
+.category-card-list,.category-card[data-expanded=true] .category-card-list{max-height:none!important;min-height:0!important;overflow:visible!important;overscroll-behavior:auto!important;scrollbar-width:auto;display:flex!important;flex-direction:column;gap:0;padding:0}
+.category-item{display:flex;gap:11px;align-items:flex-start;padding:15px 4px 16px;min-height:82px;border:0;border-bottom:1px solid #f0e9e5;border-radius:0;touch-action:pan-y;transform:none!important;background:transparent!important;box-shadow:none!important}
+.category-item:last-child{border-bottom:0}
+.category-item .entry-logo{width:40px!important;height:40px!important;border-radius:12px!important;flex:0 0 40px}
+.category-item-copy{gap:5px}
+.category-item-copy .entry-title-link{font-size:14px;font-weight:850;line-height:1.32;overflow-wrap:anywhere}
+.category-item-copy small{font-size:11px;line-height:1.55;color:#60717a;-webkit-line-clamp:2}
+.category-item .entry-actions{margin-top:6px;gap:7px;display:flex;flex-wrap:wrap}
+.category-item .entry-action{min-height:36px;min-width:76px;padding:8px 11px;font-size:11px;border-radius:10px;transform:none!important}
+.category-reveal{width:100%;margin:8px 0 2px;padding:12px;border-radius:11px;border:1px solid #e5d9cf;background:#fff9f6;color:#8e4b37;font-size:12px;font-weight:800}
+.category-reveal:hover{background:#fbeee7}
+.category-reveal[hidden],.category-content[hidden]{display:none!important}
+@media(max-width:1120px){.category-board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){
+ .category-board{grid-template-columns:minmax(0,1fr);gap:10px}
+ .category-card{box-shadow:none;border-radius:16px;max-width:100%}
+ .category-card-top{padding:10px 13px;border-radius:15px}
+ .category-toggle{min-height:46px}
+ .category-toggle-title{font-size:14px}
+ .category-card-description{display:none}
+ .category-content{padding:0 11px 8px}
+ .category-search-form{margin-top:10px}
+ .category-item{padding:13px 2px;min-height:76px;gap:12px}
+ .category-item .entry-logo{width:40px!important;height:40px!important;flex-basis:40px}
+ .category-item-copy .entry-title-link{font-size:15px}
+ .category-item-copy small{font-size:12px}
+ .category-item .entry-action{font-size:12px;min-height:42px;min-width:92px;padding:9px 12px}
+ .category-reveal{display:none}
+ .category-jumps{display:flex;flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding-bottom:7px;scrollbar-width:thin;touch-action:pan-x}
+ .category-jumps a{flex:0 0 auto}
+}
+@media(prefers-reduced-motion:reduce){.category-toggle-chevron{transition:none}}

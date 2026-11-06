@@ -42,12 +42,12 @@ test('the imported inventory includes all six existing live Zrain products as dr
 test('eleven category cards are rendered from one inventory with five-row scrolling',async()=>{
   const {INVENTORY,CATEGORIES} = await import('../public/ecosystem-inventory.mjs');
   const [html, ui] = await Promise.all([read('../public/index.html'),read('../public/ecosystem-unified.mjs')]);
-  assert.equal(INVENTORY.length,58);
+  assert.equal(INVENTORY.length,56);
   assert.equal(CATEGORIES.length,11);
   assert.match(html,/id="category-board"/);
   assert.match(ui,/CATEGORIES\.map\(renderCategory\)/);
-  assert.match(ui,/items\.length<=5/);
-  assert.match(ui,/list\.style\.overflowY='auto'/);
+  assert.match(ui,/ranked\.slice\(0,5\)/);
+  assert.match(ui,/setExpanded\(!state\.open\)/);
 });
 
 test('legacy Worker category codes remain readable without overriding official categories',async()=>{

@@ -1,3 +1,11 @@
+/*
+ * Fail / File: tool-runtime/src/qr-local.mjs
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
+ */
 // Browser QR encoder bundled locally from Kazuhiko Arase QRCode (MIT).
 // Attribution and license: see licenses/QRCode-MIT.txt.
 

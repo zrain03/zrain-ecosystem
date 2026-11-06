@@ -18,25 +18,25 @@ const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 // EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests unified contracts, outputs and failure paths without making production requests.
 const read=path=>readFile(join(root,path),'utf8');
 
-test('exactly 58 unique choices: 10 projects, 48 callable tool URLs',()=>{
- assert.equal(INVENTORY.length,58);
+test('exactly 56 unique choices: 10 projects, 46 callable tool URLs',()=>{
+ assert.equal(INVENTORY.length,56);
  assert.equal(INVENTORY.filter(x=>x.kind==='project').length,10);
- assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
- assert.equal(new Set(INVENTORY.map(x=>x.id)).size,58);
- assert.equal(new Set(INVENTORY.map(x=>x.url)).size,58);
+ assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,46);
+ assert.equal(new Set(INVENTORY.map(x=>x.id)).size,56);
+ assert.equal(new Set(INVENTORY.map(x=>x.url)).size,56);
  for(const item of INVENTORY){
   assert.ok(item.name.trim()&&item.description.trim());
   if(item.kind==='tool')assert.equal(item.url,`/tools/${item.id}/`);
   else assert.match(item.url,/^https:\/\//);
  }
 });
-test('eleven categories contain all 58 choices exactly once',()=>{
+test('eleven categories contain all 56 choices exactly once',()=>{
  assert.equal(CATEGORIES.length,11);
  assert.deepEqual(CATEGORIES.map(c=>c.id),['games','ai','infrastructure','links','monitoring','pdf','image','document','art','developer','productivity']);
  for(const cat of CATEGORIES)assert.equal(INVENTORY.filter(x=>x.category===cat.id).length,cat.count);
- assert.equal(CATEGORIES.reduce((s,c)=>s+c.count,0),58);
+ assert.equal(CATEGORIES.reduce((s,c)=>s+c.count,0),56);
 });
-test('every one of the 48 tools has a real, nonempty HTML page and loaded implementation module',async()=>{
+test('every one of the 46 tools has a real, nonempty HTML page and loaded implementation module',async()=>{
  const app=await read('public/tools/app.js');
  assert.match(app,/mountExtendedTool/);
  assert.match(app,/mountZrainUI\(\{product:'Ecosystem'/);
@@ -91,7 +91,7 @@ test('search matches task intent across languages, not only English titles',()=>
 test('search category and kind filters retain only wanted items',()=>{
  assert.ok(searchCatalog('',{category:'infrastructure',limit:100}).every(x=>x.category==='infrastructure'));
  assert.ok(searchCatalog('',{kind:'project',limit:100}).every(x=>x.kind==='project'));
- assert.equal(searchCatalog('',{kind:'tool',limit:100}).length,48);
+ assert.equal(searchCatalog('',{kind:'tool',limit:100}).length,46);
 });
 test('AI model is optional: model code is loaded only after explicit user click',async()=>{
  const [app,worker]=await Promise.all([read('public/ecosystem-unified.mjs'),read('public/ecosystem-ai-worker.mjs')]);

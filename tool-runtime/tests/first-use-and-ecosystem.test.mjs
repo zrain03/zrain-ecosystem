@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/tests/first-use-and-ecosystem.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan first use and ecosystem, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests first use and ecosystem contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -13,8 +13,8 @@ import {join,resolve} from 'node:path';
 import {catalog,groups} from '../src/catalog.mjs';
 import {workflows,modeExplanations} from '../src/workflow-guide.mjs';
 const dist=resolve(import.meta.dirname,'../dist');
-test('all 48 tools offer a complete first-use guide: purpose, three steps, outcome, clear limitations',()=>{
- assert.equal(Object.keys(workflows).length,48);
+test('all 46 tools offer a complete first-use guide: purpose, three steps, outcome, clear limitations',()=>{
+ assert.equal(Object.keys(workflows).length,46);
  for(const row of catalog){
   const w=workflows[row[0]];
   assert.ok(w,`No guide for ${row[0]}`);

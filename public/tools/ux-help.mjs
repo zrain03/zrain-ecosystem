@@ -1,28 +1,30 @@
 /*
  * Fail / File: tool-runtime/src/ux-help.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menerangkan cara menggunakan tools dan had hasil supaya pengguna tidak tersalah tafsir output.
- * EN: Explains tool usage and output limits so users do not overinterpret results.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 /** User-facing guidance. These strings describe capabilities rather than claiming AI/forensic certainty. */
 export const toolIntro={
+ 'image-to-ascii-art':'Turn a picture into character art. Upload, see the original, adjust detail, preview your artwork and choose PNG, PDF or TXT.',
+ 'image-to-binary-art':'Create artwork from 0 and 1. Upload a picture, adjust detail, preview the result and choose PNG, PDF or TXT.',
+ 'image-to-block-art':'Create character-block artwork. Upload a picture, adjust detail, preview the result and choose PNG, PDF or TXT.',
  'base64-tool':"Turn Unicode text into portable Base64 data or read Base64 back as normal text. Paste text for encoding or paste an encoded Base64 string for decoding. Choose Encode or Decode and optionally select the URL-safe alphabet. Base64 does not hide secrets, encrypt text or authenticate messages.",
  'jwt-decoder':"Understand the claims and timestamps inside a JWT you already possess. Paste the three-segment JWT token into the provided textarea. Choose Decode token to inspect header and payload JSON. Decoding is NOT signature verification and is unsafe as an authorization check.",
- 'word-counter':"Check the length of an essay, article, statement or other text. Paste or type your text into the editable input area. Review the live counts of words, characters, paragraphs and sentences. Sentence boundaries and reading time are approximate for different languages.",
+ 'text-counter':"Check the length of an essay, article, statement or other text. Paste or type your text into the editable input area. Review the live counts of words, characters, paragraphs and sentences. Sentence boundaries and reading time are approximate for different languages.",
  'hash-generator':"Create a checksum of a text string for comparing or checking changes. Paste the text whose bytes should be hashed into the input box. Choose the SHA-256, SHA-384 or SHA-512 algorithm. A hash is not encryption and this tool does not hash uploaded files.",
  'uuid-generator':"Generate identifiers for tests, records and developer prototypes. Choose random UUID v4 or time-sortable UUID v7. Select the number of IDs to generate, up to 500 per batch. UUIDs are not passwords and v7 embeds the creation timestamp.",
  'css-shadow-generator':"Design CSS box shadows by previewing the effect before copying code. Choose the horizontal and vertical offsets along with blur and spread. Adjust opacity and color, then preview the shadow on a sample card. Shadows may vary slightly between browser rendering engines.",
  'image-resizer':"Fit a photo into a target maximum width and height without distorting it. Select an image and review the uploaded preview and pixel dimensions. Enter maximum width and height; the aspect ratio remains unchanged. Upscaling increases pixels, not genuine visual detail or camera sharpness.",
  'image-rotator':"Correct picture orientation or mirror an image for presentation. Choose a JPG or PNG image and check its initial preview. Select a quarter turn, half turn or horizontal or vertical flip. The export is a PNG and original EXIF metadata may not be preserved.",
- 'image-compressor':"Adjust image encoding to try reducing file size or converting formats. Choose an image and check its dimensions and source file size. Select JPG, WebP or PNG and adjust quality for lossy formats. PNG is lossless and may be larger; there is no guaranteed target-size mode yet.",
+ 'image-compressor':"Compress images and only offer output when its actual size is smaller than the original. Choose an image and check its dimensions and source file size. Select JPG, WebP or PNG and adjust quality for lossy formats. PNG is lossless and may be larger; there is no guaranteed target-size mode yet.",
  'merge-pdf':"Combine multiple PDF documents into one page-preserving file. Choose two to twelve PDFs and review the file names in upload order. Keep files in the desired sequence; the current tool does not drag-reorder. Password-protected documents must first be unlocked with permission.",
  'split-pdf':"Save selected PDF pages as separate documents inside a ZIP file. Upload the source PDF and inspect its page count in your reader. Leave pages blank for every page, or enter a comma-separated page range. Individual files preserve page data but do not retain complex inter-page links.",
  'rotate-pdf':"Turn sideways or upside-down PDF pages without blurring their content. Upload a PDF document that does not require a password. Choose a 90°, 180° or 270° rotation and the pages to affect. Only quarter turns are supported; arbitrary tilt correction is not included.",
  'crop-pdf':"Reduce the visible margins of a PDF without changing the underlying text. Upload a PDF and identify which edge needs less visible white space. Enter the millimetres to hide at the top, bottom, left and right. Cropping only HIDES content; never use it to remove confidential information.",
  'remove-pdf-pages':"Remove unwanted PDF pages while preserving the remaining pages. Upload the PDF and note the numbered pages that should be removed. Enter the pages such as 1, 3-5 without selecting every page. At least one page must remain and password-protected inputs are unsupported.",
- 'extract-pdf-pages':"Create a new PDF containing only the selected page numbers. Upload a PDF and identify the pages to keep in the new file. Enter the desired order such as 5, 1-3 in the page field. The same page listed twice appears only once in the new document.",
  'pdf-to-text':"Read the selectable text layer from a PDF into a plain text file. Choose a PDF that contains ordinary selectable text instead of scans. Run Extract and download text to read all available text items. Text layout and columns can be reordered; scanned documents require OCR.",
  'pdf-to-image':"Turn PDF pages into portable JPEG or PNG pictures. Upload a PDF and choose a suitable resolution for screen or print. Choose JPG for photos or PNG for sharp interface graphics. Rendered pages become pictures and no longer contain selectable text.",
  'jpg-to-pdf':"Combine a group of picture files into a PDF for sharing or printing. Choose one to thirty JPG or PNG images and confirm their order. Choose A4 portrait or an individual page size that fits each image. Images are not editable PDF text and PNG embedding can increase size.",
@@ -33,21 +35,18 @@ export const toolIntro={
   'pixel-art':'Turn a photo into blocky pixel art. Larger blocks give a more simplified, retro look. Check the original preview before generating.',
   'image-inspector':'Select an image to see it immediately, then inspect its technical file properties and any embedded metadata. Metadata and hashes are clues, not proof of where an image came from.',
   'watermark':'Add a semi-transparent text label to an image. Preview your original, then choose what the label says, how big and visible it is, and where it appears.',
-  'image-cropper':'Crop an image using pixel coordinates measured from its top-left corner. Use the automatic preview to check the dimensions of your original before entering crop values.',
-  'icon-maker':'Convert one logo or image into a ZIP of eight PNG icon sizes. Useful for website icons and general graphics; full app-store icon projects require additional assets.',
-  'image-to-ascii':'Turn image light and dark areas into text characters. Wider output gives more detail but may be harder to read on small screens.',
-  'background-remover':'For a simple, single-color background: choose the background color, adjust similarity and edge softness, then export transparent PNG. Complex photo backgrounds require a different AI segmentation tool.',
+  'image-cropper':'Drag the crop box on your original image. Pixel coordinates update automatically, and you can edit them for precise results.',
+  'background-remover':'Remove backgrounds using an on-device AI model. Choose transparent, white, black or a custom color. Initial model download requires internet access.',
   'collage-maker':'Drop two to twelve photos, see them before processing, then arrange them in a grid. The tool crops each photo to fill its tile.',
   'emoji-art':'Replace image details with a stylized emoji mosaic. The selected emoji and original colors work together; the result is artwork, not a pixel-identical image.',
   'color-inspector':'Choose a color or upload a photo and click any location in the image to inspect that pixel. See HEX, RGB, HSL, CMYK estimates and text contrast.',
   'image-compare':'Upload two pictures to see both originals automatically. The reveal slider overlays them; press Compare images to produce a red/grey pixel-difference map. Red is a difference, not automatically a mistake.',
   'file-converter':'Choose a supported document or image and an appropriate output mode. Read each mode carefully: some preserve appearance as images, while others extract editable text but lose document layout.',
-  'compare':'Upload two documents or paste two text versions. The differences show changed lines, followed by a conclusion and reminders to review numbers or dates.',
   'csv-cleaner':'Upload a CSV to preview its first rows. Choose whether to trim spaces and remove identical duplicate rows before exporting the cleaned file.',
   'text-extractor':'Choose an image containing text; optical character recognition (OCR) will try to read it. Review the extracted text because image quality affects accuracy.',
   'pdf-editor':'Upload a PDF, enter text and load a page. Click where you want new text to appear. This adds annotations; it does not modify the original PDF text.',
-  'pdf-organizer':'Add one or more PDFs and load their pages, then move, rotate or remove pages before exporting the revised PDF.',
-  'pdf-watermark':'Add the same transparent text watermark to every page of a PDF. Choose the text, size, opacity, color and position.',
+  'pdf-organizer':'Preview every page, drag to rearrange or use move buttons on your phone, then export the updated PDF.',
+  'pdf-watermark':'Drag and resize text on a page preview, then apply to all pages or just the page numbers you choose.',
   'json-studio':'Paste JSON, then validate and format it for readability or make it smaller. The tool identifies invalid syntax but cannot confirm that the data itself is correct.',
   'markdown-editor':'Write simple Markdown formatting on the left to preview headings, bold text, lists and code on the right. Download the Markdown source when finished.',
   'qr-generator':'Enter a link or text, adjust QR size and colors, then generate and test the QR before downloading. Strong contrast makes scanning more reliable.',
@@ -55,7 +54,6 @@ export const toolIntro={
   'utm-builder':'Add campaign labels to a website URL so compatible analytics can distinguish traffic sources (such as Instagram versus email). This tool does not count visits or shorten URLs.',
   'invoice-generator':'Enter your name, client, invoice number, items and optional tax. Check the values carefully before generating a simple downloadable PDF invoice.',
   'text-tools':'Paste text and choose an operation such as capitalizing, trimming spaces, removing repeated lines or counting words. Review the output before downloading.',
-  'focus-timer':'Set focus and break lengths; start, pause or reset a session. Completed focus sessions are counted on this device only, not synchronized to an account.'
 };
 export const differenceLegend='The difference map compares the color of matching pixels after both images are resized to the same dimensions. Red indicates a noticeable RGB difference above the current threshold; pale grey indicates no difference above that threshold. Compression, rescaling, small shifts or deliberate edits can all cause red areas.';
 const controlDescriptions={
@@ -64,14 +62,12 @@ const controlDescriptions={
  'pixel-art':{levels:'Select how many brightness steps each red, green and blue channel can use. Fewer steps create flatter, poster-like colors.',block:'A larger block size creates fewer, bigger pixels and a simpler image.',levels:'The number of tones available for each red, green and blue channel. Fewer levels create bolder color steps.'},
  'watermark':{mark:'The text to place on the image, such as your name or a copyright label.',opacity:'Controls transparency: lower values make the watermark more subtle.',size:'Sets the text size relative to the width of your image.',position:'Where the watermark will appear in the exported image.'},
  'image-cropper':{x:'Horizontal position of the crop start from the original image’s left edge (pixels).',y:'Vertical position of the crop start from the original image’s top edge (pixels).',w:'Width of the crop in pixels. Set 0 to include the image to the right edge.',h:'Height of the crop in pixels. Set 0 to include the image to the bottom edge.'},
- 'image-to-ascii':{cols:'Number of text characters per row. Higher numbers preserve more visual detail but result in wider text.',palette:'Choose which characters represent dark versus light image areas.'},
  'background-remover':{bg:'Select the plain background color to remove, such as white. Colors close to this selection may become transparent.',tolerance:'Controls how similar a pixel must be to the selected background color. Higher tolerance removes a wider range of colors, including similar foreground colors.',feather:'Edge softness: determines how gradually pixels fade from transparent to opaque around the removed color. 0 gives sharp edges; high values create softer but potentially blurry edges.'},
  'collage-maker':{cols:'Number of images placed in each row of the collage.',tile:'Each photo tile is a square of this size, measured in pixels.',gap:'The blank space between photos and around the collage border, in pixels.'},
  'emoji-art':{emoji:'Choose one or more emojis to appear across the generated artwork.',tiles:'More tiles across the image means a finer mosaic; fewer tiles make larger emoji blocks.'},
  'color-inspector':{hex:'Pick a color directly, or upload a photo and click the exact pixel you want to measure.'},
  'image-compare':{old:'Your baseline or original image, shown on the right side of the reveal view.',new:'The newer or comparison image, shown on the left side of the reveal view.',reveal:'Controls how much of the second image covers the first. 0% shows only the first image; 100% only the second.'},
  'file-converter':{conversion:'Each conversion mode has different strengths. For PDF → Word, page images retain appearance but are not editable text; text extraction is editable but may lose layout.',page:'Only used when exporting a PDF page as an image. Page numbering starts at 1.'},
- 'compare':{old:'The original version of the document. Leave empty if you prefer to paste text below.',new:'The updated version of the document. Leave empty if you prefer to paste text below.',before:'Optional original text. Used when you have not selected an original file.',after:'Optional updated text. Used when you have not selected an updated file.'},
  'csv-cleaner':{trim:'Trim removes spaces before and after each cell, but does not rewrite the values within the text.',dedupe:'Remove duplicate rows that match exactly after any selected trimming. Header row is kept.'},
  'text-extractor':{lang:'Choose the language expected in the image to improve OCR recognition.'},
  'pdf-editor':{page:'Which page of the PDF to annotate, starting at page 1.',label:'Text to place when you click on the PDF preview.',fontsize:'Size of your newly added text in PDF points.',color:'Color for the new text annotation.'},
@@ -83,15 +79,13 @@ const controlDescriptions={
  'utm-builder':{url:'Full destination website link, including https://.',source:'Where visitors came from, such as instagram, newsletter or youtube.',medium:'What type of channel it is, such as social, email or cpc.',campaign:'A name to group related links in your analytics reports.',term:'Optional campaign keyword or search term.',content:'Optional label to compare two variations of an ad or link.'},
  'invoice-generator':{seller:'Your name or business name printed on the invoice.',buyer:'The person or company receiving the invoice.',inv:'An invoice reference you can identify later.',currency:'The currency code displayed next to the total, for example MYR.',items:'One item per line, using description | quantity | price. Example: Design | 2 | 150.',tax:'Optional percentage added to the item subtotal. Verify whether tax applies in your situation.'},
  'text-tools':{source:'Paste or type the text you want to process.',operation:'Choose how to transform or analyze the text.'},
- 'focus-timer':{focus:'Length of a focused work session in minutes.',break:'Length of a break session in minutes.'}
 };
-// BM: controlHelp: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menerangkan cara menggunakan tools dan had hasil supaya pengguna tidak tersalah tafsir output. Input: slug,id,label=''.
-// EN: controlHelp: Isolates one operation so it can be reviewed and tested. Module purpose: explains tool usage and output limits so users do not overinterpret results. Inputs: slug,id,label=''.
 export function controlHelp(slug,id,label=''){
  const explicit=controlDescriptions[slug]?.[id];if(explicit)return explicit;
  if(id==='file'||id==='old'||id==='new')return 'Select a file, drag and drop it here, or paste a copied image (Ctrl+V) where image input is supported. You will see a local preview before processing.';
  if(/color|hex|foreground|background|bg/.test(id))return 'Select or enter the color to use in this tool. The color swatch shows the current selection.';
  if(/size|scale|width|height|quality|strength|opacity|gap/.test(id))return 'Adjust this value to control the output. Compare with the preview and change it if needed.';
- if(label)return 'Set this option before running the tool. Review the result before downloading.';
+ // BM: Tiada bantuan generik untuk label yang sudah jelas. EN: No generic helper for self-explanatory fields.
+ if(label)return '';
  return '';
 }

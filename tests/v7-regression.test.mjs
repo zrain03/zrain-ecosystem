@@ -15,8 +15,8 @@ import {GOOGLE_PLAY, OFFICIAL_LOGOS,logoFor,consoleHref,repoHref,previewHref,sor
 // EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests v7 regression contracts, outputs and failure paths without making production requests.
 const read = name => readFile(new URL(name,import.meta.url),'utf8');
 
-test('every one of 58 Web Apps uses the same Console entry point and is allowlisted',()=>{
- assert.equal(INVENTORY.length,58);
+test('every one of 56 Web Apps uses the same Console entry point and is allowlisted',()=>{
+ assert.equal(INVENTORY.length,56);
  for(const item of INVENTORY){
   assert.equal(consoleHref(item),'/zrain-console.html?app='+encodeURIComponent(item.id));
   assert.equal(getInventoryItem(item.id),item);
@@ -37,8 +37,8 @@ test('every category and Console directory support a predictable A-Z order',()=>
   assert.deepEqual(rows.map(x=>x.name),[...rows.map(x=>x.name)].sort((a,b)=>a.localeCompare(b,'en',{sensitivity:'base'})));
  }
  const console=sortedByName(INVENTORY);
- assert.equal(console.length,58);
- assert.equal(console[0].name,'Background Remover');
+ assert.equal(console.length,56);
+ assert.equal(console[0].name,'Add Image Watermark');
 });
 
 test('game icons are unique and Google Play URLs are exact; every other logo is Zrain',()=>{

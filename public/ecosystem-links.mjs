@@ -7,7 +7,7 @@
  * EN: Builds product links from approved URLs and rejects unknown destinations.
  */
 /**
- * Official destinations for the 55 published-in-source Zrain Alpha entries.
+ * Official destinations for the 56 approved-in-source Zrain Alpha entries.
  * Web App always goes through Zrain Console, never directly to the destination.
  */
 import { getActiveInventory } from './ecosystem-catalog.mjs';

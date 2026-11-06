@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/src/style.css
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menggayakan lima keluarga Tools, komponen input dan keadaan viewport berbeza.
- * EN: Styles the five Tools families, inputs and responsive states.
+ * BM: Melaksanakan modul Tools v2.4.0 dalam browser dan mengekalkan pemprosesan asal.
+ * EN: Implements the v2.4.0 Tools browser module while preserving the approved behavior.
  */
 :root{--bg:#fffaf6;--ink:#182334;--muted:#6d7684;--accent:#bd5338;--edge:#e9dbd0;--shadow:0 12px 36px rgba(87,50,37,.055)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 88% 18%,#f9e9e0 0,transparent 32%),radial-gradient(circle at 3% 65%,#ebf4eb 0,transparent 30%),var(--bg);color:var(--ink);min-height:100vh}a{color:inherit}.skip-link{position:absolute;left:-9999px;z-index:99}.skip-link:focus{left:10px;top:10px;background:white;padding:12px}.main{width:min(1160px,calc(100% - 48px));margin:auto}.hero{min-height:330px;display:grid;grid-template-columns:1.5fr 1fr;align-items:center;gap:30px;padding:52px 0 43px}.eyebrow{font-size:10px;letter-spacing:2.2px;text-transform:uppercase;font-weight:800;color:#a15b49}.dot{display:inline-block;background:#c66b4e;width:8px;height:8px;border-radius:50%;margin-right:6px;box-shadow:0 0 0 4px #f6dfd5}.hero h1{font-size:clamp(37px,5.2vw,64px);letter-spacing:-2.9px;line-height:1.09;margin:19px 0;font-weight:850}.hero h1 em{font-style:normal;color:var(--accent)}.lead{color:#647083;line-height:1.85;max-width:590px;font-size:15px}.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:21px}.pill,.local-chip{font-size:11px;color:#716057;background:#fff;border:1px solid #ede0d6;border-radius:100px;padding:8px 12px;font-weight:650}.hero-decoration{position:relative;height:250px;display:grid;place-items:center}.hero-orb{width:204px;height:204px;border-radius:46px;background:linear-gradient(145deg,#fceae0,#f1d9cb);box-shadow:13px 17px 0 #ead0c4,0 18px 50px #e8c4ad70;display:grid;place-items:center;font-weight:900;font-size:69px;color:#b8583d;transform:rotate(-9deg);position:relative}.hero-orb span{position:absolute;font-size:28px;right:19px;top:13px;color:#dcab70}.mini-chip{position:absolute;right:4%;bottom:6%;background:#fff;border:1px solid #e5d5c7;padding:12px 17px;border-radius:15px;font-size:11px;box-shadow:var(--shadow);color:#7d5b4d;font-weight:700}.section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin:19px 0}.section-heading h2{font-size:32px;letter-spacing:-1.2px;margin:8px 0}.section-heading p:last-child{font-size:12px;color:var(--muted)}.accent{color:var(--accent)}.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.tool-card{border:1px solid var(--edge);background:#fffdfb;border-radius:21px;padding:23px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px;transition:transform .16s,border-color .16s;min-height:208px;text-decoration:none}.tool-card:hover{transform:translateY(-3px);border-color:#d59b85}.tool-card .mark{display:grid;place-items:center;background:#f8e7dc;border-radius:13px;height:40px;width:40px;color:#ad5037;font-weight:800}.tool-card h3{font-size:18px;letter-spacing:-.4px;margin:4px 0 0}.tool-card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0;flex:1}.tool-card small{font-size:11px;font-weight:750;color:var(--accent)}.app-shell{background:#fffdfb;border:1px solid var(--edge);border-radius:25px;padding:27px;box-shadow:var(--shadow);min-height:330px}.app-title{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #f0e6df;padding-bottom:18px;margin-bottom:23px}.app-title h2{font-size:22px;letter-spacing:-.8px;margin:7px 0}.local-chip{color:#456857;background:#ecf7ed;border-color:#d9e9d9}.app-note{margin-top:26px;font-size:11px;line-height:1.7;color:#8a7480;border-top:1px solid #efe8e2;padding-top:15px}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field label,.field>span{font-weight:750;font-size:12px;color:#455063}.field input:not([type="checkbox"]):not([type="range"]),.field select,.field textarea{width:100%;border:1px solid #dfd8d3;border-radius:11px;background:#fff;padding:12px;font:inherit;font-size:13px;color:var(--ink);outline:none}.field input[type=file]{padding:11px 9px;font-size:11px}.field textarea{min-height:125px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#c57962;box-shadow:0 0 0 3px #edd2c76e}.field input[type=range]{accent-color:var(--accent);width:100%}.wide{grid-column:1/-1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:19px;align-items:center}.btn{appearance:none;background:#bb5439;border:1px solid #bb5439;color:white;font:inherit;font-weight:750;font-size:12px;padding:12px 17px;border-radius:11px;cursor:pointer;transition:filter .15s}.btn:hover{filter:brightness(.95)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.secondary{background:#fff;color:#755344;border:1px solid #e7cec3}.muted{color:var(--muted);font-size:12px}.result{margin-top:18px;min-height:40px}.result p{font-size:12px;line-height:1.7;color:#5f6c7a}.result pre{max-height:340px;overflow:auto;border:1px solid #e8ddd7;border-radius:11px;padding:14px;background:#fdf6f1;color:#3e4858;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}.preview{margin-top:17px;display:flex;align-items:center;justify-content:center;min-height:120px;background:linear-gradient(135deg,#fcf8f3,#f5eee7);border:1px dashed #e4cfc3;border-radius:16px;padding:15px;overflow:hidden}.preview img,.preview canvas{max-width:100%;max-height:470px;object-fit:contain}.preview canvas{cursor:crosshair}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.info-grid>div{border:1px solid #e9dfd7;border-radius:12px;padding:13px;background:#fff}.info-grid small{font-size:10px;color:#8e7781;display:block}.info-grid strong{display:block;margin-top:6px;font-size:13px;overflow-wrap:anywhere}.color-square{display:inline-block;width:54px;height:54px;border-radius:12px;border:1px solid #dfd6d0;vertical-align:middle}.diff{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.diff>pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;font-size:11px;padding:11px;border:1px solid #e6ddd6;border-radius:12px}.diff .removed{background:#fff0ec;color:#a53c35}.diff .added{background:#ebf9ed;color:#32663e}.pdf-page-row{display:flex;gap:10px;align-items:center;border:1px solid #eadcd0;border-radius:11px;padding:9px;margin:8px 0;flex-wrap:wrap}.pdf-page-row span{flex:1;font-size:12px}.pdf-page-row .btn{padding:8px}.compare-frame{position:relative;display:inline-block;max-width:100%;line-height:0;overflow:hidden}.compare-frame img{display:block;max-width:100%;max-height:430px}.compare-top{position:absolute;inset:0;overflow:hidden}.compare-top img{height:100%;width:100%;max-width:none;max-height:none;object-fit:fill}.box-message{background:#f8f0e9;border:1px solid #ebd9cf;border-radius:13px;padding:13px 15px;font-size:12px;line-height:1.7;color:#73594a;margin:15px 0}.status{font-size:12px;line-height:1.6;color:#3b7059}.error{color:#ac473a}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px}.short-help{font-size:11px;color:#788291;line-height:1.7}.checkrow{display:flex;gap:6px;align-items:center}.checkrow label{font-size:12px}.bigoutput{width:100%;min-height:100px;resize:vertical;border:1px solid #e4d6cc;border-radius:10px;font:12px monospace;padding:12px}.swatches{display:flex;flex-wrap:wrap;gap:8px}.swatches button{width:30px;height:30px;border:2px solid #fff;border-radius:8px;box-shadow:0 0 0 1px #dccfc5;cursor:pointer}#toast{position:fixed;right:20px;bottom:22px;max-width:390px;border-radius:12px;background:#293b37;color:#fff;padding:12px 16px;font-size:12px;box-shadow:0 8px 24px #0002;opacity:0;pointer-events:none;transition:opacity .2s;z-index:99}#toast.show{opacity:1}footer{margin-top:65px}@media(max-width:900px){.tool-grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1.6fr 1fr}.hero-orb{width:160px;height:160px;font-size:55px}}@media(max-width:640px){.main{width:calc(100% - 28px)}.hero{grid-template-columns:1fr;padding:38px 0 26px}.hero-decoration{display:none}.hero h1{letter-spacing:-1.9px}.tool-grid,.field-grid,.field-grid.three,.diff{grid-template-columns:1fr}.app-shell{padding:18px}.app-title{align-items:flex-start}.local-chip{font-size:9px}.info-grid{grid-template-columns:1fr 1fr}}
@@ -163,3 +163,100 @@ body[data-view="group"] .hero .lead{max-width:65ch;line-height:1.7}
 .preview{background:#fff;border-style:solid}
 @media(max-width:640px){body[data-view="workspace"] .hero,body[data-view="group"] .hero{padding:29px 0 17px!important;min-height:unset}
  .discovery-find{padding:18px;border-radius:14px}.tool-card{min-height:150px;padding:17px}.workflow-guide{padding:17px}}
+
+/* 2026-11-05 approved mobile-first refresh. These rules intentionally do not touch Zrain UI brand assets. */
+body[data-view="tool"] .hero{display:none!important}
+body[data-view="tool"] .app-shell{margin-top:12px;padding:clamp(14px,2vw,25px);border-radius:18px;box-shadow:none}
+body[data-view="tool"] .tool-toolbar{margin-bottom:14px}
+body[data-view="tool"] .tool-toolbar .back-link{margin:0}
+body[data-view="tool"] .app-title{margin-bottom:16px;padding-bottom:13px}
+body[data-view="tool"] .app-title h2{font-size:clamp(21px,3vw,26px);margin:2px 0}
+body[data-view="tool"] .app-title .eyebrow{font-size:10px}
+body[data-view="tool"] .field-grid{align-items:start;gap:13px}
+body[data-view="tool"] .file-field{grid-column:1/-1}
+body[data-view="tool"] .file-field .upload-preview{margin-top:10px}
+body[data-view="tool"] .field input:not([type="checkbox"]):not([type="range"]),
+body[data-view="tool"] .field select,body[data-view="tool"] .field textarea{font-size:16px;min-height:46px}
+body[data-view="tool"] .btn{min-height:46px;font-size:13px}
+body[data-view="tool"] .workflow-guide{padding:12px;background:transparent;border:0;margin:0}
+body[data-view="tool"] .workflow-steps{display:none}
+body[data-view="tool"] .workflow-why{margin:0 0 9px}
+body[data-view="tool"] .workflow-guide h3{font-size:14px}
+body[data-view="tool"] .workflow-output,body[data-view="tool"] .workflow-limit{font-size:12px}
+.optional-help{margin-top:16px;background:#fffaf6;border:1px solid #eddfd6;border-radius:13px;padding:12px 14px}
+.optional-help summary{cursor:pointer;font-weight:700;font-size:13px;color:#765648}
+.field-help[hidden]{display:none!important}
+.inline-help-button{min-height:28px;min-width:28px;align-self:flex-start;border:1px solid #e2d3ca;border-radius:999px;background:#fffaf6;color:#766051;font-weight:800;cursor:pointer}
+.generated-output{margin-top:14px;padding-top:8px;border-top:1px solid #f0e6df}
+.generated-output h3{font-size:15px;font-weight:750;margin:8px 0}
+.generated-output .preview{max-width:100%;min-width:0}
+.generated-output .preview canvas{width:auto;max-width:100%;height:auto;max-height:520px;object-fit:contain;image-rendering:auto}
+.generated-output #art-downloads{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.prepared-download{display:flex;flex-direction:column;align-items:flex-start;gap:9px;background:#faf7f4;border:1px solid #e3d7cf;border-radius:14px;padding:14px;margin-top:14px;overflow:hidden}
+.prepared-download p{font-size:12px;color:#57636d;overflow-wrap:anywhere;margin:0}
+.prepared-preview{max-width:100%;max-height:300px;object-fit:contain;background:repeating-conic-gradient(#f3eee9 0% 25%,#fff 0% 50%) 50%/20px 20px}
+.prepared-pdf{width:100%;height:350px;border:1px solid #dbcec3;border-radius:9px;background:white}
+.counter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-top:14px}
+.counter-stat{border:1px solid #e8dacf;border-radius:12px;padding:13px;background:#fff;display:flex;flex-direction:column;gap:5px}
+.counter-stat strong{font-size:23px;color:#2d3b42;line-height:1}
+.counter-stat span{font-size:12px;color:#6c7881;text-transform:capitalize}
+@media(max-width:680px){
+ body[data-view="tool"] .main{width:calc(100% - 24px)}
+ body[data-view="tool"] .app-shell{padding:14px}
+ body[data-view="tool"] .app-title{align-items:flex-start;gap:5px;flex-direction:column}
+ body[data-view="tool"] .tool-toolbar{align-items:stretch;flex-direction:column}
+ body[data-view="tool"] .tool-switch{width:100%;justify-content:space-between}
+ body[data-view="tool"] .tool-switch select{width:100%;max-width:none}
+ body[data-view="tool"] .tool-switch .select-control{flex:1;min-width:0}
+ body[data-view="tool"] .field-grid,body[data-view="tool"] .field-grid.three{grid-template-columns:1fr!important}
+ body[data-view="tool"] .file-control{gap:8px;min-height:75px}
+ body[data-view="tool"] .upload-preview-item img{height:auto;max-height:230px}
+ body[data-view="tool"] .actions{display:grid;grid-template-columns:1fr;gap:8px}
+ body[data-view="tool"] .actions .btn{width:100%}
+ body[data-view="tool"] .preview{min-height:140px;margin-top:10px;padding:9px}
+ body[data-view="tool"] .preview canvas{max-width:100%}
+ .counter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .prepared-pdf{height:270px}
+}
+
+/* BM: Pada halaman tool, fungsi dahulu. Tiada hero kedua yang perlu ditatal di telefon.
+   EN: Tool pages open directly on useful controls, without a redundant hero. */
+body[data-view="tool"] .main{padding-top:16px}
+body[data-view="tool"] .app-shell{min-height:0}
+body[data-view="tool"] .app-title{align-items:flex-start}
+body[data-view="tool"] .tool-description{font-size:13px;color:#657181;line-height:1.55;margin:5px 0 0;max-width:65ch}
+body[data-view="tool"] input::placeholder,body[data-view="tool"] textarea::placeholder{color:#8490a0;opacity:1}
+body[data-view="tool"] .field input:not([type=checkbox]):not([type=range]),body[data-view="tool"] .field textarea,body[data-view="tool"] .field select{min-height:46px;font-size:16px}
+body[data-view="tool"] .app-title h2{font-size:clamp(20px,5vw,27px);margin-bottom:2px}
+@media(max-width:640px){body[data-view="tool"] .main{width:calc(100% - 20px);padding-top:10px}body[data-view="tool"] .app-shell{padding:15px}body[data-view="tool"] .app-title{gap:8px}body[data-view="tool"] .local-chip{display:none}body[data-view="tool"] .actions .btn{min-height:44px}body[data-view="tool"] .tool-toolbar{flex-wrap:wrap}}
+/*
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created: 2026-11-05
+ * Dikemas kini / Last updated: 2026-11-05
+ * BM: Editor visual yang berfungsi dengan sentuhan dan tetikus, serta thumbnail PDF yang jelas.
+ * EN: Touch/mouse visual editors and readable PDF page thumbnails.
+ */
+.visual-stage-wrap{width:100%;max-width:780px;margin:10px auto 16px;min-height:96px}
+.visual-stage{display:block;position:relative;width:100%;max-width:100%;margin:0 auto;touch-action:pan-y;user-select:none;overflow:hidden;border-radius:14px;background:repeating-conic-gradient(#eee 0% 25%,#fafafa 0% 50%) 50%/18px 18px;border:1px solid #e2d5ca}
+.visual-source{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;pointer-events:none}
+.crop-selection{position:absolute;left:0;top:0;width:100%;height:100%;border:2px solid #fff;outline:2px solid #bd5338;box-shadow:0 0 0 200vmax #0d17284d;cursor:move;touch-action:none}
+.crop-grip{position:absolute;width:20px;height:20px;border:3px solid #fff;background:#bd5338;border-radius:5px;box-shadow:0 0 0 1px #893922;touch-action:none}
+.crop-grip.nw{left:-10px;top:-10px;cursor:nwse-resize}.crop-grip.ne{right:-10px;top:-10px;cursor:nesw-resize}.crop-grip.sw{left:-10px;bottom:-10px;cursor:nesw-resize}.crop-grip.se{right:-10px;bottom:-10px;cursor:nwse-resize}
+.watermark-selection{position:absolute;transform:translate(-50%,-50%);max-width:85%;min-width:70px;line-height:1.1;text-align:center;white-space:nowrap;overflow:visible;color:white;font-weight:800;text-shadow:0 1px 2px #000d;cursor:move;touch-action:none;outline:1px dashed #bd5338;background:#11182716;padding:4px 7px;border-radius:3px}
+.watermark-caption{display:block;pointer-events:none;overflow:hidden;text-overflow:ellipsis}
+.watermark-grip{position:absolute;right:-12px;bottom:-12px;width:26px;height:26px;border-radius:8px;background:#bd5338;color:white;display:grid;place-items:center;font-size:14px;cursor:nwse-resize;touch-action:none;box-shadow:0 3px 6px #0002}
+.precision-details{margin:14px 0;padding:13px;border:1px solid #ebd8cd;border-radius:13px;background:#fffcfa}
+.precision-details summary{cursor:pointer;font-weight:700;font-size:13px;color:#85513d;user-select:none}.precision-details .field-grid{margin-top:14px}
+.pdf-thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:13px;margin:15px 0}
+.pdf-thumb-card{display:flex;flex-direction:column;gap:9px;background:#fff;border:1px solid #e7d6ca;border-radius:13px;padding:10px;box-shadow:0 3px 12px #00000008;min-width:0}
+.pdf-thumb-card img{display:block;max-width:100%;width:100%;height:160px;object-fit:contain;background:#f8f6f3;border-radius:6px}
+.pdf-thumb-label{font-size:11px;font-weight:650;color:#465163;overflow-wrap:anywhere}
+.pdf-thumb-actions{display:flex;gap:5px;justify-content:space-between;flex-wrap:wrap}.pdf-thumb-actions .btn{min-width:32px;padding:8px 10px;flex:1}
+.office-preview{background:#f9f6f2;border:1px solid #e9dbcf;border-radius:12px;padding:14px;margin:14px 0;max-width:100%}.office-preview pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:330px;overflow:auto;font-size:12px;color:#3e4651}
+@media(max-width:640px){.visual-stage-wrap{width:100%}.crop-grip{width:24px;height:24px}.pdf-thumb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.pdf-thumb-card img{height:135px}.pdf-thumb-actions .btn{font-size:12px;padding:8px 4px}.visual-source{max-height:65vh}}
+
+/* BM: Kawalan susunan PDF pada sentuhan dan tetikus. EN: Accessible touch/mouse PDF arrangement. */
+.pdf-thumb-card.is-drop-target{outline:3px solid #bd5338;outline-offset:2px;background:#fff7ef}
+.pdf-drag-handle{touch-action:none;cursor:grab;border:1px dashed #bd5338;background:#fff5ef;color:#683a29;border-radius:8px;font-size:12px;font-weight:650;padding:8px;user-select:none}
+.pdf-drag-handle:active{cursor:grabbing}
+.pdf-jump-row{display:flex;gap:6px;align-items:center}.pdf-jump-row input{width:75px;min-width:0;flex:1;padding:9px 7px;border-radius:8px;border:1px solid #d5beb0}.pdf-jump-row button{white-space:nowrap;flex:0 0 auto;font-size:12px;padding:9px}

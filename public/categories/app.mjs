@@ -20,7 +20,7 @@ let portfolio=resolvePortfolio();
 // EN: loadLiveInventory: Reads relevant records and returns a bounded result to the caller. Module purpose: renders the canonical categories, entries and search on the Categories page.
 async function loadLiveInventory(){
   const rows=[];
-  // Latest Zrain Ecosystem local inventory (48 tools and project entries).
+  // Latest Zrain Ecosystem local inventory (46 v2.4 tools and project entries).
   try {
     const mod=await import('../ecosystem-inventory.mjs');
     if(Array.isArray(mod.INVENTORY))rows.push(...mod.INVENTORY);

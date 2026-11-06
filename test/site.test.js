@@ -45,11 +45,11 @@ test('the canonical Zrain visual identity remains available with eleven responsi
 test('inventory includes ten existing projects and forty-eight callable tools without placeholders',async()=>{
   const {INVENTORY,CATEGORIES} = await import('../public/ecosystem-inventory.mjs');
   const html=await read('../public/index.html');
-  assert.equal(INVENTORY.length,58);
+  assert.equal(INVENTORY.length,56);
   assert.equal(INVENTORY.filter(x=>x.kind==='project').length,10);
-  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,46);
   assert.equal(CATEGORIES.length,11);
-  assert.equal(new Set(INVENTORY.map(x=>x.id)).size,58);
+  assert.equal(new Set(INVENTORY.map(x=>x.id)).size,56);
   for(const name of ['FileFit','DocDiff','DataFix','SubFlow'])
     assert.equal(INVENTORY.some(x=>x.name===name),false,name);
   assert.match(html,/id="category-board"/);

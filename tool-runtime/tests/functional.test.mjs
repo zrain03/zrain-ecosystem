@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/tests/functional.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan functional, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests functional contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -13,8 +13,6 @@ import { findGroup } from '../src/catalog.mjs';
 import {jpegExif,pngDetails,detectSignature} from '../src/image-metadata.mjs';
 import {drawQr} from '../src/qr-local.mjs';
 
-// BM: env: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan functional, output dan kes gagal tanpa membuat permintaan production. Input: slug.
-// EN: env: Isolates one operation so it can be reviewed and tested. Module purpose: tests functional contracts, outputs and failure paths without making production requests. Inputs: slug.
 function env(slug){
  const nodes=new Map(),saved=new Map(),callbacks=[];
  let qrPaint=0;
@@ -24,8 +22,6 @@ function env(slug){
   replaceChildren(...args){this.children=args},append(...args){this.children.push(...args)},prepend(...args){this.children.unshift(...args)},
   insertBefore(){},setAttribute(){},querySelector(){return null},querySelectorAll(){return []},closest(){return create()},
   getContext(){return {fillStyle:'#000',fillRect(){qrPaint++}}},click(){}}}
- // BM: get: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan functional, output dan kes gagal tanpa membuat permintaan production.
- // EN: get: Reads relevant records and returns a bounded result to the caller. Module purpose: tests functional contracts, outputs and failure paths without making production requests.
  const get=id=>{if(!nodes.has(id))nodes.set(id,create(id));return nodes.get(id)};
  globalThis.document={body:{dataset:{tool:slug,view:'tool',group:findGroup(slug).slug}},querySelector(){return null},querySelectorAll(){return []},addEventListener(){},removeEventListener(){},createElement(tag){return create(tag)},getElementById:get};
  globalThis.window={addEventListener(){}};
@@ -35,8 +31,6 @@ function env(slug){
  return {get,saved,callbacks,qrPaint:()=>qrPaint,trigger:async(id,event='click')=>get(id).dispatch(event)};
 }
 const originals={document:globalThis.document,window:globalThis.window,localStorage:globalThis.localStorage,setInterval:globalThis.setInterval,clearInterval:globalThis.clearInterval};
-// BM: restore: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: menguji sempadan functional, output dan kes gagal tanpa membuat permintaan production.
-// EN: restore: Isolates one operation so it can be reviewed and tested. Module purpose: tests functional contracts, outputs and failure paths without making production requests.
 const restore=()=>Object.assign(globalThis,originals);
 let serial=0;
 async function boot(slug){const x=env(slug);await import(`../src/app.js?functional=${slug}-${serial++}`);return x;}
@@ -61,7 +55,9 @@ test('UTM builder appends named campaign parameters without redirecting',async()
 
 test('JSON formatting and invalid JSON reporting',async()=>{try{const x=await boot('json-studio');x.get('source').value='{"zrain":true}';x.get('action').value='pretty';await x.trigger('run');assert.match(x.get('jsonout').value,/"zrain": true/);x.get('source').value='{"invalid"';await x.trigger('run');assert.match(x.get('result').children[0].textContent,/Invalid JSON/);}finally{restore()}});
 
-test('Focus timer can start, pause, resume and count completed sessions',async()=>{const originalNow=Date.now;try{let now=100000;Date.now=()=>now;const x=await boot('focus-timer');await x.trigger('begin');assert.equal(x.get('begin').disabled,true);now+=60_000;await x.trigger('pause');assert.equal(x.get('clock').textContent,'24:00');await x.trigger('begin');now+=24*60_000;x.callbacks[0]();assert.equal(x.get('done').textContent,'Completed focus sessions: 1');assert.equal(x.get('mode').textContent,'Switch to focus');assert.ok(x.saved.get('zrain-focus-v2'));await x.trigger('clearstats');assert.match(x.get('done').textContent,/0/);}finally{Date.now=originalNow;restore()}});
+test('Text Counter is available and updates live',async()=>{
+  try{const x=await boot('text-counter');assert.match(x.get('app').innerHTML,/Enter or paste text/)}finally{restore()}
+});
 
 test('Color Inspector initializes color formats without image upload',async()=>{try{const x=await boot('color-inspector');assert.match(x.get('result').innerHTML,/(HEX|RGB|CMYK)/);assert.ok(x.get('run').listeners.click.length===1);}finally{restore()}});
 

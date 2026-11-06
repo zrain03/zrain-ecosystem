@@ -32,7 +32,7 @@ test("five distinct official Cloudflare Pages sites contain 28 unique real tool 
 test('all forty-eight tools are discoverable in eleven categories without duplicate portals',async()=>{
   const [html,ui]=await Promise.all([read('../public/index.html'),read('../public/ecosystem-unified.mjs')]);
   const {INVENTORY,CATEGORIES}=await import('../public/ecosystem-inventory.mjs');
-  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,48);
+  assert.equal(INVENTORY.filter(x=>x.kind==='tool').length,46);
   assert.equal(CATEGORIES.length,11);
   assert.match(html,/id="category-board"/);
   assert.match(ui,/category-card-list/);

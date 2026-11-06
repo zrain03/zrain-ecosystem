@@ -1,17 +1,15 @@
 /*
  * Fail / File: tool-runtime/src/discovery-ui.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
- * EN: Mounts search, category choices, favourites and recent tools on family landing pages.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 import {catalog,groups,findGroup} from './catalog.mjs';
 import {searchTools,getTool,toolHref,popularSlugs,getFavourites,setFavourite,recordTool,recentTools} from './discovery.mjs';
 
 // Zero external dependencies. All links and labels are built with DOM textContent.
-// BM: local: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
-// EN: local: Isolates one operation so it can be reviewed and tested. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages.
 const local=()=>{try{return window.localStorage}catch{return null}};
 const el=(tag,cls='',content='')=>{const node=document.createElement(tag);if(cls)node.className=cls;if(content)node.textContent=content;return node};
 const url=(slug,groupSlug,view)=>view==='tool'?`../${slug}/index.html`:toolHref(slug,groupSlug);
@@ -21,16 +19,12 @@ export function mountDiscovery({view,groupSlug,slug}){
  const storage=local();
  if(view==='tool')recordTool(storage,slug);
  const subset=view==='workspace'?'':groupSlug;
- // BM: favorites: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
- // EN: favorites: Isolates one operation so it can be reviewed and tested. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages.
  const favorites=()=>new Set(getFavourites(storage));
  const starred=(item,star)=>{
   const saved=favorites().has(item);star.textContent=saved?'★ Saved':'☆ Save';
   star.setAttribute('aria-pressed',String(saved));star.setAttribute('aria-label',`${saved?'Remove':'Save'} ${getTool(item)?.[1]||item} ${saved?'from':'to'} favourites`);
   star.classList.toggle('is-saved',saved);
  };
- // BM: createStar: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
- // EN: createStar: Mutates relevant state only after input and access conditions are verified. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages.
  const createStar=slug=>{
   const button=el('button','discovery-star');button.type='button';button.dataset.starTool=slug;
   starred(slug,button);
@@ -42,8 +36,6 @@ export function mountDiscovery({view,groupSlug,slug}){
   });
   return button;
  };
- // BM: tile: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools. Input: slug.
- // EN: tile: Isolates one operation so it can be reviewed and tested. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages. Inputs: slug.
  const tile=(slug)=>{
   const row=getTool(slug);if(!row)return null;
   const container=el('div','discovery-tile');
@@ -53,8 +45,6 @@ export function mountDiscovery({view,groupSlug,slug}){
   anchor.append(h,desc,category);container.append(anchor,createStar(slug));
   return container;
  };
- // BM: renderItems: Menyelaraskan UI dan state tanpa menggandakan event handler atau mencipta elemen tidak diperlukan. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools. Input: parent,slugs.
- // EN: renderItems: Synchronizes UI and state without duplicating handlers or unnecessary elements. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages. Inputs: parent,slugs.
  const renderItems=(parent,slugs)=>{
   parent.replaceChildren();
   for(const slug of slugs){const row=tile(slug);if(row)parent.append(row)}
@@ -80,8 +70,6 @@ export function mountDiscovery({view,groupSlug,slug}){
   const popular=popularSlugs.filter(s=>searchTools('',subset).some(row=>row[0]===s));
   if(!popular.length)document.getElementById('zrain-popular-section').hidden=true;
   else renderItems(document.getElementById('zrain-popular-items'),popular);
-  // BM: onSearch: Memproses interaksi yang ditentukan dan mengemas kini state yang relevan dengan selamat. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
-  // EN: onSearch: Handles the specified interaction and updates relevant state safely. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages.
   const onSearch=()=>{
    const term=input.value.trim();searchSection.hidden=!term;
    if(!term){searchCount.textContent='Search by task or tool name.';return}
@@ -90,8 +78,6 @@ export function mountDiscovery({view,groupSlug,slug}){
    searchCount.textContent=matches.length?`${matches.length} matching ${matches.length===1?'tool':'tools'}`:'No matching tool. Try a different term.';
    if(!matches.length)searchItems.append(el('p','discovery-empty','No results in this workspace.'));
   };
-  // BM: Event input: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
-  // EN: input event: handle interaction without mutating source data or bypassing module validation.
   input.addEventListener('input',onSearch);
   renderExtra();
  }
@@ -102,8 +88,6 @@ export function mountDiscovery({view,groupSlug,slug}){
    const searchBtn=el('button','discovery-open','⌕ Find a tool');searchBtn.type='button';
    const save=createStar(slug);save.classList.add('discovery-current-save');
    buttons.append(searchBtn,save);toolbar.append(buttons);
-   // BM: Event click: kendalikan interaksi tanpa mengubah sumber data atau memintas validasi modul.
-   // EN: click event: handle interaction without mutating source data or bypassing module validation.
    searchBtn.addEventListener('click',openPalette);
   }
  }
@@ -112,8 +96,6 @@ export function mountDiscovery({view,groupSlug,slug}){
  dialog.innerHTML=`<div class="discovery-dialog-head"><label for="zrain-command-search">Find another Zrain tool</label><button class="discovery-dismiss" type="button" aria-label="Close search">✕</button></div><input type="search" id="zrain-command-search" placeholder="Search this workspace…" autocomplete="off"/><div class="discovery-command-results"></div><p class="discovery-count">Press Esc to close. Results are limited to this product.</p>`;
  document.body.append(dialog);
  const commandInput=dialog.querySelector('input');const commandResults=dialog.querySelector('.discovery-command-results');
- // BM: updateCommand: Mengubah state yang berkaitan hanya selepas input dan syarat akses diperiksa. Tujuan modul: memasang carian, pilihan kategori, favorites dan recent tools bagi halaman keluarga Tools.
- // EN: updateCommand: Mutates relevant state only after input and access conditions are verified. Module purpose: mounts search, category choices, favourites and recent tools on family landing pages.
  const updateCommand=()=>{const result=searchTools(commandInput.value,subset,12).map(row=>row[0]);renderItems(commandResults,result);if(!result.length)commandResults.append(el('p','discovery-empty','No matching tool found.'))};
  commandInput.addEventListener('input',updateCommand);
  dialog.querySelector('button').addEventListener('click',()=>dialog.close());

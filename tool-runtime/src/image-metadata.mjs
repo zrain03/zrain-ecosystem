@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/src/image-metadata.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 source)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan.
- * EN: Reads local image metadata without unsupported forensic claims.
+ * BM: Mengekalkan implementasi fungsi Tools terkini dengan sempadan keselamatan browser.
+ * EN: Preserves the latest approved Tools implementation and browser security boundaries.
  */
 // Local-only binary image inspection: never uploads files or guesses absent provenance.
 export function detectSignature(bytes){
@@ -17,8 +17,6 @@ export function detectSignature(bytes){
   if(b.length>=2&&b[0]===66&&b[1]===77)return 'BMP';
   return 'Unknown / unrecognized';
 }
-// BM: decoded: Menukar atau mengesahkan input tanpa melangkau sempadan data yang selamat. Tujuan modul: membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan. Input: a.
-// EN: decoded: Transforms or validates input without bypassing safe data boundaries. Module purpose: reads local image metadata without unsupported forensic claims. Inputs: a.
 const decoded=(a)=>new TextDecoder('utf-8',{fatal:false}).decode(a).replace(/[\x00-\x1f]/g,' ').trim();
 export function pngDetails(buffer){
   const a=new Uint8Array(buffer),d=new DataView(buffer),out={};if(detectSignature(a)!=='PNG')return out;
@@ -37,16 +35,12 @@ export function pngDetails(buffer){
   }
   return out;
 }
-// BM: jpegExif: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan. Input: buffer.
-// EN: jpegExif: Isolates one operation so it can be reviewed and tested. Module purpose: reads local image metadata without unsupported forensic claims. Inputs: buffer.
 export function jpegExif(buffer){
   const a=new Uint8Array(buffer),d=new DataView(buffer),out={};if(detectSignature(a)!=='JPEG')return out;
   let off=2,found=false;
   while(off+4<a.length){if(a[off++]!==255)break;let mark=a[off++];if(mark===216||mark===1)continue;if(mark===217||mark===218)break;if(off+2>a.length)break;const len=d.getUint16(off,false);if(len<2||off+len>a.length)break;
     if(mark===225&&len>=8&&decoded(a.slice(off+2,off+8)).startsWith('Exif')){found=true;const base=off+8,end=off+len;try{
       const little=a[base]===73&&a[base+1]===73;if(!little&&!(a[base]===77&&a[base+1]===77))break;
-      // BM: u16: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan. Input: p.
-      // EN: u16: Isolates one operation so it can be reviewed and tested. Module purpose: reads local image metadata without unsupported forensic claims. Inputs: p.
       const u16=(p)=>p+2<=end?d.getUint16(p,little):null;
       const u32=(p)=>p+4<=end?d.getUint32(p,little):null;
       const countSize={1:1,2:1,3:2,4:4,5:8,7:1,9:4,10:8};
@@ -57,8 +51,6 @@ export function jpegExif(buffer){
         if(type===5||type===10){const v=Array.from({length:Math.min(count,8)},(_,i)=>{const p=vpos+i*8,n=type===10?d.getInt32(p,little):u32(p),den=type===10?d.getInt32(p+4,little):u32(p+4);return den?n/den:null});return count===1?v[0]:v;}
         return null;
       }
-      // BM: ifd: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan. Input: offset,depth=0.
-      // EN: ifd: Isolates one operation so it can be reviewed and tested. Module purpose: reads local image metadata without unsupported forensic claims. Inputs: offset,depth=0.
       function ifd(offset,depth=0){const ans={};if(!offset||depth>1)return ans;const p=base+offset;if(p<base||p+2>end)return ans;const count=u16(p);if(count>350||p+2+count*12>end)return ans;for(let i=0;i<count;i++){const slot=p+2+i*12,tag=u16(slot),type=u16(slot+2),num=u32(slot+4);const val=readValue(slot,type,num);if(val!==null)ans[tag]=val;}return ans;}
       const main=ifd(u32(base+4));const ext=ifd(main[0x8769]);const gps=ifd(main[0x8825]);
       const keys=[[0x010f,'Camera make',main],[0x0110,'Camera model',main],[0x0131,'Software',main],[0x0132,'File timestamp (EXIF)',main],[0x0112,'Orientation',main],[0x9003,'Photo captured (EXIF)',ext],[0x9004,'Digitized (EXIF)',ext],[0x8827,'ISO speed',ext],[0x920a,'Focal length (mm)',ext],[0x829a,'Exposure time (s)',ext],[0x829d,'F-number',ext],[0xa002,'Recorded width',ext],[0xa003,'Recorded height',ext],[0xa434,'Lens model',ext],[0xa420,'Image unique ID',ext]];
@@ -72,8 +64,6 @@ export function jpegExif(buffer){
   if(found&&!Object.keys(out).length)out['EXIF block']='Present, no recognized fields';
   return out;
 }
-// BM: inspectImageBlob: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: membaca metadata imej setempat tanpa membuat tuntutan forensik yang tidak dapat dibuktikan. Input: file,image.
-// EN: inspectImageBlob: Isolates one operation so it can be reviewed and tested. Module purpose: reads local image metadata without unsupported forensic claims. Inputs: file,image.
 export async function inspectImageBlob(file,image){
   const ab=await file.arrayBuffer(),data=new Uint8Array(ab),sig=detectSignature(data);const pix=image.naturalWidth*image.naturalHeight;
   const info={'File name':file.name,'File size':`${(file.size/1024).toFixed(1)} KB (${file.size.toLocaleString()} bytes)`,'Browser MIME':file.type||'Not supplied','Signature-derived type':sig,'Dimensions':`${image.naturalWidth} × ${image.naturalHeight} px`,'Megapixels':`${(pix/1e6).toFixed(2)} MP`,'Aspect ratio':(image.naturalWidth/image.naturalHeight).toFixed(4),'Browser file modified':new Date(file.lastModified).toLocaleString(),'Metadata disclaimer':'EXIF timestamps, software and GPS can be changed; none prove who created the image.'};

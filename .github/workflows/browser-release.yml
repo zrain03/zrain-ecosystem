@@ -1,9 +1,9 @@
 # Fail / File: .github/workflows/browser-release.yml
 # Pembangun / Developer: Zrain
 # Dicipta / Created: 2026-11-05
-# Dikemas kini / Last updated: 2026-11-05
-# BM: Pemeriksaan Chrome sebenar dalam CI tanpa kredensial atau perubahan production.
-# EN: Real Chromium browser checks in CI without credentials or production mutations.
+# Dikemas kini / Last updated: 2026-11-06
+# BM: Jalankan semakan Chromium desktop/mobile dalam PR tanpa kredensial atau deploy.
+# EN: Run Chromium desktop/mobile checks for PRs without credentials or deployment.
 name: Verify Zrain responsive browser release
 on:
   pull_request:
@@ -12,7 +12,7 @@ permissions:
   contents: read
 jobs:
   browser-smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -22,10 +22,10 @@ jobs:
       - name: Install temporary browser verification dependency
         run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.0
       - name: Install isolated Chromium browser
-        run: npx playwright install chromium
-      - name: Verify desktop and mobile homepage, Console, search and signed-out Admin
+        run: npx playwright install --with-deps chromium
+      - name: Verify responsive accordion, Console, search and signed-out admin
         run: node scripts/verify-browser-release.mjs
-      - name: Retain visual evidence briefly for human inspection
+      - name: Retain visual evidence for inspection
         if: always()
         uses: actions/upload-artifact@v4
         with:

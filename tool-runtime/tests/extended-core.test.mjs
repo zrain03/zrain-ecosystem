@@ -1,10 +1,10 @@
 /*
  * Fail / File: tool-runtime/tests/extended-core.test.mjs
  * Pembangun / Developer: Zrain
- * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
+ * Dicipta / Created: Unverified (latest approved Zrain Tools v2.4.0 tests)
  * Dikemas kini / Last updated: 2026-11-05
- * BM: Menguji sempadan extended core, output dan kes gagal tanpa membuat permintaan production.
- * EN: Tests extended core contracts, outputs and failure paths without making production requests.
+ * BM: Menguji fungsi dan regresi sebenar Zrain Tools v2.4.0.
+ * EN: Tests real functionality and regressions for Zrain Tools v2.4.0.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,9 +12,9 @@ import {base64Encode,base64Decode,decodeJwt,textStatistics,hashText,createUuids,
 import {EXTRA_TOOL_SLUGS} from '../src/extended-tools.mjs';
 import {catalog, groups} from '../src/catalog.mjs';
 
-test('all twenty new pages are backed by implementation registrations',()=>{
-  assert.equal(EXTRA_TOOL_SLUGS.length,20);
-  assert.equal(new Set(EXTRA_TOOL_SLUGS).size,20);
+test('all nineteen new pages are backed by implementation registrations',()=>{
+  assert.equal(EXTRA_TOOL_SLUGS.length,19);
+  assert.equal(new Set(EXTRA_TOOL_SLUGS).size,19);
   assert.deepEqual(EXTRA_TOOL_SLUGS.filter(slug=>!catalog.some(x=>x[0]===slug)),[]);
   assert.deepEqual(EXTRA_TOOL_SLUGS.filter(slug=>!groups.some(g=>g.sections.some(s=>s.tools.includes(slug)))),[]);
 });

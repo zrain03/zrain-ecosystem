@@ -7,12 +7,12 @@
 public/zrain-ui.js text eol=lf
 public/brand.css text eol=lf
 
-# BM: Salinan Golden Reference di Tools juga menggunakan LF pada Windows.
-# EN: Tools Golden Reference copies also retain LF on Windows.
-tool-runtime/src/zrain-ui.js text eol=lf
-tool-runtime/src/brand.css text eol=lf
-
 # BM: Wrapper Unix perlu LF; wrapper Windows memerlukan CRLF.
 # EN: Unix wrapper requires LF; Windows wrapper uses CRLF.
 backend/mvnw text eol=lf
 backend/mvnw.cmd text eol=crlf
+
+# BM: Kekalkan UI Golden Reference daripada perubahan CRLF Windows.
+# EN: Keep Golden Reference UI copies from Windows CRLF conversions.
+tool-runtime/src/zrain-ui.js text eol=lf
+tool-runtime/src/brand.css text eol=lf
