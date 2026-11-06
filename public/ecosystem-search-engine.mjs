@@ -108,6 +108,35 @@ export function searchCatalog(query,{category='all',kind='all',limit=20,items=ge
   return out.slice(0,Math.max(1,Math.min(500,limit))).map(x=>({...x.item,matchScore:x.score}));
 }
 
+
+/**
+ * BM: Gabungkan model semantik sebenar dengan padanan literal yang sangat kukuh.
+ *     Jangan paksa model meneka maksud satu perkataan yang kabur.
+ * EN: Combine real semantic embeddings with only decisive exact-task matches.
+ *     Avoid guessing the intent of a vague one-word query.
+ * This consumes real model rankings; it never simulates or generates embeddings.
+ */
+export function rankAiChoices(query,ranked,items=getActiveInventory()) {
+  const q=normalize(query);
+  if(!q||!Array.isArray(ranked)||!Array.isArray(items))return [];
+  const allowed=new Map(items.map(item=>[item.id,item]));
+  const lexical=searchCatalog(query,{limit:1,items})[0];
+  const decisive=lexical?.matchScore>=100?allowed.get(lexical.id):null;
+  const unambiguous=q.split(' ').length>1 || Boolean(decisive);
+  const valid=unambiguous?ranked.filter(v=>allowed.has(v.id)&&Number.isFinite(v.score)):[];
+
+  // BM: Skor relatif mengelakkan senarai keputusan lemah yang panjang.
+  // EN: Relative scoring limits unrelated results without assuming every query
+  //     has a trustworthy match. Keep a lower floor for legitimate Malay queries.
+  const best=valid[0]?.score??-1;
+  const floor=Math.max(0.2,best-0.1);
+  const choices=best>=0.2
+    ?valid.filter(v=>v.score>=floor).slice(0,5).map(v=>allowed.get(v.id))
+    :[];
+  const merged=[...(decisive?[decisive]:[]),...choices];
+  return [...new Map(merged.map(item=>[item.id,item])).values()].slice(0,5);
+}
+
 // BM: suggestionsFor: Mengasingkan satu langkah operasi supaya boleh disemak dan diuji. Tujuan modul: memadankan pertanyaan pengguna dengan produk dan tools menggunakan ranking yang stabil. Input: query.
 // EN: suggestionsFor: Isolates one operation so it can be reviewed and tested. Module purpose: matches user queries to products and tools with stable ranking. Inputs: query.
 export function suggestionsFor(query) {
