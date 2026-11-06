@@ -97,7 +97,7 @@ function score(rows){
 if(INVENTORY.length!==56||INVENTORY.filter(x=>x.kind==='tool').length!==46)throw Error('Unexpected catalog');
 const lexical = cases.map(([q,id,lang,critical])=>{
  const ranked=searchCatalog(q,{limit:56,items:INVENTORY});
- return {q,id,lang,critical:Boolean(critical),rank:Math.max(1,ranked.findIndex(x=>x.id===id)+1),top3:ranked.slice(0,3).map(x=>({id:x.id,score:x.matchScore}))};
+ return {q,id,lang,critical:Boolean(critical),rank:ranked.findIndex(x=>x.id===id)+1||Infinity,top3:ranked.slice(0,3).map(x=>({id:x.id,score:x.matchScore}))};
 });
 const lexCorrect=lexical.filter(x=>x.rank===1).length;
 console.log('LEXICAL SCORES',JSON.stringify({top1:lexCorrect,top3:lexical.filter(x=>x.rank<=3).length,criticalTop1:lexical.filter(x=>x.critical&&x.rank===1).length}));
@@ -124,15 +124,19 @@ for(const configuration of models){
  for(const [q,id,lang,critical] of cases){
   const [vector]=await encode(model,[(configuration.e5?'query: ':'')+q]);
   const ranked=rank(vector,docs,vectors);
-  rows.push({q,id,lang,critical:Boolean(critical),rank:ranked.findIndex(x=>x.id===id)+1,top3:ranked.slice(0,3).map(x=>({id:x.id,score:Number(x.score.toFixed(4))}))});
+  const lex=searchCatalog(q,{limit:56,items:INVENTORY});
+  const decisive=lex[0]?.matchScore>=100?lex[0].id:null;
+  const hybrid=decisive?[{id:decisive,score:1},...ranked.filter(x=>x.id!==decisive)]:ranked;
+  rows.push({q,id,lang,critical:Boolean(critical),rank:ranked.findIndex(x=>x.id===id)+1,hybridRank:hybrid.findIndex(x=>x.id===id)+1,decisive,top3:ranked.slice(0,3).map(x=>({id:x.id,score:Number(x.score.toFixed(4))}))});
  }
  const ambiguous=[];
  for(const q of ['memadam','padam','compress','ubah gambar']){
   const [vector]=await encode(model,[(configuration.e5?'query: ':'')+q]);
   ambiguous.push({q,top3:rank(vector,docs,vectors).slice(0,3)});
  }
- output.models[configuration.id]={summary:score(rows),rows,ambiguous};
+ output.models[configuration.id]={summary:score(rows),hybridSummary:score(rows.map(r=>({...r,rank:r.hybridRank}))),rows,ambiguous};
  console.log('SCORES',configuration.id,JSON.stringify(output.models[configuration.id].summary));
+ console.log('HYBRID SCORES',configuration.id,JSON.stringify(output.models[configuration.id].hybridSummary));
  console.table(rows.filter(x=>x.rank!==1).map(x=>({query:x.q,expected:x.id,rank:x.rank,top:x.top3[0]?.id})));
  await writeFile('zrain-ai-benchmark-results.json',JSON.stringify(output,null,2));
 }
