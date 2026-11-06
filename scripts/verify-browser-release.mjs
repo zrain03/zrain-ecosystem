@@ -2,7 +2,7 @@
  * Fail / File: scripts/verify-browser-release.mjs
  * Pembangun / Developer: Zrain
  * Dicipta / Created: 2026-11-05
- * Dikemas kini / Last updated: 2026-11-05
+ * Dikemas kini / Last updated: 2026-11-06
  * BM: Uji accordion tanpa scroll bersarang pada desktop dan mobile menggunakan Chromium sebenar.
  * EN: Browser-test accordion with no nested scroll on desktop and mobile.
  */
