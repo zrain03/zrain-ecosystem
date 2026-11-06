@@ -77,26 +77,6 @@
       "exception": null
     },
     {
-      "path": "FILE_PROVENANCE.json",
-      "developer": "Zrain",
-      "created": "2026-11-05",
-      "createdEvidence": "Created in 2026-11-05 release source",
-      "lastUpdated": "2026-11-05",
-      "policy": "external-registry",
-      "inlineHeaderVerified": false,
-      "exception": "Format does not support safe inline comments"
-    },
-    {
-      "path": "README.md",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
-    },
-    {
       "path": "backend/.dockerignore",
       "developer": "Zrain",
       "created": "Unverified",
@@ -167,7 +147,7 @@
       "exception": null
     },
     {
-      "path": "backend/src/main/java/dev/zrain/authstarter/AuthStarterApplication.java",
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/AdminLoginController.java",
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
@@ -177,7 +157,17 @@
       "exception": null
     },
     {
-      "path": "backend/src/main/java/dev/zrain/authstarter/auth/AdminLoginController.java",
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/LoginRequest.java",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/TokenResponse.java",
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
@@ -207,17 +197,7 @@
       "exception": null
     },
     {
-      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/LoginRequest.java",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
-    },
-    {
-      "path": "backend/src/main/java/dev/zrain/authstarter/auth/dto/TokenResponse.java",
+      "path": "backend/src/main/java/dev/zrain/authstarter/AuthStarterApplication.java",
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
@@ -467,16 +447,6 @@
       "exception": null
     },
     {
-      "path": "catalog-worker/README.md",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
-    },
-    {
       "path": "catalog-worker/package-lock.json",
       "developer": "Zrain",
       "created": "Unverified",
@@ -495,6 +465,16 @@
       "policy": "external-registry",
       "inlineHeaderVerified": false,
       "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "catalog-worker/README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
     },
     {
       "path": "catalog-worker/src/auth.js",
@@ -557,16 +537,6 @@
       "exception": null
     },
     {
-      "path": "docs/ADMIN-V10-MIGRATION.md",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
-    },
-    {
       "path": "docs/ADMIN_FOUNDATION.md",
       "developer": "Zrain",
       "created": "Unverified",
@@ -578,6 +548,16 @@
     },
     {
       "path": "docs/ADMIN_PRODUCTION_RELEASE.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "docs/ADMIN-V10-MIGRATION.md",
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
@@ -611,6 +591,16 @@
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "external-registry",
+      "inlineHeaderVerified": false,
+      "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "FILE_PROVENANCE.json",
+      "developer": "Zrain",
+      "created": "2026-11-05",
+      "createdEvidence": "Created in 2026-11-05 release source",
       "lastUpdated": "2026-11-05",
       "policy": "external-registry",
       "inlineHeaderVerified": false,
@@ -991,7 +981,7 @@
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
-      "lastUpdated": "2026-11-05",
+      "lastUpdated": "2026-11-06",
       "policy": "inline",
       "inlineHeaderVerified": true,
       "exception": null
@@ -1071,7 +1061,7 @@
       "developer": "Zrain",
       "created": "Unverified",
       "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
-      "lastUpdated": "2026-11-05",
+      "lastUpdated": "2026-11-06",
       "policy": "inline",
       "inlineHeaderVerified": true,
       "exception": null
@@ -2027,6 +2017,16 @@
       "exception": "Byte-for-byte pinned shared UI or upstream-managed source; do not insert comments"
     },
     {
+      "path": "README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Source ZIP / Git history must be reviewed before assigning original creation date",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
       "path": "scripts/add-categories-link.mjs",
       "developer": "Zrain",
       "created": "Unverified",
@@ -2197,6 +2197,16 @@
       "exception": null
     },
     {
+      "path": "tests/default-collapsed-malaysia.test.mjs",
+      "developer": "Zrain",
+      "created": "2026-11-06",
+      "createdEvidence": "New regression test for approved category design and Malaysia origin",
+      "lastUpdated": "2026-11-06",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
       "path": "tests/official-taxonomy.test.mjs",
       "developer": "Zrain",
       "created": "2026-11-05",
@@ -2305,26 +2315,6 @@
       "policy": "external-registry",
       "inlineHeaderVerified": false,
       "exception": "Retains shared, binary, third-party or structured file bytes without requiring a comment header."
-    },
-    {
-      "path": "tool-runtime/README.md",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
-    },
-    {
-      "path": "tool-runtime/V2-STATUS.md",
-      "developer": "Zrain",
-      "created": "Unverified",
-      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
-      "lastUpdated": "2026-11-05",
-      "policy": "inline",
-      "inlineHeaderVerified": true,
-      "exception": null
     },
     {
       "path": "tool-runtime/docs/v1.7-reference/DEPLOY-CLOUDFLARE-FREE.txt",
@@ -2465,6 +2455,16 @@
       "policy": "external-registry",
       "inlineHeaderVerified": false,
       "exception": "Format does not support safe inline comments"
+    },
+    {
+      "path": "tool-runtime/README.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
     },
     {
       "path": "tool-runtime/src/ai-background.mjs",
@@ -2911,6 +2911,16 @@
       "developer": "Zrain",
       "created": "2026-11-05",
       "createdEvidence": "Reconciled latest approved Zrain Tools v2.4.0 source and responsive Ecosystem release",
+      "lastUpdated": "2026-11-05",
+      "policy": "inline",
+      "inlineHeaderVerified": true,
+      "exception": null
+    },
+    {
+      "path": "tool-runtime/V2-STATUS.md",
+      "developer": "Zrain",
+      "created": "Unverified",
+      "createdEvidence": "Uploaded ZIP contains file; earliest creation date not established",
       "lastUpdated": "2026-11-05",
       "policy": "inline",
       "inlineHeaderVerified": true,
