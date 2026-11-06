@@ -32,9 +32,13 @@ async function inspect(label,viewport){
   assert.equal(await page.locator('.category-card').count(),11);
   assert.equal(await page.locator('.category-toggle').count(),11);
   const pdf=page.locator('[data-category="pdf"]');
-  assert.equal(await pdf.locator('.category-toggle').getAttribute('aria-expanded'),String(!mobile));
-  if(mobile)await pdf.locator('.category-toggle').click();
-  else await pdf.locator('.category-reveal').click();
+  // BM: Semua kategori ditutup pada desktop dan mobile sehingga pengguna membukanya.
+  // EN: All categories start collapsed on desktop and mobile until a user opens them.
+  assert.equal(await page.locator('.category-toggle[aria-expanded="true"]').count(),0);
+  assert.equal(await pdf.locator('.category-toggle').getAttribute('aria-expanded'),'false');
+  await pdf.locator('.category-toggle').click();
+  assert.equal(await pdf.locator('.category-toggle').getAttribute('aria-expanded'),'true');
+  if(!mobile)await pdf.locator('.category-reveal').click();
   assert.equal(await pdf.locator('.category-item').count(),12);
   const styles=await pdf.locator('.category-card-list').evaluate(el=>({overflow:getComputedStyle(el).overflowY,maxHeight:getComputedStyle(el).maxHeight,overscroll:getComputedStyle(el).overscrollBehaviorY}));
   assert.notEqual(styles.overflow,'auto','No nested vertical scrolling');
