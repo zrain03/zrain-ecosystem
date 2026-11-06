@@ -119,7 +119,7 @@ foreach ($entry in $entries) {
         # BM: Klon dahulu dan semak SHA sebelum menyentuh folder rasmi.
         # EN: Stage a fully verified clone before moving any official folder.
         $stage = Join-Path $projects ('.zrain-stage-' + $name + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
-        $expectedUrl = "https://github.com/zrain03/zrain03/zrain-ecosystem.git"
+        $expectedUrl = "https://github.com/zrain03/${repo}.git"
         & git.exe clone --quiet --single-branch --branch $branch $expectedUrl $stage
         if ($LASTEXITCODE -ne 0) { throw 'Fresh GitHub clone failed; original folder unchanged.' }
         $stageHead = (& git.exe -C $stage rev-parse HEAD)
