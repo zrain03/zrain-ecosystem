@@ -2,7 +2,7 @@
  * Fail / File: tests/unified.test.mjs
  * Pembangun / Developer: Zrain
  * Dicipta / Created: Unverified (bukti awal daripada ZIP, tarikh asal belum disahkan)
- * Dikemas kini / Last updated: 2026-11-05
+ * Dikemas kini / Last updated: 2026-11-06
  * BM: Menguji sempadan unified, output dan kes gagal tanpa membuat permintaan production.
  * EN: Tests unified contracts, outputs and failure paths without making production requests.
  */
@@ -12,7 +12,7 @@ import {readFile,stat,readdir} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {join,resolve} from 'node:path';
 import {INVENTORY,CATEGORIES} from '../public/ecosystem-inventory.mjs';
-import {searchCatalog,normalize} from '../public/ecosystem-search-engine.mjs';
+import {searchCatalog,normalize,rankAiChoices} from '../public/ecosystem-search-engine.mjs';
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 // BM: read: Mengambil rekod yang berkaitan dan mengembalikan hasil terhad kepada pemanggil. Tujuan modul: menguji sempadan unified, output dan kes gagal tanpa membuat permintaan production.
 // EN: read: Reads relevant records and returns a bounded result to the caller. Module purpose: tests unified contracts, outputs and failure paths without making production requests.
@@ -100,4 +100,45 @@ test('AI model is optional: model code is loaded only after explicit user click'
  assert.match(worker,/paraphrase-multilingual-MiniLM-L12-v2/);
  assert.match(worker,/\binit\b/);
  assert.match(app,/Fast search/);
+});
+
+test('benchmark-verified semantic and exact-task ranking preserves real model intent',()=>{
+ // BM: Data ini skor yang telah diukur oleh model sebenar, bukan model palsu.
+ // EN: These are measured real-model scores, not a mocked embedding model.
+ const remove=rankAiChoices('saya nak membuang beberapa halaman pdf',[
+  {id:'remove-pdf-pages',score:0.6318},
+  {id:'pdf-page-numbers',score:0.5737},
+  {id:'split-pdf',score:0.5698}
+ ]);
+ assert.equal(remove[0].id,'remove-pdf-pages');
+
+ const merge=rankAiChoices('gabungkan beberapa PDF menjadi satu fail',[
+  {id:'split-pdf',score:0.6900},
+  {id:'merge-pdf',score:0.6700},
+  {id:'pdf-organizer',score:0.6100}
+ ]);
+ assert.equal(merge[0].id,'merge-pdf');
+
+ // BM: Kata kerja tanpa objek tidak patut menyebabkan AI meneka tool.
+ // EN: An ambiguous verb without an object must not force a tool guess.
+ assert.equal(rankAiChoices('memadam',[
+  {id:'guess-the-flag',score:0.212},
+  {id:'image-rotator',score:0.136}
+ ]).length,0);
+
+ const compress=rankAiChoices('compress',[
+  {id:'teleprompter',score:0.32},
+  {id:'image-compressor',score:0.233}
+ ]);
+ assert.equal(compress[0].id,'image-compressor');
+
+ const onlyPdf=INVENTORY.filter(item=>item.category==='pdf');
+ const filtered=rankAiChoices('remove unwanted pages from a PDF',[
+  {id:'image-resizer',score:0.85},
+  {id:'remove-pdf-pages',score:0.692},
+  {id:'split-pdf',score:0.61}
+ ],onlyPdf);
+ assert.equal(filtered[0].id,'remove-pdf-pages');
+ assert.ok(filtered.every(item=>item.category==='pdf'));
+ assert.deepEqual(rankAiChoices('irrelevant',[],INVENTORY),[]);
 });
