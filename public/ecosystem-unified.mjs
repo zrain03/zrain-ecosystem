@@ -28,8 +28,16 @@ let focusReturn = null;
 let modelWorker = null;
 let aiReady = false;
 let pending = 0;
-let aiResults = [];
-let aiInput = '';
+const aiLatest = new Map();
+const aiResultsByContext = new Map();
+function semanticFor(context,query,items) {
+  const current=aiResultsByContext.get(context);
+  if(!aiReady||!query.trim()||current?.query!==query.trim())return [];
+  const allowed=new Map(items.map(item=>[item.id,item]));
+  // BM: Skor rendah tidak dipaparkan sebagai padanan pasti; tiada senarai kata kunci manual.
+  // EN: Weak semantic matches are not presented as confident matches; no manual keyword list.
+  return current.ranked.filter(v=>v.score>=0.24&&allowed.has(v.id)).map(v=>allowed.get(v.id));
+}
 let modelInitTimer;
 
 function el(tag, className='', text) {
@@ -41,7 +49,8 @@ function el(tag, className='', text) {
 // Every Web App action opens the original-style inline Console modal.
 // The full Console remains an independent Zrain project in the catalog.
 const categoryContainers = new Map();
-const categoryAi = new Map();
+// BM: Keputusan semantik diasingkan mengikut konteks.
+// EN: Semantic results are isolated by search context.
 function toolOrProjectAction(item) {
   const actions = el('span', 'entry-actions');
   const route = previewLinkHref(item);
@@ -138,13 +147,10 @@ function renderCategory(category) {
   function draw(query='') {
     const matching=query.trim() ?
       searchCatalog(query,{limit:getActiveInventory().length}).filter(item=>item.category===category.id) : records;
-    const semantic=categoryAi.get(category.id);
-    let ranked=matching;
-    if(query.trim() && semantic?.query===query.trim()){
-      const ids=new Map(records.map(item=>[item.id,item]));
-      const aiMatches=semantic.ranked.filter(v=>v.score>0.35&&ids.has(v.id)).map(v=>ids.get(v.id));
-      ranked=[...new Map([...matching.slice(0,2),...aiMatches,...matching].map(item=>[item.id,item])).values()];
-    }
+    const aiMatches=semanticFor(category.id,query,records);
+    const ranked=aiReady && query.trim() && aiResultsByContext.get(category.id)?.query===query.trim()
+      ? [...new Map([...aiMatches,...matching].map(item=>[item.id,item])).values()]
+      : matching;
     const allVisible=mobile||state.all||Boolean(query.trim());
     const shown=allVisible ? ranked : ranked.slice(0,5);
     list.replaceChildren(...shown.map(item=>resultRow(item)));
@@ -163,7 +169,7 @@ function renderCategory(category) {
   more.addEventListener('click',()=>{state.all=!state.all;draw(search.value);});
   let categoryTimer;
   search.addEventListener('input',()=>{
-    categoryAi.delete(category.id);
+    aiResultsByContext.delete(category.id);
     draw(search.value);
     if(aiReady&&search.value.trim()){
       clearTimeout(categoryTimer);
@@ -195,7 +201,7 @@ function renderAllCategories() {
     return link;
   }));
   categoryContainers.clear();
-  categoryAi.clear();
+  aiResultsByContext.clear();
   categoryBoard.replaceChildren(...CATEGORIES.map(renderCategory));
 }
 function updateCounts() {
@@ -232,9 +238,8 @@ if ('IntersectionObserver' in window) {
 
 function showPreview(query) {
   const lexical=searchCatalog(query,{limit:5});
-  const active=new Map(getActiveInventory().map(v=>[v.id,v]));
-  const semantic=aiReady&&aiInput===query ? aiResults.filter(v=>v.score>0.35&&active.has(v.id)).map(v=>active.get(v.id)) : [];
-  const found=[...new Map([...lexical.slice(0,2),...semantic,...lexical].map(v=>[v.id,v])).values()].slice(0,5);
+  const semantic=semanticFor('home',query,getActiveInventory());
+  const found=[...new Map([...(aiReady?semantic:[]),...lexical].map(v=>[v.id,v])).values()].slice(0,5);
   const fragment=document.createDocumentFragment();
   for(const item of found) fragment.append(resultRow(item,'search-mini'));
   if(!found.length)fragment.append(el('p','search-explainer','No matching tools found. Try another description.'));
@@ -252,7 +257,7 @@ homeInput.addEventListener('input',searchHome);
 homeInput.addEventListener('keydown',event=>{
   if(event.key==='Enter'){
     event.preventDefault();
-    const top=searchCatalog(homeInput.value,{limit:1})[0];
+    const top=semanticFor('home',homeInput.value,getActiveInventory())[0]||searchCatalog(homeInput.value,{limit:1})[0];
     if(top) document.dispatchEvent(new CustomEvent('zrain:open-preview',{detail:{id:top.id,trigger:homeInput}}));
     else openDialog(homeInput.value);
   }
@@ -268,15 +273,11 @@ function renderDialog() {
   fillFilters();
   const query=dialogInput.value;
   const ranked=searchCatalog(query,{limit:getActiveInventory().length,kind});
-  const aiOnThisQuery=aiReady && aiInput===query && aiResults.length>0 && query.trim().length>0;
-  let finalRanked=ranked;
-  if(aiOnThisQuery) {
-    // BM: Hasil semantik mesti datang daripada katalog aktif, bukan hanya hasil kata kunci.
-    // EN: Semantic results must use the active catalog, not only keyword matches.
-    const allowed=new Map(getActiveInventory().filter(v=>kind==='all'||v.kind===kind).map(v=>[v.id,v]));
-    const semantic=aiResults.filter(v=>v.score>0.35&&allowed.has(v.id)).map(v=>allowed.get(v.id));
-    finalRanked=[...new Map([...ranked.slice(0,2),...semantic,...ranked].map(v=>[v.id,v])).values()];
-  }
+  const aiOnThisQuery=aiReady && aiResultsByContext.get('dialog')?.query===query.trim();
+  const semantic=semanticFor('dialog',query,getActiveInventory().filter(v=>kind==='all'||v.kind===kind));
+  const finalRanked=aiOnThisQuery
+    ? [...new Map([...semantic,...ranked].map(v=>[v.id,v])).values()]
+    : ranked;
   const fragment=document.createDocumentFragment();
   for(const item of finalRanked) {
     fragment.append(resultRow(item,'dialog-result'));
@@ -291,7 +292,7 @@ function openDialog(query='') {
     dialog.showModal();
   }
   dialogInput.value=query;
-  aiInput=''; aiResults=[];
+  aiResultsByContext.delete('dialog');
   kind='all';
   renderDialog();
   dialogInput.focus();
@@ -310,7 +311,7 @@ document.addEventListener('keydown',event=>{
 filters.forEach(button=>button.addEventListener('click',()=>{kind=button.dataset.filter;renderDialog();dialogInput.focus();}));
 let typingTimer;
 dialogInput.addEventListener('input',()=>{
-  aiResults=[];aiInput='';renderDialog();
+  aiResultsByContext.delete('dialog');renderDialog();
   if(aiReady){clearTimeout(typingTimer);typingTimer=setTimeout(()=>requestAi(dialogInput.value),350);}
 });
 dialogInput.addEventListener('keydown',event=>{
@@ -329,11 +330,12 @@ results.addEventListener('keydown',event=>{
 
 // Optional multilingual sentence embeddings model. Downloads only after an
 // explicit click. Browser-side inference; no API receives the entered query.
-const aiTicketCategory = new Map();
-function requestAi(query, categoryId = null) {
+const aiTicketContext = new Map();
+function requestAi(query, context = 'dialog') {
   if(!aiReady||!query.trim()||!modelWorker)return;
   const ticket=++pending;
-  if (categoryId) aiTicketCategory.set(ticket,categoryId);
+  aiLatest.set(context,ticket);
+  aiTicketContext.set(ticket,context);
   modelWorker.postMessage({type:'query',ticket,query});
 }
 aiButton.addEventListener('click',()=>{
@@ -351,20 +353,16 @@ aiButton.addEventListener('click',()=>{
         if(dialog.open)requestAi(dialogInput.value);
         if(homeInput.value.trim())requestAi(homeInput.value.trim(),'home');
       }
-      else if(type==='results' && ticket===pending) {
-        const cat = aiTicketCategory.get(ticket);
-        aiTicketCategory.delete(ticket);
-        if (cat) {
-          const target=categoryContainers.get(cat);
-          if (target && target.search.value.trim() === query) {
-            categoryAi.set(cat,{query,ranked:Array.isArray(ranked)?ranked:[]});
-            target.draw(query);
-          }
-        } else if (cat==='home' && query===homeInput.value.trim()) {
-          aiInput=query;aiResults=Array.isArray(ranked)?ranked:[];showPreview(query);
-        } else if (query === dialogInput.value) {
-          aiInput=query;aiResults=Array.isArray(ranked)?ranked:[];renderDialog();
-        }
+      else if(type==='results') {
+        const context=aiTicketContext.get(ticket);
+        aiTicketContext.delete(ticket);
+        if(!context||aiLatest.get(context)!==ticket)return;
+        const current=context==='home'?homeInput.value.trim():context==='dialog'?dialogInput.value.trim():categoryContainers.get(context)?.search.value.trim();
+        if(current!==String(query).trim())return;
+        aiResultsByContext.set(context,{query:String(query).trim(),ranked:Array.isArray(ranked)?ranked:[]});
+        if(context==='home')showPreview(query);
+        else if(context==='dialog')renderDialog();
+        else categoryContainers.get(context)?.draw(query);
       }
       else if(type==='error') {
         aiStatus.textContent='AI model unavailable: '+String(message||'Unknown error')+'. Fast search is still available.';
