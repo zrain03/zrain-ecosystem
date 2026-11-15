@@ -349,11 +349,15 @@ async function routeAdmin(request,env,path) {
     rows.push(product);
     return saveAndRespond(env,rows,product);
   }
-  const match=path.match(/^\/api\/admin\/products\/([a-f0-9-]{36})(?:\/(publish|unpublish|archive))?$/);
+  const match=path.match(/^\/api\/admin\/products\/([a-f0-9-]{36})(?:\/(publish|unpublish|archive|delete))?$/);
   if(match){
     const rows=await loadProducts(env.ZRAIN_CATALOG);
     const found=rows.find(p=>p.id===match[1]);
     if(!found)throw new ErrorResponse(404,"Product not found");
+    if(match[2]==="delete" && request.method==="POST") {
+      if(found.status==="PUBLISHED")throw new ErrorResponse(409,"Unpublish this entry before deleting it.");
+      return saveAndRespond(env,rows.filter(row=>row.id!==found.id),{deleted:true});
+    }
     if(match[2] && request.method==="POST") {
       found.status={publish:"PUBLISHED",unpublish:"DRAFT",archive:"ARCHIVED"}[match[2]];
       found.updatedAt=new Date().toISOString();

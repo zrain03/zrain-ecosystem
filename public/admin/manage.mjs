@@ -177,6 +177,10 @@ function render() {
       toggle.addEventListener('click',()=>updateStatus(item.record,isPublished?'unpublish':'publish'));buttons.append(toggle);
       const archive=el('button','danger','Archive');archive.type='button';
       archive.addEventListener('click',()=>updateStatus(item.record,'archive'));buttons.append(archive);
+      if(!isPublished){
+        const remove=el('button','danger','Delete');remove.type='button';
+        remove.addEventListener('click',()=>updateStatus(item.record,'delete'));buttons.append(remove);
+      }
     }
     row.append(img,copy,buttons);fragment.append(row);
   }
@@ -184,10 +188,12 @@ function render() {
   byId('admin-list').replaceChildren(fragment);
 }
 async function updateStatus(row, action) {
+  if(action==='delete' && !confirm(`Permanently delete ${row.name} from the catalogue?`)) return;
   if (action === 'archive' && !confirm(`Archive ${row.name}? This removes it from the public catalogue.`)) return;
   notice('');
   try {
-    if(demo) {row.status={publish:'PUBLISHED',unpublish:'DRAFT',archive:'ARCHIVED'}[action];}
+    if(demo && action==='delete') projects=projects.filter(item=>item.id!==row.id);
+    else if(demo) {row.status={publish:'PUBLISHED',unpublish:'DRAFT',archive:'ARCHIVED'}[action];}
     else await request('/api/admin/products/'+encodeURIComponent(row.id)+'/'+action,{method:'POST'});
     if(!demo)await refresh(); else {syncInventory();render();}
     notice(demo?'Preview updated locally. No production data changed.':`${row.name} ${action} successful.`);
