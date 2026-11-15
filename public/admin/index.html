@@ -1352,9 +1352,7 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr
 </style><style>.offline-preview-notice{position:relative;z-index:60;padding:9px 12px;background:#d4ae6a;color:#3d1c25;font:800 11px/1.3 Candara,sans-serif;text-align:center;letter-spacing:.04em;min-height:32px} body.zrain-admin[data-admin-mode="preview"] .zr-rail{top:0;height:calc(100svh - 32px)}@media(max-width:800px){body.zrain-admin[data-admin-mode="preview"] .zr-rail{height:auto}}</style><style>.catalog-inactive .metrics,.catalog-inactive .admin-tabs,.catalog-inactive .admin-columns,.catalog-inactive [data-workspace-open-editor],.catalog-inactive [data-workspace-section]{display:none!important}#catalog-activation{padding:1.5rem;margin:1.5rem;border-radius:16px;background:#fbf3e8;color:#452733}#catalog-activation[hidden]{display:none}</style></head>
 <body class="zrain-admin" data-admin-mode="live" data-admin-section="collection">
 <a class="skip-link" href="#admin-main">Skip to admin content</a>
-<header class="zrain-header"><div class="zrain-header__inner"><div class="zrain-brand" data-zrain-header></div>
-<nav aria-label="Admin navigation" class="admin-header-nav"><a href="/">Ecosystem</a><a href="/#community">Community</a></nav>
-</div></header>
+<iframe title="Zrain header" id="zrain-admin-header" style="width:100%;height:300px;border:0;display:block"></iframe><script>(()=>{const frame=document.getElementById("zrain-admin-header");addEventListener("message",event=>{if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=="zrain-original-header-height")return;const height=event.data.height;if(Number.isFinite(height)&&height>=100&&height<=650)frame.style.height=height+"px"});frame.src="/ui/v1/header-v4514.html"})()</script>
 <main class="admin-main" id="admin-main">
 <section aria-labelledby="login-title" class="admin-login" id="admin-login">
 <div aria-hidden="true" class="login-art">
