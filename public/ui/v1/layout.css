@@ -1,0 +1,80 @@
+.zr-shared-header,.zr-shared-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;padding:20px clamp(20px,4vw,65px);background:#efe1d0;color:#452733}
+.zr-shared-header>a,.zr-shared-footer>a{display:inline-flex;align-items:center;flex-wrap:wrap;gap:12px;color:inherit;text-decoration:none}
+.zr-shared-header img,.zr-shared-footer img{object-fit:contain;border-radius:50%}
+.zr-shared-footer>a span{color:#805440}
+.zr-shared-footer .zr-compact-contact{display:flex;flex-wrap:wrap;gap:8px}
+.zr-shared-footer .zr-compact-contact :is(a,button){display:inline-flex;align-items:center;gap:9px;padding:10px 14px;border:0;border-radius:14px;background:#572839;color:#fff4e2;text-decoration:none;font:inherit;cursor:pointer}
+.zr-shared-footer .zr-compact-contact svg{width:20px;height:20px;color:#e5bd73}
+.zr-shared-footer .zr-compact-contact :is(strong,small){display:block}
+
+.zr-shared-sticker-shelf .zr-sticker-field{
+ position:absolute;z-index:7;left:0;right:0;top:0;bottom:0;
+ pointer-events:none;overflow:hidden;
+}
+.zr-shared-sticker-shelf .zr-sticker{
+ position:absolute;left:0;top:0;width:43px;height:51px;display:grid;place-items:center;padding:0;
+ border:0;background:transparent;cursor:grab;touch-action:none;pointer-events:auto;
+ transform:translate(var(--zr-x,0px),var(--zr-y,0px)) rotate(var(--zr-tilt,0deg));
+ user-select:none;-webkit-user-select:none;
+}
+.zr-shared-sticker-shelf .zr-sticker img{
+ width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;
+ filter:drop-shadow(1px 0 0 #fff1de) drop-shadow(-1px 0 0 #fff1de) drop-shadow(0 -1px 0 #fff1de) drop-shadow(0 1px 0 #fff1de) drop-shadow(0 3px 2px rgba(57,28,39,.28));
+}
+.zr-shared-sticker-shelf .zr-sticker:focus-visible{z-index:3}
+.zr-shared-sticker-shelf .zr-sticker.is-dragging{cursor:grabbing;z-index:8}
+.zr-shared-sticker-shelf .zr-sticker:focus-visible{outline:2px dashed #d4ae6a;outline-offset:2px;border-radius:10px}
+
+.zr-shared-sticker-shelf{position:relative;padding-top:88px}.zr-shared-footer{padding-block:10px;min-height:0}.zr-shared-footer>a img{width:36px;height:36px}.zr-shared-footer .zr-compact-contact :is(a,button){padding:7px 12px;line-height:1.2}
+
+.zr-shared-sticker-shelf .zr-compact-footer{
+ position:relative;display:flex;align-items:center;z-index:5;
+ width:100%;min-height:var(--zr-footer-height);margin:0;padding:11px clamp(16px,3.5vw,48px);
+ border-top:1px solid var(--zr-paper-line);border-radius:0;
+ background:var(--zr-paper);color:var(--zr-paper-ink);overflow:visible;
+}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__inner{
+ width:100%;display:flex;align-items:center;justify-content:space-between;
+ flex-wrap:nowrap;gap:15px;min-height:0!important;padding:0!important;margin:0!important;
+}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__identity{flex:0 1 auto;min-width:0}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__home{white-space:nowrap}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__copy{gap:9px}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__copy strong{font-size:11px}
+.zr-shared-sticker-shelf .zr-compact-footer .zrain-footer__copy small{font-size:10px}
+.zr-shared-sticker-shelf .zr-compact-contact{
+ flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;
+ gap:6px;width:auto;min-height:0;margin:0;padding:0;
+ background:transparent;border:0;box-shadow:none;
+}
+.zr-shared-sticker-shelf .zr-compact-contact :is(a,button){
+ display:inline-flex;justify-content:flex-start;align-items:center;gap:6px;
+ padding:6px 9px;min-height:37px;max-width:none;
+ border:1px solid rgba(105,58,72,.19);border-radius:11px;
+ background:#5d2b3a;color:#f8eadb;box-shadow:0 2px 0 rgba(63,31,40,.21);
+ font:750 10.5px/1.1 'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;
+}
+.zr-shared-sticker-shelf .zr-compact-contact :is(a,button):hover{background:#743a4b;box-shadow:0 4px 0 rgba(63,31,40,.17)}
+.zr-shared-sticker-shelf .zr-compact-contact svg{width:16px;height:16px;color:#e4ba76}
+.zr-shared-sticker-shelf .zr-compact-contact small{color:#d5c0b4;font-size:9px}
+.zr-shared-sticker-shelf .zr-compact-contact span{gap:2px}
+.zr-shared-sticker-shelf{--zr-footer-height:67px;--zr-paper:#efe1d0;--zr-paper-ink:#452733;--zr-paper-line:#ddc6b5}
+.zr-shared-sticker-shelf .zr-compact-footer{box-sizing:border-box;height:var(--zr-footer-height);min-height:var(--zr-footer-height);max-height:var(--zr-footer-height)}
+.zr-shared-footer .zrain-footer__home,.zr-shared-footer .zrain-footer__copy{display:flex;align-items:center;gap:9px;color:inherit;text-decoration:none}
+.zr-shared-footer .zrain-footer__logo{width:29px;height:29px;border-radius:50%}
+@media(max-width:1070px){.zr-shared-sticker-shelf{--zr-footer-height:100px}.zr-shared-footer .zrain-footer__inner{flex-wrap:wrap;justify-content:center}}
+@media(max-width:640px){.zr-shared-sticker-shelf{--zr-footer-height:91px}.zr-shared-footer .zrain-footer__inner{flex-direction:column;gap:7px}.zr-shared-footer .zrain-footer__home{white-space:normal}.zr-shared-footer .zr-compact-contact small{display:none}}
+@media(max-width:380px){.zr-shared-sticker-shelf{--zr-footer-height:87px}}
+
+@media(min-width:1071px){.zr-shared-sticker-shelf footer.zr-compact-footer .zrain-footer__inner{display:flex;flex-flow:row nowrap;justify-content:space-between;align-items:center}.zr-shared-sticker-shelf footer.zr-compact-footer .zr-compact-contact{margin-left:auto}.zr-shared-sticker-shelf footer.zr-compact-footer .zrain-footer__copy{display:flex;gap:9px}}
+
+[data-zrain-header].zr-shared-header{box-sizing:border-box;min-height:0;padding-block:8px}
+@media(min-width:1071px){
+footer[data-zrain-footer].zr-compact-footer{box-sizing:border-box!important;height:67px!important;min-height:67px!important;max-height:67px!important;padding:0 clamp(16px,3.5vw,48px)!important}
+footer[data-zrain-footer]>.zrain-footer__inner{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;justify-content:space-between!important;align-items:center!important}
+footer[data-zrain-footer] .zrain-footer__home,footer[data-zrain-footer] .zrain-footer__copy{display:flex!important;align-items:center!important;gap:9px!important;white-space:nowrap}
+footer[data-zrain-footer] .zrain-footer__copy strong{font-size:11px!important}
+footer[data-zrain-footer] .zrain-footer__copy small{font-size:10px!important}
+footer[data-zrain-footer] .zr-compact-contact{display:flex!important;flex-wrap:nowrap!important;width:auto!important;margin:0 0 0 auto!important}
+footer[data-zrain-footer] .zr-compact-contact :is(a,button){font-size:10.5px!important;padding:6px 9px!important;min-height:37px!important}
+}

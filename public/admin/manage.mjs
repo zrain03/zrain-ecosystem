@@ -115,12 +115,14 @@ function logout(clearLogin = true) {
   editingId = null;
   projects = [];
   byId('admin-dashboard').hidden = true;
+  document.dispatchEvent(new Event('zrain:workspace-hidden'));
   byId('admin-login').hidden = false;
   if (clearLogin) {byId('login-password').value=''; notice('');}
 }
 function showDashboard() {
   byId('admin-login').hidden = true;
   byId('admin-dashboard').hidden = false;
+  document.dispatchEvent(new Event('zrain:workspace-visible'));
   byId('login-password').value = '';
 }
 
@@ -169,7 +171,7 @@ function render() {
     const row = el('article','entry-row');
     const img = el('img');
     img.alt='';img.loading='lazy';img.width=40;img.height=40;
-    img.src = item.kind === 'tool' ? '/zrain-logo.webp' : logoFor({id:item.id});
+    img.src = item.kind === 'tool' ? '/zrain-mascot.png' : (item.record?.logoUrl || '/zrain-mascot.png');
     const copy=el('div','entry-body');copy.append(el('strong','',item.name),el('small','',item.description));
     const tags=el('div','entry-tags');tags.append(el('span','',CATEGORIES.find(c=>c.id===item.category)?.title || item.category));
     tags.append(el('span',item.status==='DRAFT'?'status-draft':item.status==='ARCHIVED'?'status-archived':'',
@@ -222,7 +224,7 @@ function editRow(row) {
     'https://zrain.web.app/icons/memory-rush.webp'
   ].includes(row.logoUrl) ? row.logoUrl : '/zrain-logo.webp';
   updatePreview();
-  byId('project-editor').scrollIntoView({behavior:'smooth',block:'start'});
+  document.dispatchEvent(new Event('zrain:editor-open'));
   byId('field-name').focus({preventScroll:true});
 }
 function resetForm() {
@@ -297,12 +299,31 @@ byId('login-form').addEventListener('submit',async event=>{
     jwt=auth.accessToken;
     const who=await request('/api/admin/auth/me');
     if(who.role!=='ADMIN')throw new Error('Administrator role required.');
-    showDashboard();await refresh();resetForm();
+    const status=await request("/api/admin/catalog/status");
+    showDashboard();
+    setCatalogueActive(status.active === true);
+    if(status.active){await refresh();resetForm();}
   }catch(error){jwt=null;notice(error.message+' Use the deployed admin URL if local preview origins are not permitted.',true);}
   finally{button.disabled=false;byId('login-password').value='';}
 });
+function setCatalogueActive(active) {
+  byId('catalog-activation').hidden=active;
+  byId('admin-dashboard').classList.toggle('catalog-inactive',!active);
+}
+byId('activate-catalog')?.addEventListener('click',async event=>{
+  const button=event.currentTarget;
+  button.disabled=true;
+  try {
+    await request('/api/admin/catalog/activate',{method:'POST'});
+    await refresh();
+    setCatalogueActive(true);
+    resetForm();
+  } catch(error) {
+    byId('activation-status').textContent=error.message;
+  } finally {button.disabled=false;}
+});
 byId('admin-signout').addEventListener('click',()=>{if(!demo)logout();else notice('Design preview has no account session.');});
-byId('new-project').addEventListener('click',()=>{resetForm();byId('project-editor').scrollIntoView({behavior:'smooth',block:'start'});byId('field-name').focus({preventScroll:true});});
+byId('new-project').addEventListener('click',()=>{resetForm();document.dispatchEvent(new Event('zrain:editor-open'));byId('field-name').focus({preventScroll:true});});
 byId('reset-form').addEventListener('click',resetForm);
 byId('project-form').addEventListener('submit',save);
 ['filter-text','filter-category','filter-kind','filter-status'].forEach(id=>byId(id).addEventListener('input',render));

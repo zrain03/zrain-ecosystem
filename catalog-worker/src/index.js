@@ -277,7 +277,11 @@ async function routeAdmin(request,env,path) {
     return {changed:true,message:"Password updated. Sign in again."};
   }
   if(path==="/api/admin/catalog/status" && request.method==="GET")
-    return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put};
+    return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put, active:(await env.ZRAIN_CATALOG.get("workshop-active-v2"))==="1"};
+  if(path==="/api/admin/catalog/activate" && request.method==="POST"){
+    await env.ZRAIN_CATALOG.put("workshop-active-v2","1");
+    return {active:true};
+  }
   if(path==="/api/admin/catalog/sync" && request.method==="POST") {
     const rows=await loadProducts(env.ZRAIN_CATALOG);
     return {published:publicProducts(rows).length,success:true};
@@ -369,7 +373,7 @@ async function routeAdmin(request,env,path) {
 export default {
   async fetch(request,env) {
     const path=new URL(request.url).pathname;
-    const isPublic=path==="/api/catalog" || path==="/api/products" || path==="/api/health" || path==="/api/ready";
+    const isPublic=path==="/api/catalog/workshop" || path==="/api/catalog" || path==="/api/products" || path==="/api/health" || path==="/api/ready";
     const origin=request.headers.get("Origin");
     const allowed=trustedOrigin(request,env);
     if(request.method==="OPTIONS") {
@@ -395,6 +399,12 @@ export default {
     if(!env.ZRAIN_CATALOG?.get || !env.ZRAIN_CATALOG?.put)
       return reply(request,env,{error:"KV Free namespace is not bound"},503,isPublic);
     try{
+      if(path==="/api/catalog/workshop" && request.method==="GET"){
+        if(await env.ZRAIN_CATALOG.get("workshop-active-v2")!=="1")
+          return reply(request,env,{error:"Workshop not yet activated"},404,true);
+        const result=await readPublic(env);
+        return new Response(result ?? "[]",{headers:{...JSON_HEADERS,"Cache-Control":"no-store","Access-Control-Allow-Origin":"*"}});
+      }
       if((path==="/api/catalog" || path==="/api/products") && request.method==="GET"){
         const result=await readPublic(env);
         if(result===null)return reply(request,env,{error:"Catalog not yet published"},404,true);

@@ -14,8 +14,9 @@
  */
 import {INVENTORY as SOURCE, CATEGORIES} from './ecosystem-inventory.mjs';
 
-export const PUBLIC_CATALOG_URL = 'https://zrain-ecosystem-catalog.zrain-dev.workers.dev/api/catalog';
+export const PUBLIC_CATALOG_URL = 'https://zrain-ecosystem-catalog.zrain-dev.workers.dev/api/catalog/workshop';
 const OMIT_FAMILIES = new Set([
+  "zrain-console",
   'zrain-image-tools','zrain-pdf-tools','zrain-document-tools',
   'zrain-developer-tools','zrain-productivity-tools'
 ]);
@@ -78,10 +79,8 @@ export function reconcilePublishedCatalog(rows,source=SOURCE) {
   }
   // A successful public response is authoritative for managed projects;
   // Draft/archived/deleted entries are not displayed or counted.
-  const consoleApp = projects.get('zrain-console');
   return Object.freeze([
     ...tools,
-    ...(consoleApp && !seen.has('zrain-console') ? [consoleApp] : []),
     ...mapped
   ]);
 }

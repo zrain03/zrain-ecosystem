@@ -17,3 +17,22 @@
 @media(max-width:1180px){.admin-columns{grid-template-columns:1fr}.admin-filters{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:680px){.admin-main{width:calc(100% - 24px);padding:24px 0}.admin-card{padding:17px}.admin-heading{align-items:flex-start;flex-direction:column}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-filters{grid-template-columns:1fr}.entry-row{grid-template-columns:36px 1fr}.entry-actions{grid-column:2;justify-content:start}.section-row{flex-direction:column}.admin-header-nav{gap:9px}.admin-header-nav a{font-size:10px}.form-actions{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* V8.2 live admin palette */
+.zrain-admin { background: #f7ede1; color: #452733; }
+.zrain-admin .zrain-header { background: #fff5e9; }
+.zrain-admin .admin-login, .zrain-admin .admin-card {
+  background: #fbf3e8;
+  border-color: #dfc5b2;
+  border-radius: 18px;
+}
+.zrain-admin .admin-login h1, .zrain-admin .admin-heading h1 { color: #452733; }
+.zrain-admin .button-primary { background: #652c40; border-color: #652c40; color: #fff4e2; }
+.zrain-admin .admin-form input, .zrain-admin .admin-form select {
+  background: #fffbf5;
+  border-color: #dfc5b2;
+}
+
+/* While the catalogue is inactive, keep the account controls available. */
+.catalog-inactive .metrics, .catalog-inactive .admin-tabs, .catalog-inactive .admin-columns { display: none; }
+#catalog-activation { padding: 1.5rem; margin-bottom: 1.5rem; background: #fbf3e8; border: 1px solid #dfc5b2; border-radius: 18px; }
