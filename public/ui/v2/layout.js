@@ -34,6 +34,7 @@
     document.documentElement.classList.add('zr-shared-page');
     for (const node of document.querySelectorAll('[data-zrain-header],[data-zrain-footer],[data-zrain-legacy]')) {
       node.classList.add('zr-original-hidden');
+      if(node.matches('footer'))node.classList.remove('zrain-footer');
     }
     const views = links.map((link,index) => ({
       label:link.label,labelBM:link.labelBM || link.label,
