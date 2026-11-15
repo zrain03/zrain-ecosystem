@@ -17,13 +17,14 @@
   async function start() {
     const [{mountZrainCompact, mountZrainStickers}] = await Promise.all([
       import(asset('runtime.mjs')),
-      Promise.all([stylesheet('integration.css'), ...(native ? [] : [stylesheet('reference.css')])])
+      Promise.all([...(native ? [] : [stylesheet('reference.css')]), stylesheet('integration.css')])
     ]);
     if (native) {
       const top = document.querySelector('.zr-compact-v44 .zr-experience-top');
       if (!top) throw new Error('Native Zrain layout is missing.');
       top.querySelector('.zr-sticker-field')?.remove();
       mountZrainStickers({root:top,footer:top.querySelector('.zr-compact-footer')});
+      document.documentElement.dataset.zrainLayout = 'ready';
       return;
     }
     const content = document.querySelector('[data-zrain-content]') || document.querySelector('main');
@@ -40,7 +41,14 @@
     }));
     const api = mountZrainCompact({
       product:script.dataset.label || 'Zrain',
-      communityId:product, miniGame:true, splash:true, views
+      communityId:product, miniGame:true, splash:true, views,
+      onLanguageChange(language) {
+        const i18n = window.ZrainI18n;
+        if (i18n && i18n.lang !== language) i18n.setLanguage(language);
+      },
+      onThemeChange(theme) {
+        if (product === 'zrain-ecosystem') document.body.dataset.theme = theme;
+      }
     });
     const shell = api.compactRoot;
     const hero = shell.querySelector('.zr-compact-hero');
@@ -61,11 +69,13 @@
       });
       progress.style.setProperty('--progress',index/(steps.length-1)*100+'%');
     }
+    let activeIndex = 0;
     function refreshActive() {
       const index = links.findIndex(link => link.view
         ? document.body.dataset.view===link.view
         : link.href && new URL(link.href,location.href).href===location.href);
-      showActive(index < 0 ? 0 : index);
+      activeIndex = index < 0 ? 0 : index;
+      showActive(activeIndex);
     }
     steps.forEach((step,index) => step.addEventListener('click', event => {
       event.stopImmediatePropagation();
@@ -75,6 +85,16 @@
         refreshActive();
       } else if (link.href) location.assign(new URL(link.href, location.href));
     },true));
+    document.addEventListener('keydown', event => {
+      if (!event.altKey || event.ctrlKey || event.metaKey ||
+          event.target.closest?.('input,textarea,select,[contenteditable]')) return;
+      const offset = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+      if (!offset) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      steps[activeIndex + offset]?.click();
+    },true);
+    window.addEventListener('hashchange',refreshActive);
     document.addEventListener('zrain:languagechange', refreshActive);
     new MutationObserver(refreshActive).observe(document.body,{attributes:true,attributeFilter:['data-view']});
     refreshActive();
@@ -85,6 +105,7 @@
       location.assign(url);
     },true);
     await api.ready;
+    document.documentElement.dataset.zrainLayout = 'ready';
   }
   start().catch(error => console.error('Zrain shared layout failed',error));
 })();

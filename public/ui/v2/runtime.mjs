@@ -1200,7 +1200,7 @@ function mountZrainStickers({root,blockedTop,footer,document:providedDocument,po
   const homeYFor=item=>{
     const fieldRect=field.getBoundingClientRect();
     const footerRect=footer?.getBoundingClientRect();
-    const footerTop=footerRect?footerRect.top-fieldRect.top:fieldRect.height;
+    const footerTop=footerRect?footerRect.top-root.getBoundingClientRect().top-topInset():fieldRect.height;
     const stagger=item.index%2===0?0:8;
     return Math.max(6,Math.min(Math.max(6,field.clientHeight-item.sticker.offsetHeight-6),footerTop-item.sticker.offsetHeight-24-stagger));
   };
