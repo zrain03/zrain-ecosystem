@@ -2307,12 +2307,12 @@ window.ZRAIN_CATALOG={
   let revealedCount=data.products.length;
   const catById=id=>data.categories.find(c=>c.id===id);
   const mascotFor={images:'pointing',pdf:'reading',documents:'reading',games:'celebrate',ai:'smile',art:'smile','developer-infra':'working','developer-utilities':'working',web:'pointing',monitoring:'working',productivity:'working'};
-  const userVisibleCats=[{id:'all',short:'All products',count:allCount},...data.categories];
+  const userVisibleCats=[{id:'all',short:'All products',count:allCount},];
   const safeUrl=v=>{if(typeof v!=='string'||!v.trim())return null;try{const u=new URL(v,location.origin);return /^https?:$/.test(u.protocol)?u.href:null}catch{return null}};
   function triggerMood(id){const pose=mascotFor[id];if(pose)window.ZrainSite?.setPose(pose,false)}
   function setupShelves(){
     const shelves=$('wsShelves');
-    data.categories.forEach((c,i)=>{
+    data.categories.filter(c=>c.count>0).forEach((c,i)=>{
       const b=document.createElement('button');b.type='button';b.className='ws-shelf';b.dataset.catalogCategory=c.id;
       b.setAttribute('aria-label',tx('Browse ','Lihat koleksi ')+catName(c));
       b.innerHTML='<span class="shelf-no">'+String(i+1).padStart(2,'0')+'</span><span class="shelf-name">'+escape(catName(c,'short'))+'</span><span class="shelf-count">'+c.count+'</span><span class="shelf-arrow" aria-hidden="true">↗</span>';
@@ -2323,7 +2323,7 @@ window.ZRAIN_CATALOG={
   }
   function renderCategories(){
     categoryHost.replaceChildren();
-    userVisibleCats.forEach(cat=>{
+    [...userVisibleCats,...data.categories.filter(c=>c.count>0)].forEach(cat=>{
       const b=document.createElement('button');b.type='button';b.className='catalog-cat'+(selected===cat.id?' active':'');b.dataset.catalogCat=cat.id;
       b.setAttribute('aria-pressed',String(selected===cat.id));
       b.innerHTML='<span>'+escape(catName(cat,'short'))+'</span><span>'+cat.count+'</span>';
@@ -2418,11 +2418,12 @@ window.ZRAIN_CATALOG={
     revealedCount=data.products.length;
     allCount=revealedCount;
     userVisibleCats[0].count=allCount;
+    if(selected!=="all" && !catById(selected)?.count)selected="all";
     $("wsShelves").replaceChildren();
     setupShelves();
     render();
   });
-  window.ZrainWorkshop={refreshLanguage,open,close,info:()=>({categories:data.categories.length,listed:allCount,visible:revealedCount,selected,searchTerm})};
+  window.ZrainWorkshop={refreshLanguage,open,close,info:()=>({categories:data.categories.filter(c=>c.count>0).length,listed:allCount,visible:revealedCount,selected,searchTerm})};
 })();
 
 </script>
