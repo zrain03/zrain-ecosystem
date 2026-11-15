@@ -10,6 +10,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
 import { EXISTING } from "../src/products.js";
+import {INVENTORY} from "../../public/ecosystem-inventory.mjs";
+import {reconcilePublishedCatalog} from "../../public/ecosystem-catalog.mjs";
 
 const baseURL="https://zrain-admin.test";
 const origin="https://zrain.web.app";
@@ -68,6 +70,34 @@ test("public website keeps static fallback until there is a real published catal
   const {env}=mock();
   assert.equal((await send(env,"/api/catalog")).status,404);
   assert.equal((await send(env,"/api/products")).status,404);
+});
+test("Workshop starts empty, then activation seeds directly editable tools and preserves drafts",async()=>{
+  const {env}=mock(), jwt=await login(env);
+  const activation="/api/admin/catalog/activate";
+  const workshop="/api/catalog/workshop";
+  const inventory="/api/admin/products";
+  const expectedTools=INVENTORY.filter(item=>item.kind==="tool");
+  const draft=await (await send(env,inventory,"POST",{...EXISTING[0],name:"Owner's draft"},jwt)).json();
+  assert.equal((await send(env,workshop)).status,404);
+  assert.equal((await send(env,activation,"POST")).status,401);
+  assert.equal((await send(env,activation,"POST",undefined,jwt)).status,200);
+
+  const rows=await (await send(env,inventory,"GET",undefined,jwt)).json();
+  assert.ok(rows.length>50);
+  assert.equal(rows.filter(row=>row.kind==="tool").length,expectedTools.length);
+  assert.equal(rows.find(row=>row.id===draft.id).name,"Owner's draft");
+  const emoji=rows.find(row=>row.slug==="emoji-art");
+  assert.equal(emoji.primaryUrl,"https://zrain-image-tools.pages.dev/emoji-art/");
+  assert.equal((await send(env,inventory+'/'+emoji.id,"PUT",{...emoji,name:"Emoji mosaic"},jwt)).status,200);
+  assert.equal((await send(env,activation,"POST",undefined,jwt)).status,200);
+  const published=await (await send(env,workshop)).json();
+  const visible=reconcilePublishedCatalog(published,INVENTORY,{managedTools:true});
+  assert.equal(visible.find(item=>item.id==="emoji-art").name,"Emoji mosaic");
+  assert.equal(visible.find(item=>item.id==="guess-the-flag"),undefined);
+  assert.equal(visible.find(item=>item.id==="zrain-console"),undefined);
+  assert.equal((await send(env,inventory+'/'+emoji.id+'/unpublish',"POST",undefined,jwt)).status,200);
+  const remaining=await (await send(env,workshop)).json();
+  assert.equal(reconcilePublishedCatalog(remaining,INVENTORY,{managedTools:true}).find(item=>item.id==="emoji-art"),undefined);
 });
 test("secret admin login signs a short-lived JWT and does not offer registration",async()=>{
   const {env}=mock();

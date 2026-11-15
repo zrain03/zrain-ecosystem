@@ -62,6 +62,11 @@ for(const {slug,family,name} of manifest){
   html=html.replace(/All (?:Image|PDF|Document|Developer|Productivity) Tools/g,'Explore all');
   html=html.replace(/<span class="eyebrow">(?:IMAGE|PDF|DOCUMENT|DEVELOPER|PRODUCTIVITY) TOOLS<\/span>/g,'<span class="eyebrow">ZRAIN ECOSYSTEM</span>');
   html=html.replace(/aria-label="Choose another [^"]* tool"/,'aria-label="Switch to another Zrain function"');
+  const menu = "[{\"label\":\"Ecosystem\",\"href\":\"/\"},{\"label\":\"Tool\",\"href\":\"#main\"},{\"label\":\"Feedback\",\"href\":\"#community-feedback\"}]";
+  html=html.replace(/<header(?=\s|>)/i,'<header data-zrain-legacy')
+    .replace(/<footer(?=\s|>)/i,'<footer data-zrain-legacy')
+    .replace(/<main(?=\s|>)/i,'<main data-zrain-content')
+    .replace("</body>", `<script defer src="/ui/v2/layout.js" data-product="${slug}" data-menu='${menu}'></script></body>`);
   const target=join(destination,slug);await mkdir(target,{recursive:true});
   await writeFile(join(target,'index.html'),html);
 }

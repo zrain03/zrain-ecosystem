@@ -1,0 +1,20 @@
+
+html.zr-shared-page,html.zr-shared-page body{overflow:visible;min-height:100%;height:auto;scroll-snap-type:none}
+.zr-shared-page .zr-original-hidden{display:none!important}
+.zr-shared-page .zr-shared-content{position:relative;min-width:0;width:100%;padding-bottom:105px}
+.zr-shared-page .zr-shared-content>[data-zrain-content]{max-width:100%;box-sizing:border-box}
+.zr-shared-page .zr-compact-left{height:auto;min-height:0}
+.zr-shared-page .zr-compact-stage{overflow:visible}
+.zr-compact-v44 .zr-sticker-field{z-index:30}
+.zr-compact-v44 .zr-sticker-field .zr-sticker{z-index:1}
+.zr-compact-v44 .zr-sticker-field .zr-sticker.is-dragging{z-index:2}
+.zr-compact-v44 .zr-compact-footer,.zr-compact-v44 .zrain-header,.zr-compact-v44 .game-dock{box-sizing:border-box}
+.zr-shared-page .zr-shared-content > .app{width:100%;max-width:none;min-height:0;height:auto;overflow:visible}
+.zr-shared-page .zr-shared-content .app>.left{min-width:0;min-height:0;height:auto}
+.zr-shared-page .zr-shared-content .app .hero{transform:none}
+.zr-shared-page .zr-shared-content .app>.left>.top{display:none!important}
+@media(max-width:760px){
+ .zr-shared-page .zr-shared-content>.app{display:flex;flex-direction:column}
+ .zr-shared-page .zr-shared-content .app>.scene{max-width:100%;width:100%}
+ .zr-shared-page .zr-shared-content{padding-bottom:80px}
+}

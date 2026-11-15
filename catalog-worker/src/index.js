@@ -13,6 +13,7 @@ import { KEYS, EXISTING, VERIFIED_TOOLS, validateProduct, loadProducts, saveProd
   publishProducts, publicProducts, newProduct, nextOrder } from "./products.js";
 import { authConfigured, issueJWT, verifyJWT, passwordMatches, rateLimitKey,
   readPasswordOverride, savePasswordOverride } from "./auth.js";
+import { WORKSHOP_ACTIVE_KEY, activateWorkshop } from "./workshop.js";
 
 const OFFICIAL_PROJECTS = [
   {
@@ -277,9 +278,9 @@ async function routeAdmin(request,env,path) {
     return {changed:true,message:"Password updated. Sign in again."};
   }
   if(path==="/api/admin/catalog/status" && request.method==="GET")
-    return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put, active:(await env.ZRAIN_CATALOG.get("workshop-active-v2"))==="1"};
+    return {configured:authConfigured(env)&&!!env.ZRAIN_CATALOG?.put, active:(await env.ZRAIN_CATALOG.get(WORKSHOP_ACTIVE_KEY))==="1"};
   if(path==="/api/admin/catalog/activate" && request.method==="POST"){
-    await env.ZRAIN_CATALOG.put("workshop-active-v2","1");
+    await activateWorkshop(env.ZRAIN_CATALOG);
     return {active:true};
   }
   if(path==="/api/admin/catalog/sync" && request.method==="POST") {
@@ -400,7 +401,7 @@ export default {
       return reply(request,env,{error:"KV Free namespace is not bound"},503,isPublic);
     try{
       if(path==="/api/catalog/workshop" && request.method==="GET"){
-        if(await env.ZRAIN_CATALOG.get("workshop-active-v2")!=="1")
+        if(await env.ZRAIN_CATALOG.get(WORKSHOP_ACTIVE_KEY)!=="1")
           return reply(request,env,{error:"Workshop not yet activated"},404,true);
         const result=await readPublic(env);
         return new Response(result ?? "[]",{headers:{...JSON_HEADERS,"Cache-Control":"no-store","Access-Control-Allow-Origin":"*"}});

@@ -53,7 +53,7 @@ body {
 }
 /* BM: Letakkan header di atas kandungan ketika scroll tanpa menguasai navigation produk.
    EN: Keep the header above page content while scrolling without owning product navigation. */
-.zrain-header {
+.zr-old-admin-header {
   /* BM: Pastikan kedudukan header kekal konsisten ketika pengguna scroll.
      EN: Maintain consistent header positioning during scrolling. */
   position: sticky;
@@ -75,7 +75,7 @@ body {
 }
 /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
    EN: Constrain the header content and align brand identity with navigation. */
-.zrain-header .zrain-header__inner {
+.zr-old-admin-header .zrain-header__inner {
   /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
      EN: Set width according to viewport or component size. */
   width: min(1160px, calc(100% - 48px));
@@ -103,7 +103,7 @@ body {
 }
 /* BM: Jajarkan logo, nama dan identiti produk dalam satu kumpulan.
    EN: Align logo, name and product identity into a single group. */
-.zrain-header .zrain-brand {
+.zr-old-admin-header .zrain-brand {
   /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
      EN: Choose the element display and layout mode. */
   display: inline-flex;
@@ -128,7 +128,7 @@ body {
 }
 /* BM: Pastikan imej logo rasmi kekal jelas pada saiz yang konsisten.
    EN: Keep the official logo legible at a consistent size. */
-.zrain-header .zrain-brand__logo {
+.zr-old-admin-header .zrain-brand__logo {
   /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
      EN: Set width according to viewport or component size. */
   width: 42px;
@@ -153,7 +153,7 @@ body {
 }
 /* BM: Gayakan label jenama lama bagi aplikasi pengguna yang masih memerlukannya.
    EN: Style the legacy brand label for consuming applications that still use it. */
-.zrain-header .zrain-brand__label {
+.zr-old-admin-header .zrain-brand__label {
   /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
      EN: Choose the element display and layout mode. */
   display: inline-flex;
@@ -184,7 +184,7 @@ body {
 }
 /* BM: Berikan penekanan visual pada nama Zrain dalam label lama.
    EN: Emphasize the Zrain name in the legacy brand label. */
-.zrain-header .zrain-brand__label strong {
+.zr-old-admin-header .zrain-brand__label strong {
   /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
      EN: Set text color to maintain brand hierarchy and contrast. */
   color: var(--zrain-brand-ink);
@@ -194,7 +194,7 @@ body {
 }
 /* BM: Bezakan nama produk daripada identiti utama Zrain.
    EN: Distinguish the product name from the primary Zrain identity. */
-.zrain-header .zrain-brand__product {
+.zr-old-admin-header .zrain-brand__product {
   /* BM: Kawal ruang luaran mengikut peranan komponen.
      EN: Control outer spacing according to component responsibility. */
   margin: 0;
@@ -211,8 +211,8 @@ body {
      EN: Fine-tune character spacing for typography consistency. */
   letter-spacing: inherit;
 }
-.zrain-header .topnav,
-.zrain-header .main-nav {
+.zr-old-admin-header .topnav,
+.zr-old-admin-header .main-nav {
   /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
      EN: Choose the element display and layout mode. */
   display: flex;
@@ -229,8 +229,8 @@ body {
      EN: Keep menu right spacing consistent with the layout. */
   margin-right: 0;
 }
-.zrain-header .topnav a,
-.zrain-header .main-nav a {
+.zr-old-admin-header .topnav a,
+.zr-old-admin-header .main-nav a {
   /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
      EN: Set text color to maintain brand hierarchy and contrast. */
   color: #526071;
@@ -249,14 +249,14 @@ body {
 }
 /* BM: Kekalkan keserasian visual untuk class current milik produk lama.
    EN: Preserve active text styling for legacy product-owned current classes. */
-.zrain-header .topnav a.current {
+.zr-old-admin-header .topnav a.current {
   /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
      EN: Set text color to maintain brand hierarchy and contrast. */
   color: #b8492e;
 }
-.zrain-header .nav-github,
-.zrain-header .account-actions .button,
-.zrain-header > .zrain-header__inner > .button {
+.zr-old-admin-header .nav-github,
+.zr-old-admin-header .account-actions .button,
+.zr-old-admin-header > .zrain-header__inner > .button {
   /* BM: Pastikan kawasan interaktif mempunyai ketinggian minimum.
      EN: Maintain a minimum height for the interactive area. */
   min-height: 42px;
@@ -462,9 +462,9 @@ body {
 @media (max-width: 800px) {
   /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
      EN: Constrain the header content and align brand identity with navigation. */
-  .zrain-header .zrain-header__inner { gap: 16px; }
-  .zrain-header .topnav,
-  .zrain-header .main-nav { gap: 12px; }
+  .zr-old-admin-header .zrain-header__inner { gap: 16px; }
+  .zr-old-admin-header .topnav,
+  .zr-old-admin-header .main-nav { gap: 12px; }
 }
 /* BM: Smooth native anchor scroll hanya bagi halaman yang memilih scrollSpy, bukan semua produk.
    EN: Native smooth anchor scrolling is opt-in for scrollSpy, not imposed on every product. */
@@ -478,7 +478,7 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 @media (max-width: 700px) {
   /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
      EN: Constrain the header content and align brand identity with navigation. */
-  .zrain-header .zrain-header__inner {
+  .zr-old-admin-header .zrain-header__inner {
     /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
        EN: Set width according to viewport or component size. */
     width: calc(100% - 28px);
@@ -491,13 +491,13 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
   }
   /* BM: Pastikan imej logo rasmi kekal jelas pada saiz yang konsisten.
      EN: Keep the official logo legible at a consistent size. */
-  .zrain-header .zrain-brand__logo { width: 36px; height: 36px; }
+  .zr-old-admin-header .zrain-brand__logo { width: 36px; height: 36px; }
   /* BM: Gayakan label jenama lama bagi aplikasi pengguna yang masih memerlukannya.
      EN: Style the legacy brand label for consuming applications that still use it. */
-  .zrain-header .zrain-brand__label { font-size: 14px; gap: 6px; }
+  .zr-old-admin-header .zrain-brand__label { font-size: 14px; gap: 6px; }
   /* BM: Guna gaya bersama yang juga serasi dengan markup aplikasi pengguna.
      EN: Apply shared styles compatible with consuming application markup. */
-  .zrain-header .main-nav { display: none; }
+  .zr-old-admin-header .main-nav { display: none; }
   /* BM: Susun kredit developer dan pautan footer secara seimbang.
      EN: Balance developer credit and footer links within one container. */
   .zrain-footer .zrain-footer__inner {
@@ -520,18 +520,18 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 @media (max-width: 450px) {
   /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
      EN: Constrain the header content and align brand identity with navigation. */
-  .zrain-header .zrain-header__inner { flex-wrap: wrap; }
+  .zr-old-admin-header .zrain-header__inner { flex-wrap: wrap; }
   /* BM: Susun pautan navigasi dalam header pada satu baris sebelum peraturan responsif digunakan.
      EN: Arrange header links in a row before responsive rules take effect. */
-  .zrain-header .topnav { order: 3; flex: 1 0 100%; justify-content: flex-start; }
+  .zr-old-admin-header .topnav { order: 3; flex: 1 0 100%; justify-content: flex-start; }
   /* BM: Guna gaya bersama yang juga serasi dengan markup aplikasi pengguna.
      EN: Apply shared styles compatible with consuming application markup. */
-  .zrain-header .account-actions { margin-left: auto; }
+  .zr-old-admin-header .account-actions { margin-left: auto; }
 }
 
 /* BM: Paparkan pautan identiti Zrain tanpa gaya anchor biasa.
    EN: Render the main Zrain identity link without default anchor styling. */
-.zrain-header .zrain-brand__home {
+.zr-old-admin-header .zrain-brand__home {
   /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
      EN: Choose the element display and layout mode. */
   display: inline-flex;
@@ -568,10 +568,10 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 }
 /* BM: Tekankan teks jenama supaya identiti kelihatan jelas.
    EN: Emphasize the brand text so its identity remains obvious. */
-.zrain-header .zrain-brand__name { font-weight: 800; }
+.zr-old-admin-header .zrain-brand__name { font-weight: 800; }
 /* BM: Bezakan nama produk daripada identiti utama Zrain.
    EN: Distinguish the product name from the primary Zrain identity. */
-.zrain-header .zrain-brand__product {
+.zr-old-admin-header .zrain-brand__product {
   /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
      EN: Control text size for a clear information hierarchy. */
   font-size: 17px;
@@ -585,11 +585,11 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
      EN: Set text decoration appropriate to the link role. */
   text-decoration: none;
 }
-.zrain-header .zrain-brand__home:hover,
-.zrain-header .zrain-brand__product:hover,
+.zr-old-admin-header .zrain-brand__home:hover,
+.zr-old-admin-header .zrain-brand__product:hover,
 .zrain-footer .zrain-footer__home:hover { text-decoration: none; }
-.zrain-header .zrain-brand__home:focus-visible,
-.zrain-header .zrain-brand__product:focus-visible,
+.zr-old-admin-header .zrain-brand__home:focus-visible,
+.zr-old-admin-header .zrain-brand__product:focus-visible,
 .zrain-footer .zrain-footer__home:focus-visible {
   /* BM: Paparkan penunjuk fokus yang boleh dilihat pengguna keyboard.
      EN: Display a focus indicator visible to keyboard users. */
@@ -639,15 +639,15 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 @media (max-width: 700px) {
   /* BM: Paparkan pautan identiti Zrain tanpa gaya anchor biasa.
      EN: Render the main Zrain identity link without default anchor styling. */
-  .zrain-header .zrain-brand__home { font-size: 14px; gap: 7px; }
+  .zr-old-admin-header .zrain-brand__home { font-size: 14px; gap: 7px; }
   /* BM: Bezakan nama produk daripada identiti utama Zrain.
      EN: Distinguish the product name from the primary Zrain identity. */
-  .zrain-header .zrain-brand__product { font-size: 14px; }
+  .zr-old-admin-header .zrain-brand__product { font-size: 14px; }
 }
 
 /* BM: Bezakan nama produk daripada identiti utama Zrain.
    EN: Distinguish the product name from the primary Zrain identity. */
-.zrain-header .zrain-brand__product {
+.zr-old-admin-header .zrain-brand__product {
   /* BM: Jarakkan teks daripada pemisah atau tepi komponen.
      EN: Space text away from a divider or component edge. */
   padding-left: 11px;
@@ -655,10 +655,10 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
      EN: Create a separator between Zrain and the product name. */
   border-left: 1px solid #dbc9bf;
 }
-.zrain-header .topnav,
-.zrain-header .main-nav { gap: 5px; }
-.zrain-header .topnav a,
-.zrain-header .main-nav a {
+.zr-old-admin-header .topnav,
+.zr-old-admin-header .main-nav { gap: 5px; }
+.zr-old-admin-header .topnav a,
+.zr-old-admin-header .main-nav a {
   /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
      EN: Choose the element display and layout mode. */
   display: inline-flex;
@@ -690,8 +690,8 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
      EN: Smooth hover and focus changes without excessive animation. */
   transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
 }
-.zrain-header .topnav a:hover,
-.zrain-header .main-nav a:hover {
+.zr-old-admin-header .topnav a:hover,
+.zr-old-admin-header .main-nav a:hover {
   /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
      EN: Set text color to maintain brand hierarchy and contrast. */
   color: var(--zrain-brand-accent);
@@ -703,8 +703,8 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
    EN: Golden Reference: reproduce the exact Zrain Ecosystem Discover style, not a new pill design.
    BM: class current/active dan kedua-dua aria-current=page/location dilayan sama untuk menu milik produk.
    EN: Treat current/active and both aria-current=page/location equally for product-owned menus. */
-.zrain-header .topnav a:is(.current, .active, [aria-current="page"], [aria-current="location"]),
-.zrain-header .main-nav a:is(.current, .active, [aria-current="page"], [aria-current="location"]) {
+.zr-old-admin-header .topnav a:is(.current, .active, [aria-current="page"], [aria-current="location"]),
+.zr-old-admin-header .main-nav a:is(.current, .active, [aria-current="page"], [aria-current="location"]) {
   /* BM: Warna teks terracotta tepat daripada Discover, bukan warna active terdahulu.
      EN: Use Discover's exact terracotta text color rather than the previous active color. */
   color: #a64930;
@@ -727,8 +727,8 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
      EN: Match the Ecosystem's .22s active transition when the selected section changes. */
   transition: background .22s ease, color .22s ease, box-shadow .22s ease;
 }
-.zrain-header .topnav a:focus-visible,
-.zrain-header .main-nav a:focus-visible,
+.zr-old-admin-header .topnav a:focus-visible,
+.zr-old-admin-header .main-nav a:focus-visible,
 .zrain-footer .zrain-footer__links a:focus-visible {
   /* BM: Paparkan penunjuk fokus yang boleh dilihat pengguna keyboard.
      EN: Display a focus indicator visible to keyboard users. */
@@ -756,7 +756,7 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 @media (max-width: 700px) {
   /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
      EN: Scope this rule to menus opting into Zrain UI management. */
-  .zrain-header .zrain-header__inner--managed {
+  .zr-old-admin-header .zrain-header__inner--managed {
     /* BM: Benarkan item berpindah baris apabila viewport sempit.
        EN: Allow items to wrap when the viewport is narrow. */
     flex-wrap: wrap;
@@ -767,8 +767,8 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
        EN: Add vertical spacing without altering horizontal placement. */
     padding-block: 9px;
   }
-  .zrain-header .topnav.zrain-nav--managed,
-  .zrain-header .main-nav.zrain-nav--managed {
+  .zr-old-admin-header .topnav.zrain-nav--managed,
+  .zr-old-admin-header .main-nav.zrain-nav--managed {
     /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
        EN: Choose the element display and layout mode. */
     display: flex;
@@ -802,13 +802,13 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
   }
   /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
      EN: Scope this rule to menus opting into Zrain UI management. */
-  .zrain-header .zrain-nav--managed::-webkit-scrollbar { display: none; }
+  .zr-old-admin-header .zrain-nav--managed::-webkit-scrollbar { display: none; }
   /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
      EN: Scope this rule to menus opting into Zrain UI management. */
-  .zrain-header .zrain-nav--managed a { flex-shrink: 0; }
+  .zr-old-admin-header .zrain-nav--managed a { flex-shrink: 0; }
   /* BM: Bezakan nama produk daripada identiti utama Zrain.
      EN: Distinguish the product name from the primary Zrain identity. */
-  .zrain-header .zrain-brand__product { padding-left: 8px; }
+  .zr-old-admin-header .zrain-brand__product { padding-left: 8px; }
 }
 /* BM: Hormati pilihan pengguna yang meminta pergerakan dikurangkan.
    EN: Respect the user’s reduced-motion preference. */
@@ -816,8 +816,8 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
   /* BM: Jangan animasikan scroll apabila pengguna memilih reduced motion.
      EN: Do not animate scrolling when the user prefers reduced motion. */
   html.zrain-scrollspy--smooth { scroll-behavior: auto; }
-  .zrain-header .topnav a,
-  .zrain-header .main-nav a,
+  .zr-old-admin-header .topnav a,
+  .zr-old-admin-header .main-nav a,
   .zrain-footer .zrain-footer__home,
   .zrain-footer .zrain-footer__links a { transition: none; }
 }
@@ -833,7 +833,7 @@ html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
 :root{--ink:#172433;--muted:#687483;--terra:#b95136;--line:#e9d9cd;--surface:#fffaf6;color-scheme:light}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:#fffaf6;color:var(--ink);font:14px/1.55 Inter,'Segoe UI',Arial,sans-serif}a{color:inherit}button,input,textarea,select{font:inherit}button{cursor:pointer}[hidden]{display:none!important}
 :focus-visible{outline:3px solid #e5ac93;outline-offset:3px}.skip-link{position:absolute;left:8px;top:-100px;background:#fff;padding:10px;z-index:50}.skip-link:focus{top:8px}
-.zrain-header{background:#fffaf6}.admin-header-nav{display:flex;gap:22px;align-items:center;margin-left:auto}.admin-header-nav a{text-decoration:none;font-size:12px;font-weight:800;color:#6f635e}.admin-header-nav a:hover{color:var(--terra)}
+.zr-old-admin-header{background:#fffaf6}.admin-header-nav{display:flex;gap:22px;align-items:center;margin-left:auto}.admin-header-nav a{text-decoration:none;font-size:12px;font-weight:800;color:#6f635e}.admin-header-nav a:hover{color:var(--terra)}
 .admin-main{width:min(1400px,calc(100% - 48px));margin:0 auto;padding:44px 0 80px;min-height:68vh}.admin-login{max-width:480px;margin:60px auto;background:white;border:1px solid var(--line);padding:35px;border-radius:24px;box-shadow:0 16px 45px #7c533c10}.admin-login p{color:var(--muted)}h1{font-size:clamp(30px,3.2vw,43px);letter-spacing:-.055em;line-height:1.14;margin:9px 0 14px}h2{font-size:19px;letter-spacing:-.035em;margin:0}.eyebrow{margin:0;color:#a6513a;font-size:11px;font-weight:900;letter-spacing:.13em}.dot{color:var(--terra)}.admin-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.admin-heading p:not(.eyebrow){color:var(--muted);font-size:13px}.admin-toolbar{display:flex;gap:8px;flex-wrap:wrap}.button-primary,.button-secondary{min-height:42px;padding:10px 16px;border-radius:11px;font-size:12px;font-weight:850;display:inline-flex;justify-content:center;align-items:center;gap:8px;text-decoration:none}.button-primary{background:var(--terra);color:white;border:1px solid var(--terra)}.button-secondary{background:white;color:#91462f;border:1px solid #e4c9bc}.button-primary:hover{background:#963d28}.button-secondary:hover{background:#fff1e8}button:disabled{opacity:.52;cursor:wait}
 .preview-warning,.notice{margin:12px 0 17px;border:1px solid #e4c9b2;background:#fff3e7;color:#81452e;padding:13px 16px;border-radius:12px;font-size:12px}.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:18px}.metrics>div{background:white;border:1px solid var(--line);border-radius:17px;padding:17px 19px;box-shadow:0 8px 28px #5a443508}.metrics strong{display:block;font-size:31px;letter-spacing:-.04em;line-height:1.18}.metrics span{display:block;margin-top:7px;color:var(--muted);font-size:11px;font-weight:600}.admin-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:19px 0}.admin-tabs a{border:1px solid #ead8cb;border-radius:999px;padding:8px 15px;text-decoration:none;background:white;color:#9c4931;font-size:12px;font-weight:800}.admin-tabs a:hover{background:#fbeae1}
 .admin-columns{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(350px,.82fr);align-items:start;gap:18px}.admin-card{background:white;border:1px solid var(--line);border-radius:20px;padding:24px;min-width:0;box-shadow:0 12px 34px #624d3509}.admin-card.account{margin-top:20px}.section-row{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.section-row .hint{margin-top:4px}.hint{color:var(--muted);font-size:11px;line-height:1.65}.admin-filters{display:grid;grid-template-columns:minmax(180px,2fr) repeat(3,minmax(100px,1fr));gap:7px;margin:19px 0 8px}.admin-form{display:grid;gap:8px;margin-top:16px}.admin-form label{font-size:11px;font-weight:850;margin-top:7px}.admin-form input,.admin-form textarea,.admin-form select,.admin-filters input,.admin-filters select{min-height:40px;width:100%;min-width:0;background:#fffdfa;border:1px solid #dfcfc3;border-radius:10px;padding:10px 12px;color:var(--ink);font-size:12px}.admin-form textarea{resize:vertical}.admin-form .hint{margin:0 0 6px}.form-actions{display:flex;gap:10px;margin-top:15px}.editor-preview{display:flex;gap:12px;align-items:center;border:1px solid #eadbcf;border-radius:13px;padding:13px;background:#fffaf6}.editor-preview img{object-fit:contain;border-radius:10px}.editor-preview strong{display:block}.editor-preview small{display:block;color:var(--muted)}.list-count{font-size:11px;color:var(--muted);font-weight:750}.admin-list{max-height:720px;overflow:auto;scrollbar-width:thin;display:grid;gap:9px}.entry-row{display:grid;grid-template-columns:40px minmax(100px,1fr) auto;gap:9px;align-items:center;padding:13px 10px;border:1px solid #eee4df;border-radius:12px;background:white}.entry-row:hover{background:#fffaf6}.entry-row img{width:40px;height:40px;border-radius:10px;object-fit:contain;background:#fff3ed}.entry-body strong{display:block;font-size:12px}.entry-body small{display:block;color:var(--muted);font-size:10px;line-height:1.5}.entry-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.entry-tags span{padding:3px 7px;font-size:9px;border-radius:99px;background:#f1f6f1;color:#4a6753}.entry-tags .status-draft{color:#8f571e;background:#fff2df}.entry-tags .status-archived{color:#78716c;background:#f4f0ed}.entry-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:end;max-width:210px}.entry-actions button,.entry-actions a{padding:6px 9px;min-height:30px;border:1px solid #ead3c6;background:#fff;color:#924a33;border-radius:8px;font-size:10px;font-weight:800;text-decoration:none}.entry-actions button:hover,.entry-actions a:hover{background:#fff0e5}.entry-actions button.danger{color:#973e34}.account details{padding:12px;border:1px solid #e9d9cd;border-radius:12px;max-width:500px}.account summary{cursor:pointer;font-weight:800;font-size:12px;color:#99432d}.password-form{margin-top:14px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -889,18 +889,18 @@ body.zrain-admin::before {
 .zrain-admin h1 { letter-spacing: -.062em; }
 .zrain-admin .skip-link { position: fixed; }
 /* The public site's old shared header/footer stays untouched. These rules apply only here. */
-.zrain-admin .zrain-header {
+.zrain-admin .zr-old-admin-header {
   background: var(--zr-maroon);
   border-bottom: 1px solid rgba(244,219,199,.16);
   box-shadow: 0 3px 0 rgba(26,11,14,.08);
   backdrop-filter: blur(15px);
 }
-.zrain-admin .zrain-header .zrain-header__inner { width: min(1410px,calc(100% - 72px)); min-height: 74px; gap: 18px; }
-.zrain-admin .zrain-header .zrain-brand { gap: 11px; }
-.zrain-admin .zrain-header .zrain-brand__home { text-decoration: none; display: inline-flex; align-items: center; gap: 11px; color: var(--zr-cream); }
-.zrain-admin .zrain-header .zrain-brand__logo { width: 42px; height: 42px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(244,225,210,.22), 0 3px 8px rgba(21,11,12,.25); }
-.zrain-admin .zrain-header .zrain-brand__name { color: #fff1dd; font-size: 25px; font-weight: 850; letter-spacing: -.065em; }
-.zrain-admin .zrain-header .zrain-brand__product { color: #e7c995; background: rgba(240,208,161,.09); border: 1px solid rgba(244,215,181,.2); border-radius: 999px; padding: 7px 12px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.zrain-admin .zr-old-admin-header .zrain-header__inner { width: min(1410px,calc(100% - 72px)); min-height: 74px; gap: 18px; }
+.zrain-admin .zr-old-admin-header .zrain-brand { gap: 11px; }
+.zrain-admin .zr-old-admin-header .zrain-brand__home { text-decoration: none; display: inline-flex; align-items: center; gap: 11px; color: var(--zr-cream); }
+.zrain-admin .zr-old-admin-header .zrain-brand__logo { width: 42px; height: 42px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(244,225,210,.22), 0 3px 8px rgba(21,11,12,.25); }
+.zrain-admin .zr-old-admin-header .zrain-brand__name { color: #fff1dd; font-size: 25px; font-weight: 850; letter-spacing: -.065em; }
+.zrain-admin .zr-old-admin-header .zrain-brand__product { color: #e7c995; background: rgba(240,208,161,.09); border: 1px solid rgba(244,215,181,.2); border-radius: 999px; padding: 7px 12px; font-size: 11px; font-weight: 800; white-space: nowrap; }
 .zrain-admin .admin-header-nav { gap: 7px; }
 .zrain-admin .admin-header-nav a { min-height: 38px; display: inline-flex; align-items: center; color: #e6d1c6; font-size: 12px; font-weight: 700; text-decoration: none; padding: 7px 13px; border: 1px solid transparent; border-radius: 11px; transition: background .18s ease, border-color .18s ease, color .18s ease; }
 .zrain-admin .admin-header-nav a:hover { color: #fff1df; background: rgba(255,247,230,.08); border-color: rgba(255,246,231,.11); }
@@ -1054,16 +1054,16 @@ body.zrain-admin::before {
  .zrain-admin .admin-filters{grid-template-columns:minmax(200px,2fr) repeat(3,minmax(115px,1fr));}
 }
 @media(max-width:900px){
- .zrain-admin .zrain-header .zrain-header__inner,.zrain-admin .zrain-footer .zrain-footer__inner,.zrain-admin .admin-main{width:calc(100% - 42px)}
+ .zrain-admin .zr-old-admin-header .zrain-header__inner,.zrain-admin .zrain-footer .zrain-footer__inner,.zrain-admin .admin-main{width:calc(100% - 42px)}
  .zrain-admin .admin-heading{flex-direction:column;align-items:flex-start;gap:17px;min-height:0;padding:30px}
  .zrain-admin .admin-heading .admin-toolbar{justify-content:flex-start}
  .zrain-admin .admin-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:680px){
- .zrain-admin .zrain-header .zrain-header__inner,.zrain-admin .zrain-footer .zrain-footer__inner,.zrain-admin .admin-main{width:calc(100% - 28px)}
- .zrain-admin .zrain-header .zrain-header__inner{gap:10px;min-height:72px;justify-content:space-between;flex-wrap:wrap;padding-block:10px}
- .zrain-admin .zrain-header .zrain-brand__name{font-size:23px}
- .zrain-admin .zrain-header .zrain-brand__product{font-size:10px;padding:5px 9px}
+ .zrain-admin .zr-old-admin-header .zrain-header__inner,.zrain-admin .zrain-footer .zrain-footer__inner,.zrain-admin .admin-main{width:calc(100% - 28px)}
+ .zrain-admin .zr-old-admin-header .zrain-header__inner{gap:10px;min-height:72px;justify-content:space-between;flex-wrap:wrap;padding-block:10px}
+ .zrain-admin .zr-old-admin-header .zrain-brand__name{font-size:23px}
+ .zrain-admin .zr-old-admin-header .zrain-brand__product{font-size:10px;padding:5px 9px}
  .zrain-admin .admin-header-nav{margin-left:0;width:100%;justify-content:space-between;gap:4px}
  .zrain-admin .admin-header-nav a{padding:6px 9px;font-size:11px;min-height:36px}
  .zrain-admin .admin-main{padding:23px 0 55px}
@@ -1091,7 +1091,7 @@ body.zrain-admin::before {
  .zrain-admin .form-actions button{flex:1}
 }
 @media(max-width:370px){
- .zrain-admin .zrain-header .zrain-brand__product{display:none}
+ .zrain-admin .zr-old-admin-header .zrain-brand__product{display:none}
  .zrain-admin .login-art-caption{max-width:170px}
  .zrain-admin .login-art-orbit{right:5px;width:145px;height:145px}
  .zrain-admin .login-art-orbit img{width:153px}
@@ -1111,7 +1111,7 @@ body.zrain-admin::before {
 body.zrain-admin{--atelier:#3b1c26;--atelier-dark:#2c1520;--atelier-gold:#d4ae6a;--atelier-paper:#f3e7d8;--atelier-cream:#fbf5ec;--atelier-ink:#3b2a2b;--atelier-sub:#806a62;--atelier-rule:#ddcbbb;background:var(--atelier-paper);color:var(--atelier-ink);font-family:'Candara','Cabin','Trebuchet MS','Segoe UI',sans-serif}
 .zrain-admin button,.zrain-admin input,.zrain-admin textarea{font:inherit}
 .zrain-admin button:focus-visible,.zrain-admin input:focus-visible,.zrain-admin a:focus-visible{outline:3px solid #d4ae6a;outline-offset:3px}
-body.zrain-admin.zr-dashboard-visible .zrain-header,body.zrain-admin[data-admin-mode="preview"] .zrain-header{display:none}
+body.zrain-admin.zr-dashboard-visible .zr-old-admin-header,body.zrain-admin[data-admin-mode="preview"] .zr-old-admin-header{display:none}
 body.zrain-admin.zr-dashboard-visible .zrain-footer,body.zrain-admin[data-admin-mode="preview"] .zrain-footer{display:none}
 body.zrain-admin.zr-dashboard-visible .admin-main,body.zrain-admin[data-admin-mode="preview"] .admin-main{width:100%;min-height:100svh;margin:0;padding:0!important;max-width:none}
 body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .admin-main{min-height:calc(100svh - 150px)}
@@ -1253,7 +1253,7 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .ad
 .zrain-admin #project-editor .zr-choice.is-category .zr-choice-menu{left:0;transform:none;width:min(460px,calc(100vw - 42px))}
 /* Login: immersive felt surface; not a generic 50/50 SaaS card. */
 body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]){background:linear-gradient(160deg,#3a1a25,#4e2733 85%)}
-body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zrain-header{background:transparent;border:0;box-shadow:none}
+body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr-old-admin-header{background:transparent;border:0;box-shadow:none}
 body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zrain-footer{background:transparent;border-color:rgba(255,241,222,.13)}
 body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zrain-footer *{color:#dcc4b7}
 .zrain-admin .admin-login{margin:clamp(20px,5vh,70px) auto 25px;max-width:960px;min-height:550px;border-radius:26px;border:1px solid rgba(231,195,163,.25);box-shadow:0 28px 80px rgba(17,6,13,.25);grid-template-columns:1fr 1fr}
@@ -1352,7 +1352,7 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr
 </style><style>.offline-preview-notice{position:relative;z-index:60;padding:9px 12px;background:#d4ae6a;color:#3d1c25;font:800 11px/1.3 Candara,sans-serif;text-align:center;letter-spacing:.04em;min-height:32px} body.zrain-admin[data-admin-mode="preview"] .zr-rail{top:0;height:calc(100svh - 32px)}@media(max-width:800px){body.zrain-admin[data-admin-mode="preview"] .zr-rail{height:auto}}</style><style>.catalog-inactive .metrics,.catalog-inactive .admin-tabs,.catalog-inactive .admin-columns,.catalog-inactive [data-workspace-open-editor],.catalog-inactive [data-workspace-section]{display:none!important}#catalog-activation{padding:1.5rem;margin:1.5rem;border-radius:16px;background:#fbf3e8;color:#452733}#catalog-activation[hidden]{display:none}</style></head>
 <body class="zrain-admin" data-admin-mode="live" data-admin-section="collection">
 <a class="skip-link" href="#admin-main">Skip to admin content</a>
-<iframe title="Zrain header" id="zrain-admin-header" style="width:100%;height:300px;border:0;display:block"></iframe><script>(()=>{const frame=document.getElementById("zrain-admin-header");addEventListener("message",event=>{if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.type!=="zrain-original-header-height")return;const height=event.data.height;if(Number.isFinite(height)&&height>=100&&height<=650)frame.style.height=height+"px"});frame.src="/ui/v1/header-v4514.html"})()</script>
+
 <main class="admin-main" id="admin-main">
 <section aria-labelledby="login-title" class="admin-login" id="admin-login">
 <div aria-hidden="true" class="login-art">
@@ -1371,7 +1371,7 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr
 <p class="hint">Admin-only JWT authentication. No public registration. Credentials are never saved in localStorage.</p>
 </div>
 </section>
-<section aria-labelledby="admin-title" hidden="" id="admin-dashboard"><div id="catalog-activation" hidden><p>Workshop is empty until you activate the catalogue.</p><button type="button" class="button-primary" id="activate-catalog">Activate catalogue</button><p id="activation-status" role="status"></p></div><div class="zr-workspace-shell"><aside aria-label="Workspace navigation" class="zr-rail">
+<section aria-labelledby="admin-title" hidden="" id="admin-dashboard"><div id="catalog-activation" hidden><p>Load the catalogue to manage projects and tools in one place.</p><button type="button" class="button-primary" id="activate-catalog">Load catalogue</button><p id="activation-status" role="status"></p></div><div class="zr-workspace-shell"><aside aria-label="Workspace navigation" class="zr-rail">
 <a class="zr-rail-brand" href="/" title="Zrain homepage"><img alt="" height="51" src="data:image/webp;base64,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" width="51"/><span><strong>Zrain<span class="zr-dot">.</span></strong><small>THE WORKSPACE</small></span></a>
 <div class="zr-rail-caption">A LITTLE SPACE TO CREATE <span>✳</span></div>
 <nav aria-label="Workspace sections" class="zr-rail-nav">
@@ -1418,5 +1418,6 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr
 <details><summary>Change administrator password</summary><form class="admin-form password-form" id="password-form"><label for="current-password">Current password</label><input autocomplete="current-password" id="current-password" required="" type="password"/><label for="new-password">New password (16 to 128 characters)</label><input autocomplete="new-password" id="new-password" maxlength="128" minlength="16" required="" type="password"/><label for="confirm-password">Confirm new password</label><input autocomplete="new-password" id="confirm-password" maxlength="128" minlength="16" required="" type="password"/><button class="button-secondary" type="submit">Update password</button></form></details>
 </section>
 </div></div><button aria-label="Close project editor" class="zr-editor-scrim" id="zrEditorScrim" tabindex="-1" type="button"></button></section></main>
-<footer data-zrain-footer></footer>
-<script defer src="/ui/v1/layout.js" data-product="zrain-ecosystem" data-label="Ecosystem Admin"></script></body></html>
+
+<script defer src="/ui/v2/layout.js" data-product="zrain-ecosystem" data-menu='[{"label":"Ecosystem","href":"/"},{"label":"Admin","href":"/admin/"},{"label":"Community","labelBM":"Komuniti","href":"https://zrain-community.web.app/"}]'></script>
+</body></html>

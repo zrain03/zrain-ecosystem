@@ -12,9 +12,9 @@
  * No passwords or JWTs are stored persistently and no public API keys exist.
  */
 import { INVENTORY, CATEGORIES } from '../ecosystem-inventory.mjs';
-import {getActiveInventory, setPublishedCatalog, inventoryStats} from '../ecosystem-catalog.mjs';
+import {setPublishedCatalog, inventoryStats, websiteFor} from '../ecosystem-catalog.mjs';
 import {logoFor, sortedByName} from '../ecosystem-links.mjs';
-import {categoryFromWorker, categoryToWorker, visibleManagedProject} from './manage-core.mjs';
+import {categoryFromWorker, categoryToWorker} from './manage-core.mjs';
 
 const API = 'https://zrain-ecosystem-catalog.zrain-dev.workers.dev';
 const demo = document.body.dataset.adminMode === 'preview';
@@ -23,8 +23,10 @@ let jwt = null;
 let projects = [];
 let editingId = null;
 const sourceProjects = INVENTORY.filter(item => item.kind === 'project');
-const sourceTools = INVENTORY.filter(item => item.kind === 'tool');
-const existing = new Map(sourceProjects.map(item => [item.id, item]));
+const existing = new Map(INVENTORY.map(item => [item.id, item]));
+function visibleRecord(row) {
+  return row && row.slug !== 'zrain-console' && ['PUBLISHED','DRAFT','ARCHIVED'].includes(row.status);
+}
 
 function escapeText(value) { return String(value ?? ''); }
 function el(tag, klass, value) {
@@ -54,9 +56,7 @@ function slugify(value) {
 }
 function sourceProjectFor(row) { return existing.get(row.slug); }
 function getSiteUrl(row) {
-  if (['GITHUB', 'PLAY_STORE'].includes(row.primaryAction))
-    return sourceProjectFor(row)?.url || row.secondaryUrl || row.primaryUrl;
-  return row.primaryUrl || sourceProjectFor(row)?.url || null;
+  return websiteFor(row,sourceProjectFor(row));
 }
 function repoFor(row) {
   const original = sourceProjectFor(row)?.repoUrl;
@@ -64,15 +64,15 @@ function repoFor(row) {
     row.primaryAction === 'GITHUB' ? row.primaryUrl : original || null;
 }
 function displayRecords() {
-  const rows = projects.filter(visibleManagedProject);
+  const rows = projects.filter(visibleRecord);
   return rows.map(row => ({ ...row, uiCategory:categoryFromWorker(row.category, sourceProjectFor(row)?.category) }));
 }
 function syncInventory() {
-  const published = projects.filter(row => row.status === 'PUBLISHED' && visibleManagedProject(row));
+  const published = projects.filter(row => row.status === 'PUBLISHED' && visibleRecord(row));
   // BM: Penerbitan admin hanya menyebarkan entri Published, tanpa bypass status Draft.
   // EN: Admin publishes only Published entries; Draft items never leak into the public list.
   // Uses the same published-only reconciliation as the public homepage.
-  setPublishedCatalog(published);
+  setPublishedCatalog(published,{managedTools:true});
   return inventoryStats();
 }
 async function request(path, options = {}) {
@@ -96,7 +96,7 @@ async function request(path, options = {}) {
   return response.json();
 }
 function defaultProjects() {
-  return sourceProjects.map((item, index) => ({
+  return sourceProjects.filter(item=>item.id!=='zrain-console').map((item, index) => ({
     id: `demo-${index}`, slug:item.id, name:item.name, description:item.description,
     category:categoryToWorker(item.category), primaryUrl:item.url, primaryAction:'CONSOLE',
     secondaryLabel:item.repoUrl ? 'View on GitHub' : null,
@@ -114,6 +114,7 @@ function logout(clearLogin = true) {
   jwt = null;
   editingId = null;
   projects = [];
+  byId('admin-list').replaceChildren();
   byId('admin-dashboard').hidden = true;
   document.dispatchEvent(new Event('zrain:workspace-hidden'));
   byId('admin-login').hidden = false;
@@ -131,29 +132,16 @@ function filterRows() {
   const category = byId('filter-category').value;
   const kind = byId('filter-kind').value;
   const status = byId('filter-status').value;
-  const standalone = displayRecords().map(row => ({
-    kind:'project', id:row.slug, record:row, name:row.name,
+  const rows = displayRecords().map(row => ({
+    kind:row.kind || existing.get(row.slug)?.kind || 'project', id:row.slug, record:row, name:row.name,
     description:row.description,category:row.uiCategory,status:row.status
   }));
-  const tools = sourceTools.map(item => ({
-    kind:'tool',id:item.id,name:item.name,description:item.description,
-    category:item.category,status:'PUBLISHED',item
-  }));
-  const together = [...standalone,...tools];
-  return sortedByName(together.filter(item =>
+  return sortedByName(rows.filter(item =>
     (category === 'all' || item.category === category) &&
     (kind === 'all' || item.kind === kind) &&
     (status === 'all' || item.status === status) &&
     (!q || [item.name,item.description,item.category,item.id].join(' ').normalize('NFKD').toLowerCase().includes(q))
   ));
-}
-function rowLink(item) {
-  if (item.kind === 'tool') return item.item;
-  const row = item.record;
-  return {
-    kind:'project', id:row.slug, name:row.name,description:row.description,
-    category:item.category,url:getSiteUrl(row),repoUrl:repoFor(row)
-  };
 }
 function render() {
   if (byId('admin-dashboard').hidden && !demo) return;
@@ -161,7 +149,7 @@ function render() {
   for (const [id,value] of Object.entries({
     'metric-total':stats.total,'metric-projects':stats.projects,
     'metric-tools':stats.tools,'metric-categories':stats.categories,
-    'metric-drafts':projects.filter(p=>visibleManagedProject(p)&&p.status==='DRAFT').length
+    'metric-drafts':projects.filter(p=>visibleRecord(p)&&p.status==='DRAFT').length
   })) byId(id).textContent = String(value);
 
   const filtered = filterRows();
@@ -171,31 +159,24 @@ function render() {
     const row = el('article','entry-row');
     const img = el('img');
     img.alt='';img.loading='lazy';img.width=40;img.height=40;
-    img.src = item.kind === 'tool' ? '/zrain-mascot.png' : (item.record?.logoUrl || '/zrain-mascot.png');
+    img.src = item.record.logoUrl === '/zrain-logo.webp' ? '/zrain-mascot.png' : (item.record.logoUrl || '/zrain-mascot.png');
     const copy=el('div','entry-body');copy.append(el('strong','',item.name),el('small','',item.description));
     const tags=el('div','entry-tags');tags.append(el('span','',CATEGORIES.find(c=>c.id===item.category)?.title || item.category));
     tags.append(el('span',item.status==='DRAFT'?'status-draft':item.status==='ARCHIVED'?'status-archived':'',
-      item.kind === 'tool' ? 'Source-managed' : item.status==='PUBLISHED'?'Published':item.status==='DRAFT'?'Draft':'Archived'));
+      item.status==='PUBLISHED'?'Published':item.status==='DRAFT'?'Draft':'Archived'));
     copy.append(tags);
     const buttons=el('div','entry-actions');
-    const destination = rowLink(item);
-    let previewHref = null;
-    try {
-      const url = new URL(destination || '', location.origin);
-      if (destination && ['http:', 'https:'].includes(url.protocol)) previewHref = url.href;
-    } catch {}
+    const previewHref = validHttps(getSiteUrl(item.record));
     if (item.status === 'PUBLISHED' && previewHref) {
       const preview=el('a','', 'Web App ↗');preview.href=previewHref;preview.target='_blank';preview.rel='noopener noreferrer';buttons.append(preview);
     }
-    if(item.kind === 'project') {
-      const edit=el('button','','Edit');edit.type='button';edit.addEventListener('click',()=>editRow(item.record));buttons.append(edit);
-      if(item.record.status !== 'ARCHIVED') {
-        const isPublished = item.record.status==='PUBLISHED';
-        const toggle=el('button','',isPublished?'Unpublish':'Publish');toggle.type='button';
-        toggle.addEventListener('click',()=>updateStatus(item.record,isPublished?'unpublish':'publish'));buttons.append(toggle);
-        const archive=el('button','danger','Archive');archive.type='button';
-        archive.addEventListener('click',()=>updateStatus(item.record,'archive'));buttons.append(archive);
-      }
+    const edit=el('button','','Edit');edit.type='button';edit.addEventListener('click',()=>editRow(item.record));buttons.append(edit);
+    if(item.record.status !== 'ARCHIVED') {
+      const isPublished = item.record.status==='PUBLISHED';
+      const toggle=el('button','',isPublished?'Unpublish':'Publish');toggle.type='button';
+      toggle.addEventListener('click',()=>updateStatus(item.record,isPublished?'unpublish':'publish'));buttons.append(toggle);
+      const archive=el('button','danger','Archive');archive.type='button';
+      archive.addEventListener('click',()=>updateStatus(item.record,'archive'));buttons.append(archive);
     }
     row.append(img,copy,buttons);fragment.append(row);
   }
@@ -214,7 +195,7 @@ async function updateStatus(row, action) {
 }
 function editRow(row) {
   editingId=row.id;
-  byId('editor-title').textContent='Edit project';
+  byId('editor-title').textContent=(row.kind || existing.get(row.slug)?.kind)==='tool' ? 'Edit tool' : 'Edit project';
   byId('field-name').value=row.name;
   byId('field-slug').value=row.slug;
   byId('field-description').value=row.description;
@@ -222,10 +203,15 @@ function editRow(row) {
   byId('field-url').value=getSiteUrl(row)||'';
   byId('field-github').value=repoFor(row)||'';
   byId('field-playstore').value=row.secondaryUrl?.startsWith('https://play.google.com/')?row.secondaryUrl:'';
+  const knownGames={
+    '/icons/guess-the-flag.webp':'https://zrain.web.app/icons/guess-the-flag.webp',
+    '/icons/memory-rush.webp':'https://zrain.web.app/icons/memory-rush.webp'
+  };
+  const logo=knownGames[row.logoUrl] || row.logoUrl;
   byId('field-game-logo').value=[
     'https://zrain.web.app/icons/guess-the-flag.webp',
     'https://zrain.web.app/icons/memory-rush.webp'
-  ].includes(row.logoUrl) ? row.logoUrl : '/zrain-logo.webp';
+  ].includes(logo) ? logo : '/zrain-logo.webp';
   updatePreview();
   document.dispatchEvent(new Event('zrain:editor-open'));
   byId('field-name').focus({preventScroll:true});
@@ -242,7 +228,8 @@ function updatePreview() {
   const isGame=category==='GAMES';
   byId('field-game-logo').disabled=!isGame;
   byId('field-playstore').disabled=!isGame;
-  byId('editor-logo').src = isGame?byId('field-game-logo').value:'/zrain-logo.webp';
+  const logo = isGame?byId('field-game-logo').value:null;
+  byId('editor-logo').src = logo && logo!=='/zrain-logo.webp'?logo:'/zrain-mascot.png';
   byId('editor-preview-name').textContent=byId('field-name').value.trim()||'Your new project';
   byId('editor-preview-description').textContent=byId('field-description').value.trim()||'Your short description appears here.';
 }
@@ -261,8 +248,8 @@ function payload() {
   const secondaryUrl = storeUrl || repoUrl || null;
   return {
     slug,name:byId('field-name').value.trim(),description:byId('field-description').value.trim(),
-    category, logoUrl:category==='GAMES'?byId('field-game-logo').value:'/zrain-logo.webp',
-    primaryAction:'CONSOLE',primaryLabel:category==='GAMES'?'Play Now':'Open Web App',primaryUrl:webUrl,
+    category, logoUrl:category==='GAMES'&&byId('field-game-logo').value!=='/zrain-logo.webp'?byId('field-game-logo').value:'/zrain-mascot.png',
+    primaryAction:'WEBSITE',primaryLabel:category==='GAMES'?'Play Now':'Open Web App',primaryUrl:webUrl,
     secondaryLabel:storeUrl?'Get on Google Play':repoUrl?'View on GitHub':null,
     secondaryUrl
   };
@@ -273,6 +260,7 @@ async function save(event) {
   let product;
   try {product=payload();}catch(error){return notice(error.message);}
   if (projects.some(p=>p.slug===product.slug && p.id!==editingId))return notice('A project with this ID already exists.');
+  const wasEditing=Boolean(editingId);
   const button=byId('save-draft');button.disabled=true;
   try {
     if (demo) {
@@ -286,8 +274,9 @@ async function save(event) {
     }
     resetForm();
     if(!demo)await refresh();else{syncInventory();render();}
-    notice(demo?'Draft saved in this preview only. Nothing sent to production.':'Project draft saved. Publish it from the Projects list when ready.');
-  } catch(error) {notice(error.message+' If using the five new categories, the Worker schema upgrade must be deployed first.');}
+    document.dispatchEvent(new Event('zrain:editor-close'));
+    notice(demo?'Saved in this preview.':wasEditing?'Catalogue entry updated.':'Project draft saved. Publish it from the catalogue when ready.');
+  } catch(error) {notice(error.message);}
   finally {button.disabled=false;}
 }
 
@@ -306,7 +295,7 @@ byId('login-form').addEventListener('submit',async event=>{
     showDashboard();
     setCatalogueActive(status.active === true);
     if(status.active){await refresh();resetForm();}
-  }catch(error){jwt=null;notice(error.message+' Use the deployed admin URL if local preview origins are not permitted.',true);}
+  }catch(error){logout(false);notice(error.message+' Use the deployed admin URL if local preview origins are not permitted.',true);}
   finally{button.disabled=false;byId('login-password').value='';}
 });
 function setCatalogueActive(active) {

@@ -1,0 +1,1656 @@
+/*
+ * Pembangun / Developer: Zrain
+ * Dicipta / Created (rekod Git terawal): 2026-10-27
+ * Dikemas kini / Last updated: 2026-11-15
+ * Fail / File: src/brand.css
+ * BM: Token visual, layout, penanda aktif dan paparan responsif bersama.
+ * EN: Shared design tokens, layouts, active indicators and responsive behavior.
+ */
+/* BM: Token warna bersama yang menjadi sumber tunggal untuk identiti Zrain.
+   EN: Shared color tokens acting as the single source for Zrain brand identity. */
+:root {
+  /* BM: Warna dakwat gelap digunakan untuk tajuk dan teks identiti utama.
+     EN: Dark ink is used for headings and primary identity text. */
+  --zrain-brand-ink: #401d25;
+  /* BM: Warna kelabu lembut membezakan label sekunder daripada jenama.
+     EN: Muted gray distinguishes secondary labels from brand text. */
+  --zrain-brand-muted: #8d6a58;
+  /* BM: Terracotta rasmi menandakan interaksi dan pautan yang penting.
+     EN: Official terracotta highlights important links and interactions. */
+  --zrain-brand-accent: #7a1e2c;
+  /* BM: Warna sempadan hangat memisahkan header/footer secara halus.
+     EN: Warm border color subtly separates header and footer. */
+  --zrain-brand-edge: #ddc6b7;
+  /* BM: Latar footer krim mengekalkan gaya cozy Zrain.
+     EN: Cream footer paper background keeps the cozy Zrain style. */
+  --zrain-brand-paper: #f2e6db;
+}
+/* BM: Gunakan font yang sama di seluruh halaman apabila CSS ini dimuatkan.
+   EN: Use a consistent font stack throughout pages loading this stylesheet. */
+body {
+  /* BM: Gunakan senarai font dengan fallback apabila Inter tidak tersedia.
+     EN: Use a font stack with fallbacks if Inter is unavailable. */
+  font-family: "Candara", "Cabin", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+/* BM: Letakkan header di atas kandungan ketika scroll tanpa menguasai navigation produk.
+   EN: Keep the header above page content while scrolling without owning product navigation. */
+.zrain-header {
+  /* BM: Pastikan kedudukan header kekal konsisten ketika pengguna scroll.
+     EN: Maintain consistent header positioning during scrolling. */
+  position: sticky;
+  /* BM: Tetapkan titik lekat header pada bahagian atas viewport.
+     EN: Anchor the sticky header to the top of the viewport. */
+  top: 0;
+  /* BM: Pastikan header terapung di atas kandungan biasa.
+     EN: Keep the header above ordinary page content. */
+  z-index: 15;
+  /* BM: Tetapkan warna latar yang menyokong identiti lembut Zrain.
+     EN: Set a background compatible with Zrain’s soft visual identity. */
+  background: rgba(255, 250, 248, .96);
+  /* BM: Pisahkan header daripada kandungan dengan garis nipis.
+     EN: Separate the header from content with a thin rule. */
+  border-bottom: 1px solid var(--zrain-brand-edge);
+  /* BM: Kaburkan latar belakang header sticky dengan lembut.
+     EN: Gently blur content behind the sticky header. */
+  backdrop-filter: blur(14px);
+}
+/* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
+   EN: Constrain the header content and align brand identity with navigation. */
+.zrain-header .zrain-header__inner {
+  /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+     EN: Set width according to viewport or component size. */
+  width: min(1160px, calc(100% - 48px));
+  /* BM: Tetapkan had lebar sambil membenarkan responsiviti.
+     EN: Set width constraints while retaining responsiveness. */
+  max-width: none;
+  /* BM: Pastikan kawasan interaktif mempunyai ketinggian minimum.
+     EN: Maintain a minimum height for the interactive area. */
+  min-height: 75px;
+  /* BM: Tetapkan tinggi komponen bagi kestabilan susun atur.
+     EN: Set component height for layout stability. */
+  height: auto;
+  /* BM: Pusatkan bekas kandungan secara mendatar.
+     EN: Center the content container horizontally. */
+  margin-inline: auto;
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 32px;
+}
+/* BM: Jajarkan logo, nama dan identiti produk dalam satu kumpulan.
+   EN: Align logo, name and product identity into a single group. */
+.zrain-header .zrain-brand {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 10px;
+  /* BM: Kawal sama ada elemen boleh mengecil ketika ruang sempit.
+     EN: Control whether an element may shrink when space is limited. */
+  flex-shrink: 0;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 500;
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+}
+/* BM: Pastikan imej logo rasmi kekal jelas pada saiz yang konsisten.
+   EN: Keep the official logo legible at a consistent size. */
+.zrain-header .zrain-brand__logo {
+  /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+     EN: Set width according to viewport or component size. */
+  width: 42px;
+  /* BM: Tetapkan tinggi komponen bagi kestabilan susun atur.
+     EN: Set component height for layout stability. */
+  height: 42px;
+  /* BM: Kekalkan nisbah imej logo supaya tidak terdistorsi.
+     EN: Preserve logo aspect ratio without stretching. */
+  object-fit: contain;
+  /* BM: Bulatkan sudut mengikut bahasa visual Zrain.
+     EN: Round corners according to Zrain’s visual language. */
+  border-radius: 0;
+  /* BM: Tetapkan warna latar yang menyokong identiti lembut Zrain.
+     EN: Set a background compatible with Zrain’s soft visual identity. */
+  background: transparent;
+  /* BM: Kawal sama ada elemen boleh mengecil ketika ruang sempit.
+     EN: Control whether an element may shrink when space is limited. */
+  flex-shrink: 0;
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: block;
+}
+/* BM: Gayakan label jenama lama bagi aplikasi pengguna yang masih memerlukannya.
+   EN: Style the legacy brand label for consuming applications that still use it. */
+.zrain-header .zrain-brand__label {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: baseline;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 7px;
+  /* BM: Gunakan senarai font dengan fallback apabila Inter tidak tersedia.
+     EN: Use a font stack with fallbacks if Inter is unavailable. */
+  font-family: "Candara", "Cabin", "Segoe UI", "Trebuchet MS", sans-serif;
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 17px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.35;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 500;
+  /* BM: Perhalus jarak aksara untuk ketekalan tipografi.
+     EN: Fine-tune character spacing for typography consistency. */
+  letter-spacing: -.4px;
+  /* BM: Elakkan label navigasi terpecah pada ruang yang sempit.
+     EN: Prevent navigation labels from wrapping unpredictably. */
+  white-space: nowrap;
+}
+/* BM: Berikan penekanan visual pada nama Zrain dalam label lama.
+   EN: Emphasize the Zrain name in the legacy brand label. */
+.zrain-header .zrain-brand__label strong {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 800;
+}
+/* BM: Bezakan nama produk daripada identiti utama Zrain.
+   EN: Distinguish the product name from the primary Zrain identity. */
+.zrain-header .zrain-brand__product {
+  /* BM: Kawal ruang luaran mengikut peranan komponen.
+     EN: Control outer spacing according to component responsibility. */
+  margin: 0;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-muted);
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: inherit;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 500;
+  /* BM: Perhalus jarak aksara untuk ketekalan tipografi.
+     EN: Fine-tune character spacing for typography consistency. */
+  letter-spacing: inherit;
+}
+.zrain-header .topnav,
+.zrain-header .main-nav {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 22px;
+  /* BM: Kawal penjajaran menu relatif kepada identiti header.
+     EN: Position the menu relative to the header identity. */
+  margin-left: auto;
+  /* BM: Kekalkan ruang kanan menu mengikut layout.
+     EN: Keep menu right spacing consistent with the layout. */
+  margin-right: 0;
+}
+.zrain-header .topnav a,
+.zrain-header .main-nav a {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: #526071;
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 12px;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 650;
+  /* BM: Gunakan senarai font dengan fallback apabila Inter tidak tersedia.
+     EN: Use a font stack with fallbacks if Inter is unavailable. */
+  font-family: inherit;
+  /* BM: Elakkan label navigasi terpecah pada ruang yang sempit.
+     EN: Prevent navigation labels from wrapping unpredictably. */
+  white-space: nowrap;
+}
+/* BM: Kekalkan keserasian visual untuk class current milik produk lama.
+   EN: Preserve active text styling for legacy product-owned current classes. */
+.zrain-header .topnav a.current {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: #b8492e;
+}
+.zrain-header .nav-github,
+.zrain-header .account-actions .button,
+.zrain-header > .zrain-header__inner > .button {
+  /* BM: Pastikan kawasan interaktif mempunyai ketinggian minimum.
+     EN: Maintain a minimum height for the interactive area. */
+  min-height: 42px;
+  /* BM: Bulatkan sudut mengikut bahasa visual Zrain.
+     EN: Round corners according to Zrain’s visual language. */
+  border-radius: 9px;
+}
+/* BM: Bina kawasan footer rasmi yang berasingan daripada kandungan produk.
+   EN: Build the official footer area separate from product content. */
+.zrain-footer {
+  /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+     EN: Set width according to viewport or component size. */
+  width: 100%;
+  /* BM: Tetapkan had lebar sambil membenarkan responsiviti.
+     EN: Set width constraints while retaining responsiveness. */
+  max-width: none;
+  /* BM: Pisahkan footer daripada kandungan utama dengan jarak tetap.
+     EN: Separate the footer from main content with stable spacing. */
+  margin-top: 70px;
+  /* BM: Sediakan ruang dalaman yang cukup supaya elemen tidak bersesak.
+     EN: Provide inner spacing so component contents do not feel cramped. */
+  padding: 0;
+  /* BM: Tetapkan warna latar yang menyokong identiti lembut Zrain.
+     EN: Set a background compatible with Zrain’s soft visual identity. */
+  background: var(--zrain-brand-paper);
+  /* BM: Tandakan permulaan footer tanpa kesan visual berlebihan.
+     EN: Mark the footer boundary without excessive decoration. */
+  border-top: 1px solid var(--zrain-brand-edge);
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+  /* BM: Gunakan senarai font dengan fallback apabila Inter tidak tersedia.
+     EN: Use a font stack with fallbacks if Inter is unavailable. */
+  font-family: "Candara", "Cabin", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+/* BM: Susun kredit developer dan pautan footer secara seimbang.
+   EN: Balance developer credit and footer links within one container. */
+.zrain-footer .zrain-footer__inner {
+  /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+     EN: Set width according to viewport or component size. */
+  width: min(1160px, calc(100% - 48px));
+  /* BM: Tetapkan had lebar sambil membenarkan responsiviti.
+     EN: Set width constraints while retaining responsiveness. */
+  max-width: none;
+  /* BM: Pusatkan bekas kandungan secara mendatar.
+     EN: Center the content container horizontally. */
+  margin-inline: auto;
+  /* BM: Sediakan ruang dalaman yang cukup supaya elemen tidak bersesak.
+     EN: Provide inner spacing so component contents do not feel cramped. */
+  padding: 22px 0;
+  /* BM: Pastikan kawasan interaktif mempunyai ketinggian minimum.
+     EN: Maintain a minimum height for the interactive area. */
+  min-height: 91px;
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: flex;
+  /* BM: Agihkan elemen sepanjang paksi utama komponen.
+     EN: Distribute elements along the main axis of the component. */
+  justify-content: space-between;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 18px;
+  /* BM: Tentukan arah susunan flex mengikut ruang yang tersedia.
+     EN: Select the flex layout direction for available space. */
+  flex-direction: row;
+}
+/* BM: Jajarkan logo dan kredit Zrain dalam footer.
+   EN: Align the Zrain logo and developer credit inside the footer. */
+.zrain-footer .zrain-footer__identity {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Kawal sama ada elemen boleh mengecil ketika ruang sempit.
+     EN: Control whether an element may shrink when space is limited. */
+  flex-shrink: 0;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 11px;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+}
+/* BM: Pastikan saiz logo footer seragam dan tidak terdistorsi.
+   EN: Keep the footer logo consistently sized without distortion. */
+.zrain-footer .zrain-footer__logo {
+  /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+     EN: Set width according to viewport or component size. */
+  width: 38px;
+  /* BM: Tetapkan tinggi komponen bagi kestabilan susun atur.
+     EN: Set component height for layout stability. */
+  height: 38px;
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: block;
+  /* BM: Kekalkan nisbah imej logo supaya tidak terdistorsi.
+     EN: Preserve logo aspect ratio without stretching. */
+  object-fit: contain;
+  /* BM: Kawal sama ada elemen boleh mengecil ketika ruang sempit.
+     EN: Control whether an element may shrink when space is limited. */
+  flex-shrink: 0;
+  /* BM: Bulatkan sudut mengikut bahasa visual Zrain.
+     EN: Round corners according to Zrain’s visual language. */
+  border-radius: 0;
+  /* BM: Tetapkan warna latar yang menyokong identiti lembut Zrain.
+     EN: Set a background compatible with Zrain’s soft visual identity. */
+  background: transparent;
+}
+/* BM: Susun developer credit di atas tagline rasmi.
+   EN: Stack developer credit above the official tagline. */
+.zrain-footer .zrain-footer__copy {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: flex;
+  /* BM: Tentukan arah susunan flex mengikut ruang yang tersedia.
+     EN: Select the flex layout direction for available space. */
+  flex-direction: column;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 2px;
+}
+/* BM: Pastikan kredit developer jelas sebagai teks utama footer.
+   EN: Make developer attribution clearly readable as the primary footer text. */
+.zrain-footer .zrain-footer__copy strong {
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 12px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.45;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 750;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+}
+/* BM: Paparkan tagline dengan saiz lebih kecil tanpa menghilangkan kebolehbacaan.
+   EN: Display the tagline in smaller but readable type. */
+.zrain-footer .zrain-footer__copy small {
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 10px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.5;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 400;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-muted);
+}
+/* BM: Jajarkan pautan dan benarkan wrap apabila ruang tidak mencukupi.
+   EN: Align links and allow wrapping when horizontal space runs out. */
+.zrain-footer .zrain-footer__links {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Benarkan item berpindah baris apabila viewport sempit.
+     EN: Allow items to wrap when the viewport is narrow. */
+  flex-wrap: wrap;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 18px;
+}
+/* BM: Berikan gaya pautan footer konsisten dengan warna jenama.
+   EN: Style footer links consistently with the brand accent. */
+.zrain-footer .zrain-footer__links a {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-accent);
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 11px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.5;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 500;
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+}
+/* BM: Tunjukkan maklum balas apabila tetikus berada di atas pautan.
+   EN: Show feedback when hovering a footer link. */
+.zrain-footer .zrain-footer__links a:hover {
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: underline;
+}
+/* BM: Laraskan jarak apabila viewport tablet mula sempit.
+   EN: Adjust spacing when tablet viewports become narrow. */
+@media (max-width: 800px) {
+  /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
+     EN: Constrain the header content and align brand identity with navigation. */
+  .zrain-header .zrain-header__inner { gap: 16px; }
+  .zrain-header .topnav,
+  .zrain-header .main-nav { gap: 12px; }
+}
+/* BM: Smooth native anchor scroll hanya bagi halaman yang memilih scrollSpy, bukan semua produk.
+   EN: Native smooth anchor scrolling is opt-in for scrollSpy, not imposed on every product. */
+html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
+/* BM: Pastikan sasaran anchor tidak tersembunyi di bawah header sticky.
+   EN: Keep an anchor target clear of the sticky header. */
+.zrain-scrollspy-target { scroll-margin-top: var(--zrain-scrollspy-offset, 72px); }
+
+/* BM: Gunakan susun atur mobile untuk lebar 700px ke bawah.
+   EN: Apply the mobile layout at widths of 700px and below. */
+@media (max-width: 700px) {
+  /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
+     EN: Constrain the header content and align brand identity with navigation. */
+  .zrain-header .zrain-header__inner {
+    /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+       EN: Set width according to viewport or component size. */
+    width: calc(100% - 28px);
+    /* BM: Pastikan kawasan interaktif mempunyai ketinggian minimum.
+       EN: Maintain a minimum height for the interactive area. */
+    min-height: 64px;
+    /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+       EN: Space adjacent elements for visual balance. */
+    gap: 12px;
+  }
+  /* BM: Pastikan imej logo rasmi kekal jelas pada saiz yang konsisten.
+     EN: Keep the official logo legible at a consistent size. */
+  .zrain-header .zrain-brand__logo { width: 36px; height: 36px; }
+  /* BM: Gayakan label jenama lama bagi aplikasi pengguna yang masih memerlukannya.
+     EN: Style the legacy brand label for consuming applications that still use it. */
+  .zrain-header .zrain-brand__label { font-size: 14px; gap: 6px; }
+  /* BM: Guna gaya bersama yang juga serasi dengan markup aplikasi pengguna.
+     EN: Apply shared styles compatible with consuming application markup. */
+  .zrain-header .main-nav { display: none; }
+  /* BM: Susun kredit developer dan pautan footer secara seimbang.
+     EN: Balance developer credit and footer links within one container. */
+  .zrain-footer .zrain-footer__inner {
+    /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+       EN: Set width according to viewport or component size. */
+    width: calc(100% - 28px);
+    /* BM: Tentukan arah susunan flex mengikut ruang yang tersedia.
+       EN: Select the flex layout direction for available space. */
+    flex-direction: column;
+    /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+       EN: Align elements on the cross axis for visual consistency. */
+    align-items: flex-start;
+    /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+       EN: Space adjacent elements for visual balance. */
+    gap: 16px;
+  }
+}
+/* BM: Pastikan kawalan header tersusun pada telefon kecil.
+   EN: Arrange header controls safely on narrow phones. */
+@media (max-width: 450px) {
+  /* BM: Hadkan kandungan header dan jajarkan identiti dengan navigasi.
+     EN: Constrain the header content and align brand identity with navigation. */
+  .zrain-header .zrain-header__inner { flex-wrap: wrap; }
+  /* BM: Susun pautan navigasi dalam header pada satu baris sebelum peraturan responsif digunakan.
+     EN: Arrange header links in a row before responsive rules take effect. */
+  .zrain-header .topnav { order: 3; flex: 1 0 100%; justify-content: flex-start; }
+  /* BM: Guna gaya bersama yang juga serasi dengan markup aplikasi pengguna.
+     EN: Apply shared styles compatible with consuming application markup. */
+  .zrain-header .account-actions { margin-left: auto; }
+}
+
+/* BM: Paparkan pautan identiti Zrain tanpa gaya anchor biasa.
+   EN: Render the main Zrain identity link without default anchor styling. */
+.zrain-header .zrain-brand__home {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 10px;
+  /* BM: Kawal sama ada elemen boleh mengecil ketika ruang sempit.
+     EN: Control whether an element may shrink when space is limited. */
+  flex-shrink: 0;
+  /* BM: Gunakan senarai font dengan fallback apabila Inter tidak tersedia.
+     EN: Use a font stack with fallbacks if Inter is unavailable. */
+  font-family: "Candara", "Cabin", "Segoe UI", "Trebuchet MS", sans-serif;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 800;
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 17px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.35;
+  /* BM: Perhalus jarak aksara untuk ketekalan tipografi.
+     EN: Fine-tune character spacing for typography consistency. */
+  letter-spacing: -.4px;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+}
+/* BM: Tekankan teks jenama supaya identiti kelihatan jelas.
+   EN: Emphasize the brand text so its identity remains obvious. */
+.zrain-header .zrain-brand__name { font-weight: 800; }
+/* BM: Bezakan nama produk daripada identiti utama Zrain.
+   EN: Distinguish the product name from the primary Zrain identity. */
+.zrain-header .zrain-brand__product {
+  /* BM: Kawal saiz teks untuk hierarchy maklumat yang jelas.
+     EN: Control text size for a clear information hierarchy. */
+  font-size: 17px;
+  /* BM: Tetapkan jarak menegak tulisan untuk kebolehbacaan.
+     EN: Set text line spacing for readability. */
+  line-height: 1.35;
+  /* BM: Kawal ketebalan teks tanpa menggunakan imej bagi label.
+     EN: Control text weight without replacing text labels with images. */
+  font-weight: 500;
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+}
+.zrain-header .zrain-brand__home:hover,
+.zrain-header .zrain-brand__product:hover,
+.zrain-footer .zrain-footer__home:hover { text-decoration: none; }
+.zrain-header .zrain-brand__home:focus-visible,
+.zrain-header .zrain-brand__product:focus-visible,
+.zrain-footer .zrain-footer__home:focus-visible {
+  /* BM: Paparkan penunjuk fokus yang boleh dilihat pengguna keyboard.
+     EN: Display a focus indicator visible to keyboard users. */
+  outline: 3px solid #c68066;
+  /* BM: Asingkan outline fokus daripada sempadan komponen.
+     EN: Offset the focus outline from the component boundary. */
+  outline-offset: 3px;
+  /* BM: Bulatkan sudut mengikut bahasa visual Zrain.
+     EN: Round corners according to Zrain’s visual language. */
+  border-radius: 4px;
+}
+/* BM: Kekalkan logo dan kredit developer sebagai satu pautan footer.
+   EN: Keep logo and developer credit inside one footer link. */
+.zrain-footer .zrain-footer__home {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+     EN: Space adjacent elements for visual balance. */
+  gap: 11px;
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-ink);
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+}
+/* BM: Berikan tindak balas lembut pada kredit apabila pautan dihover.
+   EN: Apply subtle hover feedback to developer credit. */
+.zrain-footer .zrain-footer__home:hover .zrain-footer__copy strong {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-accent);
+}
+/* BM: Smooth native anchor scroll hanya bagi halaman yang memilih scrollSpy, bukan semua produk.
+   EN: Native smooth anchor scrolling is opt-in for scrollSpy, not imposed on every product. */
+html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
+/* BM: Pastikan sasaran anchor tidak tersembunyi di bawah header sticky.
+   EN: Keep an anchor target clear of the sticky header. */
+.zrain-scrollspy-target { scroll-margin-top: var(--zrain-scrollspy-offset, 72px); }
+
+/* BM: Gunakan susun atur mobile untuk lebar 700px ke bawah.
+   EN: Apply the mobile layout at widths of 700px and below. */
+@media (max-width: 700px) {
+  /* BM: Paparkan pautan identiti Zrain tanpa gaya anchor biasa.
+     EN: Render the main Zrain identity link without default anchor styling. */
+  .zrain-header .zrain-brand__home { font-size: 14px; gap: 7px; }
+  /* BM: Bezakan nama produk daripada identiti utama Zrain.
+     EN: Distinguish the product name from the primary Zrain identity. */
+  .zrain-header .zrain-brand__product { font-size: 14px; }
+}
+
+/* BM: Bezakan nama produk daripada identiti utama Zrain.
+   EN: Distinguish the product name from the primary Zrain identity. */
+.zrain-header .zrain-brand__product {
+  /* BM: Jarakkan teks daripada pemisah atau tepi komponen.
+     EN: Space text away from a divider or component edge. */
+  padding-left: 11px;
+  /* BM: Wujudkan pemisah antara nama Zrain dengan nama produk.
+     EN: Create a separator between Zrain and the product name. */
+  border-left: 1px solid #dbc9bf;
+}
+.zrain-header .topnav,
+.zrain-header .main-nav { gap: 5px; }
+.zrain-header .topnav a,
+.zrain-header .main-nav a {
+  /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+     EN: Choose the element display and layout mode. */
+  display: inline-flex;
+  /* BM: Selaraskan elemen pada paksi silang untuk penjajaran visual.
+     EN: Align elements on the cross axis for visual consistency. */
+  align-items: center;
+  /* BM: Agihkan elemen sepanjang paksi utama komponen.
+     EN: Distribute elements along the main axis of the component. */
+  justify-content: center;
+  /* BM: Jangan paksa ketinggian 38px; pautan Discover asal bersaiz padat mengikut teks dan padding.
+     EN: Do not force a 38px height; the original Discover link sizes compactly from text and padding. */
+  min-height: 0;
+  /* BM: Selaraskan ruang pautan dengan 8px/10px pada Discover dalam Zrain Ecosystem.
+     EN: Match the 8px/10px link padding of Discover in Zrain Ecosystem. */
+  padding: 8px 10px;
+  /* BM: Jangan tambah border 1px; Discover asal menggunakan penanda bawah inset, bukan border kotak.
+     EN: Do not add a 1px border; the original Discover uses an inset bottom indicator, not a box border. */
+  border: 0;
+  /* BM: Gunakan radius tepat 9px daripada active Discover asal.
+     EN: Use the exact 9px radius from the original active Discover state. */
+  border-radius: 9px;
+  /* BM: Ikuti ketinggian baris semula jadi agar tab tidak menjadi pil tinggi.
+     EN: Follow the natural line height so tabs do not turn into tall pills. */
+  line-height: normal;
+  /* BM: Tetapkan hiasan teks sesuai dengan peranan pautan.
+     EN: Set text decoration appropriate to the link role. */
+  text-decoration: none;
+  /* BM: Lembutkan perubahan hover dan fokus tanpa animasi berlebihan.
+     EN: Smooth hover and focus changes without excessive animation. */
+  transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.zrain-header .topnav a:hover,
+.zrain-header .main-nav a:hover {
+  /* BM: Tetapkan warna teks supaya hierarchy dan kontras jenama konsisten.
+     EN: Set text color to maintain brand hierarchy and contrast. */
+  color: var(--zrain-brand-accent);
+  /* BM: Tetapkan warna latar yang menyokong identiti lembut Zrain.
+     EN: Set a background compatible with Zrain’s soft visual identity. */
+  background: rgba(189, 83, 56, .07);
+}
+/* BM: Golden Reference: ambil secara tepat gaya Discover Zrain Ecosystem, bukan reka bentuk pill baharu.
+   EN: Golden Reference: reproduce the exact Zrain Ecosystem Discover style, not a new pill design.
+   BM: class current/active dan kedua-dua aria-current=page/location dilayan sama untuk menu milik produk.
+   EN: Treat current/active and both aria-current=page/location equally for product-owned menus. */
+.zrain-header .topnav a:is(.current, .active, [aria-current="page"], [aria-current="location"]),
+.zrain-header .main-nav a:is(.current, .active, [aria-current="page"], [aria-current="location"]) {
+  /* BM: Warna teks terracotta tepat daripada Discover, bukan warna active terdahulu.
+     EN: Use Discover's exact terracotta text color rather than the previous active color. */
+  color: #a64930;
+  /* BM: Tebalkan teks aktif kepada berat 850 seperti Discover yang diluluskan.
+     EN: Set active text weight to 850, matching the approved Discover style. */
+  font-weight: 850;
+  /* BM: Gunakan warna latar peach yang sama seperti Discover dalam Ecosystem.
+     EN: Use the same peach background as Discover in the Ecosystem. */
+  background: #fff1e9;
+  /* BM: Kekalkan penjuru padat 9px, bukan kotak besar seperti Quickstart lama.
+     EN: Keep the compact 9px corners rather than the old oversized Quickstart box. */
+  border-radius: 9px;
+  /* BM: Gunakan padding 8px menegak, 10px mendatar daripada rujukan sebenar.
+     EN: Use the exact 8px vertical, 10px horizontal padding from the source reference. */
+  padding: 8px 10px;
+  /* BM: Tunjukkan jalur terracotta 2px di bawah sebagai petunjuk halaman semasa.
+     EN: Show the 2px terracotta inset underline to indicate the current page. */
+  box-shadow: inset 0 -2px 0 #b95136;
+  /* BM: Ikuti peralihan active selama .22s yang digunakan oleh Ecosystem untuk perubahan seksyen.
+     EN: Match the Ecosystem's .22s active transition when the selected section changes. */
+  transition: background .22s ease, color .22s ease, box-shadow .22s ease;
+}
+.zrain-header .topnav a:focus-visible,
+.zrain-header .main-nav a:focus-visible,
+.zrain-footer .zrain-footer__links a:focus-visible {
+  /* BM: Paparkan penunjuk fokus yang boleh dilihat pengguna keyboard.
+     EN: Display a focus indicator visible to keyboard users. */
+  outline: 2px solid var(--zrain-brand-accent);
+  /* BM: Asingkan outline fokus daripada sempadan komponen.
+     EN: Offset the focus outline from the component boundary. */
+  outline-offset: 2px;
+}
+.zrain-footer .zrain-footer__home,
+.zrain-footer .zrain-footer__links a {
+  /* BM: Lembutkan perubahan hover dan fokus tanpa animasi berlebihan.
+     EN: Smooth hover and focus changes without excessive animation. */
+  transition: color .18s ease;
+}
+
+/* BM: Smooth native anchor scroll hanya bagi halaman yang memilih scrollSpy, bukan semua produk.
+   EN: Native smooth anchor scrolling is opt-in for scrollSpy, not imposed on every product. */
+html.zrain-scrollspy--smooth { scroll-behavior: smooth; }
+/* BM: Pastikan sasaran anchor tidak tersembunyi di bawah header sticky.
+   EN: Keep an anchor target clear of the sticky header. */
+.zrain-scrollspy-target { scroll-margin-top: var(--zrain-scrollspy-offset, 72px); }
+
+/* BM: Gunakan susun atur mobile untuk lebar 700px ke bawah.
+   EN: Apply the mobile layout at widths of 700px and below. */
+@media (max-width: 700px) {
+  /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
+     EN: Scope this rule to menus opting into Zrain UI management. */
+  .zrain-header .zrain-header__inner--managed {
+    /* BM: Benarkan item berpindah baris apabila viewport sempit.
+       EN: Allow items to wrap when the viewport is narrow. */
+    flex-wrap: wrap;
+    /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+       EN: Space adjacent elements for visual balance. */
+    gap: 8px;
+    /* BM: Tambah ruang menegak tanpa menjejaskan susunan mendatar.
+       EN: Add vertical spacing without altering horizontal placement. */
+    padding-block: 9px;
+  }
+  .zrain-header .topnav.zrain-nav--managed,
+  .zrain-header .main-nav.zrain-nav--managed {
+    /* BM: Tentukan cara elemen disusun dan dipaparkan oleh layout.
+       EN: Choose the element display and layout mode. */
+    display: flex;
+    /* BM: Tukar susunan elemen pada layout responsif tanpa mengubah DOM.
+       EN: Reorder items responsively without changing the DOM. */
+    order: 3;
+    /* BM: Kawal agihan ruang flex bagi komponen navigasi.
+       EN: Control flex space allocation for the navigation component. */
+    flex: 1 0 100%;
+    /* BM: Benarkan ruang menu mengecil tanpa menyebabkan overflow halaman.
+       EN: Allow menu width to contract without causing page overflow. */
+    min-width: 0;
+    /* BM: Tetapkan lebar mengikut saiz paparan atau komponen.
+       EN: Set width according to viewport or component size. */
+    width: 100%;
+    /* BM: Benarkan menu mendatar discroll apabila tab melebihi lebar skrin.
+       EN: Allow horizontal scrolling when tabs exceed screen width. */
+    overflow-x: auto;
+    /* BM: Hadkan overscroll menu supaya tidak mengganggu halaman induk.
+       EN: Contain menu overscroll so it does not disturb the parent page. */
+    overscroll-behavior-x: contain;
+    /* BM: Sembunyikan trek scrollbar apabila scroll sentuh masih tersedia.
+       EN: Hide scrollbar tracks while preserving touch scrolling. */
+    scrollbar-width: none;
+    /* BM: Kawal ruang luaran mengikut peranan komponen.
+       EN: Control outer spacing according to component responsibility. */
+    margin: 0;
+    /* BM: Jarakkan elemen bersebelahan untuk keseimbangan visual.
+       EN: Space adjacent elements for visual balance. */
+    gap: 4px;
+  }
+  /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
+     EN: Scope this rule to menus opting into Zrain UI management. */
+  .zrain-header .zrain-nav--managed::-webkit-scrollbar { display: none; }
+  /* BM: Hadkan aturan ini kepada menu yang memilih pengurusan Zrain UI.
+     EN: Scope this rule to menus opting into Zrain UI management. */
+  .zrain-header .zrain-nav--managed a { flex-shrink: 0; }
+  /* BM: Bezakan nama produk daripada identiti utama Zrain.
+     EN: Distinguish the product name from the primary Zrain identity. */
+  .zrain-header .zrain-brand__product { padding-left: 8px; }
+}
+/* BM: Hormati pilihan pengguna yang meminta pergerakan dikurangkan.
+   EN: Respect the user’s reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  /* BM: Jangan animasikan scroll apabila pengguna memilih reduced motion.
+     EN: Do not animate scrolling when the user prefers reduced motion. */
+  html.zrain-scrollspy--smooth { scroll-behavior: auto; }
+  .zrain-header .topnav a,
+  .zrain-header .main-nav a,
+  .zrain-footer .zrain-footer__home,
+  .zrain-footer .zrain-footer__links a { transition: none; }
+}
+
+/* Developer: Zrain | 2026-11-15
+   BM: Lapisan komponen V7.8; hanya identiti berkongsi diubah.
+   EN: V7.8 shared component layer; keep consumer business logic independent. */
+:root{--zr-maroon:#401d25;--zr-deep-maroon:#7a1e2c;--zr-cream:#f2e6db;--zr-gold:#d4ae6a;--zr-brown:#5b3a2e;--zr-ink:#2c2420;--zr-radius:15px;--zr-font:'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif}
+.zrain-header,.zrain-footer{font-family:var(--zr-font);color:var(--zr-cream);background:var(--zr-maroon);border-color:rgba(249,221,204,.19)}
+.zrain-header .zrain-header__inner,.zrain-footer .zrain-footer__inner{width:min(1240px,calc(100% - 38px))}
+.zrain-header .zrain-brand{gap:10px;color:var(--zr-cream)}
+.zrain-header .zrain-brand__home,.zrain-header .zrain-brand__name{color:#f7eadd;letter-spacing:-.055em;font-weight:800}
+.zrain-header .zrain-brand__logo{border-radius:50%;object-fit:cover;border:1px solid rgba(231,189,117,.65)}
+.zrain-header .zrain-brand__product{border:1px solid rgba(249,221,204,.2);background:rgba(255,244,227,.075);border-radius:99px;padding:9px 13px;color:#e6c99d;font-weight:750}
+.zrain-header .topnav a,.zrain-header .main-nav a{color:#e8d0c5;border-radius:10px}
+.zrain-header .topnav a.current,.zrain-header .main-nav a.current,.zrain-header .topnav a[aria-current],.zrain-header .main-nav a[aria-current]{background:#d4ae6a;color:#3b2227;box-shadow:0 3px 0 rgba(14,9,10,.22);border-radius:11px}
+.zrain-footer .zrain-footer__copy strong,.zrain-footer a{color:#f7eadd}
+.zrain-footer .zrain-footer__copy small{color:#d4ae6a}
+.zrain-footer .zrain-footer__logo{border-radius:50%}
+.zrain-header a:focus-visible,.zrain-footer a:focus-visible{outline:3px solid #d4ae6a;outline-offset:3px}
+.zrain-header .main-nav a:hover,.zrain-header .topnav a:hover{background:rgba(212,174,106,.17)}
+/* Isolated reusable controls, not global button/input overrides. */
+.zr-btn,.zr-input,.zr-select-trigger,.zr-dialog{font-family:var(--zr-font)}
+.zr-btn{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:43px;padding:10px 17px;border:1px solid rgba(68,34,41,.25);border-radius:14px;background:#e8bd76;color:#331e1b;font-size:13px;font-weight:800;box-shadow:0 4px 0 rgba(43,22,27,.25);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.zr-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(43,22,27,.25)}.zr-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(43,22,27,.25)}
+.zr-btn--secondary{background:#fff3e6;color:#6d3040;border-color:#e0c7ad}
+.zr-input{min-height:46px;width:100%;padding:10px 14px;border:1px solid #dec8b6;border-radius:13px;background:#fffaf3;color:#412a2d;font-size:14px}
+.zr-input:focus-visible,.zr-btn:focus-visible,.zr-select-trigger:focus-visible{outline:3px solid #d4ae6a;outline-offset:3px}
+.zr-select{position:relative;min-width:180px}.zr-select-trigger{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:10px 14px;min-height:44px;border:1px solid #ddc6b7;border-radius:13px;background:#fff7ec;color:#442a32;font-weight:750;cursor:pointer}
+.zr-select-menu{position:absolute;top:calc(100% + 7px);left:0;width:max(100%,220px);max-width:min(460px,calc(100vw - 24px));max-height:300px;overflow:auto;z-index:70;background:#fff9f0;border:1px solid #d8bfa8;border-radius:15px;padding:6px;box-shadow:0 18px 40px #2a131f35}
+.zr-select-menu[hidden]{display:none}.zr-select-menu button{display:block;border:0;background:transparent;text-align:left;width:100%;border-radius:9px;padding:10px;color:#583a42;font:700 13px var(--zr-font);cursor:pointer}.zr-select-menu button:hover,.zr-select-menu button[aria-selected="true"]{background:#6e2d40;color:#fff0dc}
+.zr-dialog{border:2px solid #764253;border-radius:22px;background:#fff5e9;color:#402a2b;box-shadow:0 12px 0 rgba(27,12,17,.25),0 25px 70px #180a1340;padding:23px;max-width:min(480px,calc(100% - 24px))}
+@media(max-width:700px){.zrain-header .zrain-header__inner{width:calc(100% - 24px);gap:10px}.zrain-header .zrain-brand__name{font-size:27px}.zrain-header .zrain-brand__logo{width:35px;height:35px}}
+@media(prefers-reduced-motion:reduce){.zr-btn,.zr-select-trigger{transition:none!important}.zr-btn:hover{transform:none}}
+/* Developer: Zrain | 2026-11-15
+   BM: Pastikan dropdown asal masih boleh submit bersama borang.
+   EN: Keep the original select in the form so submit and validation still work. */
+.zr-select-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)}
+
+/* V7.8 accessibility: keep footer destinations legible against maroon. */
+.zrain-footer .zrain-footer__links a{color:#f7eadd!important;text-decoration:none}.zrain-footer .zrain-footer__links a:hover{text-decoration:underline;text-underline-offset:4px}
+
+.zr-select-chevron{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid rgba(125,82,90,.16);background:rgba(212,174,106,.1);color:inherit;transition:transform .2s ease}.zr-select-chevron svg{display:block;width:13px;height:13px}.zr-select-trigger[aria-expanded="true"] .zr-select-chevron{transform:rotate(180deg)}
+
+/* Developer: Zrain
+ * Created: 2026-11-15
+ * Updated: 2026-11-15
+ * BM: Kawalan produk yang konsisten dengan Zrain Ecosystem V7.8.
+ * EN: Product chrome consistent with Zrain Ecosystem V7.8.
+ */
+.zrain-experience{--zr-ui-paper:#f2e6db;--zr-ui-maroon:#401d25;--zr-ui-brown:#5b3a2e;--zr-ui-gold:#d4ae6a;--zr-ui-ink:#f7eadd;--zr-ui-muted:#d6bfb3;--zr-ui-font:'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;font-family:var(--zr-ui-font);background:var(--zr-ui-maroon);color:var(--zr-ui-ink);isolation:isolate;position:relative}
+.zrain-experience[data-theme="day"]{--zr-ui-maroon:#f5ece1;--zr-ui-ink:#422b28;--zr-ui-muted:#79655d}
+.zrain-experience button{font:inherit;cursor:pointer}
+.zrain-experience button:focus-visible,.zrain-experience a:focus-visible{outline:3px solid var(--zr-ui-gold);outline-offset:3px}
+.zr-experience-top{padding:4px 0 9px;background:radial-gradient(circle at 75% 0%,rgba(147,69,83,.15),transparent 48%),var(--zr-ui-maroon);transition:background .3s ease}
+.zrain-experience .zrain-header{position:relative;z-index:5;top:auto;padding:6px 0 9px;background:transparent;border:0;backdrop-filter:none}
+.zrain-experience .zrain-header__inner{display:flex;flex-wrap:wrap;align-items:center;gap:15px;min-height:56px;width:min(1240px,calc(100% - 38px));margin:0 auto}
+.zrain-experience .zrain-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.zrain-experience .zrain-brand__home{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--zr-ui-ink)}
+.zrain-experience .zrain-brand__name{font-size:30px;font-weight:850;line-height:1;letter-spacing:-.075em;color:var(--zr-ui-ink)}
+.zrain-experience .zrain-brand__logo{width:44px;height:44px;border-radius:50%;object-fit:contain;border:1px solid rgba(212,174,106,.65)}
+.zrain-experience .zrain-brand__product{font-size:12px;font-weight:800;padding:10px 12px;border:1px solid rgba(212,174,106,.32);border-radius:999px;background:rgba(212,174,106,.08);color:var(--zr-ui-ink);white-space:nowrap}
+.zrain-experience .main-nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap;min-width:0;margin-left:auto}
+.zrain-experience .main-nav a{font-size:12px;font-weight:700;text-decoration:none;padding:8px 10px;border-radius:10px;color:var(--zr-ui-muted)}
+.zrain-experience .main-nav a:hover{background:rgba(212,174,106,.13);color:var(--zr-ui-ink)}
+.zrain-experience .main-nav a.current,.zrain-experience .main-nav a[aria-current]{background:#d4ae6a;color:#3a2129;box-shadow:0 3px 0 rgba(23,10,13,.16)}
+.zr-header-actions{display:flex;align-items:center;gap:7px;margin-left:auto;flex:none}
+.zr-header-actions button{border:1px solid rgba(249,221,204,.2);transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,background .2s ease}
+.zr-header-actions button:hover{transform:translateY(-2px)}
+.zr-lang-switch{width:77px;height:40px;position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;justify-items:center;border-radius:13px;background:rgba(241,224,205,.11);color:var(--zr-ui-ink);box-shadow:0 3px 0 rgba(21,11,15,.13);isolation:isolate}
+.zr-lang-track{position:absolute;inset:3px;overflow:hidden;border-radius:10px;z-index:0}
+.zr-lang-thumb{position:absolute;left:0;top:0;width:50%;height:100%;border-radius:9px;background:#e8bd76;transition:transform .45s cubic-bezier(.2,1.35,.36,1)}
+.zr-lang-switch[data-active="bm"] .zr-lang-thumb{transform:translateX(100%)}
+.zr-lang-en,.zr-lang-bm{position:relative;z-index:1;font-size:11px;font-weight:800}
+.zr-lang-switch[data-active="en"] .zr-lang-en,.zr-lang-switch[data-active="bm"] .zr-lang-bm{color:#3e222b}
+.zr-theme-button{position:relative;overflow:hidden;flex:none;width:90px;height:40px;border-radius:999px;background:linear-gradient(180deg,#8fa3c9,#7387b1);box-shadow:inset 0 1px 0 #fff9,0 3px 0 #1c0b1230}
+.zr-theme-button[data-day="true"]{background:linear-gradient(180deg,#b9e6f6,#94cde9)}
+.zr-theme-clouds{position:absolute;inset:0;opacity:0;transition:opacity .3s ease}
+.zr-theme-clouds::before,.zr-theme-clouds::after{content:'';position:absolute;width:27px;height:11px;background:#fff9ee;border-radius:20px;top:11px;left:45px;box-shadow:-10px 6px 0 3px #fff9ee}
+.zr-theme-clouds::after{left:63px;top:22px;width:18px;height:8px}
+.zr-theme-button[aria-checked="false"] .zr-theme-clouds{opacity:1}
+.zr-theme-stars{position:absolute;left:15px;top:9px;color:#fff7cf;font-size:13px;opacity:1;transition:opacity .3s}
+.zr-theme-button[aria-checked="false"] .zr-theme-stars{opacity:0}
+.zr-theme-knob{position:absolute;top:3px;left:3px;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7d6,#e6d19e 70%,#cdb883);box-shadow:0 2px 6px #24131c44,inset -5px -3px 0 #aaa07b38;transform:translateX(51px);transition:transform .42s cubic-bezier(.22,1,.36,1),background .3s}
+.zr-theme-button[aria-checked="false"] .zr-theme-knob{transform:translateX(0);background:radial-gradient(circle at 35% 30%,#fff5bc,#f1d27a 65%,#e4b85f)}
+.zr-community-button{display:flex;align-items:center;gap:7px;min-height:40px;border-radius:13px;padding:8px 11px;background:rgba(241,224,205,.11);color:var(--zr-ui-ink);font-size:12px;font-weight:750;box-shadow:0 3px 0 rgba(21,11,15,.13)}
+.zr-community-button svg{width:18px;height:18px;color:var(--zr-ui-gold)}
+.zrain-experience[data-theme="day"] .zrain-header .zrain-brand__name,.zrain-experience[data-theme="day"] .zrain-header .zrain-brand__home{color:#422b28}
+.zrain-experience[data-theme="day"] .zr-lang-switch,.zrain-experience[data-theme="day"] .zr-community-button{border-color:#d1bbae;background:#f9f1e6}
+/* Community dialog keeps the product-specific widget separate from other products. */
+.zr-community-overlay{position:fixed;inset:0;display:grid;place-items:center;z-index:9999;padding:12px;background:#1e0d15b8;backdrop-filter:blur(7px)}
+.zr-community-overlay[hidden]{display:none}
+.zr-community-dialog{width:min(770px,100%);height:min(88svh,850px);padding:22px;border:3px solid #744257;border-radius:23px;background:#fff3e7;color:#44272c;box-shadow:0 15px 0 #1f0e1555,0 20px 80px #18071085;display:flex;flex-direction:column;gap:10px;font-family:'Candara','Cabin','Segoe UI',sans-serif}
+.zr-community-dialog header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.zr-community-dialog header small{font-size:10px;letter-spacing:.12em;color:#9a6e59;font-weight:800}
+.zr-community-dialog h2{margin:2px 0;font-size:clamp(25px,4vw,34px);line-height:1;font-weight:800;letter-spacing:-.06em}
+.zr-community-close{width:36px;height:36px;flex:none;border:1px solid #d6b8a4;border-radius:11px;background:#fff9f0;color:#693a41;font-size:22px;cursor:pointer}
+.zr-community-dialog p{margin:0;font-size:13px;color:#77564d}
+.zr-community-external{color:#743347;font-size:12px;font-weight:800;text-underline-offset:4px}
+.zr-community-status{font-size:11px;color:#946f64}
+.zr-community-mount{min-height:200px;flex:1;overflow:auto;border-radius:14px;background:#fff9f0}
+.zr-community-mount iframe{width:100%;min-height:100%;border:0}
+@media(max-width:850px){.zrain-experience .zrain-header__inner{gap:10px}.zrain-experience .main-nav{order:3;width:100%;margin-left:0;justify-content:center}.zrain-experience .zrain-brand__product{font-size:11px}.zrain-experience .game-dock{width:calc(100% - 18px)}}
+@media(max-width:540px){.zrain-experience .zrain-header__inner{width:calc(100% - 22px);gap:7px}.zrain-experience .zrain-brand__logo{width:32px;height:32px}.zrain-experience .zrain-brand__name{font-size:23px}.zrain-experience .zrain-brand__product{font-size:10px;padding:7px 9px}.zr-header-actions{gap:5px}.zr-lang-switch{width:54px;height:34px;border-radius:11px}.zr-lang-en,.zr-lang-bm{font-size:9px}.zr-theme-button{width:68px;height:34px}.zr-theme-knob{width:28px;height:28px}.zr-theme-button[aria-checked="true"] .zr-theme-knob{transform:translateX(34px)}.zr-theme-stars{left:8px;top:6px}.zr-community-button{padding:6px;min-height:34px}.zr-community-button span{display:none}.zr-community-dialog{height:96svh;padding:13px;border-radius:17px}.zrain-experience .main-nav a{font-size:11px}}
+@media(max-width:360px){.zrain-experience .zrain-brand__product{display:none}.zr-theme-button{width:62px}.zr-theme-button[aria-checked="true"] .zr-theme-knob{transform:translateX(28px)}}
+@media(prefers-reduced-motion:reduce){.zrain-experience *, .zrain-experience *::before,.zrain-experience *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.zr-sound-button{display:flex;align-items:center;gap:6px;min-height:40px;padding:7px 9px;border-radius:13px;background:rgba(241,224,205,.11);color:var(--zr-ui-ink);font-size:12px;font-weight:750;box-shadow:0 3px 0 rgba(21,11,15,.13)}
+.zr-sound-button svg{width:18px;height:18px}.zr-sound-button .zr-sound-on-mark{display:none}
+.zr-sound-button[aria-pressed="true"] .zr-sound-on-mark{display:block}.zr-sound-button[aria-pressed="true"] .zr-sound-off-mark{display:none}
+@media(max-width:700px){.zr-sound-button{width:38px;justify-content:center;padding:7px}.zr-sound-button span{display:none}}
+
+/* Developer: Zrain
+ * Created: 2026-11-15
+ * Updated: 2026-11-15
+ * BM: CSS mini-game V7.8; tidak mengubah layout laman produk.
+ * EN: V7.8 mini-game CSS; does not impose the landing-page layout.
+ */
+.zrain-experience{--dock-height:clamp(152px,17.5svh,186px)}
+.game-dock{position:sticky;top:0;z-index:30;width:min(1460px,calc(100% - 30px));height:var(--dock-height);margin:12px auto 13px;border:5px solid #642a37;border-radius:23px;background:#e9c7ac;box-shadow:0 6px 0 rgba(43,23,28,.19),0 16px 30px rgba(26,14,17,.13);overflow:hidden;isolation:isolate;touch-action:pan-y}
+.game-dock::after{content:"";inset:0;position:absolute;pointer-events:none;border:1px solid rgba(255,246,226,.43);border-radius:17px;z-index:7}
+.mini-canvas{display:block;width:100%;height:100%;touch-action:manipulation;cursor:pointer}
+.game-hud{position:absolute;left:12px;right:12px;top:10px;z-index:3;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;pointer-events:none}
+.game-id{display:flex;align-items:center;gap:8px;padding:4px 9px 4px 5px;border-radius:12px;background:rgba(255,248,234,.92);box-shadow:0 2px 8px rgba(71,33,32,.1);color:#4b3030;font-size:11px;font-weight:750;line-height:1.14;white-space:nowrap}
+.game-id img{width:27px;height:27px;object-fit:contain}
+.game-id small{display:block;font-weight:600;color:#956c5d;font-size:9px;margin-top:1px}
+.game-stats{display:flex;gap:7px;align-items:center;pointer-events:auto}
+.game-pill{display:flex;align-items:center;gap:7px;min-height:30px;padding:5px 10px;border-radius:11px;background:rgba(255,248,234,.93);color:#58363a;box-shadow:0 2px 8px rgba(71,33,32,.11);font-size:11px;font-weight:750;white-space:nowrap}
+.game-pill span{font-size:9px;color:#886557;font-weight:650;letter-spacing:.015em}
+.game-pill b{font-variant-numeric:tabular-nums;font-size:12px}
+.game-pause{height:30px;min-width:30px;display:grid;place-items:center;border:0;border-radius:10px;color:#fff1e7;background:#743245;font-size:11px;font-weight:750;box-shadow:0 3px 0 #44202c;cursor:pointer}
+.game-pause:active{transform:translateY(2px);box-shadow:0 1px 0 #44202c}
+.game-intro{position:absolute;left:13px;bottom:13px;z-index:4;display:flex;align-items:center;gap:10px;max-width:calc(100% - 35px);padding:7px 8px 7px 12px;border:1px solid rgba(126,76,55,.25);border-radius:13px;background:rgba(255,247,232,.95);box-shadow:0 5px 0 rgba(74,36,36,.12);color:#4c302b}
+.game-intro strong{font-size:12px;letter-spacing:-.015em}.game-intro small{font-size:10px;color:#7a594b;display:block;margin-top:2px}
+.game-start,.game-again{border:0;border-radius:10px;min-height:32px;padding:0 14px;white-space:nowrap;font-size:11px;font-weight:800;background:#70283a;color:#ffecdd;box-shadow:0 3px 0 #45202b}
+.game-start:active,.game-again:active{transform:translateY(2px);box-shadow:0 1px 0 #45202b}
+.game-controls{position:absolute;right:11px;bottom:9px;z-index:3;display:flex;align-items:center;gap:7px;pointer-events:auto}
+.game-control{min-width:46px;height:37px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0 8px;border:1px solid #885064;border-bottom:3px solid #522338;border-radius:12px;background:rgba(107,40,57,.95);color:#ffeedf;box-shadow:0 2px 9px rgba(49,29,23,.14);font-size:11px;font-weight:800;touch-action:none;user-select:none}
+.game-control small{font-size:8px;font-weight:700}.game-control:active,.game-control.pressed{transform:translateY(2px);border-bottom-width:1px;background:#963e52}
+.game-info{position:absolute;left:15px;bottom:8px;z-index:2;color:#fff6e9;text-shadow:0 2px 5px #472630;font-size:10px;font-weight:750;pointer-events:none;display:none}
+.game-dock[data-mode="playing"] .game-info,.game-dock[data-mode="paused"] .game-info{display:block}
+.game-dock[data-mode="intro"] .game-controls,.game-dock[data-mode="over"] .game-controls{display:none}
+.game-dock[data-mode="playing"] .game-intro,.game-dock[data-mode="paused"] .game-intro{display:none}
+.game-dock[data-mode="paused"] .game-intro,.game-dock[data-mode="over"] .game-intro{display:flex}
+.game-dock[data-mode="over"] .game-intro{min-width:min(400px,85%)}
+.mini-tip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:7px 13px;border-radius:10px;background:rgba(254,242,216,.96);color:#7a3245;font-size:12px;font-weight:800;opacity:0;pointer-events:none;z-index:4;transition:opacity .2s}
+.mini-tip.visible{opacity:1}
+/* Score dialog deliberately uses straightforward, friendly type instead of italic editorial headlines. */
+.result-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(27,13,19,.70);backdrop-filter:blur(7px)}
+.result-modal[hidden]{display:none}
+.result-box{position:relative;width:min(480px,100%);max-height:min(90svh,650px);overflow:auto;border:3px solid #784151;border-radius:23px;padding:27px 27px 25px;background:#fff5e9;box-shadow:0 10px 0 rgba(32,14,25,.35),0 28px 70px #24101790;color:#402a2b;font-family:var(--font),sans-serif}
+.result-close{position:absolute;right:15px;top:14px;border:1px solid #d6b8a4;border-radius:10px;width:32px;height:32px;background:#fff9f0;color:#693a41;font-size:19px;line-height:1}
+.result-overline{margin:0;color:#946d55;font-size:11px;letter-spacing:.075em;font-weight:800}
+.result-box h2{margin:15px 0 7px;letter-spacing:-.055em;line-height:1.08;font-size:clamp(27px,6vw,40px);font-family:var(--font),sans-serif;font-style:normal;font-weight:800}
+.result-sub{font-size:13px;color:#7d6258;margin:0 0 21px;line-height:1.5}
+.result-numbers{display:grid;grid-template-columns:1fr 1fr;gap:14px;border-top:1px solid #e3c5b0;border-bottom:1px solid #e3c5b0;padding:17px 0}
+.result-numbers span{display:block;font-size:10px;font-weight:750;color:#997760;margin-bottom:6px}.result-numbers strong{font-size:clamp(24px,7vw,37px);color:#742e3f;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.result-meta{font-size:12px;font-weight:700;color:#876350;margin:16px 0 23px}.result-actions{display:flex;gap:10px;flex-wrap:wrap}
+.result-primary,.result-secondary{border:0;border-radius:13px;padding:12px 14px;font-size:13px;font-weight:800;cursor:pointer;min-height:44px}
+.result-primary{background:#742e3e;color:#fff0df;box-shadow:0 4px 0 #49222e}.result-secondary{background:#efcfaa;color:#643a36;box-shadow:0 4px 0 #c9a17b}
+.result-primary:active,.result-secondary:active{transform:translateY(3px);box-shadow:none}
+.result-save{display:inline-block;margin-top:17px;padding:4px 0;border:0;background:transparent;border-bottom:1px solid #be9c88;color:#865548;font-size:12px;font-weight:750}
+@media(max-width:850px){.zrain-experience{--dock-height:clamp(152px,18svh,182px)}.zrain-experience .game-dock{width:calc(100% - 20px);border-width:4px;border-radius:18px}.zrain-experience .game-pill span{display:none}.zrain-experience .game-pause{min-width:29px;height:29px}}
+@media(max-width:560px){.zrain-experience .game-hud{left:7px;right:7px;top:6px}.zrain-experience .game-dock{border-radius:17px}.zrain-experience .game-pill:nth-child(2){display:none}.zrain-experience .game-intro{bottom:9px;left:9px;max-width:calc(100% - 18px);padding:6px 7px 6px 10px}.zrain-experience .game-start{min-height:28px}.zrain-experience .result-box{padding:24px 19px}}
+@media(max-width:375px){.zrain-experience .game-id small{display:none}.zrain-experience .game-intro small{font-size:8px}.zrain-experience .game-id{font-size:9px}}
+.zrain-experience .mini-canvas{touch-action:none;-webkit-user-select:none;user-select:none}
+.zrain-experience .game-dock .game-controls{display:none!important}
+.zrain-experience .game-touch-option{display:none;border:0;border-bottom:1px solid #b9947c;padding:4px 0;background:transparent;color:#76534c;font:700 10px 'Candara','Segoe UI',sans-serif;white-space:nowrap}
+@media(max-width:850px) and (pointer:coarse){.zrain-experience .game-dock[data-mode="playing"][data-touch-buttons="on"] .game-controls{display:flex!important}.zrain-experience .game-dock[data-mode="paused"] .game-touch-option{display:inline-flex;align-items:center}}
+.zrain-experience .game-dock{position:relative;top:auto;z-index:2;width:min(1460px,calc(100% - 28px));margin:8px auto 12px}
+.zrain-experience .game-dock button{font-family:inherit;cursor:pointer}
+.zrain-experience .game-hud,.zrain-experience .game-intro{font-family:'Candara','Segoe UI',sans-serif}
+.result-box{font-family:'Candara','Segoe UI',sans-serif}
+@media(prefers-reduced-motion:reduce){.zrain-experience .game-dock{scroll-behavior:auto}}
+
+/* Developer: Zrain
+ * Created: 2026-11-15
+ * Updated: 2026-11-15
+ * BM: Sambutan ringkas 1.35 saat pada navigasi baharu sahaja.
+ * EN: Brief 1.35-second welcome for fresh navigations only.
+ */
+/* Zrain welcome: an intentionally brief, decorative introduction. */
+#zrainSplash {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
+  pointer-events: auto;
+  background: radial-gradient(ellipse at 50% 38%, #563039 0%, #401d25 50%, #33171f 100%);
+  color: #f7eadd;
+  animation: zrainSplashLeave 240ms cubic-bezier(.4,0,1,1) 1110ms forwards;
+}
+html[data-zrain-splash="skip"] #zrainSplash,
+html[data-zrain-splash="complete"] #zrainSplash {
+  display: none !important;
+}
+#zrainSplash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('data:image/webp;base64,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') center / 320px repeat;
+  opacity: .11;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+.zrain-splash-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+  transform: translateY(-2%);
+  user-select: none;
+}
+.zrain-splash-picture {
+  width: 119px;
+  height: 119px;
+  border-radius: 50%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #e8caa9;
+  padding: 6px;
+  box-shadow: 0 15px 40px #1b0a1338, inset 0 1px 0 #fff3dd99;
+  animation: zrainSplashBob 1020ms cubic-bezier(.2,.8,.28,1) both;
+}
+.zrain-splash-picture::before {
+  content: "";
+  position: absolute;
+  inset: -11px;
+  border: 1px dashed #d4ae6a70;
+  border-radius: 50%;
+  animation: zrainSplashRotate 1250ms ease-out both;
+}
+.zrain-splash-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #f2e6db;
+}
+.zrain-splash-glint {
+  position: absolute;
+  top: -19px;
+  right: -17px;
+  font-size: 25px;
+  line-height: 1;
+  color: #d4ae6a;
+  filter: drop-shadow(0 2px 7px #debc7c44);
+  animation: zrainSplashTwinkle 850ms ease-in-out both;
+}
+.zrain-splash-word {
+  font-family: 'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;
+  font-size: clamp(37px, 9vw, 47px);
+  font-weight: 800;
+  letter-spacing: -.075em;
+  line-height: 1;
+  padding-right: .08em;
+  animation: zrainSplashWord 550ms cubic-bezier(.22,1,.36,1) 90ms both;
+}
+.zrain-splash-word span { color: #d4ae6a; }
+.zrain-splash-line {
+  margin-top: 4px;
+  width: 86px;
+  height: 3px;
+  border-radius: 999px;
+  background: #d4ae6a30;
+  overflow: hidden;
+}
+.zrain-splash-line span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #dfbb79;
+  transform-origin: left;
+  animation: zrainSplashProgress 1080ms cubic-bezier(.28,.15,.3,1) both;
+}
+@keyframes zrainSplashBob {
+  0% { opacity: 0; transform: translateY(17px) rotate(-9deg) scale(.9); }
+  39% { opacity: 1; transform: translateY(-6px) rotate(3deg) scale(1.025); }
+  75% { transform: translateY(0) rotate(-1deg) scale(1); }
+  100% { opacity: 1; transform: translateY(-2px) rotate(0) scale(1); }
+}
+@keyframes zrainSplashRotate {
+  from { transform: rotate(-26deg); opacity: .3; }
+  to { transform: rotate(12deg); opacity: 1; }
+}
+@keyframes zrainSplashTwinkle {
+  0% { transform: scale(.2) rotate(-35deg); opacity: 0; }
+  60% { transform: scale(1.16) rotate(12deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: .95; }
+}
+@keyframes zrainSplashWord {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes zrainSplashProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes zrainSplashLeave {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zrain-splash-picture,
+  .zrain-splash-picture::before,
+  .zrain-splash-glint,
+  .zrain-splash-word,
+  .zrain-splash-line span { animation: none !important; }
+  #zrainSplash { animation: zrainSplashLeave 1ms linear 1200ms forwards !important; }
+}
+/* Hide only non-splash top-level children while the optional boot helper waits. */
+html.zrain-splash-pending body > :not(#zrainSplash){visibility:hidden}
+html.zrain-splash-pending #zrainSplash{visibility:visible}
+
+/*
+ * Developer: Zrain
+ * Created: 2026-11-15
+ * Updated: 2026-11-15
+ * BM: Susun atur, warna dan elemen visual yang meniru tepat reka bentuk Ecosystem V7.8.
+ * EN: Layout, colors and components derived directly from the approved Ecosystem V7.8 look.
+ */
+
+.zrain-experience.zr-compact{--zr-gold:#d4ae6a;--zr-ease:cubic-bezier(.22,1,.36,1);--zr-shell:#401d25;--zr-shell-ink:#f7eadd;--zr-shell-muted:#d6bfb3;--zr-shell-line:rgba(249,221,204,.19);--zr-shell-soft:rgba(255,244,227,.075);--zr-accent:#d4ae6a;--zr-cta:#e8bd76;--zr-cta-ink:#331e1b;--zr-paper:#f0e2d3;--zr-paper-ink:#3c2b28;--zr-paper-muted:#8d6a58;--zr-paper-line:rgba(114,73,49,.095);--zr-orb-light:#f7dfc9;--zr-orb-mid:#e9bfa4;--zr-orb-edge:#dba789;--zr-orb-outline:rgba(134,83,55,.16);min-height:100svh;background:var(--zr-shell);font-family:'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;color:var(--zr-shell-ink);}
+.zrain-experience.zr-compact[data-theme="day"]{--zr-shell:#f5ece1;--zr-shell-ink:#422b28;--zr-shell-muted:#79655d;--zr-shell-line:rgba(92,54,45,.22);--zr-shell-soft:rgba(113,73,48,.065);--zr-accent:#8a3e39;--zr-cta:#752635;--zr-cta-ink:#fff0dc;--zr-paper:#e8d2be;--zr-paper-ink:#392522;--zr-paper-muted:#8a6452;--zr-paper-line:rgba(114,73,49,.09);--zr-orb-light:#fbe9d5;--zr-orb-mid:#ebc4a6;--zr-orb-edge:#d8a57f;--zr-orb-outline:rgba(134,83,55,.2)}
+.zr-compact :where(*, *::before, *::after){box-sizing:border-box}
+.zr-compact .zr-experience-top{display:flow-root;padding:0;background:var(--zr-shell)}
+.zr-compact .game-dock{position:relative;z-index:2;top:auto;width:calc(100% - 30px);max-width:none;margin:12px 15px 11px;height:clamp(152px,18svh,186px)}
+.zr-compact .zr-compact-layout{display:grid;grid-template-columns:minmax(0,75%) minmax(0,25%);min-height:calc(100svh - clamp(152px,18svh,186px) - 23px);isolation:isolate}
+.zr-compact .zr-compact-left{min-width:0;display:flex;flex-direction:column;position:relative;padding:clamp(21px,3.2vw,46px) clamp(22px,4.8vw,80px) 17px;background:var(--zr-shell);color:var(--zr-shell-ink);isolation:isolate;overflow:hidden}
+.zr-compact .zr-compact-left::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:url('data:image/webp;base64,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') center/320px;opacity:.06;mix-blend-mode:soft-light}
+.zr-compact[data-theme="day"] .zr-compact-left::after{opacity:.04;mix-blend-mode:multiply}
+.zr-compact .zrain-header{position:relative;top:auto;z-index:12;padding:0;background:none;border:0;box-shadow:none;overflow:visible}
+.zr-compact .zrain-header__inner{display:flex;align-items:flex-start;flex-wrap:nowrap;gap:18px;width:100%;margin:0;min-height:0;max-width:none}
+.zr-compact .zrain-brand{padding-top:3px;display:flex;gap:10px;min-width:0;flex:none;align-items:center}
+.zr-compact .zrain-brand__home{gap:10px;color:var(--zr-shell-ink);text-decoration:none}
+.zr-compact .zrain-brand__logo{width:43px;height:43px;border-radius:50%;border:0;object-fit:contain;transition:transform .3s var(--zr-ease)}
+.zr-compact .zrain-brand__home:hover .zrain-brand__logo{transform:rotate(-7deg) scale(1.08)}
+.zr-compact .zrain-brand__name{font-size:clamp(25px,2.4vw,32px);font-weight:800;letter-spacing:-.07em;color:var(--zr-shell-ink);line-height:1}
+.zr-compact .zrain-brand__name::after{content:".";color:var(--zr-accent)}
+.zr-compact .zrain-brand__product{display:none!important}
+.zr-compact .zr-compact-tools{min-width:0;flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:13px}
+.zr-compact .zr-header-actions{display:flex;gap:9px;align-items:center;justify-content:flex-end;margin:0;width:auto}
+.zr-compact .zr-header-actions>.zr-community-button{display:none!important}
+.zr-compact .zr-sound-button{display:flex;align-items:center;justify-content:center;gap:9px;min-height:43px;padding:0 13px;border:1px solid var(--zr-shell-line);border-radius:13px;background:transparent;color:var(--zr-shell-ink);font:600 12px 'Candara','Cabin','Segoe UI',sans-serif;box-shadow:none;transition:background .2s ease,transform .2s ease}
+.zr-compact .zr-sound-button:hover{background:var(--zr-shell-soft);transform:translateY(-2px)}
+.zr-compact .zr-lang-switch{width:82px;height:43px;padding:4px;border:1px solid var(--zr-shell-line);border-radius:14px;color:var(--zr-shell-ink);background:var(--zr-shell-soft);box-shadow:0 3px 0 rgba(19,9,14,.07)}
+.zr-compact .zr-lang-track{inset:4px;border-radius:10px}.zr-compact .zr-lang-thumb{background:var(--zr-cta)}
+.zr-compact .zr-lang-switch[data-active="en"] .zr-lang-en,.zr-compact .zr-lang-switch[data-active="bm"] .zr-lang-bm{color:var(--zr-cta-ink)}
+.zr-compact .zr-lang-en,.zr-compact .zr-lang-bm{font-size:11px;font-weight:850}
+.zr-compact .zr-theme-button{width:108px;height:43px;border-radius:999px;border:1px solid rgba(86,55,49,.12);background:linear-gradient(180deg,#8498bf,#6981ab);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 3px 0 rgba(20,10,13,.09)}
+.zr-compact .zr-theme-button[data-day="true"]{background:linear-gradient(180deg,#a9dcf4,#8ccbe9)}
+.zr-compact .zr-theme-knob{width:37px;height:37px;top:3px;left:3px;transform:translateX(65px);background:radial-gradient(circle at 35% 30%,#fff7db,#efe0b1 58%,#d7c286);box-shadow:0 2px 6px rgba(24,16,26,.26),inset -7px -4px 0 rgba(150,138,109,.18)}
+.zr-compact .zr-theme-button[data-day="true"] .zr-theme-knob{transform:translateX(0);background:radial-gradient(circle at 35% 30%,#fff3be,#f1d27a 58%,#e4b85f)}
+.zr-compact .zr-theme-stars{left:15px;top:11px;color:#fff6d3}
+.zr-compact .zr-theme-clouds::before{left:47px;top:10px;width:37px;height:16px}.zr-compact .zr-theme-clouds::after{left:66px;top:21px;width:23px;height:10px}
+/* Exact three-stop scroll progress behaviour, not regular navigation tabs. */
+.zr-compact .zr-compact-progress{--progress:0%;width:min(430px,100%);height:71px;position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:2px;margin:0;isolation:isolate}
+.zr-compact .zr-progress-track{position:absolute;z-index:-1;top:18px;height:3px;left:21px;right:20px;background:var(--zr-shell-line);border-radius:10px}
+.zr-compact .zr-progress-fill{display:block;height:100%;width:var(--progress);background:var(--zr-accent);border-radius:10px;transition:width .35s var(--zr-ease)}
+.zr-compact .zr-progress-step{position:relative;min-width:64px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;border:0;background:transparent;color:var(--zr-shell-muted);font-family:inherit;cursor:pointer}
+.zr-compact .zr-progress-number{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--zr-shell-line);background:var(--zr-shell);font-size:10px;font-weight:800;color:var(--zr-accent);line-height:1;transition:background .24s ease,color .24s ease,transform .25s var(--zr-ease)}
+.zr-compact .zr-progress-step.is-current .zr-progress-number{background:#e9bd76;color:#3a2424;border-color:#d4ae6a;transform:scale(1.05);box-shadow:0 2px 0 rgba(19,10,14,.12)}
+.zr-compact .zr-progress-name{font-size:11px;font-weight:700;white-space:nowrap}
+.zr-compact .zr-progress-step.is-current .zr-progress-name{color:var(--zr-shell-ink)}
+.zr-compact .zr-progress-step:focus-visible{outline:2px solid var(--zr-accent);outline-offset:3px;border-radius:8px}
+.zr-compact .zr-compact-hero{display:flex;flex:1;flex-direction:column;justify-content:center;align-items:flex-start;padding:17px 0 22px;max-width:790px}
+.zr-compact .zr-compact-copy{width:100%;min-width:0}
+.zr-compact .zr-compact-eyebrow{display:flex;align-items:center;gap:11px;color:var(--zr-accent);font-size:12px;font-weight:700;letter-spacing:.09em;margin:0}
+.zr-compact .zr-compact-eyebrow::before{content:"";height:1px;width:27px;background:currentColor}
+.zr-compact .zr-compact-headline{margin:18px 0 17px;font:700 clamp(42px,4.55vw,80px)/1.08 'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;letter-spacing:-.073em;color:var(--zr-shell-ink);text-wrap:balance}
+.zr-compact .zr-compact-line{display:block;white-space:normal}.zr-compact .zr-compact-line.is-gold{color:var(--zr-accent)}
+.zr-compact .zr-compact-description{color:var(--zr-shell-muted);font-size:clamp(13px,1.12vw,16px);line-height:1.65;margin:0 0 24px;max-width:550px}
+.zr-compact .zr-compact-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.zr-compact .zr-compact-cta{min-height:51px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;gap:20px;border:0;border-radius:15px;background:var(--zr-cta);color:var(--zr-cta-ink);font-size:14px;font-weight:800;box-shadow:0 5px 0 rgba(0,0,0,.13);cursor:pointer;transition:transform .22s var(--zr-ease),box-shadow .22s}
+.zr-compact .zr-compact-cta:hover{transform:translateY(-3px);box-shadow:0 8px 0 rgba(0,0,0,.12)}.zr-compact .zr-compact-cta:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.12)}
+.zr-compact .zr-compact-cta svg{width:18px;height:18px}
+.zr-compact .zr-compact-text-action{border:0;border-bottom:1px solid var(--zr-shell-line);border-radius:0;background:transparent;color:var(--zr-shell-ink);padding:9px 0;font-weight:700;font-size:14px;cursor:pointer}
+.zr-compact .zr-compact-text-action:hover{border-color:var(--zr-accent)}
+.zr-compact [hidden]{display:none!important}
+.zr-compact .zr-compact-component-area{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:17px;max-width:600px}
+.zr-compact .zr-compact-field{min-width:175px;flex:1;display:grid;gap:6px;font-size:11px;color:var(--zr-shell-muted);font-weight:800}
+.zr-compact .zr-compact-field .zr-input{font-family:inherit;font-size:12px;min-height:40px;background:var(--zr-shell-soft);border:1px solid var(--zr-shell-line);color:var(--zr-shell-ink);border-radius:13px}
+.zr-compact .zr-compact-field input::placeholder{color:var(--zr-shell-muted)}
+.zr-compact .zr-select{width:100%;min-width:0}.zr-compact .zr-select-trigger{font-family:inherit;min-height:40px;background:var(--zr-shell-soft);border:1px solid var(--zr-shell-line);color:var(--zr-shell-ink);font-size:12px}
+.zr-compact .zr-select-menu{background:#fff5ea;color:#43272e}
+.zr-compact .zr-compact-contact{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;border-top:1px solid var(--zr-shell-line);padding-top:12px}
+.zr-compact .zr-compact-contact :is(a,button){display:flex;align-items:center;gap:9px;padding:8px 12px;min-height:47px;border:1px solid var(--zr-shell-line);border-radius:13px;background:var(--zr-shell-soft);color:var(--zr-shell-ink);text-align:left;text-decoration:none;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.zr-compact .zr-compact-contact :is(a,button):hover{transform:translateY(-2px);border-color:rgba(212,174,106,.54)}
+.zr-compact .zr-compact-contact small{display:block;color:var(--zr-shell-muted);font-size:10px;font-weight:500;margin-top:2px}
+.zr-compact .zr-contact-icon{display:grid;place-items:center;min-width:19px;color:var(--zr-accent);font-size:20px}
+.zr-compact .zr-compact-footer{position:relative;margin:0;padding:0;background:transparent;border:0;color:var(--zr-shell-muted)}
+.zr-compact .zr-compact-footer .zrain-footer__inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;width:100%;padding:0;margin:0}
+.zr-compact .zr-compact-footer .zrain-footer__home{display:flex;align-items:center;gap:8px}.zr-compact .zr-compact-footer .zrain-footer__logo{display:none}
+.zr-compact .zr-compact-footer .zrain-footer__copy strong{display:none}
+.zr-compact .zr-compact-footer .zrain-footer__copy small{color:var(--zr-shell-muted);font-size:10px;font-weight:600}
+.zr-compact .zr-compact-footer .zrain-footer__links{display:none}
+/* 25% mascot zone, same paper, halo, stitch and tactile cues as Ecosystem. */
+.zr-compact .zr-compact-scene{position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:100%;background:var(--zr-paper);color:var(--zr-paper-ink);border-left:1px solid rgba(101,58,43,.07);isolation:isolate}
+.zr-compact .zr-compact-scene::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(0deg,transparent 0,transparent 54px,var(--zr-paper-line) 55px),repeating-linear-gradient(90deg,transparent 0,transparent 54px,var(--zr-paper-line) 55px);opacity:.42}
+.zr-compact .zr-compact-scene::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;background:url('data:image/webp;base64,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') center/340px;opacity:.053;mix-blend-mode:multiply}
+.zr-compact .zr-scene-top{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:6px;padding:24px 17px 0}
+.zr-compact .zr-scene-sticky{display:inline-block;transform:rotate(-3deg);background:#e5bd88;color:#59372d;border-radius:4px 8px 5px 4px;box-shadow:1px 3px 0 rgba(154,100,58,.28);font:700 13px 'Candara','Segoe UI',sans-serif;padding:8px 10px;white-space:nowrap}
+.zr-compact .zr-scene-credit{font-size:10px;letter-spacing:.04em;color:var(--zr-paper-muted);font-weight:800;text-align:right}
+.zr-compact .zr-scene-stage{position:relative;flex:1;min-height:250px;display:grid;place-items:center}
+.zr-compact .zr-scene-orb{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);width:min(86%,350px,48vh);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 30%,var(--zr-orb-light),var(--zr-orb-mid) 69%,var(--zr-orb-edge));border:1px solid var(--zr-orb-outline);box-shadow:inset -18px -20px 40px rgba(109,67,42,.1),10px 16px 0 rgba(127,79,51,.06)}
+.zr-compact .zr-scene-orb::after{content:"";position:absolute;inset:18px;border-radius:50%;border:1px dashed rgba(128,83,55,.15)}
+.zr-compact .zr-scene-stitch{position:absolute;left:50%;top:49%;width:min(98%,395px,58vh);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);border:1px solid rgba(115,67,47,.065)}
+.zr-compact .zr-scene-mascot{position:relative;z-index:2;align-self:center;justify-self:center;display:grid;place-items:center;width:min(82%,290px);height:min(45vh,350px);padding:0;border:0;background:transparent;cursor:pointer;outline-offset:9px;transform:translateY(7px)}
+.zr-compact .zr-scene-mascot img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(3px 12px 3px rgba(55,36,30,.14));animation:zr-compact-breathe 3.75s ease-in-out infinite;transform-origin:50% 85%;user-select:none;-webkit-user-drag:none}
+.zr-compact .zr-scene-spark{position:absolute;z-index:2;top:18%;right:9%;color:#aa7957;font-size:32px;transform:rotate(15deg)}
+.zr-compact .zr-scene-heart{position:absolute;z-index:2;bottom:24%;left:8%;font-size:45px;color:#ab4053;transform:rotate(-9deg);text-shadow:3px 4px 0 #e4b58f}
+.zr-compact .zr-scene-bubble{position:absolute;z-index:3;top:16%;left:4%;padding:6px 10px;border-radius:12px;background:#fff9ed;box-shadow:0 3px 0 rgba(76,45,36,.1);font-size:13px;font-weight:800;opacity:0;transform:translateY(5px);transition:opacity .2s,transform .2s}
+.zr-compact .zr-scene-bubble.is-visible{opacity:1;transform:translateY(0)}
+.zr-compact .zr-scene-end{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 16px 15px}
+.zr-compact .zr-scene-pose{color:var(--zr-paper-muted);font-size:10px;font-weight:800;letter-spacing:.08em}
+.zr-compact .zr-scene-shortcuts{display:flex;gap:6px}
+.zr-compact .zr-scene-shortcuts button{width:37px;height:37px;display:grid;place-items:center;border:1px solid #d6b7a1;border-radius:12px;background:#fff4e5;color:#713f42;font-size:19px;box-shadow:0 3px 0 #c9aa91;cursor:pointer}
+.zr-compact .zr-scene-shortcuts svg{width:20px;height:20px}
+.zr-compact .zr-scene-shortcuts button:hover{transform:translateY(-2px)}
+@keyframes zr-compact-breathe{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+@media(min-width:851px) and (max-width:1180px){.zr-compact .zr-compact-left{padding-inline:clamp(22px,3vw,45px)}.zr-compact .zr-compact-headline{font-size:clamp(42px,5vw,62px)}.zr-compact .zr-scene-credit{display:none}}
+@media(max-width:850px){
+ .zr-compact .zr-compact-layout{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto clamp(205px,25svh,280px);min-height:calc(100svh - clamp(152px,18svh,186px) - 23px)}
+ .zr-compact .zr-compact-left{padding:18px clamp(18px,4vw,40px) 19px;min-height:400px}
+ .zr-compact .zrain-header__inner{display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:12px;row-gap:9px}
+ .zr-compact .zrain-brand{grid-column:1;grid-row:1;padding:0}
+ .zr-compact .zr-compact-tools{display:contents}
+ .zr-compact .zr-header-actions{grid-column:2;grid-row:1;justify-self:end;justify-content:flex-end;min-width:0;gap:5px}
+ .zr-compact .zr-compact-progress{grid-column:1/-1;grid-row:2;justify-self:stretch;width:100%;height:66px}
+ .zr-compact .zr-compact-hero{padding:12px 0 17px}
+ .zr-compact .zr-compact-headline{font-size:clamp(37px,8vw,67px);margin:12px 0 12px}
+ .zr-compact .zr-compact-scene{min-height:205px;border-left:0;border-top:1px solid rgba(101,58,43,.1)}
+ .zr-compact .zr-scene-top{position:absolute;left:0;right:0;top:0;padding:12px 19px}
+ .zr-compact .zr-scene-sticky{font-size:12px}.zr-compact .zr-scene-stage{min-height:0}
+ .zr-compact .zr-scene-orb{width:min(205px,30vh,47vw);top:53%}.zr-compact .zr-scene-stitch{width:min(232px,36vh,52vw);top:53%}
+ .zr-compact .zr-scene-mascot{width:175px;height:190px;max-height:95%}
+ .zr-compact .zr-scene-end{position:absolute;left:0;right:0;bottom:0;padding:0 16px 9px}
+ .zr-compact .zr-scene-spark{top:18%;right:28%;font-size:22px}.zr-compact .zr-scene-heart{left:24%;bottom:16%;font-size:34px}
+ .zr-compact .zr-compact-footer .zrain-footer__inner{padding-top:5px}
+}
+@media(max-width:560px){
+ .zr-compact .game-dock{width:calc(100% - 18px);margin:9px 9px 10px;height:clamp(160px,20svh,210px)}
+ .zr-compact .zr-compact-left{padding:12px 16px 16px;min-height:370px}
+ .zr-compact .zrain-brand__logo{height:34px;width:34px}.zr-compact .zrain-brand__name{font-size:27px}
+ .zr-compact .zr-sound-button{min-height:36px;width:36px;padding:0}.zr-compact .zr-sound-button span{display:none}
+ .zr-compact .zr-lang-switch{width:60px;height:36px;border-radius:11px}.zr-compact .zr-lang-en,.zr-compact .zr-lang-bm{font-size:9px}
+ .zr-compact .zr-theme-button{width:86px;height:36px}.zr-compact .zr-theme-knob{width:30px;height:30px;top:2px;left:2px;transform:translateX(51px)}
+ .zr-compact .zr-theme-button[data-day="true"] .zr-theme-knob{transform:translateX(0)}
+ .zr-compact .zr-theme-clouds::before{left:40px;top:8px}.zr-compact .zr-theme-clouds::after{left:54px;top:20px}
+ .zr-compact .zr-theme-stars{left:9px;top:7px}
+ .zr-compact .zr-compact-progress{height:61px}.zr-compact .zr-progress-number{height:36px;width:36px}.zr-compact .zr-progress-track{top:17px;left:17px;right:17px}
+ .zr-compact .zr-progress-step{min-width:56px}.zr-compact .zr-progress-name{font-size:10px}
+ .zr-compact .zr-compact-eyebrow{font-size:10px}.zr-compact .zr-compact-headline{font-size:clamp(34px,9vw,48px)}
+ .zr-compact .zr-compact-description{font-size:12px;line-height:1.6;margin-bottom:14px}
+ .zr-compact .zr-compact-cta{min-height:44px;padding:0 15px;font-size:12px}.zr-compact .zr-compact-text-action{font-size:12px}
+ .zr-compact .zr-compact-actions{gap:15px}.zr-compact .zr-compact-component-area{gap:8px}.zr-compact .zr-compact-field{min-width:120px;flex:1}
+ .zr-compact .zr-compact-contact{gap:6px}.zr-compact .zr-compact-contact :is(a,button){padding:6px 9px;font-size:11px;min-height:39px}
+ .zr-compact .zr-compact-contact small{font-size:9px}
+}
+@media(max-width:360px){.zr-compact .zrain-brand__logo{width:29px;height:29px}.zr-compact .zrain-brand__name{font-size:23px}.zr-compact .zr-lang-switch{width:53px}.zr-compact .zr-theme-button{width:75px;height:34px}.zr-compact .zr-theme-knob{width:28px;height:28px;transform:translateX(43px)}.zr-compact .zr-compact-hero{padding:8px 0}.zr-compact .zr-compact-headline{font-size:32px}.zr-compact .zr-compact-left{min-height:365px}.zr-compact .zr-compact-contact small{display:none}}
+@media(prefers-reduced-motion:reduce){.zr-compact .zr-scene-mascot img{animation:none}.zr-compact .zr-progress-fill,.zr-compact .zr-progress-number{transition:none}}
+
+/* A restrained, user-invoked dialog. The page remains compact. */
+.zr-compact-dialog{max-width:min(420px,calc(100vw - 32px));border:2px solid #784151;border-radius:22px;background:#fff5e9;color:#402a2b;padding:27px;box-shadow:0 13px 0 rgba(32,14,25,.35),0 28px 70px #24101790;font-family:'Candara','Cabin','Segoe UI',sans-serif}
+.zr-compact-dialog::backdrop{background:rgba(27,13,19,.7);backdrop-filter:blur(7px)}
+.zr-compact-dialog .zr-compact-dialog-overline{font-size:10px;letter-spacing:.11em;color:#936d59;font-weight:800;margin:0 0 12px}
+.zr-compact-dialog h2{font-size:clamp(27px,5vw,36px);line-height:1.05;letter-spacing:-.05em;margin:0 0 9px;font-weight:800}
+.zr-compact-dialog p:not(.zr-compact-dialog-overline){margin:0 0 20px;color:#805f55;font-size:13px}
+
+/* V4: A compact brand benchmark, not a duplicate 'About Zrain' page.
+   Preserve the approved V7.8 dark maroon, cream, warm brown, gold and Candara stack. */
+.zrain-experience.zr-compact-v4 .zr-compact-layout{grid-template-columns:minmax(0,75%) minmax(0,25%)}
+.zr-compact-v4 .zr-compact-aside{position:relative;min-width:0;overflow:hidden;isolation:isolate;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:13px;background:var(--zr-paper);border-left:1px solid rgba(101,58,43,.07);color:var(--zr-paper-ink)}
+.zr-compact-v4 .zr-compact-aside::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(0deg,transparent 0,transparent 54px,var(--zr-paper-line) 55px),repeating-linear-gradient(90deg,transparent 0,transparent 54px,var(--zr-paper-line) 55px);opacity:.42}
+.zr-compact-v4 .zr-compact-aside::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:url('data:image/webp;base64,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') center/340px;opacity:.053;mix-blend-mode:multiply}
+.zr-compact-v4 .zr-compact-aside-avatar{display:block;width:clamp(70px,8vw,118px);aspect-ratio:1;object-fit:contain;filter:drop-shadow(1px 6px 6px rgba(70,39,35,.12))}
+.zr-compact-v4 .zr-compact-aside-credit{font:800 11px 'Candara','Cabin','Segoe UI',sans-serif;color:var(--zr-paper-muted);letter-spacing:.045em}
+.zr-compact-v4 .zr-compact-footer .zrain-footer__copy small{font-size:11px;letter-spacing:0}
+.zr-compact-v4 .zr-compact-headline{max-width:720px;line-height:1.1;letter-spacing:-.068em}
+.zr-compact-v4 .zr-compact-description{max-width:590px;line-height:1.6;margin-bottom:22px}
+.zr-compact-v4 .zr-compact-component-area[hidden]{display:none!important}
+.zr-compact-v4 .zr-compact-component-area{margin:0 0 19px;max-width:540px}
+.zr-compact-v4 .zr-compact-actions{gap:22px}
+.zr-compact-v4 .zr-compact-cta{border-radius:15px}
+.zr-compact-v4 .zr-compact-progress{width:min(430px,100%)}
+/* Match the V7.8 sky and sun/moon exactly. The knob reaches the very end. */
+.zr-compact-v4 .zr-theme-button{--zr-toggle-width:108px;--zr-toggle-knob:37px;width:var(--zr-toggle-width);height:43px;background:linear-gradient(180deg,#8498bf 0%,#6981ab 100%);border:1px solid rgba(245,229,211,.22);border-radius:999px;overflow:hidden}
+.zr-compact-v4 .zr-theme-button[data-day="true"]{background:linear-gradient(180deg,#a9dcf4 0%,#8ccbe9 100%);border-color:rgba(86,55,49,.12)}
+.zr-compact-v4 .zr-theme-knob{width:var(--zr-toggle-knob);height:var(--zr-toggle-knob);top:2px;left:2px;transform:translateX(calc(var(--zr-toggle-width) - var(--zr-toggle-knob) - 5px));background:radial-gradient(circle at 35% 30%,#fff7db 0%,#efe0b1 58%,#d7c286 100%);box-shadow:0 2px 6px rgba(24,16,26,.26),inset -7px -4px 0 rgba(150,138,109,.18);transition:transform .42s cubic-bezier(.22,1,.36,1),background .3s}
+.zr-compact-v4 .zr-theme-button[aria-checked="true"] .zr-theme-knob{transform:translateX(calc(var(--zr-toggle-width) - var(--zr-toggle-knob) - 5px))}
+.zr-compact-v4 .zr-theme-button[data-day="true"] .zr-theme-knob,.zr-compact-v4 .zr-theme-button[aria-checked="false"] .zr-theme-knob{transform:translateX(0);background:radial-gradient(circle at 35% 30%,#fff3be 0%,#f1d27a 58%,#e4b85f 100%)}
+.zr-compact-v4 .zr-theme-knob::before{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,245,202,.36);opacity:.75}
+.zr-compact-v4 .zr-theme-clouds::before{width:41px;height:17px;left:48px;top:9px;border-radius:999px;background:rgba(255,250,245,.82);box-shadow:-20px 11px 0 3px rgba(255,250,245,.76)}
+.zr-compact-v4 .zr-theme-clouds::after{width:47px;height:19px;left:56px;top:auto;bottom:7px;border-radius:999px;background:rgba(255,250,245,.82);box-shadow:-28px 6px 0 4px rgba(255,250,245,.86)}
+.zr-compact-v4 .zr-theme-clouds{opacity:0}
+.zr-compact-v4 .zr-theme-button[data-day="true"] .zr-theme-clouds{opacity:1}
+.zr-compact-v4 .zr-theme-stars{position:absolute;inset:0;top:0;left:0;opacity:1;transition:opacity .28s}
+.zr-compact-v4 .zr-theme-button[data-day="true"] .zr-theme-stars{opacity:0}
+.zr-compact-v4 .zr-theme-stars i{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,246,212,.95);box-shadow:0 0 8px rgba(255,239,189,.72)}
+.zr-compact-v4 .zr-theme-stars i:nth-child(1){top:10px;left:55px}.zr-compact-v4 .zr-theme-stars i:nth-child(2){top:15px;left:74px;width:3px;height:3px}.zr-compact-v4 .zr-theme-stars i:nth-child(3){top:23px;left:89px;width:3px;height:3px}.zr-compact-v4 .zr-theme-stars i:nth-child(4){top:8px;left:87px;width:2px;height:2px}
+.zr-compact-v4 .zr-theme-button:hover{filter:brightness(1.04)}
+.zr-compact-v4 .zr-theme-button:focus-visible{outline:2px solid var(--zr-accent);outline-offset:3px}
+/* Game HUD, logo and navigation retain the V7.8 hierarchy. */
+.zr-compact-v4 .zr-compact-hero{padding-block:14px 17px}
+.zr-compact-v4 .zr-compact-eyebrow{font-size:11px}
+.zr-compact-v4 .zr-compact-headline{font-weight:760}
+.zr-compact-dialog .zr-compact-setup{white-space:pre-wrap;overflow-wrap:anywhere;max-height:165px;overflow:auto;border-radius:12px;background:#eadaca;padding:13px;font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:#4b2831;margin:0 0 15px}
+@media(max-width:850px){
+ .zrain-experience.zr-compact-v4 .zr-compact-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 74px}
+ .zr-compact-v4 .zr-compact-left{min-height:0}
+ .zr-compact-v4 .zr-compact-aside{min-height:74px;flex-direction:row;gap:12px;border-left:0;border-top:1px solid rgba(101,58,43,.08)}
+ .zr-compact-v4 .zr-compact-aside-avatar{width:47px;height:47px}
+ .zr-compact-v4 .zr-compact-aside-credit{font-size:12px}
+ .zr-compact-v4 .zr-compact-headline{font-size:clamp(39px,6.4vw,58px)}
+}
+@media(max-width:560px){
+ .zr-compact-v4 .zr-compact-left{padding:12px 16px 15px;min-height:0}
+ .zr-compact-v4 .zr-compact-hero{padding:16px 0 20px;justify-content:center}
+ .zr-compact-v4 .zr-compact-headline{font-size:clamp(34px,8.7vw,44px);margin:12px 0 14px}
+ .zr-compact-v4 .zr-compact-description{font-size:12px;line-height:1.52;margin-bottom:18px}
+ .zr-compact-v4 .zr-compact-component-area{margin-top:0;margin-bottom:13px;gap:7px}
+ .zr-compact-v4 .zr-compact-field{min-width:116px}
+ .zr-compact-v4 .zr-compact-actions{gap:14px}
+ .zr-compact-v4 .zr-compact-footer .zrain-footer__inner{padding-top:0}
+ .zr-compact-v4 .zr-theme-button{--zr-toggle-width:86px;--zr-toggle-knob:30px;height:36px}
+ .zr-compact-v4 .zr-theme-button[aria-checked="true"] .zr-theme-knob{transform:translateX(calc(var(--zr-toggle-width) - var(--zr-toggle-knob) - 5px))}
+}
+@media(max-width:360px){
+ .zr-compact-v4 .zr-theme-button{--zr-toggle-width:75px;--zr-toggle-knob:28px;height:34px}
+ .zr-compact-v4 .zr-theme-button[aria-checked="true"] .zr-theme-knob{transform:translateX(calc(var(--zr-toggle-width) - var(--zr-toggle-knob) - 5px))}
+ .zr-compact-v4 .zr-compact-headline{font-size:32px}
+ .zr-compact-v4 .zr-compact-left{padding-inline:14px}
+ .zr-compact-v4 .zr-compact-aside{min-height:64px}
+}
+@media(prefers-reduced-motion:reduce){.zr-compact-v4 .zr-theme-knob{transition:none}.zr-compact-v4 .zr-theme-clouds,.zr-compact-v4 .zr-theme-stars{transition:none}}
+/* Remove the legacy footer's 91px minimum that caused short phones to scroll. */
+.zr-compact-v4 .zr-compact-footer .zrain-footer__inner{min-height:28px!important}
+@media(min-width:851px){.zrain-experience.zr-compact-v4 .zr-compact-layout{grid-template-columns:minmax(0,80%) minmax(0,20%)}}
+@media(max-width:850px){.zr-compact-v4 .zr-compact-footer .zrain-footer__inner{min-height:25px!important}}
+@media(max-width:850px){
+ .zrain-experience.zr-compact-v4 .zr-compact-layout{grid-template-rows:minmax(0,1fr) 60px}
+ .zr-compact-v4 .zr-compact-aside{min-height:60px}
+ .zr-compact-v4 .zr-compact-aside-avatar{width:40px;height:40px}
+}
+@media(max-width:360px){.zr-compact-v4 .zr-compact-aside{min-height:60px}}
+@media(max-width:560px){
+ /* Match the actual game height at phone widths, not the older desktop clamp. */
+ .zrain-experience.zr-compact-v4 .zr-compact-layout{min-height:calc(100svh - clamp(160px,20svh,210px) - 19px)}
+}
+
+/* V4.1: no component showcase and no oversized identity panel.
+   Keep the approved Zrain palette, mini-game, header controls and progress motion. */
+.zrain-experience.zr-compact-v41 .zr-compact-layout{display:block;min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px)}
+.zr-compact-v41 .zr-compact-left{width:100%;min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px);padding-bottom:20px}
+.zr-compact-v41 .zr-compact-hero{max-width:850px;justify-content:center}
+.zr-compact-v41 .zr-compact-description{max-width:700px}
+.zr-compact-v41 .zr-compact-progress{width:min(430px,100%)}
+.zr-compact-v41 .zr-compact-footer{display:flex;align-items:center;width:100%;min-height:47px;margin:0;padding:6px clamp(16px,4vw,70px);background:var(--zr-paper);border-top:1px solid var(--zr-paper-line);color:var(--zr-paper-ink)}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__inner{display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:0!important;margin:0;padding:0!important}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__home{display:flex;flex-direction:row;align-items:center;gap:9px;color:var(--zr-paper-ink);text-decoration:none}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__copy{display:inline-flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:11px;flex-wrap:nowrap;width:auto;max-width:none;white-space:nowrap}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__copy strong{display:inline!important;color:var(--zr-paper-ink);font:800 12px/1.25 'Candara','Cabin','Segoe UI',sans-serif;white-space:nowrap}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__copy small{display:inline!important;color:var(--zr-paper-muted);font:600 11px/1.25 'Candara','Cabin','Segoe UI',sans-serif}
+.zr-compact-v41 .zr-compact-footer .zrain-footer__logo{display:block;width:29px;height:29px;object-fit:contain;border-radius:50%}
+@media(max-width:850px){
+  .zrain-experience.zr-compact-v41 .zr-compact-layout{display:block;min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px)}
+  .zr-compact-v41 .zr-compact-left{min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px)}
+  .zr-compact-v41 .zr-compact-hero{max-width:780px}
+}
+@media(max-width:560px){
+  .zrain-experience.zr-compact-v41 .zr-compact-layout{min-height:calc(100svh - clamp(160px,20svh,210px) - 19px - 47px)}
+  .zr-compact-v41 .zr-compact-left{min-height:calc(100svh - clamp(160px,20svh,210px) - 19px - 47px);padding-bottom:13px}
+  .zr-compact-v41 .zr-compact-footer{min-height:47px;padding:7px 13px}
+  .zr-compact-v41 .zr-compact-footer .zrain-footer__logo{width:25px;height:25px}
+  .zr-compact-v41 .zr-compact-footer .zrain-footer__copy{gap:8px;flex-wrap:nowrap}
+  .zr-compact-v41 .zr-compact-footer .zrain-footer__copy strong{font-size:11px}
+  .zr-compact-v41 .zr-compact-footer .zrain-footer__copy small{font-size:9.5px}
+  .zr-compact-v41 .zr-compact-progress{width:100%}
+}
+@media(max-width:360px){.zr-compact-v41 .zr-compact-footer .zrain-footer__copy small{font-size:8.5px}.zr-compact-v41 .zr-compact-footer .zrain-footer__copy strong{font-size:10px}.zr-compact-v41 .zr-compact-footer .zrain-footer__home{gap:6px}}
+
+html,body{margin:0;min-height:100%;background:#401d25}body{font-family:'Candara','Cabin','Segoe UI',sans-serif;overflow-x:hidden}*{box-sizing:border-box}
+/* V4.2: three useful contact destinations in content, never an extra header control. */
+.zr-compact-v41 .zr-compact-contact{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:16px 0 0}
+.zr-compact-v41 .zr-compact-contact :is(a,button){display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:32px;padding:6px 11px;border:1px solid var(--zr-shell-outline);border-radius:11px;background:var(--zr-shell-light);color:var(--zr-shell-ink);font:700 11px/1.1 'Candara','Cabin','Segoe UI',sans-serif;text-decoration:none;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.zr-compact-v41 .zr-compact-contact :is(a,button):hover{transform:translateY(-2px);border-color:var(--zr-headline-accent)}
+.zr-compact-v41 .zr-compact-contact :is(a,button):focus-visible{outline:2px solid #d4ae6a;outline-offset:3px}
+.zr-compact-v41 .zr-compact-contact svg{width:16px;height:16px;flex:none;color:var(--zr-headline-accent)}
+@media(max-width:560px){.zr-compact-v41 .zr-compact-contact{margin-top:12px;gap:6px}.zr-compact-v41 .zr-compact-contact :is(a,button){padding:6px 9px;min-height:31px;font-size:10.5px}}
+@media(max-width:360px){.zr-compact-v41 .zr-compact-contact svg{width:14px;height:14px}.zr-compact-v41 .zr-compact-contact :is(a,button){padding:5px 7px;min-height:29px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.zr-compact-v41 .zr-compact-contact :is(a,button){transition:none}}
+
+
+/* V4.3: the exact double-line, soft raised action style used by the Ecosystem.
+   One common strip immediately above the existing 47px footer, never inside page content. */
+.zrain-experience.zr-compact-v43{--zr-contact-height:72px}
+.zr-compact-v43 .zr-compact-contact{
+  width:100%;min-height:var(--zr-contact-height);margin:0;padding:10px clamp(16px,4vw,70px);
+  display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:nowrap;
+  border-top:1px solid var(--zr-shell-line);background:var(--zr-shell);color:var(--zr-shell-ink);
+}
+.zr-compact-v43 .zr-compact-contact :is(a,button){
+  display:inline-flex;align-items:center;justify-content:flex-start;gap:9px;flex:0 1 auto;
+  min-height:44px;max-width:100%;padding:7px 12px;
+  border:1px solid var(--zr-shell-line);border-radius:13px;
+  background:var(--zr-shell-soft);color:var(--zr-shell-ink);
+  font:760 12px/1.1 'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;
+  text-align:left;text-decoration:none;box-shadow:0 3px 0 rgba(23,10,16,.075);
+  cursor:pointer;transition:transform .2s cubic-bezier(.22,1,.36,1),background .2s ease,box-shadow .2s cubic-bezier(.22,1,.36,1);
+}
+.zr-compact-v43 .zr-compact-contact :is(a,button):hover{
+  background:rgba(212,174,106,.14);transform:translateY(-2px);box-shadow:0 5px 0 rgba(23,10,16,.1);
+}
+.zr-compact-v43 .zr-compact-contact :is(a,button):active{transform:translateY(1px);box-shadow:0 1px 0 rgba(23,10,16,.1)}
+.zr-compact-v43 .zr-compact-contact :is(a,button):focus-visible{outline:3px solid #d4ae6a;outline-offset:3px}
+.zr-compact-v43 .zr-compact-contact svg{width:20px;height:20px;flex:none;color:var(--zr-accent)}
+.zr-compact-v43 .zr-compact-contact span{display:flex;flex-direction:column;gap:2px;line-height:1.1;white-space:nowrap}
+.zr-compact-v43 .zr-compact-contact strong{font:inherit;font-weight:760}
+.zr-compact-v43 .zr-compact-contact small{display:block;color:var(--zr-shell-muted);font-size:10px;line-height:1.1;font-weight:500;letter-spacing:0}
+/* Make room for the contact strip without turning the short Zrain UI page into a long catalogue. */
+.zrain-experience.zr-compact-v43 .zr-compact-layout{min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px - var(--zr-contact-height))}
+.zr-compact-v43 .zr-compact-left{min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px - var(--zr-contact-height))}
+@media(max-width:850px){.zrain-experience.zr-compact-v43 .zr-compact-layout,.zr-compact-v43 .zr-compact-left{min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - 47px - var(--zr-contact-height))}}
+@media(max-width:560px){
+ .zrain-experience.zr-compact-v43{--zr-contact-height:65px}
+ .zr-compact-v43 .zr-compact-contact{gap:6px;padding:8px 13px}
+ .zr-compact-v43 .zr-compact-contact :is(a,button){gap:6px;min-height:42px;padding:7px 9px;font-size:10.5px;border-radius:10px}
+ .zr-compact-v43 .zr-compact-contact svg{width:16px;height:16px}
+ .zr-compact-v43 .zr-compact-contact small{display:block;font-size:8.5px}
+ .zrain-experience.zr-compact-v43 .zr-compact-layout,.zr-compact-v43 .zr-compact-left{min-height:calc(100svh - clamp(160px,20svh,210px) - 19px - 47px - var(--zr-contact-height))}
+}
+@media(max-width:360px){
+ .zr-compact-v43 .zr-compact-contact{gap:5px;padding:7px 12px}
+ .zr-compact-v43 .zr-compact-contact :is(a,button){min-height:36px;padding:6px 7px;gap:5px;font-size:10px}
+ .zr-compact-v43 .zr-compact-contact svg{width:15px;height:15px}
+ .zr-compact-v43 .zr-compact-contact small{display:none}
+}
+@media(prefers-reduced-motion:reduce){.zr-compact-v43 .zr-compact-contact :is(a,button){transition:none}}
+
+
+
+/* V4.5: a single ivory footer with six draggable mascot stickers.
+   Stickers can roam through the product content up to the Zrain header,
+   but never over the mini game area. */
+.zrain-experience.zr-compact-v44{--zr-contact-height:0px;--zr-footer-height:67px}
+.zr-compact-v44 .zr-experience-top{position:relative}
+.zr-compact-v44 .zr-compact-footer{
+ position:relative;display:flex;align-items:center;z-index:5;
+ width:100%;min-height:var(--zr-footer-height);margin:0;padding:11px clamp(16px,3.5vw,48px);
+ border-top:1px solid var(--zr-paper-line);border-radius:0;
+ background:var(--zr-paper);color:var(--zr-paper-ink);overflow:visible;
+}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__inner{
+ width:100%;display:flex;align-items:center;justify-content:space-between;
+ flex-wrap:nowrap;gap:15px;min-height:0!important;padding:0!important;margin:0!important;
+}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__identity{flex:0 1 auto;min-width:0}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__home{white-space:nowrap}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__copy{gap:9px}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__copy strong{font-size:11px}
+.zr-compact-v44 .zr-compact-footer .zrain-footer__copy small{font-size:10px}
+.zr-compact-v44 .zr-compact-contact{
+ flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;
+ gap:6px;width:auto;min-height:0;margin:0;padding:0;
+ background:transparent;border:0;box-shadow:none;
+}
+.zr-compact-v44 .zr-compact-contact :is(a,button){
+ display:inline-flex;justify-content:flex-start;align-items:center;gap:6px;
+ padding:6px 9px;min-height:37px;max-width:none;
+ border:1px solid rgba(105,58,72,.19);border-radius:11px;
+ background:#5d2b3a;color:#f8eadb;box-shadow:0 2px 0 rgba(63,31,40,.21);
+ font:750 10.5px/1.1 'Candara','Cabin','Segoe UI','Trebuchet MS',sans-serif;
+}
+.zr-compact-v44 .zr-compact-contact :is(a,button):hover{background:#743a4b;box-shadow:0 4px 0 rgba(63,31,40,.17)}
+.zr-compact-v44 .zr-compact-contact svg{width:16px;height:16px;color:#e4ba76}
+.zr-compact-v44 .zr-compact-contact small{color:#d5c0b4;font-size:9px}
+.zr-compact-v44 .zr-compact-contact span{gap:2px}
+.zr-compact-v44 .zr-sticker-field{
+ position:absolute;z-index:7;left:0;right:0;top:0;bottom:0;
+ pointer-events:none;overflow:hidden;
+}
+.zr-compact-v44 .zr-sticker{
+ position:absolute;left:0;top:0;width:43px;height:51px;display:grid;place-items:center;padding:0;
+ border:0;background:transparent;cursor:grab;touch-action:none;pointer-events:auto;
+ transform:translate(var(--zr-x,0px),var(--zr-y,0px)) rotate(var(--zr-tilt,0deg));
+ user-select:none;-webkit-user-select:none;
+}
+.zr-compact-v44 .zr-sticker img{
+ width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;
+ filter:drop-shadow(1px 0 0 #fff1de) drop-shadow(-1px 0 0 #fff1de) drop-shadow(0 -1px 0 #fff1de) drop-shadow(0 1px 0 #fff1de) drop-shadow(0 3px 2px rgba(57,28,39,.28));
+}
+.zr-compact-v44 .zr-sticker:focus-visible{z-index:3}
+.zr-compact-v44 .zr-sticker.is-dragging{cursor:grabbing;z-index:8}
+.zr-compact-v44 .zr-sticker:focus-visible{outline:2px dashed #d4ae6a;outline-offset:2px;border-radius:10px}
+.zrain-experience.zr-compact-v44 .zr-compact-layout{
+ min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - var(--zr-footer-height));
+}
+.zr-compact-v44 .zr-compact-left{
+ min-height:calc(100svh - clamp(152px,18svh,186px) - 23px - var(--zr-footer-height));
+ padding-bottom:17px;
+}
+@media(max-width:1070px){
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__inner{flex-wrap:wrap;justify-content:center;gap:9px}
+ .zr-compact-v44 .zr-compact-contact{justify-content:center}
+ .zrain-experience.zr-compact-v44{--zr-footer-height:100px}
+}
+@media(max-width:560px){
+ .zrain-experience.zr-compact-v44{--zr-footer-height:91px}
+ .zr-compact-v44 .zr-compact-footer{padding:7px 9px 8px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__inner{display:flex;flex-direction:column;gap:7px;align-items:center}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__logo{width:22px;height:22px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__copy{gap:6px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__copy strong{font-size:10.5px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__copy small{font-size:9px}
+ .zr-compact-v44 .zr-compact-contact{flex-wrap:nowrap;gap:5px}
+ .zr-compact-v44 .zr-compact-contact :is(a,button){min-height:34px;padding:5px 8px;gap:6px;border-radius:10px;font-size:10px}
+ .zr-compact-v44 .zr-compact-contact svg{width:16px;height:16px}
+ .zr-compact-v44 .zr-compact-contact small{font-size:8.5px;display:block}
+ .zr-compact-v44 .zr-sticker{width:38px;height:47px}
+ .zrain-experience.zr-compact-v44 .zr-compact-layout,
+ .zr-compact-v44 .zr-compact-left{min-height:calc(100svh - clamp(160px,20svh,210px) - 19px - var(--zr-footer-height))}
+ .zr-compact-v44 .zr-compact-left{padding-bottom:15px}
+}
+@media(max-width:360px){
+ .zrain-experience.zr-compact-v44{--zr-footer-height:87px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__copy strong{font-size:10px}
+ .zr-compact-v44 .zr-compact-footer .zrain-footer__copy small{font-size:8.3px}
+ .zr-compact-v44 .zr-compact-contact :is(a,button){padding:5px 6px;gap:4px;font-size:9.5px}
+ .zr-compact-v44 .zr-compact-contact svg{width:14px;height:14px}
+ .zr-compact-v44 .zr-compact-contact small{font-size:8px}
+ .zr-compact-v44 .zr-sticker{width:36px;height:43px}
+}
+@media(prefers-reduced-motion:reduce){.zr-compact-v44 .zr-sticker{transition:none!important}}
+
+
+/* V4.5.7: Natural layout. The product view has a flexible minimum of one viewport;
+   the single footer follows it in normal document flow, with ordinary scrolling. */
+.zr-compact-v44 .zr-compact-stage{
+ display:flex;flex-direction:column;min-height:100svh;
+}
+.zrain-experience.zr-compact-v44 .zr-compact-stage .zr-compact-layout{
+ display:flex;flex:1 0 auto;min-height:0;
+}
+.zr-compact-v44 .zr-compact-stage .zr-compact-left{
+ width:100%;flex:1 0 auto;min-height:0;
+}
+@media(min-width:980px){
+ .zr-compact-v44 .zr-compact-left{padding:clamp(16px,2.6svh,28px) clamp(22px,4.8vw,80px) 34px}
+ .zr-compact-v44 .zr-compact-tools{flex-direction:row-reverse;align-items:center;gap:clamp(14px,2vw,28px)}
+ .zr-compact-v44 .zr-compact-progress{flex:1 1 300px;max-width:410px;height:61px}
+ .zr-compact-v44 .zr-header-actions{flex:none}
+ .zr-compact-v44 .zr-compact-hero{padding-block:12px 20px}
+ .zr-compact-v44 .zr-compact-headline{font-size:clamp(42px,4.1vw,64px);line-height:1.055;margin:15px 0 14px}
+ .zr-compact-v44 .zr-compact-description{line-height:1.55;margin-bottom:19px}
+}
+
+
+/* V4.5.8: shared shell dimensions. A product page may grow, but cannot resize
+   the Zrain Run dock, navigation header, or the single footer. Breakpoints are
+   viewport-specific; all pages/products at the same width share the same size. */
+.zrain-experience.zr-compact-v44{
+ --zr-game-height:152px;
+ --zr-header-height:61px;
+}
+.zr-compact-v44 .game-dock{
+ height:var(--zr-game-height);
+ min-height:var(--zr-game-height);
+ max-height:var(--zr-game-height);
+ flex-shrink:0;
+}
+.zr-compact-v44 .zrain-header{
+ height:var(--zr-header-height);
+ min-height:var(--zr-header-height);
+ max-height:var(--zr-header-height);
+ flex:none;
+}
+.zr-compact-v44 .zr-compact-footer{
+ height:var(--zr-footer-height);
+ min-height:var(--zr-footer-height);
+ max-height:var(--zr-footer-height);
+ flex:none;
+}
+@media(max-width:979px){.zrain-experience.zr-compact-v44{--zr-header-height:127px}}
+@media(max-width:850px){.zrain-experience.zr-compact-v44{--zr-header-height:118px}}
+@media(max-width:560px){.zrain-experience.zr-compact-v44{--zr-header-height:106px;--zr-game-height:160px}}
+
+
+/* Complete-footer reveal on desktop. The fixed-height footer never changes
+   size; a nearby scroll settles with the whole footer visible. Longer product
+   content still scrolls normally because snapping is proximity-only. */
+@media (min-width:980px){
+  html:has(.zr-compact-v44){scroll-snap-type:y proximity}
+  .zr-compact-v44 .zr-compact-stage{scroll-snap-align:start}
+  .zr-compact-v44 .zr-compact-footer{scroll-snap-align:end}
+}
+
+/* V4.5.10: gentle sky-switch animation, without changing the shared shell dimensions. */
+.zr-theme-button{transition:background .6s ease,box-shadow .35s ease;}
+.zr-theme-button .zr-theme-clouds{transform:translateY(7px) scale(.92);transition:opacity .48s ease,transform .62s cubic-bezier(.2,1,.3,1);}
+.zr-theme-button[data-day="true"] .zr-theme-clouds{transform:translateY(0) scale(1);}
+.zr-theme-button .zr-theme-stars{transform:translateY(0) scale(1);transition:opacity .4s ease,transform .58s cubic-bezier(.2,1,.3,1);}
+.zr-theme-button[data-day="true"] .zr-theme-stars{transform:translateY(5px) scale(.75);}
+.zr-theme-button .zr-theme-knob{transition:transform .62s cubic-bezier(.23,1.16,.36,1),background .55s ease,box-shadow .5s ease;}
+.zr-theme-button .zr-theme-knob::after{content:"";position:absolute;inset:-2px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,236,172,.13),0 0 14px rgba(255,238,172,.2);pointer-events:none;transition:box-shadow .6s ease;}
+.zr-theme-button[data-day="true"] .zr-theme-knob::after{box-shadow:0 0 0 4px rgba(255,238,174,.28),0 0 15px rgba(255,235,157,.35);}
+@keyframes zr-sky-twinkle{from{opacity:.48;transform:scale(.83)}to{opacity:1;transform:scale(1.1)}}
+.zr-theme-button:not([data-day="true"]) .zr-theme-stars i{animation:zr-sky-twinkle 2.7s ease-in-out infinite alternate;}
+.zr-theme-button .zr-theme-stars i:nth-child(2){animation-delay:.7s}
+.zr-theme-button .zr-theme-stars i:nth-child(3){animation-delay:1.4s}
+.zr-theme-button .zr-theme-stars i:nth-child(4){animation-delay:2.1s}
+@media(prefers-reduced-motion:reduce){.zr-theme-button,.zr-theme-button .zr-theme-clouds,.zr-theme-button .zr-theme-stars,.zr-theme-button .zr-theme-knob,.zr-theme-button .zr-theme-knob::after{transition:none!important}.zr-theme-button .zr-theme-stars i{animation:none!important}}
+
+
+/* V4.5.10: deliberate micro-motion only on the theme, primary button and page choice. */
+.zr-compact-v44 .zr-theme-button .zr-theme-knob{transition:transform .62s cubic-bezier(.23,1.16,.36,1),background .55s ease,box-shadow .5s ease}
+.zr-compact-v44 .zr-compact-cta svg{transition:transform .2s ease}
+.zr-compact-v44 .zr-compact-cta:hover svg{transform:translate(2px,-2px)}
+.zr-compact-v44 .zr-progress-step.is-current .zr-progress-number{animation:zr-progress-settle .3s cubic-bezier(.2,1,.3,1)}
+@keyframes zr-progress-settle{from{scale:.91}65%{scale:1.08}to{scale:1}}
+@media(prefers-reduced-motion:reduce){.zr-compact-v44 .zr-theme-button .zr-theme-knob,.zr-compact-v44 .zr-compact-cta svg{transition:none!important}.zr-compact-v44 .zr-progress-step.is-current .zr-progress-number{animation:none}}
+
+
+/* Feedback uses the registered product's real Community iframe in document flow.
+   The fixed game/header/footer sizing is intentionally unchanged. */
+.zr-compact-v44 .zr-compact-hero.is-feedback{
+ display:block;flex:1 0 auto;width:100%;max-width:none;padding-block:12px 20px;
+}
+.zr-compact-v44 .zr-compact-hero.is-feedback .zr-compact-headline{
+ font-size:clamp(31px,3.2vw,48px);margin:11px 0 9px;
+}
+.zr-compact-v44 .zr-compact-hero.is-feedback .zr-compact-description{
+ max-width:740px;margin-bottom:13px;
+}
+.zr-compact-v44 .zr-inline-feedback{width:100%;max-width:1060px;min-width:0;margin:0 0 16px;}
+.zr-compact-v44 .zr-inline-feedback__toolbar{
+ display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+ margin-bottom:9px;color:var(--zr-shell-muted);font-size:12px;
+}
+.zr-compact-v44 .zr-inline-feedback__toolbar a{color:var(--zr-accent);text-decoration:underline;text-underline-offset:3px;}
+.zr-compact-v44 .zr-inline-feedback iframe{
+ display:block;width:100%;height:520px;min-height:520px;border:1px solid var(--zr-shell-line);
+ border-radius:15px;background:#f9efe5;
+}
+@media(max-width:560px){
+ .zr-compact-v44 .zr-compact-hero.is-feedback .zr-compact-headline{font-size:31px;}
+ .zr-compact-v44 .zr-inline-feedback iframe{border-radius:12px;}
+}
+
+
+/* A long embedded discussion must scroll naturally, not snap to the short footer. */
+@media(min-width:980px){html:has(.zr-compact[data-feedback-active="true"]){scroll-snap-type:none}}

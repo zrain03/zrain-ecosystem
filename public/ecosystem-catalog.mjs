@@ -42,29 +42,30 @@ function clean(value,max) {
   const x=value.trim();
   return x && x.length<=max ? x : null;
 }
-function websiteFor(row,known) {
+export function websiteFor(row,known) {
   // GitHub/Play Store actions are source links rather than embeddable sites.
   if(['CONSOLE','WEBSITE','SHOWCASE','DOCUMENTATION'].includes(row.primaryAction))
     return https(row.primaryUrl) || known?.url || null;
-  if (known?.url) return known.url;
-  return https(row.secondaryUrl);
+  const secondary = https(row.secondaryUrl);
+  if (secondary && !['github.com','play.google.com'].includes(new URL(secondary).hostname)) return secondary;
+  return known?.url || null;
 }
-export function reconcilePublishedCatalog(rows,source=SOURCE) {
+export function reconcilePublishedCatalog(rows,source=SOURCE,{managedTools=false}={}) {
   if(!Array.isArray(rows))throw new TypeError('Public catalog must be an array');
-  const projects=new Map(source.filter(x=>x.kind==='project').map(x=>[x.id,x]));
+  const entries=new Map(source.map(x=>[x.id,x]));
   const tools=source.filter(x=>x.kind==='tool');
   const mapped=[];
   const seen=new Set();
   for(const row of rows) {
     if(!row || row.status!=='PUBLISHED' || !ALLOWED.has(row.category))continue;
     const slug=clean(row.slug,80);
-    if(!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || seen.has(slug) || OMIT_FAMILIES.has(slug))continue;
-    // Never let the backend replace an actual compiled tool's route.
-    if (tools.some(t=>t.id===slug))continue;
+    if(!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || seen.has(slug) ||
+      slug==='zrain-console' || (!managedTools && OMIT_FAMILIES.has(slug)))continue;
+    if (!managedTools && entries.get(slug)?.kind==='tool')continue;
     const name=clean(row.name,100);
     const description=clean(row.description,300);
     if(!name || !description)continue;
-    const known=projects.get(slug);
+    const known=entries.get(slug);
     const url=websiteFor(row,known);
     if(!url)continue;
     seen.add(slug);
@@ -72,7 +73,8 @@ export function reconcilePublishedCatalog(rows,source=SOURCE) {
     const secondaryGithub=https(row.secondaryUrl)?.startsWith('https://github.com/zrain03/');
     mapped.push(Object.freeze({
       id:slug,name,description,category:categoryFromWorker(row.category,known?.category),
-      kind:'project',url,
+      kind:row.kind==='tool'||known?.kind==='tool'?'tool':'project',url,
+      logoUrl:https(row.logoUrl) || (/^\/(?!\/)[a-z0-9_./-]+$/i.test(row.logoUrl || '') ? row.logoUrl : null),
       keywords:known?.keywords||[name,description].join(' '),
       repoUrl:known?.repoUrl||(isGithub?https(row.primaryUrl):secondaryGithub?https(row.secondaryUrl):null)
     }));
@@ -80,7 +82,7 @@ export function reconcilePublishedCatalog(rows,source=SOURCE) {
   // A successful public response is authoritative for managed projects;
   // Draft/archived/deleted entries are not displayed or counted.
   return Object.freeze([
-    ...tools,
+    ...(managedTools?[]:tools),
     ...mapped
   ]);
 }
@@ -95,8 +97,8 @@ export function subscribeCatalog(callback) {
   listeners.add(callback);
   return ()=>listeners.delete(callback);
 }
-export function setPublishedCatalog(rows) {
-  const next=reconcilePublishedCatalog(rows);
+export function setPublishedCatalog(rows,options) {
+  const next=reconcilePublishedCatalog(rows,SOURCE,options);
   current=next;
   const stats=inventoryStats(next);
   for(const listener of [...listeners])listener(next,stats);
@@ -114,10 +116,14 @@ export async function refreshPublicCatalog(fetcher=fetch,{minAge=30000,signal}={
     const timeout=setTimeout(()=>controller.abort(),6500);
     try {
       const result=await fetcher(PUBLIC_CATALOG_URL,{headers:{Accept:'application/json'},cache:'no-store',signal:signal||controller.signal});
+      if(result.status===404) {
+        lastRefresh=Date.now();
+        return setPublishedCatalog([],{managedTools:true});
+      }
       if(!result.ok)throw new Error('Catalog unavailable');
       const body=await result.json();
       if(!Array.isArray(body))throw new Error('Unexpected catalog payload');
-      const stats=setPublishedCatalog(body);
+      const stats=setPublishedCatalog(body,{managedTools:true});
       lastRefresh=Date.now();
       return stats;
     } catch {
