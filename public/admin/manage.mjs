@@ -13,7 +13,7 @@
  */
 import { INVENTORY, CATEGORIES } from '../ecosystem-inventory.mjs';
 import {getActiveInventory, setPublishedCatalog, inventoryStats} from '../ecosystem-catalog.mjs';
-import {logoFor, previewLinkHref, sortedByName} from '../ecosystem-links.mjs';
+import {logoFor, sortedByName} from '../ecosystem-links.mjs';
 import {categoryFromWorker, categoryToWorker, visibleManagedProject} from './manage-core.mjs';
 
 const API = 'https://zrain-ecosystem-catalog.zrain-dev.workers.dev';
@@ -178,9 +178,12 @@ function render() {
       item.kind === 'tool' ? 'Source-managed' : item.status==='PUBLISHED'?'Published':item.status==='DRAFT'?'Draft':'Archived'));
     copy.append(tags);
     const buttons=el('div','entry-actions');
-    const product=rowLink(item);
-    const canonical = getActiveInventory().find(entry => entry.id === item.id);
-    const previewHref = canonical ? previewLinkHref(canonical) : null;
+    const destination = rowLink(item);
+    let previewHref = null;
+    try {
+      const url = new URL(destination || '', location.origin);
+      if (destination && ['http:', 'https:'].includes(url.protocol)) previewHref = url.href;
+    } catch {}
     if (item.status === 'PUBLISHED' && previewHref) {
       const preview=el('a','', 'Web App ↗');preview.href=previewHref;preview.target='_blank';preview.rel='noopener noreferrer';buttons.append(preview);
     }
