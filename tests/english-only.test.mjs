@@ -70,3 +70,15 @@ test('homepage English compatibility API no longer depends on Malay lookup dicti
   assert.equal(api.product({description:'Description'}),'Description');assert.equal(api.view('hello'),null);
   const pose={name:'Waving'};assert.equal(api.pose('wave',pose),pose);assert.equal(api.world(0,'Morning'),'Morning');
 });
+
+test('legacy shared views retain English content without Malay dictionaries',()=>{
+  for(const path of ['public/zrain-ui-showcase.html','public/ui/v1/header-v4514.html','public/ui/v1/footer-v4514.html']) {
+    const html=read(path),start=html.indexOf('const defaultViews = ['),end=html.indexOf('const localize=',start);
+    assert.ok(start>=0 && end>start,path);
+    const block=html.slice(start,end);
+    assert.doesNotMatch(block,/\b(?:bm|labelBM):/,path);
+    const data=vm.runInNewContext(block+';({defaultViews,feedbackView})');
+    assert.equal(data.defaultViews[0].eyebrow.en,'01 / WHAT ZRAIN UI DOES',path);
+    assert.equal(data.feedbackView.headline[0].en,'Your voice.',path);
+  }
+});
