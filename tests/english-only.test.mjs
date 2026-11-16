@@ -59,3 +59,14 @@ test('legacy showcases and shared runtime ignore saved Malay and language reques
     assert.equal(api.getLanguage(),'en',path);assert.equal(saved,'en',path);assert.equal(notified,'en',path);assert.equal(dispatched,'en',path);
   }
 });
+
+test('homepage English compatibility API no longer depends on Malay lookup dictionaries',()=>{
+  const html=read('public/index.html');
+  for(const name of ['viewsBM','categoryBM','productsBM','poseBM','worldBM','poseNames']) assert.doesNotMatch(html,new RegExp('const '+name+'\\s*='));
+  const block=html.match(/const api=\{get lang\(\)\{return lang\}[\s\S]*?window\.ZrainI18n=api;/)?.[0];
+  assert.ok(block);
+  const api=vm.runInNewContext('(()=>{let lang="en";const text=x=>x;const setLanguage=()=>{};let window={};'+block+'return window.ZrainI18n})()');
+  assert.equal(api.t('Hello','Hai'),'Hello');assert.equal(api.cat({id:'images',name:'Images'}),'Images');
+  assert.equal(api.product({description:'Description'}),'Description');assert.equal(api.view('hello'),null);
+  const pose={name:'Waving'};assert.equal(api.pose('wave',pose),pose);assert.equal(api.world(0,'Morning'),'Morning');
+});

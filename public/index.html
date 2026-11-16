@@ -2698,143 +2698,67 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
 (()=>{
   'use strict';
   const $=id=>document.getElementById(id);
-  const viewsBM={
-    hello:{eyebrow:'Hai, inilah Zrain',heading:['Dibuat untuk manusia.','Dibina dengan tujuan.'],description:'Jemput lihat-lihat. Ada seseorang nak menyapa.',primary:'Sapa dia',secondary:'Jom teroka',sticky:'Oh, hai!',note:'tekan saya!'},
-    studio:{eyebrow:'02 / Bengkel Zrain',heading:['Ruang','Karya.'],description:'Cari sesuatu yang berguna atau sekadar menyeronokkan.',primary:'Teroka alat',secondary:'Kenali maskot',sticky:'Nak buat apa hari ini?',note:'psst...'},
-    about:{eyebrow:'Kenali Zrain',heading:['Oh, itu','saya!'],description:'Seorang pembangun dari Malaysia yang menghasilkan perkara yang saya minati dan berkongsinya dengan dunia. Ada yang berguna, ada yang sekadar untuk berseronok. Jemputlah lihat-lihat.',primary:'Buat dia senyum',secondary:'Kembali ke awal',sticky:'Itulah saya!',note:'hai!'}
-  };
-  const categoryBM={
-    images:{name:'Alat Imej',short:'Alat Imej'},pdf:{name:'Alat PDF',short:'Alat PDF'},documents:{name:'Alat Dokumen',short:'Dokumen'},
-    games:{name:'Permainan & Pembelajaran Interaktif',short:'Permainan'},ai:{name:'Kecerdasan Buatan',short:'AI'},
-    art:{name:'Seni Digital & Reka Bentuk Kreatif',short:'Seni Digital'},
-    'developer-infra':{name:'Infrastruktur Pembangun & SDK',short:'SDK Pembangun'},
-    'developer-utilities':{name:'Utiliti Pembangun & Keselamatan',short:'Utiliti Dev'},
-    web:{name:'Alat Web & Pautan',short:'Web & Pautan'},
-    monitoring:{name:'Pemantauan & Operasi',short:'Pemantauan'},
-    productivity:{name:'Produktiviti & Alat Perniagaan',short:'Kerja & Bisnes'},
-    all:{name:'Semua produk',short:'Semua produk'}
-  };
-  const productsBM={
-    'Guess The Flag':'Cabaran geografi dan bendera daripada 193 negara.',
-    'Memory Rush':'Latih ingatan dengan Grid, Nombor dan Corak.',
-    'Zrain AI':'Pembantu berbilang bahasa untuk chat, penyelidikan dan alat.',
-    'Add Image Watermark':'Tambah tera air berbentuk teks pada imej.',
-    'Background Remover':'Buang latar belakang imej.',
-    'Color Picker & Inspector':'Periksa warna imej, HEX dan RGB.',
-    'Compare Images':'Bandingkan imej untuk melihat perbezaan visual.',
-    'Compress Image':'Kecilkan saiz fail dan pratonton hasilnya.',
-    'Extract Text from Image':'Baca teks daripada imej menggunakan OCR.',
-    'Image Converter':'Tukar format imej.',
-    'Image Cropper':'Potong imej dan lihat pratonton.',
-    'Image Enhancer':'Besarkan resolusi imej dan perjelas bahagian tepi.',
-    'Image Metadata Viewer':'Periksa sifat serta metadata imej.',
-    'Resize Image':'Ubah saiz imej kepada dimensi pilihan.',
-    'Rotate & Flip Image':'Putar atau terbalikkan imej.',
-    'Add Text to PDF':'Tambah teks pada halaman PDF tanpa mengubah teks asal.',
-    'Crop PDF':'Potong margin halaman dalam milimeter.',
-    'JPG & PNG to PDF':'Hasilkan dokumen PDF daripada imej JPG atau PNG.',
-    'Merge PDF':'Gabungkan dua atau lebih fail PDF.',
-    'PDF Page Numbers':'Tambah nombor halaman, termasuk pilihan langkau muka depan.',
-    'PDF to Images':'Tukar halaman PDF kepada imej.',
-    'PDF to Text':'Ekstrak teks PDF yang boleh dipilih sebagai fail TXT.',
-    'PDF Watermark':'Letakkan tera air teks pada halaman PDF.',
-    'Rearrange PDF Pages':'Susun semula, putar atau buang halaman PDF terpilih.',
-    'Remove PDF Pages':'Buang halaman terpilih sambil mengekalkan yang lain.',
-    'Rotate PDF':'Putar halaman PDF tanpa merender semula.',
-    'Split PDF':'Eksport halaman PDF terpilih sebagai fail berasingan.',
-    'CSV Cleaner':'Kemas medan dan buang baris pendua dalam jadual.',
-    'File Converter':'Tukar PDF, Word dan imej menggunakan pilihan tersedia.',
-    'Collage Maker':'Susun gambar menjadi sebuah kolaj.',
-    'Image to ASCII Art':'Hasilkan seni aksara teks daripada imej.',
-    'Image to Binary Art':'Hasilkan karya nombor 0 dan 1 daripada imej.',
-    'Image to Block Art':'Hasilkan seni blok aksara berlorek daripada imej.',
-    'Image to Emoji Art':'Hasilkan seni piksel seakan emoji daripada imej.',
-    'Image to Pixel Art':'Tukar imej menjadi karya seni piksel.',
-    'Zrain Auth Starter':'Asas pengesahan Java Spring Boot yang boleh diguna semula dengan JWT dan akses berasaskan peranan.',
-    'Zrain Community':'Sistem komen, maklum balas dan komuniti yang boleh digunakan semula.',
-    'Zrain UI':'Komponen antaramuka bersama untuk aplikasi Zrain.',
-    'Base64 Converter':'Kod dan nyahkod teks Base64.',
-    'CSS Shadow Generator':'Pratonton dan salin bayang CSS.',
-    'JSON Formatter & Validator':'Format dan semak kesahan JSON.',
-    'JWT Decoder':'Periksa pengepala dan kandungan JWT.',
-    'Markdown Editor':'Tulis Markdown dengan pratonton langsung.',
-    'QR Generator':'Jana imej kod QR untuk teks atau URL.',
-    'UTM Builder':'Bina pautan kempen UTM.',
-    'Zrain Links':'Cipta pautan pendek dan pratonton kod QR.',
-    'Zrain Console':'Teroka aplikasi dan permainan Zrain di satu tempat.',
-    'Zrain Monitor':'Semak perkhidmatan HTTPS awam dan masa beroperasi.',
-    'Invoice Generator':'Hasilkan invois ringkas.',
-    'Teleprompter':'Gerakkan skrip dengan kelajuan boleh laras.',
-    'Text Tools':'Bersihkan, ubah dan susun teks.',
-    'Password Generator':'Jana kata laluan rawak yang kukuh.',
-    'SHA Hash Generator':'Kira hash SHA-256, SHA-384 dan SHA-512.',
-    'Text Counter':'Kira perkataan, aksara, baris dan masa membaca.',
-    'UUID Generator':'Jana UUID untuk pembangunan dan pengujian.'
-  };
-  const poseBM={wave:['MELAMBAI','Hai!'],front:['BERSANTAI','Oh, hai.'],pointing:['SEBELAH SINI','Di sana!'],reading:['MEMBACA','Satu muka surat lagi...'],celebrate:['GEMBIRA!','YEAY!'],smile:['TERSENYUM','Awak buat saya gembira.'],walking:['BERSIAR-SIAR','Tumpang lalu!'],running:['BERGEGAS','Laju!'],working:['SIBUK BEKERJA','Hampir siap...']};
-  const worldBM=['Lorong Subuh','Pasar Bunga','Lorong Kreatif','Bumbung Keemasan','Pekan Cahaya Bulan'];
   const plain={
-    '#soundText':['Sound off','Bunyi mati'],
-    '.progress-step[data-go="hello"] .step-name':['Hello','Hai'],
-    '.progress-step[data-go="studio"] .step-name':['Workshop','Bengkel'],
-    '.progress-step[data-go="about"] .step-name':['Meet Zrain','Kenali Zrain'],
-    '.about-shortcuts [data-community-open] small':['Leave a note','Tinggalkan pesanan'],
-    '.catalog-brand span':['THE WORKSHOP','BENGKEL ZRAIN'],
-    '.ws-search-trigger span:nth-child(2)':['Search games, apps and tools...','Cari permainan, aplikasi dan alat...'],
-    '.ws-search-shortcut':['Search','Cari'],
-    '.ws-shelf-label span:first-child':['OPEN A SHELF','PILIH KOLEKSI'],
-    '.sticker-tip':['drag the stickers around','seret pelekat ini'],
-    '.scene-id':['Developed by Zrain','Dibangunkan oleh Zrain'],
-    '.scene-community-label':['Community','Komuniti'],
-    '.mood-overline':['The character sheet','Koleksi karakter'],
-    '#moodTitle':['Every little mood.','Pelbagai ragam kecil.'],
-    '.mood-instruction':['Tap one to see him react.','Sentuh satu untuk lihat reaksinya.'],
-    '.gallery-kicker':['Plenty of little moods','Pelbagai ragam kecil'],
-    '.gallery-copy':['Tap any card. The mascot will react, and the scene stays playful instead of empty.','Sentuh mana-mana kad. Maskot akan memberi reaksi dan ruang ini sentiasa ceria.'],
-    '.mood-footnote':['More expressions and poses can join the collection later.','Lebih banyak ekspresi dan gaya boleh ditambah nanti.'],
-    '#communityDialogTitle':['Leave a note.','Tinggalkan pesanan.'],
-    '.community-dialog-note p':['Ideas, questions, or feedback for Zrain. No account needed.','Idea, soalan atau maklum balas untuk Zrain. Tak perlu akaun.'],
-    '.community-dialog-foot':['The Zrain Ecosystem has its own discussion space. Every product keeps its conversation separate.','Zrain mempunyai ruang perbincangan sendiri. Setiap produk mempunyai perbincangan berasingan.'],
-    '#catalogTitle':['Come look around.','Jom lihat-lihat.'],
-    '#catalogClear':['Clear','Kosongkan'],
-    '.catalog-bottom > span:first-child':['Made for people. Built with purpose.','Dibuat untuk manusia. Dibina dengan tujuan.'],
-    '.game-stats .game-pill:first-child span':['Score','Markah'],
-    '.game-stats .game-pill:nth-child(2) span':['Best','Terbaik'],
-    '.game-info':['SPACE to jump · ↓ to slide','SPACE untuk lompat · ↓ untuk meluncur'],
-    '#gameSlide small':['Slide','Meluncur'],
-    '#gameJump small':['Jump','Lompat'],
-    '#resultTitle':['Run complete.','Larian selesai.'],
-    '#resultSub':['Nice run!','Hebat!'],
-    '.result-numbers > div:first-child span':['YOUR SCORE','MARKAH ANDA'],
-    '.result-numbers > div:last-child span':['PERSONAL BEST','REKOD PERIBADI'],
-    '#resultAgain':['Run again','Lari lagi'],
-    '#resultShare':['Share score','Kongsi markah'],
-    '#resultSave':['Save my score card (PNG)','Simpan kad markah (PNG)']
+    '#soundText':['Sound off'],
+    '.progress-step[data-go="hello"] .step-name':['Hello'],
+    '.progress-step[data-go="studio"] .step-name':['Workshop'],
+    '.progress-step[data-go="about"] .step-name':['Meet Zrain'],
+    '.about-shortcuts [data-community-open] small':['Leave a note'],
+    '.catalog-brand span':['THE WORKSHOP'],
+    '.ws-search-trigger span:nth-child(2)':['Search games, apps and tools...'],
+    '.ws-search-shortcut':['Search'],
+    '.ws-shelf-label span:first-child':['OPEN A SHELF'],
+    '.sticker-tip':['drag the stickers around'],
+    '.scene-id':['Developed by Zrain'],
+    '.scene-community-label':['Community'],
+    '.mood-overline':['The character sheet'],
+    '#moodTitle':['Every little mood.'],
+    '.mood-instruction':['Tap one to see him react.'],
+    '.gallery-kicker':['Plenty of little moods'],
+    '.gallery-copy':['Tap any card. The mascot will react, and the scene stays playful instead of empty.'],
+    '.mood-footnote':['More expressions and poses can join the collection later.'],
+    '#communityDialogTitle':['Leave a note.'],
+    '.community-dialog-note p':['Ideas, questions, or feedback for Zrain. No account needed.'],
+    '.community-dialog-foot':['The Zrain Ecosystem has its own discussion space. Every product keeps its conversation separate.'],
+    '#catalogTitle':['Come look around.'],
+    '#catalogClear':['Clear'],
+    '.catalog-bottom > span:first-child':['Made for people. Built with purpose.'],
+    '.game-stats .game-pill:first-child span':['Score'],
+    '.game-stats .game-pill:nth-child(2) span':['Best'],
+    '.game-info':['SPACE to jump · ↓ to slide'],
+    '#gameSlide small':['Slide'],
+    '#gameJump small':['Jump'],
+    '#resultTitle':['Run complete.'],
+    '#resultSub':['Nice run!'],
+    '.result-numbers > div:first-child span':['YOUR SCORE'],
+    '.result-numbers > div:last-child span':['PERSONAL BEST'],
+    '#resultAgain':['Run again'],
+    '#resultShare':['Share score'],
+    '#resultSave':['Save my score card (PNG)']
   };
-  const poseNames={Waving:'Melambai',Working:'Bekerja',Reading:'Membaca',Pointing:'Menunjuk',Walking:'Berjalan',Running:'Berlari',Celebrate:'Bergembira',Smiling:'Tersenyum',Neutral:'Biasa',Happy:'Gembira',Surprised:'Terkejut',Thinking:'Berfikir',Focused:'Fokus',Excited:'Teruja'};
   const attr={
-    '#catalogSearch':{'placeholder':['What are you looking for?','Apa yang anda cari?'],'aria-label':['Search products','Cari produk']},
-    '#wsSearchTrigger':{'aria-label':['Search all Zrain products','Cari semua produk Zrain']},
-    '#themeToggle':{'aria-label':['Switch between daylight and night','Tukar antara mod cerah dan malam']},
-    '#mascot':{'aria-label':['Tap the mascot to see him react','Sentuh maskot untuk lihat reaksinya'],'title':['Say hi to the mascot','Sapa maskot']},
-    '#openMoods':{'aria-label':['Open mascot collection','Buka koleksi maskot']},
-    '#catalogClose':{'aria-label':['Close the Workshop','Tutup Bengkel']},
-    '#communityClose':{'aria-label':['Close Community','Tutup Komuniti']},
-    '#gameJump':{'aria-label':['Jump; press twice for double jump','Lompat; tekan dua kali untuk lompat berganda']},
-    '#gameSlide':{'aria-label':['Slide or duck','Meluncur atau tunduk']},
-    '#gameDock':{'aria-label':['Playable Zrain mini runner game','Permainan larian mini Zrain']},
-    '#miniCanvas':{'aria-label':['On phones, tap or swipe up to jump, tap again to double jump, swipe down to slide. On desktop, use Space to jump and Arrow Down to slide.','Pada telefon, sentuh atau leret ke atas untuk lompat, sentuh lagi untuk lompat berganda, leret ke bawah untuk meluncur. Pada komputer, tekan Space untuk lompat dan anak panah bawah untuk meluncur.']}
+    '#catalogSearch':{'placeholder':['What are you looking for?'],'aria-label':['Search products']},
+    '#wsSearchTrigger':{'aria-label':['Search all Zrain products']},
+    '#themeToggle':{'aria-label':['Switch between daylight and night']},
+    '#mascot':{'aria-label':['Tap the mascot to see him react'],'title':['Say hi to the mascot']},
+    '#openMoods':{'aria-label':['Open mascot collection']},
+    '#catalogClose':{'aria-label':['Close the Workshop']},
+    '#communityClose':{'aria-label':['Close Community']},
+    '#gameJump':{'aria-label':['Jump; press twice for double jump']},
+    '#gameSlide':{'aria-label':['Slide or duck']},
+    '#gameDock':{'aria-label':['Playable Zrain mini runner game']},
+    '#miniCanvas':{'aria-label':['On phones, tap or swipe up to jump, tap again to double jump, swipe down to slide. On desktop, use Space to jump and Arrow Down to slide.']}
   };
   const special=[
-    {s:'.ws-title-row h1',mode:'first',v:['Come look around','Jom lihat-lihat']},
-    {s:'.ws-overline',mode:'first',v:['02 / THE WORKSHOP','02 / BENGKEL ZRAIN']},
-    {s:'#wsBrowseAll',mode:'first',v:['View the full collection ','Lihat semua koleksi ']},
-    {s:'.community-dialog-note a',mode:'first',v:['Open full Community ','Buka laman Komuniti ']},
-    {s:'.about-shortcuts [data-community-open] span',mode:'first',v:['Community','Komuniti']},
-    {s:'.about-shortcuts a[href^="mailto:"] span',mode:'first',v:['Email','Emel']},
-    {s:'#openMoods',mode:'first',v:['All moods ','Semua gaya ']}
+    {s:'.ws-title-row h1',mode:'first',v:['Come look around']},
+    {s:'.ws-overline',mode:'first',v:['02 / THE WORKSHOP']},
+    {s:'#wsBrowseAll',mode:'first',v:['View the full collection ']},
+    {s:'.community-dialog-note a',mode:'first',v:['Open full Community ']},
+    {s:'.about-shortcuts [data-community-open] span',mode:'first',v:['Community']},
+    {s:'.about-shortcuts a[href^="mailto:"] span',mode:'first',v:['Email']},
+    {s:'#openMoods',mode:'first',v:['All moods ']}
   ];
-  const text=(en,bm)=>lang==='bm'?bm:en;
+  const text=(en)=>en;
   let lang='en';
   const getLocale=()=>lang;
   function applyStatic(){
@@ -2852,7 +2776,7 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
     document.querySelectorAll('.gallery-label').forEach((el,i)=>el.textContent=i===0?text('Poses','Gaya'):text('Expressions','Ekspresi'));
     for(const chip of document.querySelectorAll('.pose-chip span,.face-chip span')){
       if(!chip.dataset.en)chip.dataset.en=chip.textContent;
-      chip.textContent=lang==='bm'?(poseNames[chip.dataset.en]||chip.dataset.en):chip.dataset.en;
+      chip.textContent=chip.dataset.en;
     }
   }
   function setLanguage(value,save=true,animate=true){
@@ -2862,12 +2786,10 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
     applyStatic();
     document.dispatchEvent(new CustomEvent('zrain:languagechange',{detail:{lang}}));
   }
-  const api={get lang(){return lang},t:text,view:v=>lang==='bm'?viewsBM[v]:null,
-    cat:(cat,field='name')=>lang==='bm'?(categoryBM[typeof cat==='string'?cat:cat.id]?.[field]||((typeof cat==='string')?cat:cat[field])):typeof cat==='string'?cat:cat[field],
-    product:(p)=>lang==='bm'?(productsBM[p.name]||p.description):p.description,
-    pose:(key,original)=>lang==='bm'&&poseBM[key]?{...original,name:poseBM[key][0],says:poseBM[key][1]}:original,
-    world:(index,defaultName)=>lang==='bm'?worldBM[index]:defaultName,
-    setLanguage
+  const api={get lang(){return lang},t:text,view:()=>null,
+    cat:(cat,field='name')=>typeof cat==='string'?cat:cat[field],
+    product:(p)=>p.description,pose:(key,original)=>original,
+    world:(index,defaultName)=>defaultName,setLanguage
   };
   window.ZrainI18n=api;
   setLanguage('en',false,false);
