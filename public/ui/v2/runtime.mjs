@@ -1383,7 +1383,7 @@ mountZrainCompact({
   progress.addEventListener('wheel',event=>{if(Math.abs(event.deltaY)<4)return;event.preventDefault();display(current+(event.deltaY>0?1:-1))},{passive:false});
   hero.querySelector('#zrCompactPrimary').addEventListener('click',()=>{experience.playUIFeedback('cta');!options.views&&current===1?openDetails():current<views.length-1?display(current+1):openDetails()});
   doc.addEventListener('keydown',event=>{
-    if(event.altKey&&!event.ctrlKey&&!event.metaKey&&!['INPUT','TEXTAREA','SELECT'].includes(doc.activeElement?.tagName)){
+    if(progress.isConnected&&progress.getClientRects().length&&event.altKey&&!event.ctrlKey&&!event.metaKey&&!['INPUT','TEXTAREA','SELECT'].includes(doc.activeElement?.tagName)){
       if(event.key==='ArrowRight'){event.preventDefault();display(Math.min(current+1,views.length-1))}
       else if(event.key==='ArrowLeft'){event.preventDefault();display(Math.max(current-1,0))}
     }

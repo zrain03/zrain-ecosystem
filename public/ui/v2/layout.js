@@ -3,6 +3,7 @@
   const script = document.currentScript;
   const asset = name => new URL(name, script.src).href;
   const product = script.dataset.product || 'zrain-ecosystem';
+  const noMenu = script.hasAttribute('data-no-menu');
   const native = script.hasAttribute('data-native');
   function stylesheet(name) {
     return new Promise((resolve, reject) => {
@@ -16,12 +17,13 @@
   }
   async function start() {
     const [{mountZrainCompact, mountZrainStickers}] = await Promise.all([
-      import(asset('runtime.mjs')),
-      Promise.all([...(native ? [] : [stylesheet('reference.css')]), stylesheet('integration.css')])
+      import(asset('runtime.mjs?v=feedback-20261116')),
+      Promise.all([...(native ? [] : [stylesheet('reference.css')]), stylesheet('integration.css?v=feedback-20261116')])
     ]);
     if (native) {
       const top = document.querySelector('.zr-compact-v44 .zr-experience-top');
       if (!top) throw new Error('Native Zrain layout is missing.');
+      if (noMenu) top.querySelector('.zr-compact-progress')?.remove();
       top.querySelector('.zr-sticker-field')?.remove();
       mountZrainStickers({root:top,footer:top.querySelector('.zr-compact-footer')});
       document.documentElement.dataset.zrainLayout = 'ready';
@@ -29,7 +31,7 @@
     }
     const content = document.querySelector('[data-zrain-content]') || document.querySelector('main');
     if (!content) throw new Error('Zrain product content is missing.');
-    const links = JSON.parse(script.dataset.menu || '[{"label":"Home","href":"/"},{"label":"Feedback","href":"#community"}]');
+    const links = noMenu ? [{label:'Home'},{label:'Feedback'}] : JSON.parse(script.dataset.menu || '[{"label":"Home","href":"/"},{"label":"Feedback","href":"#community"}]');
     if (links.length < 2) throw new Error('Zrain header requires at least two menu items.');
     document.documentElement.classList.add('zr-shared-page');
     for (const node of document.querySelectorAll('[data-zrain-header],[data-zrain-footer],[data-zrain-legacy]')) {
@@ -63,6 +65,7 @@
     const footer = shell.querySelector('.zr-compact-footer');
     const steps = [...shell.querySelectorAll('.zr-progress-step')];
     const progress = shell.querySelector('.zr-compact-progress');
+    if (noMenu) progress.remove();
     function showActive(index) {
       steps.forEach((step,i) => {
         step.classList.toggle('is-current',index===i);
@@ -87,7 +90,7 @@
       } else if (link.href) location.assign(new URL(link.href, location.href));
     },true));
     document.addEventListener('keydown', event => {
-      if (!event.altKey || event.ctrlKey || event.metaKey ||
+      if (noMenu || !progress.getClientRects().length || !event.altKey || event.ctrlKey || event.metaKey ||
           event.target.closest?.('input,textarea,select,[contenteditable]')) return;
       const offset = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
       if (!offset) return;
@@ -101,8 +104,11 @@
     refreshActive();
     footer.querySelector('.zr-compact-contact button')?.addEventListener('click',event=>{
       event.stopImmediatePropagation();
-      const url = new URL('https://zrain-community.web.app/product.html');
-      url.searchParams.set('product',product);
+      const fallback = new URL('https://zrain-community.web.app/product.html');
+      fallback.searchParams.set('product',product);
+      const section = slot.querySelector('#zrain-feedback, #community-feedback, #zrain-community');
+      const destination = script.dataset.feedbackHref || (section ? '#' + section.id : fallback.href);
+      const url = new URL(destination, location.href);
       location.assign(url);
     },true);
     await api.ready;

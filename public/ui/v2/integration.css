@@ -18,3 +18,16 @@ html.zr-shared-page,html.zr-shared-page body{overflow:visible;min-height:100%;he
  .zr-shared-page .zr-shared-content .app>.scene{max-width:100%;width:100%}
  .zr-shared-page .zr-shared-content{padding-bottom:80px}
 }
+
+
+.zr-policy-links {
+ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px;
+ margin:8px 0 0; padding:4px 0; font-size:.8125rem; line-height:1.2;
+}
+.zr-policy-links img { display:block; width:24px; height:24px; object-fit:contain; flex:none; }
+.zr-policy-links a {
+ display:inline-flex; align-items:center; min-height:32px; padding:4px 10px;
+ border-radius:9px; background:#ecdbc8; color:#572839; text-decoration:none;
+}
+.zr-policy-links a:hover { background:#e6cfb5; text-decoration:underline; }
+.zr-policy-links a:focus-visible { outline:2px solid #723745; outline-offset:2px; }
