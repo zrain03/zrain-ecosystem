@@ -1334,11 +1334,6 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
               <svg class="volume-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></svg>
               <span class="control-label" id="soundText">Sound on</span>
             </button>
-            <button type="button" class="lang-switch" id="languageSwitch" data-active="en" aria-label="Switch to Bahasa Melayu" aria-pressed="false" title="Switch to Bahasa Melayu">
-              <span class="lang-track" aria-hidden="true"><span class="lang-thumb"></span></span>
-              <span class="lang-code lang-code-en" aria-hidden="true">EN</span><span class="lang-code lang-code-bm" aria-hidden="true">BM</span>
-              <span class="lang-stitch" aria-hidden="true"></span><span class="lang-spark" aria-hidden="true">✦</span>
-            </button>
             <div class="theme-switch" role="group" aria-label="Appearance">
               <input id="themeToggle" class="theme-toggle" type="checkbox" role="switch" aria-label="Switch to daylight mode" aria-checked="true" title="Switch between daylight and night" checked>
               <label class="theme-toggle-ui" for="themeToggle">
@@ -1363,10 +1358,10 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
           <section class="hero-copy">
             <div class="eyebrow" id="eyebrow">Hello, this is Zrain</div>
             <h1 class="headline" id="headline"><span class="line">Made for people.</span><span class="line accent">Built with purpose.</span></h1>
-            <p class="description" id="description">Have a look around. Someone's here to say hi.</p>
+            <p class="description" id="description">Discover practical tools, games and creative projects made by Zrain.</p>
             <div class="actions">
-              <button class="cta" type="button" id="primaryAction">Say hi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></button>
-              <button class="text-cta" type="button" id="secondaryAction">Look around</button>
+              <button class="cta" type="button" id="primaryAction">Explore products <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></button>
+              <button class="text-cta" type="button" id="secondaryAction">Visit the workshop</button>
             </div>
             <section class="about-contact" id="aboutContact" aria-label="About Zrain and contact">
               <nav class="about-shortcuts" aria-label="Zrain links">
@@ -1393,7 +1388,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
               <span>Search games, apps and tools...</span><span class="ws-search-shortcut">Search</span>
             </button>
-            <div class="ws-shelf-label"><span>OPEN A SHELF</span><span>11 collections</span></div>
+            <div class="ws-shelf-label"><span>OPEN A SHELF</span><span>0 collections</span></div>
             <div class="ws-shelves" id="wsShelves" aria-label="Browse Zrain product categories"></div>
             <div class="ws-bottom"><button type="button" id="wsBrowseAll">View the full collection <span aria-hidden="true">↗</span></button></div>
           </section>
@@ -1550,7 +1545,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
     const body=document.body, content=$('content'), img=$('mascotImg'), stage=$('stage'),bubble=$('bubble');
     const viewOrder=['hello','studio','about'];
     const views={
-      hello:{eyebrow:'Hello, this is Zrain',heading:['Made for people.','Built with purpose.'],description:"Have a look around. Someone's here to say hi.",primary:'Say hi',secondary:'Look around',sticky:'Oh, hi there!',pose:'wave',hint:'Try tapping the character',note:'tap me!'},
+      hello:{eyebrow:'Hello, this is Zrain',heading:['Made for people.','Built with purpose.'],description:'Discover practical tools, games and creative projects made by Zrain.',primary:'Explore products',secondary:'Visit the workshop',sticky:'Oh, hi there!',pose:'wave',hint:'Try tapping the character',note:'tap me!'},
       studio:{eyebrow:'02 / The Workshop',heading:['The','Workshop.'],description:'Find something useful, or something fun.',primary:'Explore tools',secondary:'Meet the mascot',sticky:'Something to make?',pose:'working',hint:'Take a look',note:'shh...'},
       about:{eyebrow:'Meet Zrain',heading:["Oh, that's",'me!'],description:'A developer from Malaysia, building things I enjoy and sharing them with the world. Some are useful, some are just for fun. Feel free to look around.',primary:'Make him smile',secondary:'Back to hello',sticky:'That’s me!',pose:'front',hint:'Tap for a surprise',note:'say hello!'}
     };
@@ -1741,7 +1736,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
       }
     },{passive:false});
     $('brand').addEventListener('click',e=>{e.preventDefault();go('hello')});
-    $('primaryAction').addEventListener('click',()=>{if(view==='hello'){setPose('wave');burst(5)}else if(view==='studio'){setPose('celebrate');burst(9)}else if(view==='about'){setPose('smile');burst(4)}});
+    $('primaryAction').addEventListener('click',()=>{if(view==='hello'){$('wsBrowseAll').click()}else if(view==='studio'){setPose('celebrate');burst(9)}else if(view==='about'){setPose('smile');burst(4)}});
     $('secondaryAction').addEventListener('click',()=>go(view==='hello'?'studio':view==='studio'?'about':'hello'));
     $('soundToggle').addEventListener('click',()=>setSound(body.dataset.sound!=='on'));
     $('themeToggle').addEventListener('change',e=>setBrightness(e.target.checked?100:0,true,true));
@@ -2312,6 +2307,8 @@ window.ZRAIN_CATALOG={
   function triggerMood(id){const pose=mascotFor[id];if(pose)window.ZrainSite?.setPose(pose,false)}
   function setupShelves(){
     const shelves=$('wsShelves');
+    const count=data.categories.filter(c=>c.count>0).length;
+    document.querySelector('.ws-shelf-label span:last-child').textContent=count+' '+(count===1?'collection':'collections');
     data.categories.filter(c=>c.count>0).forEach((c,i)=>{
       const b=document.createElement('button');b.type='button';b.className='ws-shelf';b.dataset.catalogCategory=c.id;
       b.setAttribute('aria-label',tx('Browse ','Lihat koleksi ')+catName(c));
@@ -2786,7 +2783,6 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
     '.ws-search-trigger span:nth-child(2)':['Search games, apps and tools...','Cari permainan, aplikasi dan alat...'],
     '.ws-search-shortcut':['Search','Cari'],
     '.ws-shelf-label span:first-child':['OPEN A SHELF','PILIH KOLEKSI'],
-    '.ws-shelf-label span:last-child':['11 collections','11 koleksi'],
     '.sticker-tip':['drag the stickers around','seret pelekat ini'],
     '.scene-id':['Developed by Zrain','Dibangunkan oleh Zrain'],
     '.scene-community-label':['Community','Komuniti'],
@@ -2858,18 +2854,12 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
       if(!chip.dataset.en)chip.dataset.en=chip.textContent;
       chip.textContent=lang==='bm'?(poseNames[chip.dataset.en]||chip.dataset.en):chip.dataset.en;
     }
-    const switcher=$('languageSwitch');
-    switcher.setAttribute('aria-label',lang==='en'?'Switch to Bahasa Melayu':'Tukar kepada English');
-    switcher.setAttribute('title',lang==='en'?'Switch to Bahasa Melayu':'Tukar kepada English');
-    switcher.setAttribute('aria-pressed',String(lang==='bm'));
-    switcher.dataset.active=lang;
   }
   function setLanguage(value,save=true,animate=true){
-    const next=value==='bm'?'bm':'en';if(lang===next&&save)return;
+    const next='en';if(lang===next&&save)return;
     lang=next;
     if(save)try{localStorage.setItem('zrain-language',next)}catch(_){}
     applyStatic();
-    if(animate){const b=$('languageSwitch');b.classList.remove('lang-shifting');void b.offsetWidth;b.classList.add('lang-shifting');}
     document.dispatchEvent(new CustomEvent('zrain:languagechange',{detail:{lang}}));
   }
   const api={get lang(){return lang},t:text,view:v=>lang==='bm'?viewsBM[v]:null,
@@ -2880,9 +2870,7 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
     setLanguage
   };
   window.ZrainI18n=api;
-  $('languageSwitch').addEventListener('click',()=>setLanguage(lang==='en'?'bm':'en'));
-  let stored=null;try{stored=localStorage.getItem('zrain-language')}catch(_){}
-  setLanguage(stored==='bm'?'bm':'en',false,false);
+  setLanguage('en',false,false);
 })();
 
 </script>
