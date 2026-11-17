@@ -82,3 +82,11 @@ test('legacy shared views retain English content without Malay dictionaries',()=
     assert.equal(data.feedbackView.headline[0].en,'Your voice.',path);
   }
 });
+
+test('catalogue translation helper preserves English output for legacy callers',()=>{
+ const html=read('public/index.html');
+ const declaration=html.match(/const tx=\(en,bm\)=>lang\(\)===['"]bm['"]\?bm:en;/)?.[0];
+ assert.ok(declaration);
+ const translate=new Function('lang',declaration+';return tx')(()=> 'en');
+ assert.equal(translate('Browse ','Lihat koleksi '),'Browse ');
+});
