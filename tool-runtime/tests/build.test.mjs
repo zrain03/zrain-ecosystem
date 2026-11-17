@@ -28,7 +28,7 @@ test('five independently deployable Zrain websites contain all 46 tools',async()
    const page=join(dir,slug,'index.html');await must(page);
    const text=await readFile(page,'utf8');
    assert.ok(text.includes('Zrain '+item[1].replaceAll('&','&amp;')),slug);
-   assert.ok(text.includes('../zrain-logo.webp'),slug);
+   assert.ok(text.includes('/zrain-mascot.png?v=20261117'),slug);
    assert.ok(text.includes('../app.js'),slug);
    assert.ok(text.includes('class="app-shell"'),slug);
    assert.ok(text.includes('class="tool-description"'),slug);
