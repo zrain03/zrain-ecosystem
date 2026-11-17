@@ -39,7 +39,7 @@
       if(node.matches('footer'))node.classList.remove('zrain-footer');
     }
     const views = links.map((link,index) => ({
-      label:link.label,labelBM:link.labelBM || link.label,
+      label:link.label,
       eyebrow:'',headline:[''],description:'',primary:'',feedback:index === links.length-1
     }));
     const api = mountZrainCompact({

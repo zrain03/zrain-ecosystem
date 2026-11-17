@@ -954,8 +954,6 @@ function mountZrainExperience(options = {}) {
   function setLanguage(value){
     language='en';
     safeWrite('zrain-language',language);
-    const b=actions.querySelector('.zr-lang-switch');
-    if(b){b.dataset.active=language;b.setAttribute('aria-pressed',String(language==='bm'));b.setAttribute('aria-label',t('Switch to Bahasa Melayu'))}
     communityButton.querySelector('span').textContent=t('Community');
     soundButton.querySelector('span').textContent=doc.body.dataset.sound==='on'?t('Sound on'):t('Sound off');
     soundButton.setAttribute('aria-label',doc.body.dataset.sound==='on'?t('Turn sound off'):t('Turn sound on'));
