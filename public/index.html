@@ -1643,17 +1643,13 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
       if(!control)return;
       control.checked=isNight;
       control.setAttribute('aria-checked',String(isNight));
-      const label=window.ZrainI18n?.lang==='bm'
-        ? (isNight?'Tukar ke mod cerah':'Tukar ke mod gelap')
-        : (isNight?'Switch to daylight mode':'Switch to dark mode');
-      const title=window.ZrainI18n?.lang==='bm'
-        ? 'Tukar antara mod cerah dan mod gelap'
-        : 'Switch between daylight and night';
+      const label=isNight?'Switch to daylight mode':'Switch to dark mode';
+      const title='Switch between daylight and night';
       control.setAttribute('aria-label',label);
       control.title=title;
     }
-    function setSound(on,feedback=true){body.dataset.sound=on?'on':'off';$('soundText').textContent=on?(window.ZrainI18n?.lang==='bm'?'Bunyi hidup':'Sound on'):(window.ZrainI18n?.lang==='bm'?'Bunyi mati':'Sound off');
-      $('soundToggle').setAttribute('aria-pressed',String(on));$('soundToggle').setAttribute('aria-label',on?(window.ZrainI18n?.lang==='bm'?'Matikan bunyi':'Turn sound off'):(window.ZrainI18n?.lang==='bm'?'Hidupkan bunyi':'Turn sound on'));$('soundToggle').title=on?(window.ZrainI18n?.lang==='bm'?'Bunyi hidup':'Sound on'):(window.ZrainI18n?.lang==='bm'?'Bunyi mati':'Sound off');
+    function setSound(on,feedback=true){body.dataset.sound=on?'on':'off';$('soundText').textContent=on?('Sound on'):('Sound off');
+      $('soundToggle').setAttribute('aria-pressed',String(on));$('soundToggle').setAttribute('aria-label',on?('Turn sound off'):('Turn sound on'));$('soundToggle').title=on?('Sound on'):('Sound off');
       save('sound',on?'on':'off');if(on&&feedback)play('enable');
     }
     function say(message){clearTimeout(bubbleTimer);bubble.textContent=message;bubble.classList.add('show');bubbleTimer=setTimeout(()=>bubble.classList.remove('show'),1550)}
@@ -1677,7 +1673,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
       $('headline').setAttribute('aria-label',d.heading.join(' '));$('primaryAction').firstChild.textContent=d.primary+' ';
       $('secondaryAction').textContent=d.secondary;$('sticky').textContent=d.sticky;$('tapNote').textContent=d.note;
       const idx=viewOrder.indexOf(next);
-      $('progressLabel').textContent=String(idx+1).padStart(2,'0')+' · '+(window.ZrainI18n?.lang==='bm'?(next==='hello'?'Hai':next==='studio'?'Bengkel':'Kenali Zrain'):(next==='hello'?'Hello':next==='studio'?'Workshop':'Meet Zrain'));
+      $('progressLabel').textContent=String(idx+1).padStart(2,'0')+' · '+(next==='hello'?'Hello':next==='studio'?'Workshop':'Meet Zrain');
       $('progressNav').style.setProperty('--progress', (idx/(viewOrder.length-1))*100+'%');
       document.querySelectorAll('[data-go]').forEach(el=>{const active=el.dataset.go===next;el.classList.toggle('active',active);el.classList.toggle('is-current',active);if(active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current')});
       content.classList.remove('enter');void content.offsetWidth;content.classList.add('enter');
@@ -1697,10 +1693,10 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
       $('sticky').textContent=d.sticky;
       $('tapNote').textContent=d.note;
       const idx=viewOrder.indexOf(view),n=String(idx+1).padStart(2,'0');
-      $('progressLabel').textContent=n+' · '+(window.ZrainI18n?.lang==='bm'?['Hai','Bengkel','Kenali Zrain'][idx]:['Hello','Workshop','Meet Zrain'][idx]);
+      $('progressLabel').textContent=n+' · '+(['Hello','Workshop','Meet Zrain'][idx]);
       $('poseName').textContent=(window.ZrainI18n?.pose(pose,poses[pose])||poses[pose]).name;
-      $('soundText').textContent=body.dataset.sound==='on'?(window.ZrainI18n?.lang==='bm'?'Bunyi hidup':'Sound on'):(window.ZrainI18n?.lang==='bm'?'Bunyi mati':'Sound off');
-      $('soundToggle').setAttribute('aria-label',body.dataset.sound==='on'?(window.ZrainI18n?.lang==='bm'?'Matikan bunyi':'Turn sound off'):(window.ZrainI18n?.lang==='bm'?'Hidupkan bunyi':'Turn sound on'));
+      $('soundText').textContent=body.dataset.sound==='on'?('Sound on'):('Sound off');
+      $('soundToggle').setAttribute('aria-label',body.dataset.sound==='on'?('Turn sound off'):('Turn sound on'));
       syncThemeToggle();
     }
     document.addEventListener('zrain:languagechange',refreshLanguage);
@@ -2813,6 +2809,6 @@ subscribeCatalog(showProducts);
 connectCatalogRefresh();
 </script>
 
-<script defer src="/ui/v2/layout.js" data-product="zrain-ecosystem" data-menu='[{"label":"Hello","labelBM":"Hai","view":"hello"},{"label":"Workshop","labelBM":"Bengkel","view":"studio"},{"label":"Meet Zrain","labelBM":"Kenali Zrain","view":"about"}]'></script>
+<script defer src="/ui/v2/layout.js" data-product="zrain-ecosystem" data-menu='[{"label":"Hello","view":"hello"},{"label":"Workshop","view":"studio"},{"label":"Meet Zrain","view":"about"}]'></script>
 </body>
 </html>
