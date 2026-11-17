@@ -76,7 +76,7 @@ export function reconcilePublishedCatalog(rows,source=SOURCE,{managedTools=false
       kind:row.kind==='tool'||known?.kind==='tool'?'tool':'project',url,
       logoUrl:https(row.logoUrl) || (/^\/(?!\/)[a-z0-9_./-]+$/i.test(row.logoUrl || '') ? row.logoUrl : null),
       keywords:known?.keywords||[name,description].join(' '),
-      repoUrl:known?.repoUrl||(isGithub?https(row.primaryUrl):secondaryGithub?https(row.secondaryUrl):null)
+      repoUrl:isGithub?https(row.primaryUrl):secondaryGithub?https(row.secondaryUrl):null
     }));
   }
   // A successful public response is authoritative for managed projects;

@@ -40,6 +40,11 @@ function notice(message, login = false) {
   area.textContent = message;
   area.hidden = !message;
 }
+function editorNotice(message) {
+  const area = byId('editor-notice');
+  area.textContent = message;
+  area.hidden = !message;
+}
 function validHttps(value, optional = false) {
   if (!value && optional) return null;
   try {
@@ -59,9 +64,8 @@ function getSiteUrl(row) {
   return websiteFor(row,sourceProjectFor(row));
 }
 function repoFor(row) {
-  const original = sourceProjectFor(row)?.repoUrl;
   return row.secondaryUrl?.startsWith('https://github.com/') ? row.secondaryUrl :
-    row.primaryAction === 'GITHUB' ? row.primaryUrl : original || null;
+    row.primaryAction === 'GITHUB' ? row.primaryUrl : null;
 }
 function displayRecords() {
   const rows = projects.filter(visibleRecord);
@@ -79,6 +83,7 @@ async function request(path, options = {}) {
   if (demo) throw new Error('Preview mode never sends API requests.');
   const response = await fetch(API + path, {
     ...options,
+    cache: 'no-store',
     headers: {
       Accept: 'application/json',
       ...(options.body ? {'Content-Type':'application/json'} : {}),
@@ -200,6 +205,7 @@ async function updateStatus(row, action) {
   }catch(error){notice(error.message);}
 }
 function editRow(row) {
+  editorNotice('');
   editingId=row.id;
   byId('editor-title').textContent=(row.kind || existing.get(row.slug)?.kind)==='tool' ? 'Edit tool' : 'Edit project';
   byId('field-name').value=row.name;
@@ -217,17 +223,20 @@ function editRow(row) {
   byId('field-game-logo').value=[
     'https://zrain.web.app/icons/guess-the-flag.webp',
     'https://zrain.web.app/icons/memory-rush.webp'
-  ].includes(logo) ? logo : '/zrain-logo.webp';
+  ].includes(logo) ? logo : '/zrain-mascot.png';
   updatePreview();
+  window.zrainSyncChoices?.();
   document.dispatchEvent(new Event('zrain:editor-open'));
   byId('field-name').focus({preventScroll:true});
 }
 function resetForm() {
   editingId = null;
+  editorNotice('');
   byId('project-form').reset();
   byId('editor-title').textContent='Add a project';
   byId('field-category').value='PRODUCTIVITY';
   updatePreview();
+  window.zrainSyncChoices?.();
 }
 function updatePreview() {
   const category=byId('field-category').value;
@@ -235,7 +244,8 @@ function updatePreview() {
   byId('field-game-logo').disabled=!isGame;
   byId('field-playstore').disabled=!isGame;
   const logo = isGame?byId('field-game-logo').value:null;
-  byId('editor-logo').src = logo && logo!=='/zrain-logo.webp'?logo:'/zrain-mascot.png';
+  byId('editor-logo').src = logo || '/zrain-mascot.png';
+  window.zrainSyncChoices?.();
   byId('editor-preview-name').textContent=byId('field-name').value.trim()||'Your new project';
   byId('editor-preview-description').textContent=byId('field-description').value.trim()||'Your short description appears here.';
 }
@@ -254,7 +264,7 @@ function payload() {
   const secondaryUrl = storeUrl || repoUrl || null;
   return {
     slug,name:byId('field-name').value.trim(),description:byId('field-description').value.trim(),
-    category, logoUrl:category==='GAMES'&&byId('field-game-logo').value!=='/zrain-logo.webp'?byId('field-game-logo').value:'/zrain-mascot.png',
+    category, logoUrl:category==='GAMES'?byId('field-game-logo').value:'/zrain-mascot.png',
     primaryAction:'WEBSITE',primaryLabel:category==='GAMES'?'Play Now':'Open Web App',primaryUrl:webUrl,
     secondaryLabel:storeUrl?'Get on Google Play':repoUrl?'View on GitHub':null,
     secondaryUrl
@@ -263,9 +273,10 @@ function payload() {
 async function save(event) {
   event.preventDefault();
   notice('');
+  editorNotice('');
   let product;
-  try {product=payload();}catch(error){return notice(error.message);}
-  if (projects.some(p=>p.slug===product.slug && p.id!==editingId))return notice('A project with this ID already exists.');
+  try {product=payload();}catch(error){return editorNotice(error.message);}
+  if (projects.some(p=>p.slug===product.slug && p.id!==editingId))return editorNotice('A project with this ID already exists.');
   const wasEditing=Boolean(editingId);
   const button=byId('save-draft');button.disabled=true;
   try {
@@ -276,13 +287,15 @@ async function save(event) {
       } else projects.push({...product,id:`demo-new-${Date.now()}`,status:'DRAFT'});
     } else {
       const uri=editingId?'/api/admin/products/'+encodeURIComponent(editingId):'/api/admin/products';
-      await request(uri,{method:editingId?'PUT':'POST',body:JSON.stringify(product)});
+      const saved=await request(uri,{method:editingId?'PUT':'POST',body:JSON.stringify(product)});
+      const index=projects.findIndex(row=>row.id===saved.id);
+      if(index<0)projects.push(saved);else projects[index]=saved;
     }
     resetForm();
-    if(!demo)await refresh();else{syncInventory();render();}
+    syncInventory();render();
     document.dispatchEvent(new Event('zrain:editor-close'));
-    notice(demo?'Saved in this preview.':wasEditing?'Catalogue entry updated.':'Project draft saved. Publish it from the catalogue when ready.');
-  } catch(error) {notice(error.message);}
+    notice(demo?'Saved in this preview.':wasEditing?'Changes saved. Published entries update publicly; drafts remain private.':'Project draft saved. Publish it from the catalogue when ready.');
+  } catch(error) {editorNotice(error.message);}
   finally {button.disabled=false;}
 }
 

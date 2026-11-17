@@ -1407,6 +1407,7 @@ body.zrain-admin:not(.zr-dashboard-visible):not([data-admin-mode="preview"]) .zr
 </section>
 <section aria-hidden="true" aria-label="Project editor" aria-labelledby="editor-title" aria-modal="true" class="admin-card" id="project-editor" role="dialog"><p class="zr-drawer-overline">THE DETAILS / A NEW IDEA</p><div class="section-row"><div><h2 id="editor-title">New project</h2><p class="hint">Every new idea deserves a place to start.</p></div><button aria-label="Close editor" class="zr-editor-close" id="zrEditorClose" type="button">×</button></div>
 <form class="admin-form" id="project-form">
+<p class="notice" hidden id="editor-notice" role="alert"></p>
 <label for="field-name">Project name</label><input id="field-name" maxlength="100" placeholder="Example: Zrain Gifts" required=""/>
 <label for="field-slug">Project ID</label><input id="field-slug" maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="zrain-gifts" required=""/><p class="hint">Auto-created from the name. Cannot contain spaces.</p>
 <label for="field-description">Description</label><textarea id="field-description" maxlength="300" placeholder="Explain what the visitor can actually do." required="" rows="3"></textarea>
