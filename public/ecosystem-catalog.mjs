@@ -69,14 +69,15 @@ export function reconcilePublishedCatalog(rows,source=SOURCE,{managedTools=false
     const url=websiteFor(row,known);
     if(!url)continue;
     seen.add(slug);
-    const isGithub= row.primaryAction==='GITHUB' && https(row.primaryUrl)?.startsWith('https://github.com/zrain03/');
-    const secondaryGithub=https(row.secondaryUrl)?.startsWith('https://github.com/zrain03/');
+    const githubUrl=value=>{const url=https(value);return url && new URL(url).hostname==='github.com' ? url : null;};
+    const primaryGithub=row.primaryAction==='GITHUB' ? githubUrl(row.primaryUrl) : null;
+    const secondaryGithub=githubUrl(row.secondaryUrl);
     mapped.push(Object.freeze({
       id:slug,name,description,category:categoryFromWorker(row.category,known?.category),
       kind:row.kind==='tool'||known?.kind==='tool'?'tool':'project',url,
       logoUrl:https(row.logoUrl) || (/^\/(?!\/)[a-z0-9_./-]+$/i.test(row.logoUrl || '') ? row.logoUrl : null),
       keywords:known?.keywords||[name,description].join(' '),
-      repoUrl:isGithub?https(row.primaryUrl):secondaryGithub?https(row.secondaryUrl):null
+      repoUrl:secondaryGithub || primaryGithub || null
     }));
   }
   // A successful public response is authoritative for managed projects;

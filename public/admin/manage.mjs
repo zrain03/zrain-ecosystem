@@ -260,7 +260,7 @@ function payload() {
   if(repoUrl===false||storeUrl===false)throw new Error('An optional URL is invalid.');
   if(repoUrl && !repoUrl.startsWith('https://github.com/'))throw new Error('GitHub link must be hosted on github.com.');
   if(storeUrl && !storeUrl.startsWith('https://play.google.com/store/apps/'))throw new Error('Google Play link must be a real Play Store URL.');
-  if (storeUrl && repoUrl && !existing.has(slug)) throw new Error('New games currently support one secondary link. Choose GitHub or Google Play.');
+  if (storeUrl && repoUrl) throw new Error('This catalogue supports one secondary link. Choose GitHub or Google Play.');
   const secondaryUrl = storeUrl || repoUrl || null;
   return {
     slug,name:byId('field-name').value.trim(),description:byId('field-description').value.trim(),

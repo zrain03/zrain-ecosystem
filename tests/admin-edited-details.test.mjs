@@ -9,4 +9,6 @@ test('published catalogue reflects edited and removed repository links',()=>{
   assert.equal(edited.description,'Edited description');
   assert.equal(edited.repoUrl,'https://github.com/zrain03/changed');
   assert.equal(reconcilePublishedCatalog([{...row,secondaryUrl:null}],undefined,{managedTools:true})[0].repoUrl,null);
+  assert.equal(reconcilePublishedCatalog([{...row,secondaryUrl:'https://github.com/another-owner/project'}],undefined,{managedTools:true})[0].repoUrl,'https://github.com/another-owner/project');
+  assert.equal(reconcilePublishedCatalog([{...row,secondaryUrl:'https://github.com.attacker.example/project'}],undefined,{managedTools:true})[0].repoUrl,null);
 });
