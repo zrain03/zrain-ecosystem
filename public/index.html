@@ -118,8 +118,8 @@
     body[data-view="studio"] .mascot-button{width:min(88%,320px);height:min(42vh,340px)}
     body[data-view="about"] .mascot-button{height:min(44vh,360px);width:min(81%,290px)}
     .particle{position:absolute;left:50%;top:50%;z-index:8;pointer-events:none;color:#b5644d;font:22px var(--hand);animation:particle-burst .9s ease-out forwards}
-    .enter .eyebrow,.enter .headline,.enter .description,.enter .actions{animation:reveal .7s var(--ease) both}
-    .enter .headline{animation-delay:.035s}.enter .description{animation-delay:.095s}.enter .actions{animation-delay:.16s}
+    .enter .eyebrow,.enter .headline,.enter .description,.enter .actions,.enter .ws-overline,.enter .ws-title-row{animation:reveal .7s var(--ease) both}
+    .enter .headline,.enter .ws-title-row{animation-delay:.035s}.enter .description{animation-delay:.095s}.enter .actions{animation-delay:.16s}
     .skip{position:absolute;left:10px;top:-100px;padding:10px;color:#291919;background:white;z-index:100}.skip:focus{top:10px}
     @keyframes reveal{from{opacity:0;transform:translateY(16px);filter:blur(4px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
     @keyframes mascot-breathe{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-5px) rotate(-.7deg)}}
@@ -1382,7 +1382,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
           </section>
 
           <section class="workshop-panel" id="workshopPanel" aria-label="The Workshop">
-            <div class="ws-overline"><span class="ws-overline-rule"></span>02 / THE WORKSHOP</div>
+            <div class="ws-overline"><span class="ws-overline-rule"></span>The Workshop</div>
             <div class="ws-title-row"><h1>Come look around<span>.</span></h1><p id="workshopProductCount">0 products</p></div>
             <button class="ws-search-trigger" id="wsSearchTrigger" type="button" aria-label="Search all Zrain products">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
@@ -1546,7 +1546,7 @@ body[data-view] .scene .mascot-button{width:min(68%,235px);height:83%;transform:
     const viewOrder=['hello','studio','about'];
     const views={
       hello:{eyebrow:'Hello, this is Zrain',heading:['Made for people.','Built with purpose.'],description:'Discover practical tools, games and creative projects made by Zrain.',primary:'Explore products',secondary:'Visit the workshop',sticky:'Oh, hi there!',pose:'wave',hint:'Try tapping the character',note:'tap me!'},
-      studio:{eyebrow:'02 / The Workshop',heading:['The','Workshop.'],description:'Find something useful, or something fun.',primary:'Explore tools',secondary:'Meet the mascot',sticky:'Something to make?',pose:'working',hint:'Take a look',note:'shh...'},
+      studio:{eyebrow:'The Workshop',heading:['The','Workshop.'],description:'Find something useful, or something fun.',primary:'Explore tools',secondary:'Meet the mascot',sticky:'Something to make?',pose:'working',hint:'Take a look',note:'shh...'},
       about:{eyebrow:'Meet Zrain',heading:["Oh, that's",'me!'],description:'A developer from Malaysia, building things I enjoy and sharing them with the world. Some are useful, some are just for fun. Feel free to look around.',primary:'Make him smile',secondary:'Back to hello',sticky:'That’s me!',pose:'front',hint:'Tap for a surprise',note:'say hello!'}
     };
     const poses={
@@ -2747,7 +2747,7 @@ window.__zrainMiniTest=()=>({mode,score,stars,hearts,phase,elapsed:t,assets:asse
   };
   const special=[
     {s:'.ws-title-row h1',mode:'first',v:['Come look around']},
-    {s:'.ws-overline',mode:'first',v:['02 / THE WORKSHOP']},
+    {s:'.ws-overline',mode:'first',v:['The Workshop']},
     {s:'#wsBrowseAll',mode:'first',v:['View the full collection ']},
     {s:'.community-dialog-note a',mode:'first',v:['Open full Community ']},
     {s:'.about-shortcuts [data-community-open] span',mode:'first',v:['Community']},
